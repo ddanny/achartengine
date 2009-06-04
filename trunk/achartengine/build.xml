@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="achartengine" default="dist" basedir=".">
+    <description>Build for project achartengine. </description>
+
+	<property name="app_name" value="achartengine"/>
+	<property name="app_version" value="0.3.0"/>	
+    <property name="src_root.dir" location="${basedir}"/>
+    <property name="achartengine.package" value="org/achartengine"/>
+	<property name="src.dir" location="${src_root.dir}/src/"/>
+	<property name="demo.dir" location="${src_root.dir}/demo/"/>	
+	<property name="lib.dir" location="${basedir}/lib"/>
+	<property name="src_unit_test.dir" location="${basedir}/test/unit/src/${achartengine.package}"/>
+	
+	<property name="name.build.dir" value="build"/>
+    <property name="name.build.project.dir" value="${name.build.dir}/bin"/>
+    <property name="build.dir" location="${name.build.dir}"/>
+    <property name="build.project.dir" location="${name.build.project.dir}"/>
+    <property name="build.tests.dir" location="${build.dir}/bin/test/unit"/>
+	<property name="report.tests.unit.dir" location="${build.dir}/reports/test/unit"/>
+	<property name="report.lint.dir" location="${build.dir}/reports/lint"/>
+    <property name="doc.dir" location="${build.dir}/docs"/>
+    <property name="jar.dest.dir" location="${build.dir}/lib"/>	
+	<property name="dist.dir" location="${name.build.dir}/dist" />
+
+    <!--===========================================================================
+            define various path ids
+    ============================================================================-->
+    <path id="project.classpath">
+        <pathelement location="${build.project.dir}"/>
+    </path>
+    <path id="tests.classpath">
+        <pathelement location="${build.tests.dir}"/>
+    </path>
+    <path id="junit.classpath">
+         <pathelement location="${lib.dir}/junit-3.8.1.jar"/>
+    </path>
+	<path id="android.classpath">
+		<pathelement location="${lib.dir}/android.jar"/>
+	</path>
+	
+	<!--===========================================================================
+        here are the targets to compile the project files
+    ============================================================================-->
+	<target name="all"
+	    depends="clean, compile, test, lib, javadoc"
+	    description="Does all targets related to unit tests. Also performs builds jar file and javadoc.">
+	</target>	
+	
+    <target name="compile" depends="init" description="Compile the project Java files.">
+        <javac srcdir="${src.dir}" includes="${achartengine.package}/**" destdir="${build.project.dir}"
+               failonerror="false" debug="true" debuglevel="lines,var,source"
+               excludes="**/*.gif **/*.html **/*.xml **/*.properties" source="1.6">
+
+            <compilerarg value="-Xlint" />
+            <compilerarg value="-Xlint:-serial" />
+            <compilerarg value="-Xstdout" />
+            <compilerarg value="${report.lint.dir}/lint_project.txt" />
+
+            <classpath>
+                <path refid="android.classpath" />
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="compile-tests" depends="compile"
+            description="Compile the project unit test Java files.">
+        <javac srcdir="${src_unit_test.dir}" destdir="${build.tests.dir}"
+               failonerror="yes" debug="true" debuglevel="lines,var,source" source="1.6" >
+
+            <compilerarg value="-Xlint" />
+            <compilerarg value="-Xlint:-serial" />
+            <compilerarg value="-Xstdout" />
+            <compilerarg value="${report.lint.dir}/lint_tests.txt" />
+
+            <classpath>
+                <path refid="project.classpath" />
+                <path refid="android.classpath" />
+                <path refid="junit.classpath" />
+            </classpath>
+
+        </javac>
+    </target>
+
+	
+	<!--===========================================================================
+	        perform the unit tests
+	    ============================================================================-->
+	<target name="test-failed" depends="test-unit" if="test.failure">
+		<fail message="unit tests failed"/>
+	</target>
+	
+	<target name="test" depends="test-failed" />
+	
+    <target name="test-unit" depends="clean, compile-tests" description="Run the unit tests.">
+        <junit haltonfailure="off" haltonerror="off" failureproperty="test.failure"
+        	   errorproperty="test.failure" fork="yes">
+            <assertions refid="project.assertions" />
+
+            <classpath>
+                <path refid="tests.classpath" />
+                <path refid="project.classpath" />
+                <path refid="junit.classpath" />
+            </classpath>
+
+            <formatter type="xml" />
+
+            <batchtest todir="${report.tests.unit.dir}">
+                <fileset dir="${build.tests.dir}" includes="**/*Test.class"/>
+            </batchtest>
+        </junit>
+
+        <echo>
+            This build was initialized at ${start.time}
+        </echo>
+    </target>
+
+    <!--===========================================================================
+        build javadoc
+    ============================================================================-->
+
+    <target name="javadoc" depends="init"
+            description="Generate Java documention for project source code.">
+
+        <tstamp>
+            <format property="capture.time" pattern="yyyy-MMMM-dd hh:mm" />
+        </tstamp>
+
+        <javadoc destdir="${doc.dir}" Verbose="false" includenosourcepackages="false"
+                 author="yes" version="yes" use="yes" 
+                 source="1.6" breakiterator="yes" windowtitle="AChartEngine" >
+
+            <fileset dir="${src.dir}" defaultexcludes="yes" >
+                <include name="**/*.java" />
+                <exclude name="**/*Test*" />
+            </fileset>
+            <classpath refid="android.classpath" />
+        	
+        	<doctitle><![CDATA[<h1>AChartEngine</h1>]]>${capture.time}</doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2009 4ViewSoft. All Rights Reserved.</i>]]></bottom>
+        </javadoc>
+
+		<zip destfile="${dist.dir}/${app_name}-${app_version}-javadocs.zip">
+			<fileset dir="${doc.dir}"/>
+		</zip>    
+    </target>
+
+    <!--===========================================================================
+        create the jar files, deploy
+    ============================================================================-->
+
+    <target name="lib" depends="compile" description="Builds the app jar file">
+        <jar jarfile="${jar.dest.dir}/${app_name}-${app_version}.jar">
+     		<fileset dir="${build.project.dir}">
+        	</fileset>
+           <manifest>
+                <attribute name="Built-By" value="4ViewSoft"/>
+            </manifest>
+        </jar>
+    </target>
+
+	<target name="demo" description="Builds the demo source code zip file">
+		<copy todir="${build.dir}/src">
+			<fileset dir="${src_root.dir}/demo">
+				<include name="org/**/*" />
+			</fileset>
+		</copy>
+		
+		<zip destfile="${jar.dest.dir}/${app_name}-${app_version}-demo-source.zip">
+			<fileset dir="${src_root.dir}">
+				<include name="res/**/*" />
+				<include name="AndroidManifest.xml" />
+			</fileset>
+			<fileset dir="${src_root.dir}/extra">
+				<include name=".classpath" />
+				<include name=".project" />
+				<include name="LICENSE-2.0.txt" />
+			</fileset>
+			<fileset dir="${build.dir}">
+				<include name="src/**/*" />				
+				<include name="lib/${app_name}-${app_version}.jar" />
+			</fileset>			
+		</zip>
+	</target>
+	
+	<target name="dist" depends="clean, init, test, lib, demo, javadoc">
+       <copy todir="${dist.dir}">
+	     <fileset dir="${jar.dest.dir}">
+	       <include name="**/*"/>
+	     </fileset>
+	   </copy>
+	</target>
+		
+	
+    <!--===========================================================================
+            utility targets
+    ============================================================================-->
+
+    <target name="init" description="Prepare for the compiles and tests">
+        <tstamp>
+            <format property="start.time" pattern="yyyy-MMMM-dd hh:mm" />
+        </tstamp>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.project.dir}"/>
+        <mkdir dir="${build.tests.dir}"/>
+        <mkdir dir="${doc.dir}"/>
+        <mkdir dir="${report.lint.dir}"/>
+    	<mkdir dir="${report.tests.unit.dir}"/>
+        <mkdir dir="${jar.dest.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+    	<mkdir dir="${build.dir}/src"/>
+    </target>
+
+    <target name="clean" description="Delete the build directories, everything under /build">
+        <echo> "${build.dir}"</echo>
+
+    	<delete includeemptydirs="true" failonerror="false">
+               <fileset defaultexcludes="false" dir="${build.dir}" includes="**/*"/>
+         </delete>
+
+   	</target>
+
+</project>
