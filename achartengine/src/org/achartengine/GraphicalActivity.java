@@ -19,6 +19,7 @@ import org.achartengine.chart.AbstractChart;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Window;
 
 /**
  * An activity that encapsulates a graphical view of the chart.
@@ -36,11 +37,12 @@ public class GraphicalActivity extends Activity {
     Bundle extras = getIntent().getExtras();
     mChart = (AbstractChart) extras.getSerializable(ChartFactory.CHART);
     mView = new GraphicalView(this, mChart);
-    setContentView(mView);
     String title = extras.getString(ChartFactory.TITLE);
-    if (title != null) {
+    if (title == null) {
+      requestWindowFeature(Window.FEATURE_NO_TITLE);
+    } else if (title.length() > 0) {
       setTitle(title);
     }
+    setContentView(mView);
   }
-
 }
