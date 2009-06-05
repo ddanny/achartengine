@@ -36,10 +36,10 @@ import android.content.Intent;
 public class ChartFactory {
   /** The key for the chart data. */
   public static final String CHART = "chart";
-  
+
   /** The key for the chart graphical activity title. */
   public static final String TITLE = "title";
-  
+
   private ChartFactory() {
     // empty for now
   }
@@ -129,7 +129,8 @@ public class ChartFactory {
    * @param renderer the series renderer (cannot be null)
    * @return a pie chart view
    * @throws IllegalArgumentException if dataset is null or renderer is null or
-   *           if the dataset number of items is different than the number of series renderers 
+   *           if the dataset number of items is different than the number of
+   *           series renderers
    */
   public static final GraphicalView getPieChartView(Context context, CategorySeries dataset,
       DefaultRenderer renderer) {
@@ -137,10 +138,9 @@ public class ChartFactory {
     PieChart chart = new PieChart(dataset, renderer);
     return new GraphicalView(context, chart);
   }
-  
+
   /**
    * 
-   * @deprecated
    * Creates a line chart intent that can be used to start the graphical view
    * activity.
    * 
@@ -154,17 +154,12 @@ public class ChartFactory {
    */
   public static final Intent getLineChartIntent(Context context, XYMultipleSeriesDataset dataset,
       XYMultipleSeriesRenderer renderer) {
-    checkParameters(dataset, renderer);
-    Intent intent = new Intent(context, GraphicalActivity.class);
-    XYChart chart = new LineChart(dataset, renderer);
-    intent.putExtra(CHART, chart);
-    return intent;
+    return getLineChartIntent(context, dataset, renderer, "");
   }
 
   /**
-   * @deprecated
-   * Creates a scatter chart intent that can be used to start the graphical view
-   * activity.
+   * @deprecated Creates a scatter chart intent that can be used to start the
+   *             graphical view activity.
    * 
    * @param context the context
    * @param dataset the multiple series dataset (cannot be null)
@@ -184,9 +179,8 @@ public class ChartFactory {
   }
 
   /**
-   * @deprecated
-   * Creates a time chart intent that can be used to start the graphical view
-   * activity.
+   * @deprecated Creates a time chart intent that can be used to start the
+   *             graphical view activity.
    * 
    * @param context the context
    * @param dataset the multiple series dataset (cannot be null)
@@ -209,9 +203,8 @@ public class ChartFactory {
   }
 
   /**
-   * @deprecated
-   * Creates a bar chart intent that can be used to start the graphical view
-   * activity.
+   * @deprecated Creates a bar chart intent that can be used to start the
+   *             graphical view activity.
    * 
    * @param context the context
    * @param dataset the multiple series dataset (cannot be null)
@@ -232,16 +225,16 @@ public class ChartFactory {
   }
 
   /**
-   * @deprecated
-   * Creates a pie chart intent that can be used to start the graphical view
-   * activity.
+   * @deprecated Creates a pie chart intent that can be used to start the
+   *             graphical view activity.
    * 
    * @param context the context
    * @param dataset the category series dataset (cannot be null)
    * @param renderer the series renderer (cannot be null)
    * @return a pie chart intent
    * @throws IllegalArgumentException if dataset is null or renderer is null or
-   *           if the dataset number of items is different than the number of series renderers 
+   *           if the dataset number of items is different than the number of
+   *           series renderers
    */
   public static final Intent getPieChartIntent(Context context, CategorySeries dataset,
       DefaultRenderer renderer) {
@@ -259,7 +252,10 @@ public class ChartFactory {
    * @param context the context
    * @param dataset the multiple series dataset (cannot be null)
    * @param renderer the multiple series renderer (cannot be null)
-   * @param activityTitle the graphical chart activity title
+   * @param activityTitle the graphical chart activity title. If this is null,
+   *          then the title bar will be hidden. If a blank title is passed in,
+   *          then the title bar will be the default. Pass in any other string
+   *          to set a custom title.
    * @return a line chart intent
    * @throws IllegalArgumentException if dataset is null or renderer is null or
    *           if the dataset and the renderer don't include the same number of
@@ -358,7 +354,8 @@ public class ChartFactory {
    * @param activityTitle the graphical chart activity title
    * @return a pie chart intent
    * @throws IllegalArgumentException if dataset is null or renderer is null or
-   *           if the dataset number of items is different than the number of series renderers 
+   *           if the dataset number of items is different than the number of
+   *           series renderers
    */
   public static final Intent getPieChartIntent(Context context, CategorySeries dataset,
       DefaultRenderer renderer, String activityTitle) {
@@ -394,10 +391,10 @@ public class ChartFactory {
    * @param dataset the category series dataset (cannot be null)
    * @param renderer the series renderer (cannot be null)
    * @throws IllegalArgumentException if dataset is null or renderer is null or
-   *           if the dataset number of items is different than the number of series renderers 
+   *           if the dataset number of items is different than the number of
+   *           series renderers
    */
-  private static void checkParameters(CategorySeries dataset,
-      DefaultRenderer renderer) {
+  private static void checkParameters(CategorySeries dataset, DefaultRenderer renderer) {
     if (dataset == null || renderer == null
         || dataset.getItemCount() != renderer.getSeriesRendererCount()) {
       throw new IllegalArgumentException(
