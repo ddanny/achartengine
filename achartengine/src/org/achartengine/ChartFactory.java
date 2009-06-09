@@ -158,8 +158,8 @@ public class ChartFactory {
   }
 
   /**
-   * @deprecated Creates a scatter chart intent that can be used to start the
-   *             graphical view activity.
+   * Creates a scatter chart intent that can be used to start the graphical view
+   * activity.
    * 
    * @param context the context
    * @param dataset the multiple series dataset (cannot be null)
@@ -171,16 +171,12 @@ public class ChartFactory {
    */
   public static final Intent getScatterChartIntent(Context context,
       XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
-    checkParameters(dataset, renderer);
-    Intent intent = new Intent(context, GraphicalActivity.class);
-    XYChart chart = new ScatterChart(dataset, renderer);
-    intent.putExtra(CHART, chart);
-    return intent;
+    return getScatterChartIntent(context, dataset, renderer, "");
   }
 
   /**
-   * @deprecated Creates a time chart intent that can be used to start the
-   *             graphical view activity.
+   * Creates a time chart intent that can be used to start the graphical view
+   * activity.
    * 
    * @param context the context
    * @param dataset the multiple series dataset (cannot be null)
@@ -194,17 +190,12 @@ public class ChartFactory {
    */
   public static final Intent getTimeChartIntent(Context context, XYMultipleSeriesDataset dataset,
       XYMultipleSeriesRenderer renderer, String format) {
-    checkParameters(dataset, renderer);
-    Intent intent = new Intent(context, GraphicalActivity.class);
-    TimeChart chart = new TimeChart(dataset, renderer);
-    chart.setDateFormat(format);
-    intent.putExtra(CHART, chart);
-    return intent;
+    return getTimeChartIntent(context, dataset, renderer, format, "");
   }
 
   /**
-   * @deprecated Creates a bar chart intent that can be used to start the
-   *             graphical view activity.
+   * Creates a bar chart intent that can be used to start the graphical view
+   * activity.
    * 
    * @param context the context
    * @param dataset the multiple series dataset (cannot be null)
@@ -217,16 +208,12 @@ public class ChartFactory {
    */
   public static final Intent getBarChartIntent(Context context, XYMultipleSeriesDataset dataset,
       XYMultipleSeriesRenderer renderer, Type type) {
-    checkParameters(dataset, renderer);
-    Intent intent = new Intent(context, GraphicalActivity.class);
-    BarChart chart = new BarChart(dataset, renderer, type);
-    intent.putExtra(CHART, chart);
-    return intent;
+    return getBarChartIntent(context, dataset, renderer, type, "");
   }
 
   /**
-   * @deprecated Creates a pie chart intent that can be used to start the
-   *             graphical view activity.
+   * Creates a pie chart intent that can be used to start the graphical view
+   * activity.
    * 
    * @param context the context
    * @param dataset the category series dataset (cannot be null)
@@ -238,11 +225,7 @@ public class ChartFactory {
    */
   public static final Intent getPieChartIntent(Context context, CategorySeries dataset,
       DefaultRenderer renderer) {
-    checkParameters(dataset, renderer);
-    Intent intent = new Intent(context, GraphicalActivity.class);
-    PieChart chart = new PieChart(dataset, renderer);
-    intent.putExtra(CHART, chart);
-    return intent;
+    return getPieChartIntent(context, dataset, renderer, "");
   }
 
   /**
