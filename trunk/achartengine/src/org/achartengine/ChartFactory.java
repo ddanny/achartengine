@@ -16,6 +16,7 @@
 package org.achartengine;
 
 import org.achartengine.chart.BarChart;
+import org.achartengine.chart.BubbleChart;
 import org.achartengine.chart.LineChart;
 import org.achartengine.chart.PieChart;
 import org.achartengine.chart.ScatterChart;
@@ -77,6 +78,24 @@ public class ChartFactory {
       XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
     checkParameters(dataset, renderer);
     XYChart chart = new ScatterChart(dataset, renderer);
+    return new GraphicalView(context, chart);
+  }
+
+  /**
+   * Creates a bubble chart view.
+   * 
+   * @param context the context
+   * @param dataset the multiple series dataset (cannot be null)
+   * @param renderer the multiple series renderer (cannot be null)
+   * @return a scatter chart graphical view
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if the dataset and the renderer don't include the same number of
+   *           series
+   */
+  public static final GraphicalView getBubbleChartView(Context context,
+      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
+    checkParameters(dataset, renderer);
+    XYChart chart = new BubbleChart(dataset, renderer);
     return new GraphicalView(context, chart);
   }
 
@@ -172,6 +191,23 @@ public class ChartFactory {
   public static final Intent getScatterChartIntent(Context context,
       XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
     return getScatterChartIntent(context, dataset, renderer, "");
+  }
+  
+  /**
+   * Creates a bubble chart intent that can be used to start the graphical view
+   * activity.
+   * 
+   * @param context the context
+   * @param dataset the multiple series dataset (cannot be null)
+   * @param renderer the multiple series renderer (cannot be null)
+   * @return a scatter chart intent
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if the dataset and the renderer don't include the same number of
+   *           series
+   */
+  public static final Intent getBubbleChartIntent(Context context,
+      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
+    return getBubbleChartIntent(context, dataset, renderer, "");
   }
 
   /**
@@ -272,6 +308,29 @@ public class ChartFactory {
     checkParameters(dataset, renderer);
     Intent intent = new Intent(context, GraphicalActivity.class);
     XYChart chart = new ScatterChart(dataset, renderer);
+    intent.putExtra(CHART, chart);
+    intent.putExtra(TITLE, activityTitle);
+    return intent;
+  }
+
+  /**
+   * Creates a bubble chart intent that can be used to start the graphical view
+   * activity.
+   * 
+   * @param context the context
+   * @param dataset the multiple series dataset (cannot be null)
+   * @param renderer the multiple series renderer (cannot be null)
+   * @param activityTitle the graphical chart activity title
+   * @return a scatter chart intent
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if the dataset and the renderer don't include the same number of
+   *           series
+   */
+  public static final Intent getBubbleChartIntent(Context context,
+      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, String activityTitle) {
+    checkParameters(dataset, renderer);
+    Intent intent = new Intent(context, GraphicalActivity.class);
+    XYChart chart = new BubbleChart(dataset, renderer);
     intent.putExtra(CHART, chart);
     intent.putExtra(TITLE, activityTitle);
     return intent;

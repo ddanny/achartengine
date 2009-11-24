@@ -120,7 +120,7 @@ public class MathHelper {
     FORMAT.setMaximumFractionDigits(5);
     List<Double> labels = new ArrayList<Double>();
     double[] labelParams = computeLabels(start, end, approxNumLabels);
-    // when the start > end the zinc will be negative so it will still work
+    // when the start > end the inc will be negative so it will still work
     int numLabels = 1 + (int) ((labelParams[1] - labelParams[0]) / labelParams[2]);
     // we want the range to be inclusive but we don't want to blow up when
     // looping for the case where the min and max are the same. So we loop

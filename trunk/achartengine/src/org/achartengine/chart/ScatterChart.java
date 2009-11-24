@@ -24,7 +24,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 
-
 /**
  * The scatter chart rendering class.
  */
@@ -147,6 +146,7 @@ public class ScatterChart extends XYChart {
 
   /**
    * The graphical representation of an X point shape.
+   * 
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
    * @param x the x value of the point the shape should be drawn at
@@ -159,6 +159,7 @@ public class ScatterChart extends XYChart {
 
   /**
    * The graphical representation of a circle point shape.
+   * 
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
    * @param x the x value of the point the shape should be drawn at
@@ -170,6 +171,7 @@ public class ScatterChart extends XYChart {
 
   /**
    * The graphical representation of a triangle point shape.
+   * 
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
    * @param path the triangle path
@@ -188,6 +190,7 @@ public class ScatterChart extends XYChart {
 
   /**
    * The graphical representation of a square point shape.
+   * 
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
    * @param x the x value of the point the shape should be drawn at
@@ -199,6 +202,7 @@ public class ScatterChart extends XYChart {
 
   /**
    * The graphical representation of a diamond point shape.
+   * 
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
    * @param path the diamond path
