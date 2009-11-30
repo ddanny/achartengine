@@ -33,6 +33,15 @@ public class XYMultipleSeriesDataset implements Serializable {
   public void addSeries(XYSeries series) {
     mSeries.add(series);
   }
+  
+  
+  /**
+   * Removes the XY series from the list.
+   * @param index the index in the series list of the series to remove
+   */
+  public void removeSeries(int index) {
+    mSeries.remove(index);
+  }
 
   /**
    * Removes the XY series from the list.

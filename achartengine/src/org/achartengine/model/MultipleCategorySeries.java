@@ -49,7 +49,6 @@ public class MultipleCategorySeries implements Serializable {
    * @param values the new value
    */
   public void add(String[] titles, double[] values) {
-//    checkNewValues(titles, values);
     add(mCategories.size() + "", titles, values);
   }
 
@@ -60,10 +59,28 @@ public class MultipleCategorySeries implements Serializable {
    * @param values the new value
    */
   public void add(String category, String[] titles, double[] values) {
-//    checkNewValues(titles, values);
     mCategories.add(category);
     mTitles.add(titles);
     mValues.add(values);
+  }
+
+  /**
+   * Removes an existing value from the series.
+   * @param index the index in the series of the value to remove
+   */
+  public void remove(int index) {
+    mCategories.remove(index);
+    mTitles.remove(index);
+    mValues.remove(index);
+  }
+  
+  /**
+   * Removes all the existing values from the series.
+   */
+  public void clear() {
+    mCategories.clear();
+    mTitles.clear();
+    mValues.clear();
   }
   
   /**
@@ -73,12 +90,6 @@ public class MultipleCategorySeries implements Serializable {
    */
   public double[] getValues(int index) {
     return mValues.get(index);
-  }
-
-  private void checkNewValues(String[] titles, double[] values) {
-    if (titles.length != values.length) {
-      throw new IllegalArgumentException("The titles and the values must have the same size");
-    }
   }
   
   /**
