@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.achartengine.chartdemo.demo.chart.AverageTemperatureChart;
+import org.achartengine.chartdemo.demo.chart.BudgetDoughnutChart;
 import org.achartengine.chartdemo.demo.chart.BudgetPieChart;
 import org.achartengine.chartdemo.demo.chart.IChart;
 import org.achartengine.chartdemo.demo.chart.ProjectStatusChart;
@@ -41,7 +42,7 @@ import android.widget.SimpleAdapter;
 public class ChartDemo extends ListActivity {
   private IChart[] mCharts = new IChart[] {new AverageTemperatureChart(), new SalesStackedBarChart(),
 		  new SalesBarChart(), new TrigonometricFunctionsChart(), new ScatterChart(), new SalesComparisonChart(),
-          new ProjectStatusChart(), new SalesGrowthChart(), new BudgetPieChart()};
+          new ProjectStatusChart(), new SalesGrowthChart(), new BudgetPieChart(), new BudgetDoughnutChart()};
 	
   private String[] mMenuText;
 

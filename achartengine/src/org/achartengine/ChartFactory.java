@@ -17,6 +17,7 @@ package org.achartengine;
 
 import org.achartengine.chart.BarChart;
 import org.achartengine.chart.BubbleChart;
+import org.achartengine.chart.DoughnutChart;
 import org.achartengine.chart.LineChart;
 import org.achartengine.chart.PieChart;
 import org.achartengine.chart.ScatterChart;
@@ -24,6 +25,7 @@ import org.achartengine.chart.TimeChart;
 import org.achartengine.chart.XYChart;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.CategorySeries;
+import org.achartengine.model.MultipleCategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -155,6 +157,25 @@ public class ChartFactory {
       DefaultRenderer renderer) {
     checkParameters(dataset, renderer);
     PieChart chart = new PieChart(dataset, renderer);
+    return new GraphicalView(context, chart);
+  }
+
+  /**
+   * Creates a doughnut chart intent that can be used to start the graphical view
+   * activity.
+   * 
+   * @param context the context
+   * @param dataset the multiple category series dataset (cannot be null)
+   * @param renderer the series renderer (cannot be null)
+   * @return a pie chart view
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if the dataset number of items is different than the number of
+   *           series renderers
+   */
+  public static final GraphicalView getDoughnutChartView(Context context, MultipleCategorySeries dataset,
+      DefaultRenderer renderer) {
+    checkParameters(dataset, renderer);
+    DoughnutChart chart = new DoughnutChart(dataset, renderer);
     return new GraphicalView(context, chart);
   }
 
@@ -410,6 +431,29 @@ public class ChartFactory {
   }
 
   /**
+   * Creates a doughnut chart intent that can be used to start the graphical view
+   * activity.
+   * 
+   * @param context the context
+   * @param dataset the multiple category series dataset (cannot be null)
+   * @param renderer the series renderer (cannot be null)
+   * @param activityTitle the graphical chart activity title
+   * @return a pie chart intent
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if the dataset number of items is different than the number of
+   *           series renderers
+   */
+  public static final Intent getDoughnutChartIntent(Context context, MultipleCategorySeries dataset,
+      DefaultRenderer renderer, String activityTitle) {
+    checkParameters(dataset, renderer);
+    Intent intent = new Intent(context, GraphicalActivity.class);
+    DoughnutChart chart = new DoughnutChart(dataset, renderer);
+    intent.putExtra(CHART, chart);
+    intent.putExtra(TITLE, activityTitle);
+    return intent;
+  }
+
+  /**
    * Checks the validity of the dataset and renderer parameters.
    * 
    * @param dataset the multiple series dataset (cannot be null)
@@ -442,6 +486,32 @@ public class ChartFactory {
       throw new IllegalArgumentException(
           "Dataset and renderer should be not null and the dataset number of items should be equal to the number of series renderers");
     }
+  }
+
+  /**
+   * Checks the validity of the dataset and renderer parameters.
+   * 
+   * @param dataset the category series dataset (cannot be null)
+   * @param renderer the series renderer (cannot be null)
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if the dataset number of items is different than the number of
+   *           series renderers
+   */
+  private static void checkParameters(MultipleCategorySeries dataset, DefaultRenderer renderer) {
+    if (dataset == null || renderer == null
+        || !checkMultipleSeriesItems(dataset, renderer.getSeriesRendererCount())) {
+      throw new IllegalArgumentException(
+          "Titles and values should be not null and the dataset number of items should be equal to the number of series renderers");
+    }
+  }
+  
+  private static boolean checkMultipleSeriesItems(MultipleCategorySeries dataset, int value) {
+    int count = dataset.getCategoriesCount();
+    boolean equal = true;
+    for (int k = 0; k < count && equal; k++) {
+      equal = dataset.getValues(k).length == dataset.getTitles(k).length;
+    }
+    return equal;
   }
 
 }

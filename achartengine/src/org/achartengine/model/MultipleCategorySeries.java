@@ -20,57 +20,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A series for the category charts like the bar and pie ones.
+ * A series for the multiple category charts like the doughnut.
  */
-public class CategorySeries implements Serializable {
+public class MultipleCategorySeries implements Serializable {
   /** The series title. */
   private String mTitle;
-  /** The series categories. */
+  
+  /** The series local keys. */
   private List<String> mCategories = new ArrayList<String>();
+  
+  /** The series name. */
+  private List<String[]> mTitles = new ArrayList<String[]>();
+  
   /** The series values. */
-  private List<Double> mValues = new ArrayList<Double>();
+  private List<double[]> mValues = new ArrayList<double[]>();
 
   /**
    * Builds a new category series.
    * @param title the series title
    */
-  public CategorySeries(String title) {
+  public MultipleCategorySeries(String title) {
     mTitle = title;
   }
 
   /**
-   * Returns the series title.
-   * @return the series title
-   */
-  public String getTitle() {
-    return mTitle;
-  }
-
-  /**
    * Adds a new value to the series
-   * @param value the new value
+   * @param titles the titles to be used as labels
+   * @param values the new value
    */
-  public void add(double value) {
-    add(mCategories.size() + "", value);
+  public void add(String[] titles, double[] values) {
+//    checkNewValues(titles, values);
+    add(mCategories.size() + "", titles, values);
   }
 
   /**
    * Adds a new value to the series.
-   * @param category the category
-   * @param value the new value
+   * @param category the category name
+   * @param titles the titles to be used as labels
+   * @param values the new value
    */
-  public void add(String category, double value) {
+  public void add(String category, String[] titles, double[] values) {
+//    checkNewValues(titles, values);
     mCategories.add(category);
-    mValues.add(value);
+    mTitles.add(titles);
+    mValues.add(values);
   }
   
   /**
-   * Returns the value at the specified index.
+   * Returns the values at the specified index.
    * @param index the index
    * @return the value at the index
    */
-  public double getValue(int index) {
+  public double[] getValues(int index) {
     return mValues.get(index);
+  }
+
+  private void checkNewValues(String[] titles, double[] values) {
+    if (titles.length != values.length) {
+      throw new IllegalArgumentException("The titles and the values must have the same size");
+    }
   }
   
   /**
@@ -81,25 +89,39 @@ public class CategorySeries implements Serializable {
   public String getCategory(int index) {
     return mCategories.get(index);
   }
-
+  
   /**
-   * Returns the series item count.
-   * @return the series item count
+   * Returns the categories count.
+   * @return the categories count
    */
-  public int getItemCount() {
+  public int getCategoriesCount() {
     return mCategories.size();
   }
 
+  /**
+   * Returns the series item count.
+   * @param index the index
+   * @return the series item count
+   */
+  public int getItemCount(int index) {
+    return mValues.get(index).length;
+  }
+  
+  /**
+   * Returns the series titles.
+   * @param index the index
+   * @return the series titles
+   */
+  public String[] getTitles(int index) {
+    return mTitles.get(index);
+  }
+  
   /**
    * Transforms the category series to an XY series.
    * @return the XY series
    */
   public XYSeries toXYSeries() {
     XYSeries xySeries = new XYSeries(mTitle);
-    int k = 0;
-    for (double value : mValues) {
-      xySeries.add(++k, value);
-    }
     return xySeries;
   }
 }
