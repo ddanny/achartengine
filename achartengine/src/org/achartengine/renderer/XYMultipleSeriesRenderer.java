@@ -38,6 +38,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private double mMinY = MathHelper.NULL_VALUE;
   /** The end value in the Y axis range. */
   private double mMaxY = -MathHelper.NULL_VALUE;
+  
   /** The approximative number of labels on the x axis. */
   private int mXLabels = 5;
   /** The approximative number of labels on the y axis. */
@@ -160,6 +161,14 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setXAxisMin(double min) {
     mMinX = min;
   }
+  
+  /**
+   * Returns if the minimum X value was set.
+   * @return the minX was set or not
+   */
+  public boolean isMinXSet() {
+    return mMinX != MathHelper.NULL_VALUE;
+  }
 
   /**
    * Returns the end value of the X axis range.
@@ -177,6 +186,14 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setXAxisMax(double max) {
     mMaxX = max;
+  }
+
+  /**
+   * Returns if the maximum X value was set.
+   * @return the maxX was set or not
+   */
+  public boolean isMaxXSet() {
+    return mMaxX != -MathHelper.NULL_VALUE;
   }
 
   /**
@@ -198,6 +215,14 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
+   * Returns if the minimum Y value was set.
+   * @return the minY was set or not
+   */
+  public boolean isMinYSet() {
+    return mMinY != MathHelper.NULL_VALUE;
+  }
+
+  /**
    * Returns the end value of the Y axis range.
    * 
    * @return the Y axis range end value
@@ -213,6 +238,14 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setYAxisMax(double max) {
     mMaxY = max;
+  }
+
+  /**
+   * Returns if the maximum Y value was set.
+   * @return the maxY was set or not
+   */
+  public boolean isMaxYSet() {
+    return mMaxY != -MathHelper.NULL_VALUE;
   }
 
   /**
