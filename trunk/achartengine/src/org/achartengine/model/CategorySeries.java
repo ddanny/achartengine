@@ -65,6 +65,23 @@ public class CategorySeries implements Serializable {
   }
   
   /**
+   * Removes an existing value from the series.
+   * @param index the index in the series of the value to remove
+   */
+  public void remove(int index) {
+    mCategories.remove(index);
+    mValues.remove(index);
+  }
+  
+  /**
+   * Removes all the existing values from the series.
+   */
+  public void clear() {
+    mCategories.clear();
+    mValues.clear();
+  }
+  
+  /**
    * Returns the value at the specified index.
    * @param index the index
    * @return the value at the index

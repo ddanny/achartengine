@@ -51,6 +51,26 @@ public class XYValueSeries extends XYSeries {
   public void add(double x, double y, double value) {
     super.add(x, y);
     mValue.add(value);
+    updateRange(value);
+  }
+  
+  /**
+   * Initializes the values range.
+   */
+  private void initRange() {
+    mMinValue = MathHelper.NULL_VALUE;
+    mMaxValue = MathHelper.NULL_VALUE;
+    int length = getItemCount();
+    for (int k = 0; k < length; k++) {
+      updateRange(getValue(k));
+    }
+  }
+  
+  /**
+   * Updates the values range.
+   * @param value the new value
+   */
+  private void updateRange(double value) {
     mMinValue = Math.min(mMinValue, value);
     mMaxValue = Math.max(mMaxValue, value);
   }
@@ -65,6 +85,27 @@ public class XYValueSeries extends XYSeries {
     add(x, y, 0d);
   }
 
+  /**
+   * Removes an existing value from the series.
+   * @param index the index in the series of the value to remove
+   */
+  public void remove(int index) {
+    super.remove(index);
+    double removedValue = mValue.remove(index);
+    if (removedValue == mMinValue || removedValue == mMaxValue) {
+      initRange();
+    }
+  }
+  
+  /**
+   * Removes all the values from the series.
+   */
+  public void clear() {
+    super.clear();
+    mValue.clear();
+    initRange();
+  }
+  
   /**
    * Returns the value at the specified index.
    * 

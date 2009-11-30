@@ -49,6 +49,35 @@ public class XYSeries implements Serializable {
    */
   public XYSeries(String title) {
     mTitle = title;
+    initRange();
+  }
+  
+  /**
+   * Initializes the range for both axes.
+   */
+  private void initRange() {
+    mMinX = MathHelper.NULL_VALUE;
+    mMaxX = -MathHelper.NULL_VALUE;
+    mMinY = MathHelper.NULL_VALUE;
+    mMaxY = -MathHelper.NULL_VALUE;
+    int length = getItemCount();
+    for (int k = 0; k < length; k++) {
+      double x = getX(k);
+      double y = getY(k);
+      updateRange(x, y);
+    }
+  }
+  
+  /**
+   * Updates the range on both axes.
+   * @param x the new x value
+   * @param y the new y value
+   */
+  private void updateRange(double x, double y) {
+      mMinX = Math.min(mMinX, x);
+      mMaxX = Math.max(mMaxX, x);
+      mMinY = Math.min(mMinY, y);
+      mMaxY = Math.max(mMaxY, y);
   }
 
   /**
@@ -78,10 +107,29 @@ public class XYSeries implements Serializable {
   public void add(double x, double y) {
     mX.add(x);
     mY.add(y);
-    mMinX = Math.min(mMinX, x);
-    mMaxX = Math.max(mMaxX, x);
-    mMinY = Math.min(mMinY, y);
-    mMaxY = Math.max(mMaxY, y);
+    updateRange(x, y);
+  }
+  
+
+  /**
+   * Removes an existing value from the series.
+   * @param index the index in the series of the value to remove
+   */
+  public void remove(int index) {
+    double removedX = mX.remove(index);
+    double removedY = mY.remove(index);
+    if (removedX == mMinX || removedX == mMaxX || removedY == mMinY || removedY == mMaxY) {
+      initRange();
+    }
+  }
+  
+  /**
+   * Removes all the existing values from the series.
+   */
+  public void clear() {
+    mX.clear();
+    mY.clear();
+    initRange();
   }
   
   /**
