@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.CategorySeries;
+import org.achartengine.model.MultipleCategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.DefaultRenderer;
@@ -128,7 +129,7 @@ public abstract class AbstractChart implements IChart {
   /**
    * Builds a category series using the provided values.
    * @param titles the series titles
-   * @param calues the values
+   * @param values the values
    * @return the category series
    */
   protected CategorySeries buildCategoryDataset(String title, double[] values) {
@@ -136,6 +137,22 @@ public abstract class AbstractChart implements IChart {
     int k = 0;
     for (double value : values) {
       series.add("Project " + ++k, value);
+    }
+    return series;
+  }
+
+  /**
+   * Builds a multiple category series using the provided values.
+   * @param titles the series titles
+   * @param values the values
+   * @return the category series
+   */
+  protected MultipleCategorySeries buildMultipleCategoryDataset(String title, List<String[]> titles, List<double[]> values) {
+    MultipleCategorySeries series = new MultipleCategorySeries(title);
+    int k = 0;
+    for (double[] value : values) {
+      series.add(2007 + k + "", titles.get(k), value);
+      k++;
     }
     return series;
   }

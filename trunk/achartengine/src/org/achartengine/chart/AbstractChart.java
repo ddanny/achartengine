@@ -23,6 +23,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Paint.Align;
@@ -81,10 +82,14 @@ public abstract class AbstractChart implements Serializable {
       final float lineSize = getLegendShapeWidth();
       paint.setTextAlign(Align.LEFT);
       paint.setTextSize(12);
-      int sLength = renderer.getSeriesRendererCount();
+      int sLength = Math.min(titles.length, renderer.getSeriesRendererCount());
       for (int i = 0; i < sLength; i++) {
         String text = titles[i];
-        paint.setColor(renderer.getSeriesRendererAt(i).getColor());
+        if (titles.length == renderer.getSeriesRendererCount()) {
+          paint.setColor(renderer.getSeriesRendererAt(i).getColor());
+        } else {
+          paint.setColor(Color.LTGRAY);
+        }
         float[] widths = new float[text.length()];
         paint.getTextWidths(text, widths);
         float sum = 0;
