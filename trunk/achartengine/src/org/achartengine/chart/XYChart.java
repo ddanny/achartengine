@@ -98,6 +98,10 @@ public abstract class XYChart extends AbstractChart {
     double maxX = mRenderer.getXAxisMax();
     double minY = mRenderer.getYAxisMin();
     double maxY = mRenderer.getYAxisMax();
+    boolean isMinXSet = mRenderer.isMinXSet();
+    boolean isMaxXSet = mRenderer.isMaxXSet();
+    boolean isMinYSet = mRenderer.isMinYSet();
+    boolean isMaxYSet = mRenderer.isMaxYSet();
     double xPixelsPerUnit = 0;
     double yPixelsPerUnit = 0;
     int sLength = mDataset.getSeriesCount();
@@ -108,14 +112,22 @@ public abstract class XYChart extends AbstractChart {
       if (series.getItemCount() == 0) {
         continue;
       }
-      double minimumX = series.getMinX();
-      double maximumX = series.getMaxX();
-      double minimumY = series.getMinY();
-      double maximumY = series.getMaxY();
-      minX = Math.min(minX, minimumX);
-      maxX = Math.max(maxX, maximumX);
-      minY = Math.min(minY, (float) minimumY);
-      maxY = Math.max(maxY, (float) maximumY);
+      if (!isMinXSet) {
+        double minimumX = series.getMinX();
+        minX = Math.min(minX, minimumX);
+      }
+      if (!isMaxXSet) {
+        double maximumX = series.getMaxX();
+        maxX = Math.max(maxX, maximumX);
+      }
+      if (!isMinYSet) {
+        double minimumY = series.getMinY();
+        minY = Math.min(minY, (float) minimumY);
+      }
+      if (!isMaxYSet) {
+        double maximumY = series.getMaxY();
+        maxY = Math.max(maxY, (float) maximumY);
+      }
     }
     if (maxX - minX != 0) {
       xPixelsPerUnit = (right - left) / (maxX - minX);
