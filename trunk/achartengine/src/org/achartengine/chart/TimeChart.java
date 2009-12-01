@@ -61,7 +61,7 @@ public class TimeChart extends LineChart {
   public void setDateFormat(String format) {
     mDateFormat = format;
   }
-
+  
   /**
    * The graphical representation of the labels on the X axis.
    * @param xLabels the X labels values
@@ -69,20 +69,30 @@ public class TimeChart extends LineChart {
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
    * @param left the left value of the labels area
+   * @param top the top value of the labels area
    * @param bottom the bottom value of the labels area
    * @param xPixelsPerUnit the amount of pixels per one unit in the chart labels
    * @param minX the minimum value on the X axis in the chart
    */
   @Override
   protected void drawXLabels(List<Double> xLabels, Double[] xTextLabelLocations, Canvas canvas, Paint paint, int left,
-      int bottom, double xPixelsPerUnit, double minX) {
+      int top, int bottom, double xPixelsPerUnit, double minX) {
     int length = xLabels.size();
+    boolean showLabels = mRenderer.isShowLabels();
+    boolean showGrid = mRenderer.isShowGrid();
     DateFormat format = getDateFormat(xLabels.get(0), xLabels.get(length - 1));
     for (int i = 0; i < length; i++) {
       long label = Math.round(xLabels.get(i));
       float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
-      canvas.drawLine(xLabel, bottom, xLabel, bottom + 4, paint);
-      drawText(canvas, format.format(new Date(label)), xLabel, bottom + 12, paint, 0);
+      if (showLabels) {
+        paint.setColor(mRenderer.getLabelsColor());
+        canvas.drawLine(xLabel, bottom, xLabel, bottom + 4, paint);
+        drawText(canvas, format.format(new Date(label)), xLabel, bottom + 12, paint, 0);
+      }
+      if (showGrid) {
+        paint.setColor(GRID_COLOR);
+        canvas.drawLine(xLabel, bottom, xLabel, top, paint);
+      }
     }
   }
 
