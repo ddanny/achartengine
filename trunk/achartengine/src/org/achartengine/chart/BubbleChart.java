@@ -68,7 +68,6 @@ public class BubbleChart extends XYChart {
     double max = series.getMaxValue();
     
     double coef = MAX_BUBBLE_SIZE / max;
-    System.out.println("********* " + max + "  " + coef);
     for (int i = 0; i < length; i += 2) {
       double size = series.getValue(i / 2) * coef + MIN_BUBBLE_SIZE;
       drawCircle(canvas, paint, points[i], points[i + 1], (float) size);
