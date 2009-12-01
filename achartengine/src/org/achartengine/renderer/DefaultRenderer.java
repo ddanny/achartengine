@@ -48,6 +48,8 @@ public class DefaultRenderer implements Serializable {
   private int mLabelsColor = TEXT_COLOR;
   /** If the legend is visible. */
   private boolean mShowLegend = true;
+  /** If the grid should be displayed. */
+  private boolean mShowGrid = false;
   /** The simple renderers that are included in this multiple series renderer. */
   private List<SimpleSeriesRenderer> mRenderers = new ArrayList<SimpleSeriesRenderer>();
 
@@ -203,6 +205,24 @@ public class DefaultRenderer implements Serializable {
    */
   public void setShowLabels(boolean showLabels) {
     mShowLabels = showLabels;
+  }
+
+  /**
+   * Returns if the grid should be visible.
+   * 
+   * @return the visibility flag for the grid
+   */
+  public boolean isShowGrid() {
+    return mShowGrid;
+  }
+
+  /**
+   * Sets if the grid should be visible.
+   * 
+   * @param showGrid the visibility flag for the grid
+   */
+  public void setShowGrid(boolean showGrid) {
+    mShowGrid = showGrid;
   }
 
   /**
