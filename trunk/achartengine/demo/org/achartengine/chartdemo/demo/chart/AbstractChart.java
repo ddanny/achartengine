@@ -138,6 +138,7 @@ public abstract class AbstractChart implements IChart {
     for (double value : values) {
       series.add("Project " + ++k, value);
     }
+    
     return series;
   }
 
