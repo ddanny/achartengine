@@ -31,10 +31,10 @@ import android.graphics.Paint.Style;
 public class BubbleChart extends XYChart {
   /** The legend shape width. */
   private static final int SHAPE_WIDTH = 10;
-  
+
   /** The minimum bubble size. */
   private static final int MIN_BUBBLE_SIZE = 2;
-  
+
   /** The maximum bubble size. */
   private static final int MAX_BUBBLE_SIZE = 20;
 
@@ -66,7 +66,7 @@ public class BubbleChart extends XYChart {
     int length = points.length;
     XYValueSeries series = (XYValueSeries) mDataset.getSeriesAt(seriesIndex);
     double max = series.getMaxValue();
-    
+
     double coef = MAX_BUBBLE_SIZE / max;
     for (int i = 0; i < length; i += 2) {
       double size = series.getValue(i / 2) * coef + MIN_BUBBLE_SIZE;
