@@ -24,7 +24,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 
-
 /**
  * The bar chart rendering class.
  */
@@ -33,16 +32,17 @@ public class BarChart extends XYChart {
   private static final int SHAPE_WIDTH = 12;
   /** The chart type. */
   private Type mType = Type.DEFAULT;
-  
-  /** 
+
+  /**
    * The bar chart type enum.
    */
   public enum Type {
     DEFAULT, STACKED;
   }
-  
+
   /**
    * Builds a new bar chart instance.
+   * 
    * @param dataset the multiple series dataset
    * @param renderer the multiple series renderer
    * @param type the bar chart type
@@ -54,6 +54,7 @@ public class BarChart extends XYChart {
 
   /**
    * The graphical representation of a series.
+   * 
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
@@ -89,7 +90,8 @@ public class BarChart extends XYChart {
    * @param points the array of points to be used for drawing the series
    * @param seriesIndex the index of the series currently being drawn
    */
-  protected void drawChartValuesText(Canvas canvas, XYSeries series, Paint paint, float[] points, int seriesIndex) {
+  protected void drawChartValuesText(Canvas canvas, XYSeries series, Paint paint, float[] points,
+      int seriesIndex) {
     int seriesNr = mDataset.getSeriesCount();
     float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
     for (int k = 0; k < points.length; k += 2) {
@@ -103,7 +105,8 @@ public class BarChart extends XYChart {
 
   /**
    * Returns the legend shape width.
-   * @return the legend shape width 
+   * 
+   * @return the legend shape width
    */
   public int getLegendShapeWidth() {
     return SHAPE_WIDTH;
@@ -111,6 +114,7 @@ public class BarChart extends XYChart {
 
   /**
    * The graphical representation of the legend shape.
+   * 
    * @param canvas the canvas to paint to
    * @param renderer the series renderer
    * @param x the x value of the point the shape should be drawn at
@@ -122,14 +126,13 @@ public class BarChart extends XYChart {
     float halfShapeWidth = SHAPE_WIDTH / 2;
     canvas.drawRect(x, y - halfShapeWidth, x + SHAPE_WIDTH, y + halfShapeWidth, paint);
   }
-  
-  
+
   private float getHalfDiffX(float[] points, int length, int seriesNr) {
     float halfDiffX = (points[length - 2] - points[0]) / length;
     if (halfDiffX == 0) {
       halfDiffX = 10;
     }
-    
+
     if (mType != Type.STACKED) {
       halfDiffX /= seriesNr;
     }
