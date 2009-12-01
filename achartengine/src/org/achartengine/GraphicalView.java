@@ -48,7 +48,6 @@ public class GraphicalView extends View {
 
   @Override
   protected void onDraw(Canvas canvas) {
-    long t = System.currentTimeMillis();
     super.onDraw(canvas);
     canvas.getClipBounds(mRect);
     int top = mRect.top;
@@ -57,7 +56,6 @@ public class GraphicalView extends View {
     int height = mRect.height();
 
     mChart.draw(canvas, left, top, width, height);
-    System.out.println("t=" + (System.currentTimeMillis() - t));
   }
 
   /**

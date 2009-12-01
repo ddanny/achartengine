@@ -28,6 +28,7 @@ public class GraphicalActivity extends Activity {
 
   /** The encapsulated graphical view. */
   private GraphicalView mView;
+  
   /** The chart to be drawn. */
   private AbstractChart mChart;
 

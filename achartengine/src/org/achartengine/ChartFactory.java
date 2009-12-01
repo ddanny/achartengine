@@ -161,8 +161,8 @@ public class ChartFactory {
   }
 
   /**
-   * Creates a doughnut chart intent that can be used to start the graphical view
-   * activity.
+   * Creates a doughnut chart intent that can be used to start the graphical
+   * view activity.
    * 
    * @param context the context
    * @param dataset the multiple category series dataset (cannot be null)
@@ -172,8 +172,8 @@ public class ChartFactory {
    *           if the dataset number of items is different than the number of
    *           series renderers
    */
-  public static final GraphicalView getDoughnutChartView(Context context, MultipleCategorySeries dataset,
-      DefaultRenderer renderer) {
+  public static final GraphicalView getDoughnutChartView(Context context,
+      MultipleCategorySeries dataset, DefaultRenderer renderer) {
     checkParameters(dataset, renderer);
     DoughnutChart chart = new DoughnutChart(dataset, renderer);
     return new GraphicalView(context, chart);
@@ -213,7 +213,7 @@ public class ChartFactory {
       XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
     return getScatterChartIntent(context, dataset, renderer, "");
   }
-  
+
   /**
    * Creates a bubble chart intent that can be used to start the graphical view
    * activity.
@@ -226,8 +226,8 @@ public class ChartFactory {
    *           if the dataset and the renderer don't include the same number of
    *           series
    */
-  public static final Intent getBubbleChartIntent(Context context,
-      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
+  public static final Intent getBubbleChartIntent(Context context, XYMultipleSeriesDataset dataset,
+      XYMultipleSeriesRenderer renderer) {
     return getBubbleChartIntent(context, dataset, renderer, "");
   }
 
@@ -347,8 +347,8 @@ public class ChartFactory {
    *           if the dataset and the renderer don't include the same number of
    *           series
    */
-  public static final Intent getBubbleChartIntent(Context context,
-      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, String activityTitle) {
+  public static final Intent getBubbleChartIntent(Context context, XYMultipleSeriesDataset dataset,
+      XYMultipleSeriesRenderer renderer, String activityTitle) {
     checkParameters(dataset, renderer);
     Intent intent = new Intent(context, GraphicalActivity.class);
     XYChart chart = new BubbleChart(dataset, renderer);
@@ -431,8 +431,8 @@ public class ChartFactory {
   }
 
   /**
-   * Creates a doughnut chart intent that can be used to start the graphical view
-   * activity.
+   * Creates a doughnut chart intent that can be used to start the graphical
+   * view activity.
    * 
    * @param context the context
    * @param dataset the multiple category series dataset (cannot be null)
@@ -443,8 +443,8 @@ public class ChartFactory {
    *           if the dataset number of items is different than the number of
    *           series renderers
    */
-  public static final Intent getDoughnutChartIntent(Context context, MultipleCategorySeries dataset,
-      DefaultRenderer renderer, String activityTitle) {
+  public static final Intent getDoughnutChartIntent(Context context,
+      MultipleCategorySeries dataset, DefaultRenderer renderer, String activityTitle) {
     checkParameters(dataset, renderer);
     Intent intent = new Intent(context, GraphicalActivity.class);
     DoughnutChart chart = new DoughnutChart(dataset, renderer);
@@ -504,7 +504,7 @@ public class ChartFactory {
           "Titles and values should be not null and the dataset number of items should be equal to the number of series renderers");
     }
   }
-  
+
   private static boolean checkMultipleSeriesItems(MultipleCategorySeries dataset, int value) {
     int count = dataset.getCategoriesCount();
     boolean equal = true;
