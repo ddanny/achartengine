@@ -33,6 +33,43 @@ import org.achartengine.renderer.XYSeriesRenderer;
  */
 public abstract class AbstractChart implements IChart {
   
+  
+  public static XYMultipleSeriesDataset buildDataset3(String[] titles, List<double[]> xValues,
+      List<List<Double>> yValues) {
+    XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+    int length = titles.length;
+    for (int i = 0; i < length; i++) {
+      XYSeries series = new XYSeries(titles[i]);
+      double[] xV = xValues.get(i);
+      List<Double> yV = yValues.get(i);
+      int seriesLength = xV.length;
+      for (int k = 0; k < seriesLength; k++) {
+        series.add(xV[k], yV.get(k));
+      }
+      dataset.addSeries(series);
+    }
+    return dataset;
+  }
+  
+  
+  public static XYMultipleSeriesDataset buildDataset2(String[] titles, List<List<Double>> xValues,
+      List<List<Double>> yValues) {
+    XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+    int length = titles.length;
+    for (int i = 0; i < length; i++) {
+      XYSeries series = new XYSeries(titles[i]);
+      List<Double> xV = xValues.get(i);
+      List<Double> yV = yValues.get(i);
+      int seriesLength = xV.size();
+      for (int k = 0; k < seriesLength; k++) {
+        series.add(xV.get(k), yV.get(k));
+      }
+      dataset.addSeries(series);
+    }
+    return dataset;
+  }
+  
+  
   /**
    * Builds an XY multiple dataset using the provided values.
    * @param titles the series titles
@@ -40,7 +77,7 @@ public abstract class AbstractChart implements IChart {
    * @param yValues the values for the Y axis
    * @return the XY multiple dataset
    */
-  protected XYMultipleSeriesDataset buildDataset(String[] titles, List<double[]> xValues,
+  public static XYMultipleSeriesDataset buildDataset(String[] titles, List<double[]> xValues,
       List<double[]> yValues) {
     XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
     int length = titles.length;
@@ -63,7 +100,7 @@ public abstract class AbstractChart implements IChart {
    * @param styles the series point styles
    * @return the XY multiple series renderers
    */
-  protected XYMultipleSeriesRenderer buildRenderer(int[] colors, PointStyle[] styles) {
+  public static XYMultipleSeriesRenderer buildRenderer(int[] colors, PointStyle[] styles) {
     XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
     int length = colors.length;
     for (int i = 0; i < length; i++) {
@@ -88,7 +125,7 @@ public abstract class AbstractChart implements IChart {
    * @param axesColor the axes color
    * @param labelsColor the labels color
    */
-  protected void setChartSettings(XYMultipleSeriesRenderer renderer, String title, String xTitle,
+  public static void setChartSettings(XYMultipleSeriesRenderer renderer, String title, String xTitle,
       String yTitle, double xMin, double xMax, double yMin, double yMax, int axesColor,
       int labelsColor) {
     renderer.setChartTitle(title);
