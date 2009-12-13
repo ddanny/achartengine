@@ -11,7 +11,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.achartengine.GraphicalActivity" />
+        <activity android:name="org.achartengine.GraphicalActivity" >
+        
+        
+            <intent-filter>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+				<data android:mimeType="vnd.android.cursor.dir/vnd.org.achartengine.data.test"/>
+		    </intent-filter>
+        
+        
+        
+        </activity>
 		<activity android:name=".GeneratedChartDemo" />        
     </application>
+<uses-sdk android:minSdkVersion="4"></uses-sdk>
 </manifest> 
