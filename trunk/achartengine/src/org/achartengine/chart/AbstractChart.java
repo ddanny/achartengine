@@ -168,5 +168,12 @@ public abstract class AbstractChart implements Serializable {
       float y, Paint paint);
 
 
-
+  private boolean is_anti_aliased = true;
+  protected boolean getAntiAliased() {
+    return this.is_anti_aliased;
+  }
+  
+  protected void setAntiAliased(boolean is_anti_aliased) {
+    this.is_anti_aliased = is_anti_aliased;
+  }
 }
