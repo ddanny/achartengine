@@ -15,9 +15,6 @@
  */
 package org.achartengine.chartdemo.demo.chart;
 
-import java.util.Date;
-import java.util.List;
-
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.MultipleCategorySeries;
@@ -28,39 +25,36 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import android.util.Log;
+
+import java.util.Date;
+import java.util.List;
+
 /**
  * An abstract class for the demo charts to extend.
  */
 public abstract class AbstractChart implements IChart {
+
+  static final String TAG = "AChartEngine";
   
-  
-  public static XYMultipleSeriesDataset buildDataset3(String[] titles, List<double[]> xValues,
-      List<List<Double>> yValues) {
+  public static XYMultipleSeriesDataset buildDataset2(
+      String[] titles,
+      List<? extends List<? extends Number>> xValues,
+      List<? extends List<? extends Number>> yValues) {
     XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
     int length = titles.length;
+    
+    Log.i(TAG, "Titles: " + length + "; x-sets: " + xValues.size() + "; y-sets: " + yValues.size());
+    
     for (int i = 0; i < length; i++) {
+      // Zip the coordinates together for each series
       XYSeries series = new XYSeries(titles[i]);
-      double[] xV = xValues.get(i);
-      List<Double> yV = yValues.get(i);
-      int seriesLength = xV.length;
-      for (int k = 0; k < seriesLength; k++) {
-        series.add(xV[k], yV.get(k));
-      }
-      dataset.addSeries(series);
-    }
-    return dataset;
-  }
-  
-  
-  public static XYMultipleSeriesDataset buildDataset2(String[] titles, List<List<Double>> xValues,
-      List<List<Double>> yValues) {
-    XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-    int length = titles.length;
-    for (int i = 0; i < length; i++) {
-      XYSeries series = new XYSeries(titles[i]);
-      List<Double> xV = xValues.get(i);
-      List<Double> yV = yValues.get(i);
+      List<? extends Number> xV = xValues.get(i);
+      List<? extends Number> yV = yValues.get(i);
       int seriesLength = xV.size();
+      int corroboratedSeriesLength = yV.size();
+      Log.d(TAG, "Series " + i + " axes set sizes: X: " + seriesLength + "; Y: " + corroboratedSeriesLength); 
+      
       for (int k = 0; k < seriesLength; k++) {
         series.add(xV.get(k), yV.get(k));
       }
@@ -68,6 +62,7 @@ public abstract class AbstractChart implements IChart {
     }
     return dataset;
   }
+
   
   
   /**
@@ -169,7 +164,7 @@ public abstract class AbstractChart implements IChart {
    * @param values the values
    * @return the category series
    */
-  protected CategorySeries buildCategoryDataset(String title, double[] values) {
+  public static CategorySeries buildCategoryDataset(String title, double[] values) {
     CategorySeries series = new CategorySeries(title);
     int k = 0;
     for (double value : values) {
@@ -185,7 +180,7 @@ public abstract class AbstractChart implements IChart {
    * @param values the values
    * @return the category series
    */
-  protected MultipleCategorySeries buildMultipleCategoryDataset(String title, List<String[]> titles, List<double[]> values) {
+  public static MultipleCategorySeries buildMultipleCategoryDataset(String title, List<String[]> titles, List<double[]> values) {
     MultipleCategorySeries series = new MultipleCategorySeries(title);
     int k = 0;
     for (double[] value : values) {

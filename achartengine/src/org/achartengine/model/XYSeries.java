@@ -30,17 +30,17 @@ public class XYSeries implements Serializable {
   /** The series title. */
   private String mTitle;
   /** A list to contain the values for the X axis. */
-  private List<Double> mX = new ArrayList<Double>();
+  private List<Number> mX = new ArrayList<Number>();
   /** A list to contain the values for the Y axis. */
-  private List<Double> mY = new ArrayList<Double>();
+  private List<Number> mY = new ArrayList<Number>();
   /** The minimum value for the X axis. */
-  private double mMinX = MathHelper.NULL_VALUE;
+  private Number mMinX = MathHelper.NULL_VALUE;
   /** The maximum value for the X axis. */
-  private double mMaxX = -MathHelper.NULL_VALUE;
+  private Number mMaxX = -MathHelper.NULL_VALUE;
   /** The minimum value for the Y axis. */
-  private double mMinY = MathHelper.NULL_VALUE;
+  private Number mMinY = MathHelper.NULL_VALUE;
   /** The maximum value for the Y axis. */
-  private double mMaxY = -MathHelper.NULL_VALUE;
+  private Number mMaxY = -MathHelper.NULL_VALUE;
 
   /**
    * Builds a new XY series.
@@ -62,8 +62,8 @@ public class XYSeries implements Serializable {
     mMaxY = -MathHelper.NULL_VALUE;
     int length = getItemCount();
     for (int k = 0; k < length; k++) {
-      double x = getX(k);
-      double y = getY(k);
+      Number x = getX(k);
+      Number y = getY(k);
       updateRange(x, y);
     }
   }
@@ -73,11 +73,11 @@ public class XYSeries implements Serializable {
    * @param x the new x value
    * @param y the new y value
    */
-  private void updateRange(double x, double y) {
-      mMinX = Math.min(mMinX, x);
-      mMaxX = Math.max(mMaxX, x);
-      mMinY = Math.min(mMinY, y);
-      mMaxY = Math.max(mMaxY, y);
+  private void updateRange(Number x, Number y) {
+      mMinX = Math.min(mMinX.doubleValue(), x.doubleValue());
+      mMaxX = Math.max(mMaxX.doubleValue(), x.doubleValue());
+      mMinY = Math.min(mMinY.doubleValue(), y.doubleValue());
+      mMaxY = Math.max(mMaxY.doubleValue(), y.doubleValue());
   }
 
   /**
@@ -104,7 +104,7 @@ public class XYSeries implements Serializable {
    * @param x the value for the X axis
    * @param y the value for the Y axis
    */
-  public void add(double x, double y) {
+  public void add(Number x, Number y) {
     mX.add(x);
     mY.add(y);
     updateRange(x, y);
@@ -116,8 +116,8 @@ public class XYSeries implements Serializable {
    * @param index the index in the series of the value to remove
    */
   public void remove(int index) {
-    double removedX = mX.remove(index);
-    double removedY = mY.remove(index);
+    Number removedX = mX.remove(index);
+    Number removedY = mY.remove(index);
     if (removedX == mMinX || removedX == mMaxX || removedY == mMinY || removedY == mMaxY) {
       initRange();
     }
@@ -138,7 +138,7 @@ public class XYSeries implements Serializable {
    * @param index the index
    * @return the X value
    */
-  public double getX(int index) {
+  public Number getX(int index) {
     return mX.get(index);
   }
 
@@ -148,7 +148,7 @@ public class XYSeries implements Serializable {
    * @param index the index
    * @return the Y value
    */
-  public double getY(int index) {
+  public Number getY(int index) {
     return mY.get(index);
   }
 
@@ -164,7 +164,7 @@ public class XYSeries implements Serializable {
    * Returns the minimum value on the X axis.
    * @return the X axis minimum value
    */
-  public double getMinX() {
+  public Number getMinX() {
     return mMinX;
   }
 
@@ -172,7 +172,7 @@ public class XYSeries implements Serializable {
    * Returns the minimum value on the Y axis.
    * @return the Y axis minimum value
    */
-  public double getMinY() {
+  public Number getMinY() {
     return mMinY;
   }
 
@@ -180,7 +180,7 @@ public class XYSeries implements Serializable {
    * Returns the maximum value on the X axis.
    * @return the X axis maximum value
    */
-  public double getMaxX() {
+  public Number getMaxX() {
     return mMaxX;
   }
 
@@ -188,7 +188,7 @@ public class XYSeries implements Serializable {
    * Returns the maximum value on the Y axis.
    * @return the Y axis maximum value
    */
-  public double getMaxY() {
+  public Number getMaxY() {
     return mMaxY;
   }
 }

@@ -9,7 +9,13 @@
 	    android:layout_width="wrap_content"
 	    android:drawableTop="@drawable/pie_button"
 	    android:layout_height="wrap_content" 
-	    android:text="Line Chart"
-	    android:id="@+id/button_chart_data_provider"/>
+	    android:text="Multi-series"
+	    android:id="@+id/button_multiseries_data_provider"/>
 	    
+	<Button
+	    android:layout_width="wrap_content"
+	    android:drawableTop="@drawable/pie_button"
+	    android:layout_height="wrap_content" 
+	    android:text="Labeled Multi-series"
+	    android:id="@+id/button_labeled_multiseries_data_provider"/>
 </LinearLayout>

@@ -16,18 +16,13 @@
 package org.achartengine;
 
 import org.achartengine.chart.AbstractChart;
-import org.achartengine.chart.LineChart;
-import org.achartengine.chart.PointStyle;
-import org.achartengine.chart.XYChart;
+import org.achartengine.consumer.DatumExtractor;
+import org.achartengine.intent.ContentSchema;
 import org.achartengine.intent.ContentSchema.PlotData;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
@@ -48,13 +43,13 @@ import java.util.Map.Entry;
 public class GraphicalActivity extends Activity {
 
 
-  static final String TAG = "AChartEngine"; 
+  protected static final String TAG = "AChartEngine"; 
   
   /** The encapsulated graphical view. */
-  private GraphicalView mView;
+  protected GraphicalView mView;
   
   /** The chart to be drawn. */
-  private AbstractChart mChart;
+  protected AbstractChart mChart;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +62,12 @@ public class GraphicalActivity extends Activity {
     
     // Zip the data.
     if (intent_data != null) {
-      generateLineChartFromContentProvider(intent_data);
-        // We have been passed a cursor to the data via a content provider.
+      // We have been passed a cursor to the data via a content provider.
+
+      
+      
+      mChart = generateChartFromContentProvider(intent_data);
+      mView = new GraphicalView(this, mChart);
 
       
       
@@ -101,234 +100,209 @@ public class GraphicalActivity extends Activity {
   
   
   
+
+  // ---------------------------------------------
   
   
-  
-  Comparator<Entry<Integer, ?>> series_comparator = new Comparator<Entry<Integer, ?>>() {
+  Comparator<Entry<Integer, ?>> integer_keyed_entry_comparator = new Comparator<Entry<Integer, ?>>() {
 
     @Override
     public int compare(Entry<Integer, ?> object1, Entry<Integer, ?> object2) {
       return object1.getKey().compareTo(object2.getKey());
     }
   };
-  
-  
-  
-  
-  
-  
-  void generateLineChartFromContentProvider(Uri intent_data) {
 
+  // ---------------------------------------------
+  
+  <T> List<T> sortAndSimplify(Map<Integer, T> input_map) {
+    // Sort the axes by index
+    ArrayList<Entry<Integer,T>> sorted_axes_series_map = new ArrayList<Entry<Integer, T>>(input_map.entrySet());
+    Collections.sort(sorted_axes_series_map, integer_keyed_entry_comparator);
     
-      Log.d(TAG, "Querying content provider for: " + intent_data);
+    // Simplify the sorted axes as a list
+    List<T> simplified_sorted_axes_series_maps = new ArrayList<T>();
+    for (Entry<Integer, T> entry : sorted_axes_series_map)
+      simplified_sorted_axes_series_maps.add( entry.getValue() );
+    
+    return simplified_sorted_axes_series_maps;
+  }    
 
+  // ---------------------------------------------
+  
+  <T> List<T> pickAxisSeries(Map<Integer, Map<Integer, List<T>>> axes_series_map, Cursor cursor, int axis_column, int series_column) {
+    // Pick the correct axis
+    int axis_index = cursor.getInt(axis_column);
+    Map<Integer, List<T>> series_map;            
+    if (axes_series_map.containsKey(axis_index)) {
+      series_map = axes_series_map.get(axis_index);
+    } else {
+      series_map = new HashMap<Integer, List<T>>();
+      axes_series_map.put(axis_index, series_map);
+    }
 
-      Map<Integer, List<Double>> series_map = new HashMap<Integer, List<Double>>();
+    // Pick the correct series for this axis
+    int series_index = cursor.getInt(series_column);
+    List<T> series_axis_data;
+    if (series_map.containsKey(series_index)) {
+      series_axis_data = series_map.get(series_index);
+    } else {
+      series_axis_data = new ArrayList<T>();
+      series_map.put(series_index, series_axis_data);
+    }
+    
+    return series_axis_data;
+  }
 
-      {
-        
-        
-        Cursor cursor = managedQuery(intent_data,
-            new String[] {BaseColumns._ID, PlotData.COLUMN_SERIES_INDEX, PlotData.COLUMN_DATUM_VALUE},
-            null, null, null);
+  // ---------------------------------------------
+  protected String[] getSortedSeriesTitles(Uri intent_data) {
+    
+    Uri meta_uri = intent_data.buildUpon().appendEncodedPath( ContentSchema.DATASET_ASPECT_META ).build();
+    Log.d(TAG, "Querying content provider for: " + meta_uri);
 
-        int id_column = cursor.getColumnIndex(BaseColumns._ID);
-        int axis_column = cursor.getColumnIndex(PlotData.COLUMN_SERIES_INDEX);
-        int data_column = cursor.getColumnIndex(PlotData.COLUMN_DATUM_VALUE);
-        int label_column = cursor.getColumnIndex(PlotData.COLUMN_DATUM_LABEL);
-        
-        
-        int i=0;
-        if (cursor.moveToFirst()) {
-            do {
-              int series_index = cursor.getInt(axis_column);
+    Map<Integer, String> series_label_map = new HashMap<Integer, String>();
+    {
+      
+      Cursor meta_cursor = managedQuery(meta_uri,
+          new String[] {BaseColumns._ID, PlotData.COLUMN_SERIES_LABEL},
+          null, null, null);
+      
+      int series_column = meta_cursor.getColumnIndex(BaseColumns._ID);
+      int label_column = meta_cursor.getColumnIndex(PlotData.COLUMN_SERIES_LABEL);
+      
+      int i=0;
+      if (meta_cursor.moveToFirst()) {
+        // TODO: This could also be used to set color, line style, marker shape, etc.
+          do {
+            int series_index = meta_cursor.getInt(series_column);
+            String series_label = meta_cursor.getString(label_column);
+            
+
+            series_label_map.put(series_index, series_label);
+
               
-              List<Double> series_data;
-              if (series_map.containsKey(series_index)) {
-                series_data = series_map.get(series_index);
-              } else {
-                series_data = new ArrayList<Double>();
-                series_map.put(series_index, series_data);
-              }
-              
-                double datum = cursor.getDouble(data_column);
-                series_data.add(datum);
-                
-//                slice.label = cursor.getString(label_column);
-//                slice.color = color_values[i % color_values.length];
-//                list.add(slice);
-                
-                i++;
-            } while (cursor.moveToNext());
-        }
+              i++;
+          } while (meta_cursor.moveToNext());
+      }
+    }
+
+    // Sort the map by key; that is, sort by the series index
+    List<String> sorted_series_labels = sortAndSimplify(series_label_map);
+    
+    String[] titles = sorted_series_labels.toArray(new String[] {});
+    return titles;
+  }
+
+  // ---------------------------------------------
+  public static class LabeledDatum {
+    public String label;
+    public Number datum;
+  }
+  
+  // ---------------------------------------------
+  // Retrieve Series data
+  
+  // Outermost list: Axes
+  // Second-outermost list: All Series
+  // Third-outermost list: Data for a single series
+  protected <T> List<List<List<T>>> getGenericSortedSeriesData(Uri intent_data, DatumExtractor<T> extractor) {
+
+    Uri data_uri = intent_data.buildUpon().appendEncodedPath( ContentSchema.DATASET_ASPECT_DATA ).build();
+    Log.d(TAG, "Querying content provider for: " + data_uri);
+
+    Map<Integer, Map<Integer, List<T>>> axes_series_map = new HashMap<Integer, Map<Integer, List<T>>>();
+
+      Cursor cursor = managedQuery(data_uri,
+          new String[] {
+            BaseColumns._ID,
+            PlotData.COLUMN_AXIS_INDEX,
+            PlotData.COLUMN_SERIES_INDEX,
+            PlotData.COLUMN_DATUM_VALUE,
+            PlotData.COLUMN_DATUM_LABEL},
+          null, null, null);
+
+      int id_column = cursor.getColumnIndex(BaseColumns._ID);
+      int axis_column = cursor.getColumnIndex(PlotData.COLUMN_AXIS_INDEX);
+      int series_column = cursor.getColumnIndex(PlotData.COLUMN_SERIES_INDEX);
+      int data_column = cursor.getColumnIndex(PlotData.COLUMN_DATUM_VALUE);
+      int label_column = cursor.getColumnIndex(PlotData.COLUMN_DATUM_LABEL);
+      
+      
+      int i=0;
+      if (cursor.moveToFirst()) {
+          do {
+
+            List<T> series_axis_data = pickAxisSeries(axes_series_map, cursor, axis_column, series_column);
+            
+              T datum = extractor.getDatum(cursor, data_column, label_column);
+              series_axis_data.add(datum);
+
+              i++;
+          } while (cursor.moveToNext());
       }
 
-      // Sort the map by key; that is, sort by the series index
-      ArrayList<Entry<Integer,List<Double>>> series_entry_list = new ArrayList<Entry<Integer,List<Double>>>( series_map.entrySet() );
-      Collections.sort(series_entry_list, series_comparator);
-      
-      List<List<Double>> sorted_series_list = new ArrayList<List<Double>>();
-      for (Entry<Integer, List<Double>> entry : series_entry_list) {
-        sorted_series_list.add(entry.getValue());
-      }
 
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      // Retrieve Series data
-      // ---------------------------------------------
-      
-      Uri meta_uri = intent_data.buildUpon().appendEncodedPath("meta").build();
-      Log.d(TAG, "Querying content provider for: " + meta_uri);
+    // Sort each axis map by key; that is, sort by the series index - then add it to the simplified axis list
+      List<List<List<T>>> simplified_sorted_axes_series = new ArrayList<List<List<T>>>();
+      for (Map<Integer, List<T>> series_map : sortAndSimplify(axes_series_map))
+        simplified_sorted_axes_series.add( sortAndSimplify(series_map) );
 
-      Map<Integer, String> series_label_map = new HashMap<Integer, String>();
-      {
-        
-        Cursor meta_cursor = managedQuery(meta_uri,
-            new String[] {BaseColumns._ID, PlotData.COLUMN_SERIES_LABEL},
-            null, null, null);
-        
-        int series_column = meta_cursor.getColumnIndex(BaseColumns._ID);
-        int label_column = meta_cursor.getColumnIndex(PlotData.COLUMN_SERIES_LABEL);
-        
-        int i=0;
-        if (meta_cursor.moveToFirst()) {
-          // TODO: This could also be used to set color, line style, marker shape, etc.
-            do {
-              int series_index = meta_cursor.getInt(series_column);
-              String series_label = meta_cursor.getString(label_column);
-              
+    return simplified_sorted_axes_series;
+  }
 
-              series_label_map.put(series_index, series_label);
+  // ---------------------------------------------
+  //  Retrieve Axes data
+  protected List<String> getAxisTitles(Uri intent_data) {
 
-                
-                i++;
-            } while (meta_cursor.moveToNext());
-        }
-      }
-      
-      
-      
-      // Sort the map by key; that is, sort by the series index
-      ArrayList<Entry<Integer, String>> series_label_list = new ArrayList<Entry<Integer, String>>( series_label_map.entrySet() );
-      Collections.sort(series_entry_list, series_comparator);
-      
-      List<String> sorted_series_labels = new ArrayList<String>();
-      for (Entry<Integer, String> entry : series_label_list) {
-        sorted_series_labels.add(entry.getValue());
-      }
-      String[] titles = sorted_series_labels.toArray(new String[] {});
-      
+    Uri axes_uri = intent_data.buildUpon().appendEncodedPath( ContentSchema.DATASET_ASPECT_AXES ).build();
+    Log.d(TAG, "Querying content provider for: " + axes_uri);
 
-      List<double[]> x = new ArrayList<double[]>();
-      for (int i = 0; i < titles.length; i++) {
-        x.add(new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 });
-      }
+    List<String> axis_labels = new ArrayList<String>();
+    {
       
-      int[] colors = new int[] { Color.BLUE, Color.GREEN, Color.CYAN, Color.YELLOW };
-      PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND,
-          PointStyle.TRIANGLE, PointStyle.SQUARE };
+      Cursor meta_cursor = managedQuery(axes_uri,
+          new String[] {BaseColumns._ID, PlotData.COLUMN_AXIS_LABEL},
+          null, null, null);
       
-
+      int axis_column = meta_cursor.getColumnIndex(BaseColumns._ID);
+      int label_column = meta_cursor.getColumnIndex(PlotData.COLUMN_AXIS_LABEL);
       
-      
-      
-      
-      
-      
-      
-      // Retrieve Axes data
-      // ---------------------------------------------
-      
-      Uri axes_uri = intent_data.buildUpon().appendEncodedPath("axes").build();
-      Log.d(TAG, "Querying content provider for: " + axes_uri);
-
-      List<String> axis_labels = new ArrayList<String>();
-      {
-        
-        Cursor meta_cursor = managedQuery(axes_uri,
-            new String[] {BaseColumns._ID, PlotData.COLUMN_AXIS_LABEL},
-            null, null, null);
-        
-        int axis_column = meta_cursor.getColumnIndex(BaseColumns._ID);
-        int label_column = meta_cursor.getColumnIndex(PlotData.COLUMN_AXIS_LABEL);
-        
-        int i=0;
-        if (meta_cursor.moveToFirst()) {
-          // TODO: This could also be used to set color, line style, marker shape, etc.
-            do {
-//              int axis_index = meta_cursor.getInt(axis_column);
+      int i=0;
+      if (meta_cursor.moveToFirst()) {
+        // TODO: This could also be used to set color, line style, marker shape, etc.
+          do {
+//            int axis_index = meta_cursor.getInt(axis_column);
               String axis_label = meta_cursor.getString(label_column);
               
-
+              
               axis_labels.add(axis_label);
 
-                
-                i++;
-            } while (meta_cursor.moveToNext());
-        }
+              
+              i++;
+          } while (meta_cursor.moveToNext());
       }
-      
-      
-      
-      
-      
-      
-      
-      XYMultipleSeriesRenderer renderer = org.achartengine.chartdemo.demo.chart.AbstractChart.buildRenderer(colors, styles);
-      int length = renderer.getSeriesRendererCount();
-      for (int i = 0; i < length; i++) {
-        ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
-      }
-      
-      
-
-      String chart_title = getIntent().getStringExtra(Intent.EXTRA_TITLE);
-      String x_label = axis_labels.get(0);
-      String y_label = axis_labels.get(1);
-      Log.d(TAG, "X LABEL: " + x_label);
-      Log.d(TAG, "X LABEL: " + y_label);
-      Log.d(TAG, "chart_title: " + chart_title);
-      
-      org.achartengine.chartdemo.demo.chart.AbstractChart.setChartSettings(renderer, chart_title, x_label, y_label, 0.5, 12.5, 0, 32,
-          Color.LTGRAY, Color.GRAY);
-      renderer.setXLabels(12);
-      renderer.setYLabels(10);
-      
-      
-      
-      
-//      XYMultipleSeriesDataset dataset = org.achartengine.chartdemo.demo.chart.AbstractChart.buildDataset(titles, x, values);
-      XYMultipleSeriesDataset dataset = org.achartengine.chartdemo.demo.chart.AbstractChart.buildDataset3(titles, x, sorted_series_list);
-
-      ChartFactory.checkParameters(dataset, renderer);
-
-
-      
-      
-      XYChart chart = new LineChart(dataset, renderer);
-      
-      
-      mChart = chart;
-      mView = new GraphicalView(this, mChart);
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+    }
+    
+    return axis_labels;
   }
+  
+  
+  
+  
+  protected List<List<Number>> stripSeriesDatumLabels(List<List<LabeledDatum>> sorted_labeled_series_list) {
+    
+    // Discard the datum labels
+    List<List<Number>> sorted_series_list = new ArrayList<List<Number>>();
+    for (List<LabeledDatum> labeled_series : sorted_labeled_series_list) {
+      List<Number> series = new ArrayList<Number>();
+      sorted_series_list.add( series );
+      for (LabeledDatum labeled_datum : labeled_series)
+        series.add(labeled_datum.datum);
+    }
+    return sorted_series_list;
+  }
+  
+  // TODO: This should be an "abstract" method
+  protected AbstractChart generateChartFromContentProvider(Uri intent_data) {
+    return null;
+    };
 }
