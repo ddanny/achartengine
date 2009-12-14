@@ -60,7 +60,7 @@ public class BudgetDoughnutChart extends AbstractChart {
     int[] colors = new int[] {Color.BLUE, Color.GREEN, Color.MAGENTA, Color.YELLOW, Color.CYAN};
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setApplyBackgroundColor(true);
-    renderer.setBackgroundColor(Color.BLACK);
+    renderer.setBackgroundColor(Color.GRAY);
     return ChartFactory.getDoughnutChartIntent(context, buildMultipleCategoryDataset("Project budget", titles, values), renderer, "Doughnut chart demo");
   }
 
