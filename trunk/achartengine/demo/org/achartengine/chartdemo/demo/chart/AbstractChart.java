@@ -15,6 +15,9 @@
  */
 package org.achartengine.chartdemo.demo.chart;
 
+import java.util.Date;
+import java.util.List;
+
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.MultipleCategorySeries;
@@ -25,45 +28,10 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
-import android.util.Log;
-
-import java.util.Date;
-import java.util.List;
-
 /**
  * An abstract class for the demo charts to extend.
  */
 public abstract class AbstractChart implements IChart {
-
-  static final String TAG = "AChartEngine";
-  
-  public static XYMultipleSeriesDataset buildDataset2(
-      String[] titles,
-      List<? extends List<? extends Number>> xValues,
-      List<? extends List<? extends Number>> yValues) {
-    XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-    int length = titles.length;
-    
-    Log.i(TAG, "Titles: " + length + "; x-sets: " + xValues.size() + "; y-sets: " + yValues.size());
-    
-    for (int i = 0; i < length; i++) {
-      // Zip the coordinates together for each series
-      XYSeries series = new XYSeries(titles[i]);
-      List<? extends Number> xV = xValues.get(i);
-      List<? extends Number> yV = yValues.get(i);
-      int seriesLength = xV.size();
-      int corroboratedSeriesLength = yV.size();
-      Log.d(TAG, "Series " + i + " axes set sizes: X: " + seriesLength + "; Y: " + corroboratedSeriesLength); 
-      
-      for (int k = 0; k < seriesLength; k++) {
-        series.add(xV.get(k), yV.get(k));
-      }
-      dataset.addSeries(series);
-    }
-    return dataset;
-  }
-
-  
   
   /**
    * Builds an XY multiple dataset using the provided values.
@@ -72,7 +40,7 @@ public abstract class AbstractChart implements IChart {
    * @param yValues the values for the Y axis
    * @return the XY multiple dataset
    */
-  public static XYMultipleSeriesDataset buildDataset(String[] titles, List<double[]> xValues,
+  protected XYMultipleSeriesDataset buildDataset(String[] titles, List<double[]> xValues,
       List<double[]> yValues) {
     XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
     int length = titles.length;
@@ -95,7 +63,7 @@ public abstract class AbstractChart implements IChart {
    * @param styles the series point styles
    * @return the XY multiple series renderers
    */
-  public static XYMultipleSeriesRenderer buildRenderer(int[] colors, PointStyle[] styles) {
+  protected XYMultipleSeriesRenderer buildRenderer(int[] colors, PointStyle[] styles) {
     XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
     int length = colors.length;
     for (int i = 0; i < length; i++) {
@@ -120,7 +88,7 @@ public abstract class AbstractChart implements IChart {
    * @param axesColor the axes color
    * @param labelsColor the labels color
    */
-  public static void setChartSettings(XYMultipleSeriesRenderer renderer, String title, String xTitle,
+  protected void setChartSettings(XYMultipleSeriesRenderer renderer, String title, String xTitle,
       String yTitle, double xMin, double xMax, double yMin, double yMax, int axesColor,
       int labelsColor) {
     renderer.setChartTitle(title);
@@ -164,7 +132,7 @@ public abstract class AbstractChart implements IChart {
    * @param values the values
    * @return the category series
    */
-  public static CategorySeries buildCategoryDataset(String title, double[] values) {
+  protected CategorySeries buildCategoryDataset(String title, double[] values) {
     CategorySeries series = new CategorySeries(title);
     int k = 0;
     for (double value : values) {
@@ -180,7 +148,7 @@ public abstract class AbstractChart implements IChart {
    * @param values the values
    * @return the category series
    */
-  public static MultipleCategorySeries buildMultipleCategoryDataset(String title, List<String[]> titles, List<double[]> values) {
+  protected MultipleCategorySeries buildMultipleCategoryDataset(String title, List<String[]> titles, List<double[]> values) {
     MultipleCategorySeries series = new MultipleCategorySeries(title);
     int k = 0;
     for (double[] value : values) {
