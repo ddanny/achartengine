@@ -29,10 +29,10 @@ public class MultipleCategorySeries implements Serializable {
   /** The series local keys. */
   private List<String> mCategories = new ArrayList<String>();
   
-  /** The series name. */
+  /** The series' individual data labels. */
   private List<String[]> mTitles = new ArrayList<String[]>();
   
-  /** The series values. */
+  /** The series data values. */
   private List<double[]> mValues = new ArrayList<double[]>();
 
   /**

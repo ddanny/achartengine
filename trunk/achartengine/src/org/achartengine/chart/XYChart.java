@@ -15,8 +15,6 @@
  */
 package org.achartengine.chart;
 
-import java.util.List;
-
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.DefaultRenderer;
@@ -30,6 +28,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Paint.Align;
+
+import java.util.List;
 
 /**
  * The XY chart rendering class.
@@ -117,20 +117,20 @@ public abstract class XYChart extends AbstractChart {
         continue;
       }
       if (!isMinXSet) {
-        double minimumX = series.getMinX();
-        minX = Math.min(minX, minimumX);
+        Number minimumX = series.getMinX();
+        minX = Math.min(minX, minimumX.doubleValue());
       }
       if (!isMaxXSet) {
-        double maximumX = series.getMaxX();
-        maxX = Math.max(maxX, maximumX);
+        Number maximumX = series.getMaxX();
+        maxX = Math.max(maxX, maximumX.doubleValue());
       }
       if (!isMinYSet) {
-        double minimumY = series.getMinY();
-        minY = Math.min(minY, (float) minimumY);
+        Number minimumY = series.getMinY();
+        minY = Math.min(minY, minimumY.doubleValue());
       }
       if (!isMaxYSet) {
-        double maximumY = series.getMaxY();
-        maxY = Math.max(maxY, (float) maximumY);
+        Number maximumY = series.getMaxY();
+        maxY = Math.max(maxY, maximumY.doubleValue());
       }
     }
     if (maxX - minX != 0) {
@@ -155,8 +155,8 @@ public abstract class XYChart extends AbstractChart {
       points = new float[length];
       for (int j = 0; j < length; j += 2) {
         int index = j / 2;
-        points[j] = (float) (left + xPixelsPerUnit * (series.getX(index) - minX));
-        points[j + 1] = (float) (bottom - yPixelsPerUnit * (series.getY(index) - minY));
+        points[j] = (float) (left + xPixelsPerUnit * (series.getX(index).doubleValue() - minX));
+        points[j + 1] = (float) (bottom - yPixelsPerUnit * (series.getY(index).doubleValue() - minY));
       }
       drawSeries(canvas, paint, points, seriesRenderer, Math.min(bottom,
           (float) (bottom + yPixelsPerUnit * minY)), i);
@@ -320,10 +320,10 @@ public abstract class XYChart extends AbstractChart {
    * @param label the input label value
    * @return the label without the useless fraction digit
    */
-  protected String getLabel(double label) {
+  protected String getLabel(Number label) {
     String text = "";
-    if (label == Math.round(label)) {
-      text = Math.round(label) + "";
+    if (label.intValue() == label.doubleValue()) {
+      text = label.intValue() + "";
     } else {
       text = label + "";
     }

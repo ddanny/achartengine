@@ -462,7 +462,7 @@ public class ChartFactory {
    *           if the dataset and the renderer don't include the same number of
    *           series
    */
-  static void checkParameters(XYMultipleSeriesDataset dataset,
+  public static void checkParameters(XYMultipleSeriesDataset dataset,
       XYMultipleSeriesRenderer renderer) {
     if (dataset == null || renderer == null
         || dataset.getSeriesCount() != renderer.getSeriesRendererCount()) {

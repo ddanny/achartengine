@@ -30,11 +30,4 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>achartengine-src</name>
-			<type>2</type>
-			<location>/home/kostmo/android/my_projects/achartengine/achartengine</location>
-		</link>
-	</linkedResources>
 </projectDescription>
