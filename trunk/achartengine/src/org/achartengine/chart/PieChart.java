@@ -58,7 +58,7 @@ public class PieChart extends AbstractChart {
   @Override
   public void draw(Canvas canvas, int x, int y, int width, int height) {
     Paint paint = new Paint();
-    paint.setAntiAlias(getAntiAliased());
+    paint.setAntiAlias(mRenderer.isAntialiasing());
     paint.setStyle(Style.FILL);
     paint.setTextSize(10);
     int legendSize = 30;

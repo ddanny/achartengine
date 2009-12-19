@@ -52,6 +52,8 @@ public class DefaultRenderer implements Serializable {
   private boolean mShowGrid = false;
   /** The simple renderers that are included in this multiple series renderer. */
   private List<SimpleSeriesRenderer> mRenderers = new ArrayList<SimpleSeriesRenderer>();
+  /** The antialiasing flag. */
+  private boolean antialiasing = true;
 
   /**
    * Adds a simple renderer to the multiple renderer.
@@ -241,6 +243,22 @@ public class DefaultRenderer implements Serializable {
    */
   public void setShowLegend(boolean showLegend) {
     mShowLegend = showLegend;
+  }
+  
+  /**
+   * Returns the antialiasing flag value.
+   * @return the antialiasing value
+   */
+  public boolean isAntialiasing() {
+    return antialiasing;
+  }
+  
+  /**
+   * Sets the antialiasing value.
+   * @param antialiasing the antialiasing
+   */
+  public void setAntialiasing(boolean antialiasing) {
+    this.antialiasing = antialiasing;
   }
 
 }
