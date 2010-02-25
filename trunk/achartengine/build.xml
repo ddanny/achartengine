@@ -4,7 +4,7 @@
     <description>Build for project achartengine. </description>
 
 	<property name="app_name" value="achartengine"/>
-	<property name="app_version" value="0.4.0"/>	
+	<property name="app_version" value="0.5.0"/>	
     <property name="src_root.dir" location="${basedir}"/>
     <property name="achartengine.package" value="org/achartengine"/>
 	<property name="src.dir" location="${src_root.dir}/src/"/>
