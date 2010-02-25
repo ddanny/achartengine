@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009 SC 4ViewSoft SRL
+ * Copyright (C) 2009 - 2010 SC 4ViewSoft SRL
  *  
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,34 +22,23 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 
 /**
- * The bar chart rendering class.
+ * The range bar chart rendering class.
  */
-public class BarChart extends XYChart {
-  /** The legend shape width. */
-  private static final int SHAPE_WIDTH = 12;
-  /** The chart type. */
-  protected Type mType = Type.DEFAULT;
+public class RangeBarChart extends BarChart {
 
   /**
-   * The bar chart type enum.
-   */
-  public enum Type {
-    DEFAULT, STACKED;
-  }
-
-  /**
-   * Builds a new bar chart instance.
+   * Builds a new range bar chart instance.
    * 
    * @param dataset the multiple series dataset
    * @param renderer the multiple series renderer
-   * @param type the bar chart type
+   * @param type the range bar chart type
    */
-  public BarChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, Type type) {
-    super(dataset, renderer);
-    mType = type;
+  public RangeBarChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, Type type) {
+    super(dataset, renderer, type);
   }
 
   /**
@@ -69,14 +58,17 @@ public class BarChart extends XYChart {
     paint.setColor(seriesRenderer.getColor());
     paint.setStyle(Style.FILL);
     float halfDiffX = getHalfDiffX(points, length, seriesNr);
-    for (int i = 0; i < length; i += 2) {
-      float x = points[i];
-      float y = points[i + 1];
+    for (int i = 0; i < length; i += 4) {
+      float xMin = points[i];
+      float yMin = points[i + 1];
+      // xMin = xMax
+      float xMax = points[i + 2];
+      float yMax = points[i + 3];
       if (mType == Type.STACKED) {
-        canvas.drawRect(x - halfDiffX, y, x + halfDiffX, yAxisValue, paint);
+        canvas.drawRect(xMin - halfDiffX, yMax, xMax + halfDiffX, yMin, paint);
       } else {
-        float startX = x - seriesNr * halfDiffX + seriesIndex * 2 * halfDiffX;
-        canvas.drawRect(startX, y, startX + 2 * halfDiffX, yAxisValue, paint);
+        float startX = xMin - seriesNr * halfDiffX + seriesIndex * 2 * halfDiffX;
+        canvas.drawRect(startX, yMax, startX + 2 * halfDiffX, yMin, paint);
       }
     }
   }
@@ -94,53 +86,20 @@ public class BarChart extends XYChart {
       int seriesIndex) {
     int seriesNr = mDataset.getSeriesCount();
     float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
-    for (int k = 0; k < points.length; k += 2) {
+    for (int k = 0; k < points.length; k += 4) {
       float x = points[k];
       if (mType == Type.DEFAULT) {
         x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
       }
-      drawText(canvas, getLabel(series.getY(k / 2)), x, points[k + 1] - 3.5f, paint, 0);
+      // draw the maximum value
+      drawText(canvas, getLabel(series.getY(k / 2 + 1)), x, points[k + 3] - 3f, paint, 0);
+      // draw the minimum value
+      drawText(canvas, getLabel(series.getY(k / 2)), x, points[k + 1] + 7.5f, paint, 0);
     }
-  }
-
-  /**
-   * Returns the legend shape width.
-   * 
-   * @return the legend shape width
-   */
-  public int getLegendShapeWidth() {
-    return SHAPE_WIDTH;
-  }
-
-  /**
-   * The graphical representation of the legend shape.
-   * 
-   * @param canvas the canvas to paint to
-   * @param renderer the series renderer
-   * @param x the x value of the point the shape should be drawn at
-   * @param y the y value of the point the shape should be drawn at
-   * @param paint the paint to be used for drawing
-   */
-  public void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x, float y,
-      Paint paint) {
-    float halfShapeWidth = SHAPE_WIDTH / 2;
-    canvas.drawRect(x, y - halfShapeWidth, x + SHAPE_WIDTH, y + halfShapeWidth, paint);
-  }
-
-  protected float getHalfDiffX(float[] points, int length, int seriesNr) {
-    float halfDiffX = (points[length - 2] - points[0]) / length;
-    if (halfDiffX == 0) {
-      halfDiffX = 10;
-    }
-
-    if (mType != Type.STACKED) {
-      halfDiffX /= seriesNr;
-    }
-    return halfDiffX / getCoeficient();
   }
   
   protected float getCoeficient() {
-    return 1;
+    return 0.5f;
   }
 
 }
