@@ -15,57 +15,61 @@
  */
 package org.achartengine.chartdemo.demo.chart;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.BarChart.Type;
+import org.achartengine.model.RangeCategorySeries;
+import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 
-
 /**
- * Sales demo bar chart.
+ * Temperature demo range chart.
  */
-public class SalesBarChart extends AbstractChart {
+public class TemperatureChart extends AbstractChart {
 
   /**
    * Returns the chart name.
+   * 
    * @return the chart name
    */
   public String getName() {
-    return "Sales horizontal bar chart";
+    return "Temperature range chart";
   }
 
   /**
    * Returns the chart description.
+   * 
    * @return the chart description
    */
   public String getDesc() {
-    return "The monthly sales for the last 2 years (horizontal bar chart)";
+    return "The monthly temperature (vertical range chart)";
   }
 
   /**
    * Executes the chart demo.
+   * 
    * @param context the context
    * @return the built intent
    */
   public Intent execute(Context context) {
-    String[] titles = new String[] { "2007", "2008" };
-    List<double[]> values = new ArrayList<double[]>();
-    values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030, 11200, 9500, 10500,
-        11600, 13500 });
-    values.add(new double[] { 14230, 12300, 14240, 15244, 15900, 19200, 22030, 21200, 19500,
-        15500, 12600, 14000 });
-    int[] colors = new int[] { Color.CYAN, Color.BLUE };
+    double[] minValues = new double[] {-24, -19, -10, -1, 7, 12, 15, 14, 9, 1, -11, -16};
+    double[] maxValues = new double[] { 7, 12, 24, 28, 33, 35, 37, 36, 28, 19, 11, 4 };
+    
+    XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+    RangeCategorySeries series = new RangeCategorySeries("Temperature");
+    int length = minValues.length;
+    for (int k = 0; k < length; k++) {
+      series.add(minValues[k], maxValues[k]);
+    }
+    dataset.addSeries(series.toXYSeries());
+    
+    int[] colors = new int[] { Color.CYAN };
     XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-    renderer.setOrientation(Orientation.VERTICAL);
-    setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.5,
-        12.5, 0, 24000, Color.GRAY, Color.LTGRAY);
+    setChartSettings(renderer, "Monthly temperature range", "Month", "Celsius degrees", 0.5, 12.5, -30, 45,
+        Color.GRAY, Color.LTGRAY);
     renderer.setXLabels(1);
     renderer.setYLabels(10);
     renderer.addTextLabel(1, "Jan");
@@ -75,7 +79,7 @@ public class SalesBarChart extends AbstractChart {
     renderer.addTextLabel(10, "Oct");
     renderer.addTextLabel(12, "Dec");
     renderer.setDisplayChartValues(true);
-    return ChartFactory.getBarChartIntent(context, buildBarDataset(titles, values), renderer, Type.DEFAULT);
+    return ChartFactory.getRangeBarChartIntent(context, dataset, renderer, Type.DEFAULT, "Temperature range");
   }
 
 }
