@@ -24,12 +24,14 @@ import org.achartengine.chartdemo.demo.chart.AverageTemperatureChart;
 import org.achartengine.chartdemo.demo.chart.BudgetDoughnutChart;
 import org.achartengine.chartdemo.demo.chart.BudgetPieChart;
 import org.achartengine.chartdemo.demo.chart.IChart;
+import org.achartengine.chartdemo.demo.chart.ProjectStatusBubbleChart;
 import org.achartengine.chartdemo.demo.chart.ProjectStatusChart;
 import org.achartengine.chartdemo.demo.chart.SalesBarChart;
 import org.achartengine.chartdemo.demo.chart.SalesComparisonChart;
 import org.achartengine.chartdemo.demo.chart.SalesGrowthChart;
 import org.achartengine.chartdemo.demo.chart.SalesStackedBarChart;
 import org.achartengine.chartdemo.demo.chart.ScatterChart;
+import org.achartengine.chartdemo.demo.chart.TemperatureChart;
 import org.achartengine.chartdemo.demo.chart.TrigonometricFunctionsChart;
 
 import android.app.ListActivity;
@@ -42,7 +44,8 @@ import android.widget.SimpleAdapter;
 public class ChartDemo extends ListActivity {
   private IChart[] mCharts = new IChart[] {new AverageTemperatureChart(), new SalesStackedBarChart(),
 		  new SalesBarChart(), new TrigonometricFunctionsChart(), new ScatterChart(), new SalesComparisonChart(),
-          new ProjectStatusChart(), new SalesGrowthChart(), new BudgetPieChart(), new BudgetDoughnutChart()};
+          new ProjectStatusChart(), new SalesGrowthChart(), new BudgetPieChart(), new BudgetDoughnutChart(), 
+          new ProjectStatusBubbleChart(), new TemperatureChart()};
 	
   private String[] mMenuText;
 

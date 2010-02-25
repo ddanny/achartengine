@@ -76,6 +76,7 @@ public class AverageTemperatureChart extends AbstractChart {
         Color.LTGRAY, Color.GRAY);
     renderer.setXLabels(12);
     renderer.setYLabels(10);
+    renderer.setShowGrid(true);
     
     Intent intent = ChartFactory.getLineChartIntent(context, buildDataset(titles, x, values),
         renderer, "Average temperature");
