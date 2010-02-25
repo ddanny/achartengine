@@ -23,7 +23,7 @@ public enum PointStyle {
       "point");
 
   /** The point shape name. */
-  private String _name;
+  private String mName;
 
   /**
    * The point style enum constructor.
@@ -31,7 +31,7 @@ public enum PointStyle {
    * @param name the name
    */
   private PointStyle(String name) {
-    _name = name;
+    mName = name;
   }
 
   /**
@@ -39,7 +39,7 @@ public enum PointStyle {
    * @return the point shape name
    */
   public String getName() {
-    return _name;
+    return mName;
   }
 
   /**
@@ -61,7 +61,7 @@ public enum PointStyle {
     PointStyle[] styles = values();
     int length = styles.length;
     for (int i = 0; i < length && pointStyle == null; i++) {
-      if (styles[i]._name.equals(name)) {
+      if (styles[i].mName.equals(name)) {
         pointStyle = styles[i];
       }
     }
@@ -77,7 +77,7 @@ public enum PointStyle {
     PointStyle[] styles = values();
     int length = styles.length;
     for (int i = 0; i < length && index < 0; i++) {
-      if (styles[i]._name.equals(name)) {
+      if (styles[i].mName.equals(name)) {
         index = i;
       }
     }
