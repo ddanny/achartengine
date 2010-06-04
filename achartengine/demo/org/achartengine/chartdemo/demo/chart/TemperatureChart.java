@@ -70,8 +70,8 @@ public class TemperatureChart extends AbstractChart {
     XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
     setChartSettings(renderer, "Monthly temperature range", "Month", "Celsius degrees", 0.5, 12.5, -30, 45,
         Color.GRAY, Color.LTGRAY);
-    renderer.setBackgroundColor(Color.GREEN);
-    renderer.setApplyBackgroundColor(true);
+//    renderer.setBackgroundColor(Color.GREEN);
+//    renderer.setApplyBackgroundColor(true);
     renderer.setXLabels(1);
     renderer.setYLabels(10);
     renderer.addTextLabel(1, "Jan");
