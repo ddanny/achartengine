@@ -81,7 +81,7 @@ public abstract class AbstractChart implements Serializable {
       float currentY = y + height - legendSize + 32;
       final float lineSize = getLegendShapeWidth();
       paint.setTextAlign(Align.LEFT);
-      paint.setTextSize(12);
+      paint.setTextSize(renderer.getLegendTextSize());
       int sLength = Math.min(titles.length, renderer.getSeriesRendererCount());
       for (int i = 0; i < sLength; i++) {
         String text = titles[i];

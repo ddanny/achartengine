@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
@@ -29,6 +28,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.Typeface;
 import android.graphics.Paint.Align;
 
 /**
@@ -82,6 +82,9 @@ public abstract class XYChart extends AbstractChart {
     int bottom = y + height - legendSize;
     drawBackground(mRenderer, canvas, x, y, width, height, paint);
 
+    if (paint.getTypeface() == null || !paint.getTypeface().toString().equals(mRenderer.getTextTypefaceName()) || paint.getTypeface().getStyle() != mRenderer.getTextTypefaceStyle()) {
+      paint.setTypeface(Typeface.create(mRenderer.getTextTypefaceName(), mRenderer.getTextTypefaceStyle()));
+    }
     Orientation or = mRenderer.getOrientation();
     if (or == Orientation.VERTICAL) {
       right -= legendSize;
@@ -164,7 +167,7 @@ public abstract class XYChart extends AbstractChart {
         ScatterChart pointsChart = new ScatterChart(mDataset, mRenderer);
         pointsChart.drawSeries(canvas, paint, points, seriesRenderer, 0, i);
       }
-      paint.setTextSize(9);
+      paint.setTextSize(mRenderer.getChartValuesTextSize());
       if (or == Orientation.HORIZONTAL) {
         paint.setTextAlign(Align.CENTER);
       } else {
@@ -182,8 +185,7 @@ public abstract class XYChart extends AbstractChart {
       List<Double> yLabels = MathHelper.getLabels(minY, maxY, mRenderer.getYLabels());
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
-        paint.setTextSize(9);
-        paint.setTypeface(DefaultRenderer.REGULAR_TEXT_FONT);
+        paint.setTextSize(mRenderer.getLabelsTextSize());
         paint.setTextAlign(Align.CENTER);
       }
       drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, left, top, bottom,
@@ -217,18 +219,16 @@ public abstract class XYChart extends AbstractChart {
 
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
-        paint.setTextSize(12);
+        paint.setTextSize(mRenderer.getAxisTitleTextSize());
         paint.setTextAlign(Align.CENTER);
         if (or == Orientation.HORIZONTAL) {
           drawText(canvas, mRenderer.getXTitle(), x + width / 2, bottom + 24, paint, 0);
           drawText(canvas, mRenderer.getYTitle(), x + 10, y + height / 2, paint, -90);
-//          paint.setTypeface(mRenderer.getChartTitleTypeface());
           paint.setTextSize(mRenderer.getChartTitleTextSize());
           drawText(canvas, mRenderer.getChartTitle(), x + width / 2, top + 10, paint, 0);
         } else if (or == Orientation.VERTICAL) {
           drawText(canvas, mRenderer.getXTitle(), x + width / 2, y + height - 10, paint, -90);
           drawText(canvas, mRenderer.getYTitle(), right + 20, y + height / 2, paint, 0);
-//          paint.setTypeface(mRenderer.getChartTitleTypeface());
           paint.setTextSize(mRenderer.getChartTitleTextSize());
           drawText(canvas, mRenderer.getChartTitle(), x + 14, top + height / 2, paint, 0);
         }

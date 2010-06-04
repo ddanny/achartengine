@@ -22,11 +22,11 @@ import org.achartengine.ChartFactory;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
-import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 
 /**
  * Sales comparison demo chart.
@@ -73,11 +73,18 @@ public class SalesComparisonChart extends AbstractChart {
     int[] colors = new int[] { Color.BLUE, Color.CYAN, Color.GREEN };
     PointStyle[] styles = new PointStyle[] { PointStyle.POINT, PointStyle.POINT, PointStyle.POINT };
     XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
-    setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 1, 12,
+    setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.75, 12.25,
         -5000, 19000, Color.GRAY, Color.LTGRAY);
     renderer.setXLabels(12);
     renderer.setYLabels(10);
     renderer.setDisplayChartValues(true);
+    renderer.setChartTitleTextSize(14);
+//    renderer.setTextTypeface("monospace", Typeface.NORMAL);
+    renderer.setTextTypeface("sans_serif", Typeface.BOLD);
+    renderer.setChartValuesTextSize(7.5f);
+    renderer.setLabelsTextSize(9.5f);
+    renderer.setAxisTitleTextSize(12);
+    renderer.setLegendTextSize(11);
     length = renderer.getSeriesRendererCount();
     for (int i = 0; i < length; i++) {
       XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(i);

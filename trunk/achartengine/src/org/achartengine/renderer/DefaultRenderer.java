@@ -30,10 +30,12 @@ public class DefaultRenderer implements Serializable {
   public static final int BACKGROUND_COLOR = Color.BLACK;
   /** The default color for text. */
   public static final int TEXT_COLOR = Color.LTGRAY;
-  /** A text font. */
-  public static final Typeface TEXT_FONT = Typeface.create(Typeface.SERIF, Typeface.BOLD);
   /** A text font for regular text, like the chart labels. */
-  public static final Typeface REGULAR_TEXT_FONT = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
+  private static final Typeface REGULAR_TEXT_FONT = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
+  /** The typeface name for the texts. */
+  private String textTypefaceName = REGULAR_TEXT_FONT.toString();
+  /** The typeface style for the texts. */
+  private int textTypefaceStyle = Typeface.NORMAL;
   /** The chart background color. */
   private int mBackgroundColor;
   /** If the background color is applied. */
@@ -46,15 +48,19 @@ public class DefaultRenderer implements Serializable {
   private boolean mShowLabels = true;
   /** The labels color. */
   private int mLabelsColor = TEXT_COLOR;
+  /** The labels text size. */
+  private float mLabelsTextSize = 9;
   /** If the legend is visible. */
   private boolean mShowLegend = true;
+  /** The legend text size. */
+  private float mLegendTextSize = 12;
   /** If the grid should be displayed. */
   private boolean mShowGrid = false;
   /** The simple renderers that are included in this multiple series renderer. */
   private List<SimpleSeriesRenderer> mRenderers = new ArrayList<SimpleSeriesRenderer>();
   /** The antialiasing flag. */
   private boolean antialiasing = true;
-
+  
   /**
    * Adds a simple renderer to the multiple renderer.
    * 
@@ -174,6 +180,24 @@ public class DefaultRenderer implements Serializable {
   }
 
   /**
+   * Returns the labels text size.
+   * 
+   * @return the labels text size
+   */
+  public float getLabelsTextSize() {
+    return mLabelsTextSize;
+  }
+
+  /**
+   * Sets the labels text size.
+   * 
+   * @param textSize the labels text size
+   */
+  public void setLabelsTextSize(float textSize) {
+    mLabelsTextSize = textSize;
+  }
+
+  /**
    * Returns if the axes should be visible.
    * 
    * @return the visibility flag for the axes
@@ -244,6 +268,53 @@ public class DefaultRenderer implements Serializable {
   public void setShowLegend(boolean showLegend) {
     mShowLegend = showLegend;
   }
+
+  /**
+   * Returns the text typeface name.
+   * 
+   * @return the text typeface name
+   */
+  public String getTextTypefaceName() {
+    return textTypefaceName;
+  }
+  
+  /**
+   * Returns the text typeface style.
+   *  
+   * @return the text typeface style
+   */
+  public int getTextTypefaceStyle() {
+    return textTypefaceStyle;
+  }
+  
+  /**
+   * Returns the legend text size.
+   * 
+   * @return the legend text size
+   */
+  public float getLegendTextSize() {
+    return mLegendTextSize;
+  }
+
+  /**
+   * Sets the legend text size.
+   * 
+   * @param textSize the legend text size
+   */
+  public void setLegendTextSize(float textSize) {
+    mLegendTextSize = textSize;
+  }
+
+  /**
+   * Sets the text typeface name and style.
+   * 
+   * @param typefaceName the text typeface name
+   * @param style the text typeface style
+   */
+  public void setTextTypeface(String typefaceName, int style) {
+    textTypefaceName = typefaceName;
+    textTypefaceStyle = style;
+  }
   
   /**
    * Returns the antialiasing flag value.
@@ -260,5 +331,5 @@ public class DefaultRenderer implements Serializable {
   public void setAntialiasing(boolean antialiasing) {
     this.antialiasing = antialiasing;
   }
-
+  
 }
