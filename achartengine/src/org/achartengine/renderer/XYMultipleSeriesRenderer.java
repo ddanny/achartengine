@@ -26,14 +26,14 @@ import org.achartengine.util.MathHelper;
 public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /** The chart title. */
   private String mChartTitle = "";
-  /** The chart title typeface. */
-//  private Typeface mChartTitleTypeface = TEXT_FONT;
   /** The chart title text size. */
   private float mChartTitleTextSize = 15;
   /** The X axis title. */
   private String mXTitle = "";
   /** The Y axis title. */
   private String mYTitle = "";
+  /** The axis title text size. */
+  private float mAxisTitleTextSize = 12;
   /** The start value in the X axis range. */
   private double mMinX = MathHelper.NULL_VALUE;
   /** The end value in the X axis range. */
@@ -53,7 +53,9 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private Map<Double, String> mXTextLabels = new HashMap<Double, String>();
   /** If the values should be displayed above the chart points. */
   private boolean mDisplayChartValues;
-
+  /** The chart values text size. */
+  private float mChartValuesTextSize = 9;
+  
   /**
    * An enum for the XY chart orientation of the X axis.
    */
@@ -113,24 +115,6 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-   * Returns the chart title typeface.
-   * 
-   * @return the chart title typeface
-   */
-//  public Typeface getChartTitleTypeface() {
-//    return mChartTitleTypeface;
-//  }
-
-  /**
-   * Sets the chart title typeface.
-   * 
-   * @param typeface the chart title typeface
-   */
-//  public void setChartTitleTypeface(String typefaceName, int style) {
-//    mChartTitleTypeface = Typeface.create(typefaceName, style);
-//  }
-  
-  /**
    * Returns the chart title text size.
    * 
    * @return the chart title text size
@@ -184,6 +168,24 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mYTitle = title;
   }
   
+  /**
+   * Returns the axis title text size.
+   * 
+   * @return the axis title text size
+   */
+  public float getAxisTitleTextSize() {
+    return mAxisTitleTextSize;
+  }
+
+  /**
+   * Sets the axis title text size.
+   * 
+   * @param textSize the chart axis text size
+   */
+  public void setAxisTitleTextSize(float textSize) {
+    mAxisTitleTextSize = textSize;
+  }
+
   /**
    * Returns the start value of the X axis range.
    * 
@@ -367,6 +369,24 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setDisplayChartValues(boolean display) {
     mDisplayChartValues = display;
+  }
+
+  /**
+   * Returns the chart values text size.
+   * 
+   * @return the chart values text size
+   */
+  public float getChartValuesTextSize() {
+    return mChartValuesTextSize;
+  }
+
+  /**
+   * Sets the chart values text size.
+   * 
+   * @param textSize the chart values text size
+   */
+  public void setChartValuesTextSize(float textSize) {
+    mChartValuesTextSize = textSize;
   }
 
 }

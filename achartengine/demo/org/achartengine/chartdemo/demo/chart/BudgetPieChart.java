@@ -21,6 +21,7 @@ import org.achartengine.renderer.DefaultRenderer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 
 /**
  * Budget demo pie chart.
@@ -51,6 +52,7 @@ public class BudgetPieChart extends AbstractChart {
     double[] values = new double[] {12, 14, 11, 10, 19};
     int[] colors = new int[] {Color.BLUE, Color.GREEN, Color.MAGENTA, Color.YELLOW, Color.CYAN};
     DefaultRenderer renderer = buildCategoryRenderer(colors);
+    renderer.setLabelsTextSize(10);
     return ChartFactory.getPieChartIntent(context, buildCategoryDataset("Project budget", values), renderer);
   }
 

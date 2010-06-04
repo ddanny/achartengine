@@ -67,7 +67,7 @@ public class DoughnutChart extends AbstractChart {
     Paint paint = new Paint();
     paint.setAntiAlias(mRenderer.isAntialiasing());
     paint.setStyle(Style.FILL);
-    paint.setTextSize(10);
+    paint.setTextSize(mRenderer.getLabelsTextSize());
     int legendSize = 30;
     if (mRenderer.isShowLegend()) {
       legendSize = height / 5;
