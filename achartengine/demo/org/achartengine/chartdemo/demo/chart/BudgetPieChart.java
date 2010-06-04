@@ -21,7 +21,6 @@ import org.achartengine.renderer.DefaultRenderer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 
 /**
  * Budget demo pie chart.
