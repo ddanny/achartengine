@@ -32,9 +32,10 @@ import org.achartengine.renderer.XYSeriesRenderer;
  * An abstract class for the demo charts to extend.
  */
 public abstract class AbstractChart implements IChart {
-  
+
   /**
    * Builds an XY multiple dataset using the provided values.
+   * 
    * @param titles the series titles
    * @param xValues the values for the X axis
    * @param yValues the values for the Y axis
@@ -59,6 +60,7 @@ public abstract class AbstractChart implements IChart {
 
   /**
    * Builds an XY multiple series renderer.
+   * 
    * @param colors the series rendering colors
    * @param styles the series point styles
    * @return the XY multiple series renderers
@@ -77,6 +79,7 @@ public abstract class AbstractChart implements IChart {
 
   /**
    * Sets a few of the series renderer settings.
+   * 
    * @param renderer the renderer to set the properties to
    * @param title the chart title
    * @param xTitle the title for the X axis
@@ -104,6 +107,7 @@ public abstract class AbstractChart implements IChart {
 
   /**
    * Builds an XY multiple time dataset using the provided values.
+   * 
    * @param titles the series titles
    * @param xValues the values for the X axis
    * @param yValues the values for the Y axis
@@ -125,9 +129,10 @@ public abstract class AbstractChart implements IChart {
     }
     return dataset;
   }
-  
+
   /**
    * Builds a category series using the provided values.
+   * 
    * @param titles the series titles
    * @param values the values
    * @return the category series
@@ -138,17 +143,19 @@ public abstract class AbstractChart implements IChart {
     for (double value : values) {
       series.add("Project " + ++k, value);
     }
-    
+
     return series;
   }
 
   /**
    * Builds a multiple category series using the provided values.
+   * 
    * @param titles the series titles
    * @param values the values
    * @return the category series
    */
-  protected MultipleCategorySeries buildMultipleCategoryDataset(String title, List<String[]> titles, List<double[]> values) {
+  protected MultipleCategorySeries buildMultipleCategoryDataset(String title,
+      List<String[]> titles, List<double[]> values) {
     MultipleCategorySeries series = new MultipleCategorySeries(title);
     int k = 0;
     for (double[] value : values) {
@@ -160,6 +167,7 @@ public abstract class AbstractChart implements IChart {
 
   /**
    * Builds a category renderer to use the provided colors.
+   * 
    * @param colors the colors
    * @return the category renderer
    */
@@ -172,9 +180,10 @@ public abstract class AbstractChart implements IChart {
     }
     return renderer;
   }
-  
+
   /**
    * Builds a bar multiple series dataset using the provided values.
+   * 
    * @param titles the series titles
    * @param values the values
    * @return the XY multiple bar dataset
@@ -196,6 +205,7 @@ public abstract class AbstractChart implements IChart {
 
   /**
    * Builds a bar multiple series renderer to use the provided colors.
+   * 
    * @param colors the series renderers colors
    * @return the bar multiple series renderer
    */
