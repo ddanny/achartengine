@@ -79,7 +79,6 @@ public class SalesComparisonChart extends AbstractChart {
     renderer.setYLabels(10);
     renderer.setDisplayChartValues(true);
     renderer.setChartTitleTextSize(14);
-//    renderer.setTextTypeface("monospace", Typeface.NORMAL);
     renderer.setTextTypeface("sans_serif", Typeface.BOLD);
     renderer.setChartValuesTextSize(7.5f);
     renderer.setLabelsTextSize(9.5f);
@@ -90,6 +89,7 @@ public class SalesComparisonChart extends AbstractChart {
       XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(i);
       seriesRenderer.setFillBelowLine(i == length - 1);
       seriesRenderer.setFillBelowLineColor(colors[i]);
+      seriesRenderer.setLineWidth(2.5f);
     }
     return ChartFactory.getLineChartIntent(context, buildBarDataset(titles, values), renderer);
   }

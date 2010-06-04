@@ -31,7 +31,9 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   private int mFillColor = Color.argb(125, 0, 0, 200);
   /** The point style. */
   private PointStyle mPointStyle = PointStyle.POINT;
-
+  /** The chart line width. */
+  private float mLineWidth = 1;
+  
   /**
    * Returns if the chart should be filled below the line.
    * 
@@ -102,5 +104,24 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
    */
   public void setPointStyle(PointStyle style) {
     mPointStyle = style;
+  }
+  
+  
+  /**
+   * Returns the chart line width.
+   * 
+   * @return the line width
+   */
+  public float getLineWidth() {
+    return mLineWidth;
+  }
+  
+  /**
+   * Sets the chart line width.
+   * 
+   * @param lineWidth the line width
+   */
+  public void setLineWidth(float lineWidth) {
+    mLineWidth = lineWidth;
   }
 }

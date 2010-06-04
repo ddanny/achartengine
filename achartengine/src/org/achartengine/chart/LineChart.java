@@ -54,6 +54,8 @@ public class LineChart extends XYChart {
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex) {
     int length = points.length;
     XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
+    float lineWidth = paint.getStrokeWidth();
+    paint.setStrokeWidth(renderer.getLineWidth());
     if (renderer.isFillBelowLine()) {
       paint.setColor(renderer.getFillBelowLineColor());
       int pLength = points.length;
@@ -70,6 +72,7 @@ public class LineChart extends XYChart {
     paint.setColor(seriesRenderer.getColor());
     paint.setStyle(Style.STROKE);
     drawPath(canvas, points, paint, false);
+    paint.setStrokeWidth(lineWidth);
   }
 
   /**
