@@ -25,7 +25,6 @@ import android.graphics.RectF;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 
-
 /**
  * The pie chart rendering class.
  */
@@ -35,10 +34,11 @@ public class PieChart extends AbstractChart {
   /** The series dataset. */
   private CategorySeries mDataset;
   /** The series renderer. */
-  private DefaultRenderer mRenderer;  
-  
+  private DefaultRenderer mRenderer;
+
   /**
    * Builds a new pie chart instance.
+   * 
    * @param dataset the series dataset
    * @param renderer the series renderer
    */
@@ -49,6 +49,7 @@ public class PieChart extends AbstractChart {
 
   /**
    * The graphical representation of the pie chart.
+   * 
    * @param canvas the canvas to paint to
    * @param x the top left x value of the view to draw to
    * @param y the top left y value of the view to draw to
@@ -70,7 +71,7 @@ public class PieChart extends AbstractChart {
     int right = x + width - 5;
     int bottom = y + height - legendSize;
     drawBackground(mRenderer, canvas, x, y, width, height, paint);
-    
+
     int sLength = mDataset.getItemCount();
     double total = 0;
     String[] titles = new String[sLength];
@@ -117,7 +118,8 @@ public class PieChart extends AbstractChart {
 
   /**
    * Returns the legend shape width.
-   * @return the legend shape width 
+   * 
+   * @return the legend shape width
    */
   public int getLegendShapeWidth() {
     return SHAPE_WIDTH;
@@ -125,14 +127,15 @@ public class PieChart extends AbstractChart {
 
   /**
    * The graphical representation of the legend shape.
+   * 
    * @param canvas the canvas to paint to
    * @param renderer the series renderer
    * @param x the x value of the point the shape should be drawn at
    * @param y the y value of the point the shape should be drawn at
    * @param paint the paint to be used for drawing
    */
-  public void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x,
-      float y, Paint paint) {
+  public void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x, float y,
+      Paint paint) {
     canvas.drawRect(x, y - SHAPE_WIDTH / 2, x + SHAPE_WIDTH, y + SHAPE_WIDTH / 2, paint);
   }
 
