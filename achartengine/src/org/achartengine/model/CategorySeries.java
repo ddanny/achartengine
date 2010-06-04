@@ -32,6 +32,7 @@ public class CategorySeries implements Serializable {
 
   /**
    * Builds a new category series.
+   * 
    * @param title the series title
    */
   public CategorySeries(String title) {
@@ -40,6 +41,7 @@ public class CategorySeries implements Serializable {
 
   /**
    * Returns the series title.
+   * 
    * @return the series title
    */
   public String getTitle() {
@@ -48,6 +50,7 @@ public class CategorySeries implements Serializable {
 
   /**
    * Adds a new value to the series
+   * 
    * @param value the new value
    */
   public void add(double value) {
@@ -56,6 +59,7 @@ public class CategorySeries implements Serializable {
 
   /**
    * Adds a new value to the series.
+   * 
    * @param category the category
    * @param value the new value
    */
@@ -63,16 +67,17 @@ public class CategorySeries implements Serializable {
     mCategories.add(category);
     mValues.add(value);
   }
-  
+
   /**
    * Removes an existing value from the series.
+   * 
    * @param index the index in the series of the value to remove
    */
   public void remove(int index) {
     mCategories.remove(index);
     mValues.remove(index);
   }
-  
+
   /**
    * Removes all the existing values from the series.
    */
@@ -80,18 +85,20 @@ public class CategorySeries implements Serializable {
     mCategories.clear();
     mValues.clear();
   }
-  
+
   /**
    * Returns the value at the specified index.
+   * 
    * @param index the index
    * @return the value at the index
    */
   public double getValue(int index) {
     return mValues.get(index);
   }
-  
+
   /**
    * Returns the category name at the specified index.
+   * 
    * @param index the index
    * @return the category name at the index
    */
@@ -101,6 +108,7 @@ public class CategorySeries implements Serializable {
 
   /**
    * Returns the series item count.
+   * 
    * @return the series item count
    */
   public int getItemCount() {
@@ -109,6 +117,7 @@ public class CategorySeries implements Serializable {
 
   /**
    * Transforms the category series to an XY series.
+   * 
    * @return the XY series
    */
   public XYSeries toXYSeries() {
