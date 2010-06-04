@@ -33,9 +33,10 @@ import android.graphics.Paint.Style;
  * An abstract class to be implemented by the chart rendering classes.
  */
 public abstract class AbstractChart implements Serializable {
-  
+
   /**
    * The graphical representation of the chart.
+   * 
    * @param canvas the canvas to paint to
    * @param x the top left x value of the view to draw to
    * @param y the top left y value of the view to draw to
@@ -43,9 +44,10 @@ public abstract class AbstractChart implements Serializable {
    * @param height the height of the view to draw to
    */
   public abstract void draw(Canvas canvas, int x, int y, int width, int height);
-  
+
   /**
    * Draws the chart background.
+   * 
    * @param renderer the chart renderer
    * @param canvas the canvas to paint to
    * @param x the top left x value of the view to draw to
@@ -54,7 +56,8 @@ public abstract class AbstractChart implements Serializable {
    * @param height the height of the view to draw to
    * @param paint the paint used for drawing
    */
-  protected void drawBackground(DefaultRenderer renderer, Canvas canvas, int x, int y, int width, int height, Paint paint) {
+  protected void drawBackground(DefaultRenderer renderer, Canvas canvas, int x, int y, int width,
+      int height, Paint paint) {
     if (renderer.isApplyBackgroundColor()) {
       paint.setColor(renderer.getBackgroundColor());
       paint.setStyle(Style.FILL);
@@ -64,18 +67,20 @@ public abstract class AbstractChart implements Serializable {
 
   /**
    * Draws the chart legend.
+   * 
    * @param canvas the canvas to paint to
    * @param renderer the series renderer
    * @param titles the titles to go to the legend
    * @param left the left X value of the area to draw to
-   * @param right the right X value of the area to draw to 
+   * @param right the right X value of the area to draw to
    * @param y the y value of the area to draw to
    * @param width the width of the area to draw to
    * @param height the height of the area to draw to
    * @param legendSize the legend size
    * @param paint the paint to be used for drawing
    */
-  protected void drawLegend(Canvas canvas, DefaultRenderer renderer, String[] titles, int left, int right, int y, int width, int height, int legendSize, Paint paint) {
+  protected void drawLegend(Canvas canvas, DefaultRenderer renderer, String[] titles, int left,
+      int right, int y, int width, int height, int legendSize, Paint paint) {
     if (renderer.isShowLegend()) {
       float currentX = left;
       float currentY = y + height - legendSize + 32;
@@ -98,7 +103,7 @@ public abstract class AbstractChart implements Serializable {
         }
         float extraSize = lineSize + 10 + sum;
         float currentWidth = currentX + extraSize;
-        
+
         if (i > 0 && getExceed(currentWidth, renderer, right, width)) {
           currentX = left;
           currentY += 15;
@@ -118,21 +123,23 @@ public abstract class AbstractChart implements Serializable {
       }
     }
   }
-  
+
   private boolean getExceed(float currentWidth, DefaultRenderer renderer, int right, int width) {
     boolean exceed = currentWidth > right;
     if (isVertical(renderer)) {
-      exceed = currentWidth > width; 
+      exceed = currentWidth > width;
     }
     return exceed;
   }
-  
+
   private boolean isVertical(DefaultRenderer renderer) {
-    return renderer instanceof XYMultipleSeriesRenderer && ((XYMultipleSeriesRenderer) renderer).getOrientation() == Orientation.VERTICAL;
+    return renderer instanceof XYMultipleSeriesRenderer
+        && ((XYMultipleSeriesRenderer) renderer).getOrientation() == Orientation.VERTICAL;
   }
-  
+
   /**
    * The graphical representation of a path.
+   * 
    * @param canvas the canvas to paint to
    * @param points the points that are contained in the path to paint
    * @param paint the paint to be used for painting
@@ -149,15 +156,17 @@ public abstract class AbstractChart implements Serializable {
     }
     canvas.drawPath(path, paint);
   }
-  
+
   /**
    * Returns the legend shape width.
-   * @return the legend shape width 
+   * 
+   * @return the legend shape width
    */
   public abstract int getLegendShapeWidth();
 
   /**
    * The graphical representation of the legend shape.
+   * 
    * @param canvas the canvas to paint to
    * @param renderer the series renderer
    * @param x the x value of the point the shape should be drawn at
