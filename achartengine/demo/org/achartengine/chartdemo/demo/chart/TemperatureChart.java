@@ -55,9 +55,9 @@ public class TemperatureChart extends AbstractChart {
    * @return the built intent
    */
   public Intent execute(Context context) {
-    double[] minValues = new double[] {-24, -19, -10, -1, 7, 12, 15, 14, 9, 1, -11, -16};
+    double[] minValues = new double[] { -24, -19, -10, -1, 7, 12, 15, 14, 9, 1, -11, -16 };
     double[] maxValues = new double[] { 7, 12, 24, 28, 33, 35, 37, 36, 28, 19, 11, 4 };
-    
+
     XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
     RangeCategorySeries series = new RangeCategorySeries("Temperature");
     int length = minValues.length;
@@ -65,13 +65,13 @@ public class TemperatureChart extends AbstractChart {
       series.add(minValues[k], maxValues[k]);
     }
     dataset.addSeries(series.toXYSeries());
-    
+
     int[] colors = new int[] { Color.CYAN };
     XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-    setChartSettings(renderer, "Monthly temperature range", "Month", "Celsius degrees", 0.5, 12.5, -30, 45,
-        Color.GRAY, Color.LTGRAY);
-//    renderer.setBackgroundColor(Color.GREEN);
-//    renderer.setApplyBackgroundColor(true);
+    setChartSettings(renderer, "Monthly temperature range", "Month", "Celsius degrees", 0.5, 12.5,
+        -30, 45, Color.GRAY, Color.LTGRAY);
+    // renderer.setBackgroundColor(Color.GREEN);
+    // renderer.setApplyBackgroundColor(true);
     renderer.setXLabels(1);
     renderer.setYLabels(10);
     renderer.addTextLabel(1, "Jan");
@@ -81,7 +81,8 @@ public class TemperatureChart extends AbstractChart {
     renderer.addTextLabel(10, "Oct");
     renderer.addTextLabel(12, "Dec");
     renderer.setDisplayChartValues(true);
-    return ChartFactory.getRangeBarChartIntent(context, dataset, renderer, Type.DEFAULT, "Temperature range");
+    return ChartFactory.getRangeBarChartIntent(context, dataset, renderer, Type.DEFAULT,
+        "Temperature range");
   }
 
 }
