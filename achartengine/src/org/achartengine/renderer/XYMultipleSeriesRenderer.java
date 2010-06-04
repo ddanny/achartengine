@@ -26,6 +26,10 @@ import org.achartengine.util.MathHelper;
 public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /** The chart title. */
   private String mChartTitle = "";
+  /** The chart title typeface. */
+//  private Typeface mChartTitleTypeface = TEXT_FONT;
+  /** The chart title text size. */
+  private float mChartTitleTextSize = 15;
   /** The X axis title. */
   private String mXTitle = "";
   /** The Y axis title. */
@@ -106,6 +110,42 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setChartTitle(String title) {
     mChartTitle = title;
+  }
+
+  /**
+   * Returns the chart title typeface.
+   * 
+   * @return the chart title typeface
+   */
+//  public Typeface getChartTitleTypeface() {
+//    return mChartTitleTypeface;
+//  }
+
+  /**
+   * Sets the chart title typeface.
+   * 
+   * @param typeface the chart title typeface
+   */
+//  public void setChartTitleTypeface(String typefaceName, int style) {
+//    mChartTitleTypeface = Typeface.create(typefaceName, style);
+//  }
+  
+  /**
+   * Returns the chart title text size.
+   * 
+   * @return the chart title text size
+   */
+  public float getChartTitleTextSize() {
+    return mChartTitleTextSize;
+  }
+
+  /**
+   * Sets the chart title text size.
+   * 
+   * @param textSize the chart title text size
+   */
+  public void setChartTitleTextSize(float textSize) {
+    mChartTitleTextSize = textSize;
   }
 
   /**
