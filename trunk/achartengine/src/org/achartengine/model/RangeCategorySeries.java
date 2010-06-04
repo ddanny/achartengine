@@ -27,6 +27,7 @@ public class RangeCategorySeries extends CategorySeries {
 
   /**
    * Builds a new category series.
+   * 
    * @param title the series title
    */
   public RangeCategorySeries(String title) {
@@ -35,6 +36,7 @@ public class RangeCategorySeries extends CategorySeries {
 
   /**
    * Adds new values to the series
+   * 
    * @param minValue the new minimum value
    * @param maxValue the new maximum value
    */
@@ -45,24 +47,26 @@ public class RangeCategorySeries extends CategorySeries {
 
   /**
    * Adds new values to the series.
+   * 
    * @param category the category
    * @param minValue the new minimum value
-   * @param maxValue the new maximum value 
+   * @param maxValue the new maximum value
    */
   public void add(String category, double minValue, double maxValue) {
     super.add(category, minValue);
     mMaxValues.add(maxValue);
   }
-  
+
   /**
    * Removes existing values from the series.
+   * 
    * @param index the index in the series of the values to remove
    */
   public void remove(int index) {
     super.remove(index);
     mMaxValues.remove(index);
   }
-  
+
   /**
    * Removes all the existing values from the series.
    */
@@ -70,9 +74,10 @@ public class RangeCategorySeries extends CategorySeries {
     super.clear();
     mMaxValues.clear();
   }
-  
+
   /**
    * Returns the minimum value at the specified index.
+   * 
    * @param index the index
    * @return the minimum value at the index
    */
@@ -82,6 +87,7 @@ public class RangeCategorySeries extends CategorySeries {
 
   /**
    * Returns the maximum value at the specified index.
+   * 
    * @param index the index
    * @return the maximum value at the index
    */
@@ -91,6 +97,7 @@ public class RangeCategorySeries extends CategorySeries {
 
   /**
    * Transforms the range category series to an XY series.
+   * 
    * @return the XY series
    */
   public XYSeries toXYSeries() {
