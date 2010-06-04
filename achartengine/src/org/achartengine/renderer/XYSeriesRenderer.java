@@ -33,7 +33,7 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   private PointStyle mPointStyle = PointStyle.POINT;
   /** The chart line width. */
   private float mLineWidth = 1;
-  
+
   /**
    * Returns if the chart should be filled below the line.
    * 
@@ -42,10 +42,11 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   public boolean isFillBelowLine() {
     return mFillBelowLine;
   }
-  
+
   /**
-   * Sets if the line chart should be filled below its line.
-   * Filling below the line transforms a line chart into an area chart.
+   * Sets if the line chart should be filled below its line. Filling below the
+   * line transforms a line chart into an area chart.
+   * 
    * @param fill the fill below line flag value
    */
   public void setFillBelowLine(boolean fill) {
@@ -105,8 +106,7 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   public void setPointStyle(PointStyle style) {
     mPointStyle = style;
   }
-  
-  
+
   /**
    * Returns the chart line width.
    * 
@@ -115,7 +115,7 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   public float getLineWidth() {
     return mLineWidth;
   }
-  
+
   /**
    * Sets the chart line width.
    * 
