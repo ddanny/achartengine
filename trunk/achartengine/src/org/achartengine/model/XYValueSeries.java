@@ -53,7 +53,7 @@ public class XYValueSeries extends XYSeries {
     mValue.add(value);
     updateRange(value);
   }
-  
+
   /**
    * Initializes the values range.
    */
@@ -65,9 +65,10 @@ public class XYValueSeries extends XYSeries {
       updateRange(getValue(k));
     }
   }
-  
+
   /**
    * Updates the values range.
+   * 
    * @param value the new value
    */
   private void updateRange(double value) {
@@ -87,6 +88,7 @@ public class XYValueSeries extends XYSeries {
 
   /**
    * Removes an existing value from the series.
+   * 
    * @param index the index in the series of the value to remove
    */
   public void remove(int index) {
@@ -96,7 +98,7 @@ public class XYValueSeries extends XYSeries {
       initRange();
     }
   }
-  
+
   /**
    * Removes all the values from the series.
    */
@@ -105,7 +107,7 @@ public class XYValueSeries extends XYSeries {
     mValue.clear();
     initRange();
   }
-  
+
   /**
    * Returns the value at the specified index.
    * 
