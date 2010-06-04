@@ -33,6 +33,7 @@ import org.achartengine.chartdemo.demo.chart.SalesStackedBarChart;
 import org.achartengine.chartdemo.demo.chart.ScatterChart;
 import org.achartengine.chartdemo.demo.chart.TemperatureChart;
 import org.achartengine.chartdemo.demo.chart.TrigonometricFunctionsChart;
+import org.achartengine.chartdemo.demo.chart.XYChartBuilder;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -56,14 +57,16 @@ public class ChartDemo extends ListActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     int length = mCharts.length;
-    mMenuText = new String[length + 1];
-    mMenuSummary = new String[length + 1];
+    mMenuText = new String[length + 2];
+    mMenuSummary = new String[length + 2];
+    mMenuText[0] = "Embedded chart demo";
+    mMenuSummary[0] = "A demo on how to include a chart into a graphical activity";
     for (int i = 0; i < length; i++) {
-      mMenuText[i] = mCharts[i].getName();
-      mMenuSummary[i] = mCharts[i].getDesc();
+      mMenuText[i + 1] = mCharts[i].getName();
+      mMenuSummary[i + 1] = mCharts[i].getDesc();
     }
-    mMenuText[length] = "Random values charts";
-    mMenuSummary[length] = "Chart demos using randomly generated values";
+    mMenuText[length + 1] = "Random values charts";
+    mMenuSummary[length + 1] = "Chart demos using randomly generated values";
     setListAdapter(new SimpleAdapter(this, getListValues(), android.R.layout.simple_list_item_2,
         new String[] { IChart.NAME, IChart.DESC }, new int[] { android.R.id.text1, android.R.id.text2 }));
   }
@@ -83,12 +86,14 @@ public class ChartDemo extends ListActivity {
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
-    if (position < mCharts.length) {
-      Intent intent = mCharts[position].execute(this);
-      startActivity(intent);
+    Intent intent = null;
+    if (position == 0) {
+      intent = new Intent(this, XYChartBuilder.class);
+    } else if (position <= mCharts.length) {
+      intent = mCharts[position].execute(this);
     } else {
-      Intent intent = new Intent(this, GeneratedChartDemo.class);
-      startActivity(intent);
+      intent = new Intent(this, GeneratedChartDemo.class);
     }
+    startActivity(intent);
   }
 }
