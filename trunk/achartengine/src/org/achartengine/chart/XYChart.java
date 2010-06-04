@@ -222,12 +222,14 @@ public abstract class XYChart extends AbstractChart {
         if (or == Orientation.HORIZONTAL) {
           drawText(canvas, mRenderer.getXTitle(), x + width / 2, bottom + 24, paint, 0);
           drawText(canvas, mRenderer.getYTitle(), x + 10, y + height / 2, paint, -90);
-          paint.setTextSize(15);
+//          paint.setTypeface(mRenderer.getChartTitleTypeface());
+          paint.setTextSize(mRenderer.getChartTitleTextSize());
           drawText(canvas, mRenderer.getChartTitle(), x + width / 2, top + 10, paint, 0);
         } else if (or == Orientation.VERTICAL) {
           drawText(canvas, mRenderer.getXTitle(), x + width / 2, y + height - 10, paint, -90);
           drawText(canvas, mRenderer.getYTitle(), right + 20, y + height / 2, paint, 0);
-          paint.setTextSize(15);
+//          paint.setTypeface(mRenderer.getChartTitleTypeface());
+          paint.setTextSize(mRenderer.getChartTitleTextSize());
           drawText(canvas, mRenderer.getChartTitle(), x + 14, top + height / 2, paint, 0);
         }
       }
