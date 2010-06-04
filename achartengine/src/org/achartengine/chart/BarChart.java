@@ -138,7 +138,7 @@ public class BarChart extends XYChart {
     }
     return halfDiffX / getCoeficient();
   }
-  
+
   protected float getCoeficient() {
     return 1;
   }

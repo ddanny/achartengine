@@ -24,7 +24,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 
-
 /**
  * The line chart rendering class.
  */
@@ -34,6 +33,7 @@ public class LineChart extends XYChart {
 
   /**
    * Builds a new line chart instance.
+   * 
    * @param dataset the multiple series dataset
    * @param renderer the multiple series renderer
    */
@@ -43,6 +43,7 @@ public class LineChart extends XYChart {
 
   /**
    * The graphical representation of a series.
+   * 
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
@@ -77,7 +78,8 @@ public class LineChart extends XYChart {
 
   /**
    * Returns the legend shape width.
-   * @return the legend shape width 
+   * 
+   * @return the legend shape width
    */
   public int getLegendShapeWidth() {
     return SHAPE_WIDTH;
@@ -85,6 +87,7 @@ public class LineChart extends XYChart {
 
   /**
    * The graphical representation of the legend shape.
+   * 
    * @param canvas the canvas to paint to
    * @param renderer the series renderer
    * @param x the x value of the point the shape should be drawn at
@@ -98,6 +101,7 @@ public class LineChart extends XYChart {
 
   /**
    * Returns if the chart should display the points as a certain shape.
+   * 
    * @param renderer the series renderer
    */
   public boolean isRenderPoints(SimpleSeriesRenderer renderer) {
