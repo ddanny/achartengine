@@ -82,8 +82,11 @@ public abstract class XYChart extends AbstractChart {
     int bottom = y + height - legendSize;
     drawBackground(mRenderer, canvas, x, y, width, height, paint);
 
-    if (paint.getTypeface() == null || !paint.getTypeface().toString().equals(mRenderer.getTextTypefaceName()) || paint.getTypeface().getStyle() != mRenderer.getTextTypefaceStyle()) {
-      paint.setTypeface(Typeface.create(mRenderer.getTextTypefaceName(), mRenderer.getTextTypefaceStyle()));
+    if (paint.getTypeface() == null
+        || !paint.getTypeface().toString().equals(mRenderer.getTextTypefaceName())
+        || paint.getTypeface().getStyle() != mRenderer.getTextTypefaceStyle()) {
+      paint.setTypeface(Typeface.create(mRenderer.getTextTypefaceName(), mRenderer
+          .getTextTypefaceStyle()));
     }
     Orientation or = mRenderer.getOrientation();
     if (or == Orientation.VERTICAL) {
