@@ -90,7 +90,7 @@ public class ChartDemo extends ListActivity {
     if (position == 0) {
       intent = new Intent(this, XYChartBuilder.class);
     } else if (position <= mCharts.length) {
-      intent = mCharts[position].execute(this);
+      intent = mCharts[position - 1].execute(this);
     } else {
       intent = new Intent(this, GeneratedChartDemo.class);
     }
