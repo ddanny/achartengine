@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009 - 2010 SC 4ViewSoft SRL
+ * Copyright (C) 2009, 2010 SC 4ViewSoft SRL
  *  
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -97,6 +97,10 @@ public class RangeBarChart extends BarChart {
     }
   }
   
+  /**
+   * Returns the value of a constant used to calculate the half-distance. 
+   * @return the constant value
+   */
   protected float getCoeficient() {
     return 0.5f;
   }

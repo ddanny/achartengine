@@ -170,6 +170,7 @@
 			<fileset dir="${src_root.dir}">
 				<include name="res/**/*" />
 				<include name="AndroidManifest.xml" />
+				<include name="default.properties" />
 			</fileset>
 			<fileset dir="${src_root.dir}/extra">
 				<include name=".classpath" />
