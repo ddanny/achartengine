@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009 SC 4ViewSoft SRL
+ * Copyright (C) 2009, 2010 SC 4ViewSoft SRL
  *  
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,6 +127,13 @@ public class BarChart extends XYChart {
     canvas.drawRect(x, y - halfShapeWidth, x + SHAPE_WIDTH, y + halfShapeWidth, paint);
   }
 
+  /**
+   * Calculates and returns the half-distance in the graphical representation of 2 consecutive points.
+   * @param points the points
+   * @param length the points length
+   * @param seriesNr the series number
+   * @return the calculated half-distance value
+   */
   protected float getHalfDiffX(float[] points, int length, int seriesNr) {
     float halfDiffX = (points[length - 2] - points[0]) / length;
     if (halfDiffX == 0) {
@@ -139,6 +146,10 @@ public class BarChart extends XYChart {
     return halfDiffX / getCoeficient();
   }
 
+  /**
+   * Returns the value of a constant used to calculate the half-distance.
+   * @return the constant value
+   */
   protected float getCoeficient() {
     return 1;
   }
