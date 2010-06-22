@@ -43,7 +43,7 @@ public class GraphicalView extends View {
   private float oldX;
   /** The old y coordinate. */
   private float oldY;
-  
+
   /**
    * Creates a new graphical view.
    * 
@@ -76,14 +76,15 @@ public class GraphicalView extends View {
       if (oldX >= 0 || oldY >= 0) {
         float newX = event.getX();
         float newY = event.getY();
-        
+
         double minX = mRenderer.getXAxisMin();
         double maxX = mRenderer.getXAxisMax();
         double minY = mRenderer.getYAxisMin();
         double maxY = mRenderer.getYAxisMax();
         XYChart chart = (XYChart) mChart;
         double[] calcRange = chart.getCalcRange();
-        if (minX == minY && calcRange[0] == calcRange[1] || maxX == maxY && calcRange[2] == calcRange[3]) {
+        if (minX == minY && calcRange[0] == calcRange[1] || maxX == maxY
+            && calcRange[2] == calcRange[3]) {
           return;
         }
         if (!mRenderer.isMinXSet()) {
@@ -102,7 +103,7 @@ public class GraphicalView extends View {
           maxY = calcRange[3];
           mRenderer.setYAxisMax(maxY);
         }
-        
+
         PointF realPoint = chart.toRealPoint(oldX, oldY);
         PointF realPoint2 = chart.toRealPoint(newX, newY);
         double deltaX = realPoint.x - realPoint2.x;
@@ -123,13 +124,13 @@ public class GraphicalView extends View {
       oldY = 0;
     }
   }
-  
+
   @Override
   public boolean onTouchEvent(MotionEvent event) {
     handleTouch(event);
     return true;
   }
-  
+
   /**
    * Schedule a user interface repaint.
    */
