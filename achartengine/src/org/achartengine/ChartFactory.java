@@ -428,8 +428,8 @@ public class ChartFactory {
   }
 
   /**
-   * Creates a range bar chart intent that can be used to start the graphical view
-   * activity.
+   * Creates a range bar chart intent that can be used to start the graphical
+   * view activity.
    * 
    * @param context the context
    * @param dataset the multiple series dataset (cannot be null)
@@ -441,8 +441,9 @@ public class ChartFactory {
    *           if the dataset and the renderer don't include the same number of
    *           series
    */
-  public static final Intent getRangeBarChartIntent(Context context, XYMultipleSeriesDataset dataset,
-      XYMultipleSeriesRenderer renderer, Type type, String activityTitle) {
+  public static final Intent getRangeBarChartIntent(Context context,
+      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, Type type,
+      String activityTitle) {
     checkParameters(dataset, renderer);
     Intent intent = new Intent(context, GraphicalActivity.class);
     RangeBarChart chart = new RangeBarChart(dataset, renderer, type);
