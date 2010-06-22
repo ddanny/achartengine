@@ -42,7 +42,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private double mMinY = MathHelper.NULL_VALUE;
   /** The end value in the Y axis range. */
   private double mMaxY = -MathHelper.NULL_VALUE;
-  
+
   /** The approximative number of labels on the x axis. */
   private int mXLabels = 5;
   /** The approximative number of labels on the y axis. */
@@ -55,7 +55,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private boolean mDisplayChartValues;
   /** The chart values text size. */
   private float mChartValuesTextSize = 9;
-  
+
   /**
    * An enum for the XY chart orientation of the X axis.
    */
@@ -167,7 +167,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setYTitle(String title) {
     mYTitle = title;
   }
-  
+
   /**
    * Returns the axis title text size.
    * 
@@ -203,9 +203,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setXAxisMin(double min) {
     mMinX = min;
   }
-  
+
   /**
    * Returns if the minimum X value was set.
+   * 
    * @return the minX was set or not
    */
   public boolean isMinXSet() {
@@ -232,6 +233,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
 
   /**
    * Returns if the maximum X value was set.
+   * 
    * @return the maxX was set or not
    */
   public boolean isMaxXSet() {
@@ -258,6 +260,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
 
   /**
    * Returns if the minimum Y value was set.
+   * 
    * @return the minY was set or not
    */
   public boolean isMinYSet() {
@@ -284,6 +287,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
 
   /**
    * Returns if the maximum Y value was set.
+   * 
    * @return the maxY was set or not
    */
   public boolean isMaxYSet() {
@@ -354,9 +358,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setYLabels(int yLabels) {
     mYLabels = yLabels;
   }
-  
+
   /**
    * Returns if the chart point values should be displayed as text.
+   * 
    * @return if the chart point values should be displayed as text
    */
   public boolean isDisplayChartValues() {
@@ -365,6 +370,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
 
   /**
    * Sets if the chart point values should be displayed as text.
+   * 
    * @param display if the chart point values should be displayed as text
    */
   public void setDisplayChartValues(boolean display) {
