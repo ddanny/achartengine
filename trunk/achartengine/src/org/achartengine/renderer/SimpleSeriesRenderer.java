@@ -25,9 +25,10 @@ import android.graphics.Color;
 public class SimpleSeriesRenderer implements Serializable {
   /** The series color. */
   private int mColor = Color.BLUE;
-	
+
   /**
    * Returns the series color.
+   * 
    * @return the series color
    */
   public int getColor() {
@@ -36,10 +37,11 @@ public class SimpleSeriesRenderer implements Serializable {
 
   /**
    * Sets the series color.
+   * 
    * @param color the series color
    */
   public void setColor(int color) {
     mColor = color;
   }
-  
+
 }
