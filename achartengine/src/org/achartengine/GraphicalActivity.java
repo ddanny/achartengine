@@ -25,10 +25,8 @@ import android.view.Window;
  * An activity that encapsulates a graphical view of the chart.
  */
 public class GraphicalActivity extends Activity {
-
   /** The encapsulated graphical view. */
   private GraphicalView mView;
-  
   /** The chart to be drawn. */
   private AbstractChart mChart;
 
@@ -37,6 +35,7 @@ public class GraphicalActivity extends Activity {
     super.onCreate(savedInstanceState);
     Bundle extras = getIntent().getExtras();
     mChart = (AbstractChart) extras.getSerializable(ChartFactory.CHART);
+    
     mView = new GraphicalView(this, mChart);
     String title = extras.getString(ChartFactory.TITLE);
     if (title == null) {

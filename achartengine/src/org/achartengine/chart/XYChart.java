@@ -28,6 +28,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
 
@@ -45,9 +46,13 @@ public abstract class XYChart extends AbstractChart {
   private float mTranslate;
   /** The canvas center point. */
   private PointF mCenter;
+  /** The visible chart area, in screen coordinates. */
+  private Rect screenR;
+  /** The calculated range. */
+  private double[] calcRange = new double[4];
   /** The grid color. */
   protected static final int GRID_COLOR = Color.argb(75, 200, 200, 200);
-
+  
   /**
    * Builds a new XY chart instance.
    * 
@@ -80,6 +85,10 @@ public abstract class XYChart extends AbstractChart {
     int top = y + 10;
     int right = x + width;
     int bottom = y + height - legendSize;
+    if (screenR == null) {
+      screenR = new Rect();
+    }
+    screenR.set(left, top, right, bottom);
     drawBackground(mRenderer, canvas, x, y, width, height, paint);
 
     if (paint.getTypeface() == null
@@ -125,18 +134,22 @@ public abstract class XYChart extends AbstractChart {
       if (!isMinXSet) {
         double minimumX = series.getMinX();
         minX = Math.min(minX, minimumX);
+        calcRange[0] = minX;
       }
       if (!isMaxXSet) {
         double maximumX = series.getMaxX();
         maxX = Math.max(maxX, maximumX);
+        calcRange[1] = maxX;
       }
       if (!isMinYSet) {
         double minimumY = series.getMinY();
         minY = Math.min(minY, (float) minimumY);
+        calcRange[2] = minY;
       }
       if (!isMaxYSet) {
         double maximumY = series.getMaxY();
         maxY = Math.max(maxY, (float) maximumY);
+        calcRange[3] = maxY;
       }
     }
     if (maxX - minX != 0) {
@@ -375,7 +388,34 @@ public abstract class XYChart extends AbstractChart {
       }
     }
   }
+  
+  // TODO: docs
+  public XYMultipleSeriesRenderer getRenderer() {
+    return mRenderer;
+  }
+  
+  public double[] getCalcRange() {
+    return calcRange;
+  }
 
+  public PointF toRealPoint(float screenX, float screenY) {
+    double realMinX = mRenderer.getXAxisMin();
+    double realMaxX = mRenderer.getXAxisMax();
+    double realMinY = mRenderer.getYAxisMin();
+    double realMaxY = mRenderer.getYAxisMax();
+    return new PointF((float) ((screenX - screenR.left) * (realMaxX - realMinX) / screenR.width() + realMinX), 
+        (float) ((screenR.top + screenR.height() - screenY) * (realMaxY - realMinY) / screenR.height() + realMinY));
+  }
+  
+  public PointF toScreenPoint(PointF realPoint) {
+    double realMinX = mRenderer.getXAxisMin();
+    double realMaxX = mRenderer.getXAxisMax();
+    double realMinY = mRenderer.getYAxisMin();
+    double realMaxY = mRenderer.getYAxisMax();
+    return new PointF((float) ((realPoint.x - realMinX) * screenR.width() / (realMaxX - realMinX) + screenR.left),
+        (float) ((realMaxY - realPoint.y) * screenR.height() / (realMaxY - realMinY) + screenR.top));
+  }
+  
   /**
    * The graphical representation of a series.
    * 

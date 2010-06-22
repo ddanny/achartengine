@@ -16,11 +16,15 @@
 package org.achartengine;
 
 import org.achartengine.chart.AbstractChart;
+import org.achartengine.chart.XYChart;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -29,11 +33,17 @@ import android.view.View;
 public class GraphicalView extends View {
   /** The chart to be drawn. */
   private AbstractChart mChart;
+  /** The chart renderer. */
+  private XYMultipleSeriesRenderer mRenderer;
   /** The view bounds. */
   private Rect mRect = new Rect();
   /** The user interface thread handler. */
   private Handler mHandler;
-
+  /** The old x coordinate. */
+  private float oldX;
+  /** The old y coordinate. */
+  private float oldY;
+  
   /**
    * Creates a new graphical view.
    * 
@@ -44,6 +54,9 @@ public class GraphicalView extends View {
     super(context);
     mChart = chart;
     mHandler = new Handler();
+    if (mChart instanceof XYChart) {
+      mRenderer = ((XYChart) mChart).getRenderer();
+    }
   }
 
   @Override
@@ -57,6 +70,66 @@ public class GraphicalView extends View {
     mChart.draw(canvas, left, top, width, height);
   }
 
+  public void handleTouch(MotionEvent event) {
+    int action = event.getAction();
+    if (mRenderer != null && action == MotionEvent.ACTION_MOVE) {
+      if (oldX >= 0 || oldY >= 0) {
+        float newX = event.getX();
+        float newY = event.getY();
+        
+        double minX = mRenderer.getXAxisMin();
+        double maxX = mRenderer.getXAxisMax();
+        double minY = mRenderer.getYAxisMin();
+        double maxY = mRenderer.getYAxisMax();
+        XYChart chart = (XYChart) mChart;
+        double[] calcRange = chart.getCalcRange();
+        if (minX == minY && calcRange[0] == calcRange[1] || maxX == maxY && calcRange[2] == calcRange[3]) {
+          return;
+        }
+        if (!mRenderer.isMinXSet()) {
+          minX = calcRange[0];
+          mRenderer.setXAxisMin(minX);
+        }
+        if (!mRenderer.isMaxXSet()) {
+          maxX = calcRange[1];
+          mRenderer.setXAxisMax(maxX);
+        }
+        if (!mRenderer.isMinYSet()) {
+          minY = calcRange[2];
+          mRenderer.setYAxisMin(minY);
+        }
+        if (!mRenderer.isMaxYSet()) {
+          maxY = calcRange[3];
+          mRenderer.setYAxisMax(maxY);
+        }
+        
+        PointF realPoint = chart.toRealPoint(oldX, oldY);
+        PointF realPoint2 = chart.toRealPoint(newX, newY);
+        double deltaX = realPoint.x - realPoint2.x;
+        double deltaY = realPoint.y - realPoint2.y;
+        mRenderer.setXAxisMin(minX + deltaX);
+        mRenderer.setXAxisMax(maxX + deltaX);
+        mRenderer.setYAxisMin(minY + deltaY);
+        mRenderer.setYAxisMax(maxY + deltaY);
+        oldX = newX;
+        oldY = newY;
+        repaint();
+      }
+    } else if (action == MotionEvent.ACTION_DOWN) {
+      oldX = event.getX();
+      oldY = event.getY();
+    } else if (action == MotionEvent.ACTION_UP) {
+      oldX = 0;
+      oldY = 0;
+    }
+  }
+  
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    handleTouch(event);
+    return true;
+  }
+  
   /**
    * Schedule a user interface repaint.
    */
