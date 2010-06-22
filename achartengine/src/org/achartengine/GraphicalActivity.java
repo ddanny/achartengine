@@ -35,7 +35,7 @@ public class GraphicalActivity extends Activity {
     super.onCreate(savedInstanceState);
     Bundle extras = getIntent().getExtras();
     mChart = (AbstractChart) extras.getSerializable(ChartFactory.CHART);
-    
+
     mView = new GraphicalView(this, mChart);
     String title = extras.getString(ChartFactory.TITLE);
     if (title == null) {
