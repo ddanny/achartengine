@@ -31,7 +31,8 @@ public class DefaultRenderer implements Serializable {
   /** The default color for text. */
   public static final int TEXT_COLOR = Color.LTGRAY;
   /** A text font for regular text, like the chart labels. */
-  private static final Typeface REGULAR_TEXT_FONT = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
+  private static final Typeface REGULAR_TEXT_FONT = Typeface
+      .create(Typeface.SERIF, Typeface.NORMAL);
   /** The typeface name for the texts. */
   private String textTypefaceName = REGULAR_TEXT_FONT.toString();
   /** The typeface style for the texts. */
@@ -60,7 +61,7 @@ public class DefaultRenderer implements Serializable {
   private List<SimpleSeriesRenderer> mRenderers = new ArrayList<SimpleSeriesRenderer>();
   /** The antialiasing flag. */
   private boolean antialiasing = true;
-  
+
   /**
    * Adds a simple renderer to the multiple renderer.
    * 
@@ -277,16 +278,16 @@ public class DefaultRenderer implements Serializable {
   public String getTextTypefaceName() {
     return textTypefaceName;
   }
-  
+
   /**
    * Returns the text typeface style.
-   *  
+   * 
    * @return the text typeface style
    */
   public int getTextTypefaceStyle() {
     return textTypefaceStyle;
   }
-  
+
   /**
    * Returns the legend text size.
    * 
@@ -315,21 +316,23 @@ public class DefaultRenderer implements Serializable {
     textTypefaceName = typefaceName;
     textTypefaceStyle = style;
   }
-  
+
   /**
    * Returns the antialiasing flag value.
+   * 
    * @return the antialiasing value
    */
   public boolean isAntialiasing() {
     return antialiasing;
   }
-  
+
   /**
    * Sets the antialiasing value.
+   * 
    * @param antialiasing the antialiasing
    */
   public void setAntialiasing(boolean antialiasing) {
     this.antialiasing = antialiasing;
   }
-  
+
 }
