@@ -18,11 +18,14 @@ package org.achartengine;
 import org.achartengine.chart.AbstractChart;
 import org.achartengine.chart.XYChart;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.tools.*;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,6 +46,20 @@ public class GraphicalView extends View {
   private float oldX;
   /** The old y coordinate. */
   private float oldY;
+  /** The zoom buttons rectangle. */
+  private RectF zoomR = new RectF();
+  /** The zoom in icon. */
+  private Bitmap zoomInImage;
+  /** The zoom out icon. */
+  private Bitmap zoomOutImage;
+  
+  private static final int ZOOM_SIZE = 50;
+  
+  private Pan pan;
+  
+  private Zoom zoomIn;
+  
+  private Zoom zoomOut;
 
   /**
    * Creates a new graphical view.
@@ -55,7 +72,12 @@ public class GraphicalView extends View {
     mChart = chart;
     mHandler = new Handler();
     if (mChart instanceof XYChart) {
+      zoomInImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom_in.png"));
+      zoomOutImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom_out.png"));
       mRenderer = ((XYChart) mChart).getRenderer();
+      pan = new Pan((XYChart) mChart, mRenderer);
+      zoomIn = new Zoom((XYChart) mChart, mRenderer, true, 1.5f);
+      zoomOut = new Zoom((XYChart) mChart, mRenderer, false, 1.5f);
     }
   }
 
@@ -68,6 +90,11 @@ public class GraphicalView extends View {
     int width = mRect.width();
     int height = mRect.height();
     mChart.draw(canvas, left, top, width, height);
+    if (pan != null) {
+      canvas.drawBitmap(zoomInImage, left + width - ZOOM_SIZE * 2, top + height - ZOOM_SIZE, null);
+      canvas.drawBitmap(zoomOutImage, left + width - ZOOM_SIZE, top + height - ZOOM_SIZE, null);
+      zoomR.set(left + width - ZOOM_SIZE * 2, top + height - ZOOM_SIZE, left + width, top + height);
+    }
   }
 
   public void handleTouch(MotionEvent event) {
@@ -76,42 +103,7 @@ public class GraphicalView extends View {
       if (oldX >= 0 || oldY >= 0) {
         float newX = event.getX();
         float newY = event.getY();
-
-        double minX = mRenderer.getXAxisMin();
-        double maxX = mRenderer.getXAxisMax();
-        double minY = mRenderer.getYAxisMin();
-        double maxY = mRenderer.getYAxisMax();
-        XYChart chart = (XYChart) mChart;
-        double[] calcRange = chart.getCalcRange();
-        if (minX == minY && calcRange[0] == calcRange[1] || maxX == maxY
-            && calcRange[2] == calcRange[3]) {
-          return;
-        }
-        if (!mRenderer.isMinXSet()) {
-          minX = calcRange[0];
-          mRenderer.setXAxisMin(minX);
-        }
-        if (!mRenderer.isMaxXSet()) {
-          maxX = calcRange[1];
-          mRenderer.setXAxisMax(maxX);
-        }
-        if (!mRenderer.isMinYSet()) {
-          minY = calcRange[2];
-          mRenderer.setYAxisMin(minY);
-        }
-        if (!mRenderer.isMaxYSet()) {
-          maxY = calcRange[3];
-          mRenderer.setYAxisMax(maxY);
-        }
-
-        PointF realPoint = chart.toRealPoint(oldX, oldY);
-        PointF realPoint2 = chart.toRealPoint(newX, newY);
-        double deltaX = realPoint.x - realPoint2.x;
-        double deltaY = realPoint.y - realPoint2.y;
-        mRenderer.setXAxisMin(minX + deltaX);
-        mRenderer.setXAxisMax(maxX + deltaX);
-        mRenderer.setYAxisMin(minY + deltaY);
-        mRenderer.setYAxisMax(maxY + deltaY);
+        pan.apply(oldX, oldY, newX, newY);
         oldX = newX;
         oldY = newY;
         repaint();
@@ -119,15 +111,24 @@ public class GraphicalView extends View {
     } else if (action == MotionEvent.ACTION_DOWN) {
       oldX = event.getX();
       oldY = event.getY();
+      if (zoomR.contains(oldX, oldY)) {
+        if (oldX < zoomR.centerX()) {
+          zoomIn.apply();
+        } else {
+          zoomOut.apply();
+        }
+      }
     } else if (action == MotionEvent.ACTION_UP) {
       oldX = 0;
       oldY = 0;
     }
   }
-
+  
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-    handleTouch(event);
+    if (pan != null) {
+      handleTouch(event);
+    }
     return true;
   }
 
