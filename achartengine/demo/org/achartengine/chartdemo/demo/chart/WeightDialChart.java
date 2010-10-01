@@ -16,7 +16,11 @@
 package org.achartengine.chartdemo.demo.chart;
 
 import org.achartengine.ChartFactory;
-import org.achartengine.renderer.DefaultRenderer;
+import org.achartengine.chart.DialChart;
+import org.achartengine.model.CategorySeries;
+import org.achartengine.renderer.DialRenderer;
+import org.achartengine.renderer.SimpleSeriesRenderer;
+import org.achartengine.renderer.DialRenderer.Type;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,13 +29,13 @@ import android.graphics.Color;
 /**
  * Budget demo pie chart.
  */
-public class BudgetPieChart extends AbstractDemoChart {
+public class WeightDialChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
    * @return the chart name
    */
   public String getName() {
-    return "Budget chart";
+    return "Weight chart";
   }
   
   /**
@@ -39,7 +43,7 @@ public class BudgetPieChart extends AbstractDemoChart {
    * @return the chart description
    */
   public String getDesc() {
-    return "The budget per project for this year (pie chart)";
+    return "The weight indicator (dial chart)";
   }
   
   /**
@@ -48,11 +52,27 @@ public class BudgetPieChart extends AbstractDemoChart {
    * @return the built intent
    */
   public Intent execute(Context context) {
-    double[] values = new double[] {12, 14, 11, 10, 19};
-    int[] colors = new int[] {Color.BLUE, Color.GREEN, Color.MAGENTA, Color.YELLOW, Color.CYAN};
-    DefaultRenderer renderer = buildCategoryRenderer(colors);
+    CategorySeries category = new CategorySeries("Weight indic");
+    category.add("Current", 75);
+    category.add("Minimum", 65);
+    category.add("Maximum", 90);
+    DialRenderer renderer = new DialRenderer();
+    SimpleSeriesRenderer r = new SimpleSeriesRenderer();
+    r.setColor(Color.BLUE);
+    renderer.addSeriesRenderer(r);
+    r = new SimpleSeriesRenderer();
+    r.setColor(Color.rgb(0, 150, 0));
+    renderer.addSeriesRenderer(r);
+    r = new SimpleSeriesRenderer();
+    r.setColor(Color.GREEN);
+    renderer.addSeriesRenderer(r);
     renderer.setLabelsTextSize(10);
-    return ChartFactory.getPieChartIntent(context, buildCategoryDataset("Project budget", values), renderer, "Budget");
+    renderer.setLabelsColor(Color.WHITE);
+    renderer.setShowLabels(true);
+    renderer.setVisualTypes(new DialRenderer.Type[] {Type.ARROW, Type.NEEDLE, Type.NEEDLE});
+    renderer.setMinValue(0);
+    renderer.setMaxValue(150);
+    return ChartFactory.getDialChartIntent(context, category, renderer, "Weight indicator");
   }
 
 }

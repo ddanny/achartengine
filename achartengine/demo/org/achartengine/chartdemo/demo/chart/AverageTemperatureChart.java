@@ -30,7 +30,7 @@ import android.graphics.Color;
 /**
  * Average temperature demo chart.
  */
-public class AverageTemperatureChart extends AbstractChart {
+public class AverageTemperatureChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
    * @return the chart name

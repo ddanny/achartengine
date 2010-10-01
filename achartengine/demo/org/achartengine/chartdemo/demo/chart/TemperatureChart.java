@@ -28,7 +28,7 @@ import android.graphics.Color;
 /**
  * Temperature demo range chart.
  */
-public class TemperatureChart extends AbstractChart {
+public class TemperatureChart extends AbstractDemoChart {
 
   /**
    * Returns the chart name.

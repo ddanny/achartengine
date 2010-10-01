@@ -31,7 +31,7 @@ import android.graphics.Color;
 /**
  * Scatter demo chart.
  */
-public class ScatterChart extends AbstractChart {
+public class ScatterChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
    * @return the chart name

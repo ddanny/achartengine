@@ -28,7 +28,7 @@ import android.graphics.Color;
 /**
  * Project status demo bubble chart.
  */
-public class ProjectStatusBubbleChart extends AbstractChart {
+public class ProjectStatusBubbleChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
    * @return the chart name

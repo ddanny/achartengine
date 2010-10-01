@@ -30,7 +30,7 @@ import android.graphics.Color;
 /**
  * Sales growth demo chart.
  */
-public class SalesGrowthChart extends AbstractChart {
+public class SalesGrowthChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
    * @return the chart name

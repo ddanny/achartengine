@@ -30,7 +30,7 @@ import android.graphics.Color;
 /**
  * Project status demo chart.
  */
-public class ProjectStatusChart extends AbstractChart {
+public class ProjectStatusChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
    * @return the chart name

@@ -30,7 +30,7 @@ import android.graphics.Color;
 /**
  * Trigonometric functions demo chart.
  */
-public class TrigonometricFunctionsChart extends AbstractChart {
+public class TrigonometricFunctionsChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
    * @return the chart name
