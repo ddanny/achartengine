@@ -31,7 +31,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 /**
  * An abstract class for the demo charts to extend.
  */
-public abstract class AbstractChart implements IChart {
+public abstract class AbstractDemoChart implements IChart {
 
   /**
    * Builds an XY multiple dataset using the provided values.

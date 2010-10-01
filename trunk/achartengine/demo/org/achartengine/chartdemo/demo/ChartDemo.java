@@ -33,6 +33,7 @@ import org.achartengine.chartdemo.demo.chart.SalesStackedBarChart;
 import org.achartengine.chartdemo.demo.chart.ScatterChart;
 import org.achartengine.chartdemo.demo.chart.TemperatureChart;
 import org.achartengine.chartdemo.demo.chart.TrigonometricFunctionsChart;
+import org.achartengine.chartdemo.demo.chart.WeightDialChart;
 import org.achartengine.chartdemo.demo.chart.XYChartBuilder;
 
 import android.app.ListActivity;
@@ -46,7 +47,7 @@ public class ChartDemo extends ListActivity {
   private IChart[] mCharts = new IChart[] {new AverageTemperatureChart(), new SalesStackedBarChart(),
 		  new SalesBarChart(), new TrigonometricFunctionsChart(), new ScatterChart(), new SalesComparisonChart(),
           new ProjectStatusChart(), new SalesGrowthChart(), new BudgetPieChart(), new BudgetDoughnutChart(), 
-          new ProjectStatusBubbleChart(), new TemperatureChart()};
+          new ProjectStatusBubbleChart(), new TemperatureChart(), new WeightDialChart()};
 	
   private String[] mMenuText;
 

@@ -31,7 +31,7 @@ import android.graphics.Typeface;
 /**
  * Sales comparison demo chart.
  */
-public class SalesComparisonChart extends AbstractChart {
+public class SalesComparisonChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
    * 

@@ -31,7 +31,7 @@ import android.graphics.Color;
 /**
  * Sales demo bar chart.
  */
-public class SalesBarChart extends AbstractChart {
+public class SalesBarChart extends AbstractDemoChart {
 
   /**
    * Returns the chart name.

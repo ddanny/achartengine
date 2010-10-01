@@ -28,7 +28,7 @@ import android.graphics.Color;
 /**
  * Budget demo pie chart.
  */
-public class BudgetDoughnutChart extends AbstractChart {
+public class BudgetDoughnutChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
    * @return the chart name
