@@ -17,6 +17,7 @@ package org.achartengine;
 
 import org.achartengine.chart.BarChart;
 import org.achartengine.chart.BubbleChart;
+import org.achartengine.chart.DialChart;
 import org.achartengine.chart.DoughnutChart;
 import org.achartengine.chart.LineChart;
 import org.achartengine.chart.PieChart;
@@ -29,6 +30,7 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.model.MultipleCategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.DefaultRenderer;
+import org.achartengine.renderer.DialRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import android.content.Context;
@@ -181,6 +183,25 @@ public class ChartFactory {
   }
 
   /**
+   * Creates a dial chart intent that can be used to start the graphical view
+   * activity.
+   * 
+   * @param context the context
+   * @param dataset the category series dataset (cannot be null)
+   * @param renderer the dial renderer (cannot be null)
+   * @return a pie chart view
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if the dataset number of items is different than the number of
+   *           series renderers
+   */
+  public static final GraphicalView getDialChartView(Context context, CategorySeries dataset,
+      DialRenderer renderer) {
+    checkParameters(dataset, renderer);
+    DialChart chart = new DialChart(dataset, renderer);
+    return new GraphicalView(context, chart);
+  }
+
+  /**
    * Creates a doughnut chart intent that can be used to start the graphical
    * view activity.
    * 
@@ -286,23 +307,6 @@ public class ChartFactory {
   public static final Intent getBarChartIntent(Context context, XYMultipleSeriesDataset dataset,
       XYMultipleSeriesRenderer renderer, Type type) {
     return getBarChartIntent(context, dataset, renderer, type, "");
-  }
-
-  /**
-   * Creates a pie chart intent that can be used to start the graphical view
-   * activity.
-   * 
-   * @param context the context
-   * @param dataset the category series dataset (cannot be null)
-   * @param renderer the series renderer (cannot be null)
-   * @return a pie chart intent
-   * @throws IllegalArgumentException if dataset is null or renderer is null or
-   *           if the dataset number of items is different than the number of
-   *           series renderers
-   */
-  public static final Intent getPieChartIntent(Context context, CategorySeries dataset,
-      DefaultRenderer renderer) {
-    return getPieChartIntent(context, dataset, renderer, "");
   }
 
   /**
@@ -493,6 +497,29 @@ public class ChartFactory {
     checkParameters(dataset, renderer);
     Intent intent = new Intent(context, GraphicalActivity.class);
     DoughnutChart chart = new DoughnutChart(dataset, renderer);
+    intent.putExtra(CHART, chart);
+    intent.putExtra(TITLE, activityTitle);
+    return intent;
+  }
+
+  /**
+   * Creates a dial chart intent that can be used to start the graphical view
+   * activity.
+   * 
+   * @param context the context
+   * @param dataset the category series dataset (cannot be null)
+   * @param renderer the dial renderer (cannot be null)
+   * @param activityTitle the graphical chart activity title
+   * @return a dial chart intent
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if the dataset number of items is different than the number of
+   *           series renderers
+   */
+  public static final Intent getDialChartIntent(Context context, CategorySeries dataset,
+      DialRenderer renderer, String activityTitle) {
+    checkParameters(dataset, renderer);
+    Intent intent = new Intent(context, GraphicalActivity.class);
+    DialChart chart = new DialChart(dataset, renderer);
     intent.putExtra(CHART, chart);
     intent.putExtra(TITLE, activityTitle);
     return intent;

@@ -241,7 +241,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-   * Returns the end value of the Y axis range.
+   * Returns the start value of the Y axis range.
    * 
    * @return the Y axis range end value
    */
