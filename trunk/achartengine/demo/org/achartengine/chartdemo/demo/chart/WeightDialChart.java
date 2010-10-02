@@ -16,7 +16,6 @@
 package org.achartengine.chartdemo.demo.chart;
 
 import org.achartengine.ChartFactory;
-import org.achartengine.chart.DialChart;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DialRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;

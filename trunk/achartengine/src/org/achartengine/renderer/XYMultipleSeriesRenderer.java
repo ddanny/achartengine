@@ -55,6 +55,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private boolean mDisplayChartValues;
   /** The chart values text size. */
   private float mChartValuesTextSize = 9;
+  /** A flag for enabling or not the pan. */ 
+  private boolean panEnabled = true;
+  /** A flag for enabling or not the zoom. */
+  private boolean zoomEnabled = true;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -377,6 +381,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mDisplayChartValues = display;
   }
 
+  
   /**
    * Returns the chart values text size.
    * 
@@ -393,6 +398,42 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setChartValuesTextSize(float textSize) {
     mChartValuesTextSize = textSize;
+  }
+
+  /**
+   * Returns the enabled state of the pan.
+   * 
+   * @return if pan is enabled
+   */
+  public boolean isPanEnabled() {
+    return panEnabled;
+  }
+  
+  /**
+   * Sets the enabled state of the pan.
+   * 
+   * @param enabled pan enabled
+   */
+  public void setPanEnabled(boolean enabled) {
+    panEnabled = enabled;
+  }
+
+  /**
+   * Returns the enabled state of the zoom.
+   * 
+   * @return if zoom is enabled
+   */
+  public boolean isZoomEnabled() {
+    return zoomEnabled;
+  }
+  
+  /**
+   * Sets the enabled state of the zoom.
+   * 
+   * @param enabled zoom enabled
+   */
+  public void setZoomEnabled(boolean enabled) {
+    zoomEnabled = enabled;
   }
 
 }
