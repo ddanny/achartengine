@@ -57,7 +57,7 @@ public class GraphicalView extends View {
   private Bitmap zoomOutImage;
   /** The zoom area size. */
   private static final int ZOOM_SIZE = 50;
-  /** The zoom buttons background color. */ 
+  /** The zoom buttons background color. */
   private static final int ZOOM_BUTTONS_COLOR = Color.argb(175, 150, 150, 150);
   /** The pan tool. */
   private Pan pan;
@@ -78,7 +78,8 @@ public class GraphicalView extends View {
     mHandler = new Handler();
     if (mChart instanceof XYChart) {
       zoomInImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom_in.png"));
-      zoomOutImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom_out.png"));
+      zoomOutImage = BitmapFactory.decodeStream(getClass()
+          .getResourceAsStream("image/zoom_out.png"));
       mRenderer = ((XYChart) mChart).getRenderer();
       if (mRenderer.isPanEnabled()) {
         pan = new Pan((XYChart) mChart, mRenderer);
@@ -102,10 +103,13 @@ public class GraphicalView extends View {
     if (mRenderer != null && mRenderer.isZoomEnabled()) {
       Paint paint = new Paint();
       paint.setColor(ZOOM_BUTTONS_COLOR);
-      zoomR.set(left + width - ZOOM_SIZE * 2, top + height - ZOOM_SIZE * 0.775f, left + width, top + height);
+      zoomR.set(left + width - ZOOM_SIZE * 2, top + height - ZOOM_SIZE * 0.775f, left + width, top
+          + height);
       canvas.drawRoundRect(zoomR, ZOOM_SIZE / 3, ZOOM_SIZE / 3, paint);
-      canvas.drawBitmap(zoomInImage, left + width - ZOOM_SIZE * 1.75f, top + height - ZOOM_SIZE * 0.625f, null);
-      canvas.drawBitmap(zoomOutImage, left + width - ZOOM_SIZE * 0.75f, top + height - ZOOM_SIZE * 0.625f, null);
+      canvas.drawBitmap(zoomInImage, left + width - ZOOM_SIZE * 1.75f, top + height - ZOOM_SIZE
+          * 0.625f, null);
+      canvas.drawBitmap(zoomOutImage, left + width - ZOOM_SIZE * 0.75f, top + height - ZOOM_SIZE
+          * 0.625f, null);
     }
   }
 
@@ -137,7 +141,7 @@ public class GraphicalView extends View {
       oldY = 0;
     }
   }
-  
+
   @Override
   public boolean onTouchEvent(MotionEvent event) {
     if (mRenderer != null && mRenderer.isPanEnabled() || mRenderer.isZoomEnabled()) {
