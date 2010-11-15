@@ -30,6 +30,8 @@ import android.graphics.Paint.Style;
 public class LineChart extends XYChart {
   /** The legend shape width. */
   private static final int SHAPE_WIDTH = 30;
+  /** The scatter chart to be used to draw the data points. */
+  private ScatterChart pointsChart;
 
   /**
    * Builds a new line chart instance.
@@ -39,6 +41,7 @@ public class LineChart extends XYChart {
    */
   public LineChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
     super(dataset, renderer);
+    pointsChart = new ScatterChart(dataset, renderer);
   }
 
   /**
@@ -84,7 +87,8 @@ public class LineChart extends XYChart {
   public int getLegendShapeWidth() {
     return SHAPE_WIDTH;
   }
-
+  
+  
   /**
    * The graphical representation of the legend shape.
    * 
@@ -97,6 +101,9 @@ public class LineChart extends XYChart {
   public void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x, float y,
       Paint paint) {
     canvas.drawLine(x, y, x + SHAPE_WIDTH, y, paint);
+    if (isRenderPoints(renderer)) {
+      pointsChart.drawLegendShape(canvas, renderer, x + 5, y, paint);
+    }
   }
 
   /**
@@ -106,6 +113,15 @@ public class LineChart extends XYChart {
    */
   public boolean isRenderPoints(SimpleSeriesRenderer renderer) {
     return ((XYSeriesRenderer) renderer).getPointStyle() != PointStyle.POINT;
+  }
+  
+  /**
+   * Returns the scatter chart to be used for drawing the data points.
+   * 
+   * @return the data points scatter chart 
+   */
+  public ScatterChart getPointsChart() {
+    return pointsChart;
   }
 
 }

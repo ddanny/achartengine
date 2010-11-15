@@ -72,10 +72,10 @@ public abstract class XYChart extends AbstractChart {
    * @param y the top left y value of the view to draw to
    * @param width the width of the view to draw to
    * @param height the height of the view to draw to
+   * @param paint the paint
    */
   @Override
-  public void draw(Canvas canvas, int x, int y, int width, int height) {
-    Paint paint = new Paint();
+  public void draw(Canvas canvas, int x, int y, int width, int height, Paint paint) {
     paint.setAntiAlias(mRenderer.isAntialiasing());
     int legendSize = 30;
     if (mRenderer.isShowLegend()) {
@@ -180,8 +180,10 @@ public abstract class XYChart extends AbstractChart {
       drawSeries(canvas, paint, points, seriesRenderer, Math.min(bottom,
           (float) (bottom + yPixelsPerUnit * minY)), i);
       if (isRenderPoints(seriesRenderer)) {
-        ScatterChart pointsChart = new ScatterChart(mDataset, mRenderer);
-        pointsChart.drawSeries(canvas, paint, points, seriesRenderer, 0, i);
+        ScatterChart pointsChart = getPointsChart();
+        if (pointsChart != null) {
+          pointsChart.drawSeries(canvas, paint, points, seriesRenderer, 0, i);
+        }
       }
       paint.setTextSize(mRenderer.getChartValuesTextSize());
       if (or == Orientation.HORIZONTAL) {
@@ -441,5 +443,14 @@ public abstract class XYChart extends AbstractChart {
    */
   public boolean isRenderPoints(SimpleSeriesRenderer renderer) {
     return false;
+  }
+  
+  /**
+   * Returns the scatter chart to be used for drawing the data points.
+   * 
+   * @return the data points scatter chart 
+   */
+  public ScatterChart getPointsChart() {
+    return null;
   }
 }

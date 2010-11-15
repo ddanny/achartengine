@@ -65,6 +65,8 @@ public class GraphicalView extends View {
   private Zoom zoomIn;
   /** The zoom out tool. */
   private Zoom zoomOut;
+  
+  private Paint mPaint = new Paint();
 
   /**
    * Creates a new graphical view.
@@ -99,7 +101,7 @@ public class GraphicalView extends View {
     int left = mRect.left;
     int width = mRect.width();
     int height = mRect.height();
-    mChart.draw(canvas, left, top, width, height);
+    mChart.draw(canvas, left, top, width, height, mPaint);
     if (mRenderer != null && mRenderer.isZoomEnabled()) {
       Paint paint = new Paint();
       paint.setColor(ZOOM_BUTTONS_COLOR);
