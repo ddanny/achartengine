@@ -28,15 +28,16 @@ public class XYMultipleSeriesDataset implements Serializable {
 
   /**
    * Adds a new XY series to the list.
+   * 
    * @param series the XY series to ass
    */
   public synchronized void addSeries(XYSeries series) {
     mSeries.add(series);
   }
-  
-  
+
   /**
    * Removes the XY series from the list.
+   * 
    * @param index the index in the series list of the series to remove
    */
   public synchronized void removeSeries(int index) {
@@ -45,6 +46,7 @@ public class XYMultipleSeriesDataset implements Serializable {
 
   /**
    * Removes the XY series from the list.
+   * 
    * @param series the XY series to be removed
    */
   public synchronized void removeSeries(XYSeries series) {
@@ -53,6 +55,7 @@ public class XYMultipleSeriesDataset implements Serializable {
 
   /**
    * Returns the XY series at the specified index.
+   * 
    * @param index the index
    * @return the XY series at the index
    */
@@ -62,6 +65,7 @@ public class XYMultipleSeriesDataset implements Serializable {
 
   /**
    * Returns the XY series count.
+   * 
    * @return the XY series count
    */
   public synchronized int getSeriesCount() {
@@ -70,6 +74,7 @@ public class XYMultipleSeriesDataset implements Serializable {
 
   /**
    * Returns an array of the XY series.
+   * 
    * @return the XY series array
    */
   public synchronized XYSeries[] getSeries() {
