@@ -68,6 +68,7 @@ public class SalesStackedBarChart extends AbstractDemoChart {
     renderer.setDisplayChartValues(true);
 //    renderer.setPanEnabled(false);
 //    renderer.setZoomEnabled(false);
+    renderer.setZoomRate(1.1f);
     return ChartFactory.getBarChartIntent(context, buildBarDataset(titles, values), renderer, Type.STACKED);
   }
 

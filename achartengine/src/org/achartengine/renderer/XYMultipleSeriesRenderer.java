@@ -59,6 +59,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private boolean panEnabled = true;
   /** A flag for enabling or not the zoom. */
   private boolean zoomEnabled = true;
+  /** The zoom rate. */
+  private float zoomRate = 1.5f;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -434,6 +436,24 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setZoomEnabled(boolean enabled) {
     zoomEnabled = enabled;
+  }
+  
+  /**
+   * Returns the zoom rate.
+   * 
+   * @return the zoom rate
+   */
+  public float getZoomRate() {
+    return zoomRate;
+  }
+  
+  /**
+   * Sets the zoom rate.
+   * 
+   * @param rate the zoom rate
+   */
+  public void setZoomRate(float rate) {
+    zoomRate = rate;
   }
 
 }
