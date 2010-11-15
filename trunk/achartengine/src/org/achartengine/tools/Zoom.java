@@ -18,17 +18,32 @@ package org.achartengine.tools;
 import org.achartengine.chart.XYChart;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
+/**
+ * The zoom tool.
+ */
 public class Zoom extends AbstractTool {
+  /** A flag to be used to know if this is a zoom in or out. */
   private boolean mZoomIn;
-  
+  /** The zoom rate. */
   private float mZoomRate;
-  
+
+  /**
+   * Builds the zoom tool.
+   * 
+   * @param chart the chart
+   * @param renderer the renderer
+   * @param in zoom in or out
+   * @param rate the zoom rate
+   */
   public Zoom(XYChart chart, XYMultipleSeriesRenderer renderer, boolean in, float rate) {
     super(chart, renderer);
     mZoomIn = in;
     mZoomRate = rate;
   }
-  
+
+  /**
+   * Apply the zoom.
+   */
   public void apply() {
     double[] range = getRange();
     checkRange(range);
@@ -43,7 +58,7 @@ public class Zoom extends AbstractTool {
       newWidth *= mZoomRate;
       newHeight *= mZoomRate;
     }
-    
+
     mRenderer.setXAxisMin(centerX - newWidth / 2);
     mRenderer.setXAxisMax(centerX + newWidth / 2);
     mRenderer.setYAxisMin(centerY - newHeight / 2);
