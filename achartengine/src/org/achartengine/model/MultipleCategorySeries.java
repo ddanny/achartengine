@@ -25,10 +25,8 @@ import java.util.List;
 public class MultipleCategorySeries implements Serializable {
   /** The series title. */
   private String mTitle;
-
   /** The series local keys. */
   private List<String> mCategories = new ArrayList<String>();
-
   /** The series name. */
   private List<String[]> mTitles = new ArrayList<String[]>();
 
