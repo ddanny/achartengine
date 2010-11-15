@@ -58,10 +58,10 @@ public class DialChart extends AbstractChart {
    * @param y the top left y value of the view to draw to
    * @param width the width of the view to draw to
    * @param height the height of the view to draw to
+   * @param paint the paint
    */
   @Override
-  public void draw(Canvas canvas, int x, int y, int width, int height) {
-    Paint paint = new Paint();
+  public void draw(Canvas canvas, int x, int y, int width, int height, Paint paint) {
     paint.setAntiAlias(mRenderer.isAntialiasing());
     paint.setStyle(Style.FILL);
     paint.setTextSize(mRenderer.getLabelsTextSize());
