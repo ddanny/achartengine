@@ -52,7 +52,7 @@ public abstract class XYChart extends AbstractChart {
   private double[] calcRange = new double[4];
   /** The grid color. */
   protected static final int GRID_COLOR = Color.argb(75, 200, 200, 200);
-  
+
   /**
    * Builds a new XY chart instance.
    * 
@@ -210,8 +210,8 @@ public abstract class XYChart extends AbstractChart {
           xLabelsLeft += 3;
         }
       }
-      drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top, bottom,
-          xPixelsPerUnit, minX);
+      drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
+          bottom, xPixelsPerUnit, minX);
       paint.setTextAlign(mRenderer.getYLabelsAlign());
       int length = yLabels.size();
       for (int i = 0; i < length; i++) {
@@ -395,12 +395,12 @@ public abstract class XYChart extends AbstractChart {
       }
     }
   }
-  
+
   // TODO: docs
   public XYMultipleSeriesRenderer getRenderer() {
     return mRenderer;
   }
-  
+
   public double[] getCalcRange() {
     return calcRange;
   }
@@ -410,19 +410,22 @@ public abstract class XYChart extends AbstractChart {
     double realMaxX = mRenderer.getXAxisMax();
     double realMinY = mRenderer.getYAxisMin();
     double realMaxY = mRenderer.getYAxisMax();
-    return new PointF((float) ((screenX - screenR.left) * (realMaxX - realMinX) / screenR.width() + realMinX), 
-        (float) ((screenR.top + screenR.height() - screenY) * (realMaxY - realMinY) / screenR.height() + realMinY));
+    return new PointF(
+        (float) ((screenX - screenR.left) * (realMaxX - realMinX) / screenR.width() + realMinX),
+        (float) ((screenR.top + screenR.height() - screenY) * (realMaxY - realMinY)
+            / screenR.height() + realMinY));
   }
-  
+
   public PointF toScreenPoint(PointF realPoint) {
     double realMinX = mRenderer.getXAxisMin();
     double realMaxX = mRenderer.getXAxisMax();
     double realMinY = mRenderer.getYAxisMin();
     double realMaxY = mRenderer.getYAxisMax();
-    return new PointF((float) ((realPoint.x - realMinX) * screenR.width() / (realMaxX - realMinX) + screenR.left),
+    return new PointF(
+        (float) ((realPoint.x - realMinX) * screenR.width() / (realMaxX - realMinX) + screenR.left),
         (float) ((realMaxY - realPoint.y) * screenR.height() / (realMaxY - realMinY) + screenR.top));
   }
-  
+
   /**
    * The graphical representation of a series.
    * 
@@ -444,11 +447,11 @@ public abstract class XYChart extends AbstractChart {
   public boolean isRenderPoints(SimpleSeriesRenderer renderer) {
     return false;
   }
-  
+
   /**
    * Returns the scatter chart to be used for drawing the data points.
    * 
-   * @return the data points scatter chart 
+   * @return the data points scatter chart
    */
   public ScatterChart getPointsChart() {
     return null;
