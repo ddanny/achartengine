@@ -55,7 +55,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private boolean mDisplayChartValues;
   /** The chart values text size. */
   private float mChartValuesTextSize = 9;
-  /** A flag for enabling or not the pan. */ 
+  /** A flag for enabling or not the pan. */
   private boolean panEnabled = true;
   /** A flag for enabling or not the zoom. */
   private boolean zoomEnabled = true;
@@ -383,7 +383,6 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mDisplayChartValues = display;
   }
 
-  
   /**
    * Returns the chart values text size.
    * 
@@ -410,7 +409,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public boolean isPanEnabled() {
     return panEnabled;
   }
-  
+
   /**
    * Sets the enabled state of the pan.
    * 
@@ -428,7 +427,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public boolean isZoomEnabled() {
     return zoomEnabled;
   }
-  
+
   /**
    * Sets the enabled state of the zoom.
    * 
@@ -437,7 +436,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setZoomEnabled(boolean enabled) {
     zoomEnabled = enabled;
   }
-  
+
   /**
    * Returns the zoom rate.
    * 
@@ -446,7 +445,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public float getZoomRate() {
     return zoomRate;
   }
-  
+
   /**
    * Sets the zoom rate.
    * 
