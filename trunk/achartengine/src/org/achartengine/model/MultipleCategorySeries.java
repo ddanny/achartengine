@@ -29,7 +29,6 @@ public class MultipleCategorySeries implements Serializable {
   private List<String> mCategories = new ArrayList<String>();
   /** The series name. */
   private List<String[]> mTitles = new ArrayList<String[]>();
-
   /** The series values. */
   private List<double[]> mValues = new ArrayList<double[]>();
 
