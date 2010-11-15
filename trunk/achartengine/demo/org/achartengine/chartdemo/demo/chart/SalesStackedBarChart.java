@@ -25,6 +25,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 
 
 /**
@@ -66,6 +67,8 @@ public class SalesStackedBarChart extends AbstractDemoChart {
     renderer.setXLabels(12);
     renderer.setYLabels(10);
     renderer.setDisplayChartValues(true);
+    renderer.setXLabelsAlign(Align.LEFT);
+    renderer.setYLabelsAlign(Align.LEFT);
 //    renderer.setPanEnabled(false);
 //    renderer.setZoomEnabled(false);
     renderer.setZoomRate(1.1f);

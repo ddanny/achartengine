@@ -26,6 +26,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 
 /**
  * Average temperature demo chart.
@@ -77,6 +78,8 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     renderer.setXLabels(12);
     renderer.setYLabels(10);
     renderer.setShowGrid(true);
+    renderer.setXLabelsAlign(Align.RIGHT);
+    renderer.setYLabelsAlign(Align.RIGHT);
     
     Intent intent = ChartFactory.getLineChartIntent(context, buildDataset(titles, x, values),
         renderer, "Average temperature");

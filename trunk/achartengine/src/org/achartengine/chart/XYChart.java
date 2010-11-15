@@ -199,13 +199,18 @@ public abstract class XYChart extends AbstractChart {
     if (showLabels || showGrid) {
       List<Double> xLabels = MathHelper.getLabels(minX, maxX, mRenderer.getXLabels());
       List<Double> yLabels = MathHelper.getLabels(minY, maxY, mRenderer.getYLabels());
+      int xLabelsLeft = left;
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
         paint.setTextSize(mRenderer.getLabelsTextSize());
-        paint.setTextAlign(Align.CENTER);
+        paint.setTextAlign(mRenderer.getXLabelsAlign());
+        if (mRenderer.getXLabelsAlign() == Align.LEFT) {
+          xLabelsLeft += 3;
+        }
       }
-      drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, left, top, bottom,
+      drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top, bottom,
           xPixelsPerUnit, minX);
+      paint.setTextAlign(mRenderer.getYLabelsAlign());
       int length = yLabels.size();
       for (int i = 0; i < length; i++) {
         double label = yLabels.get(i);
