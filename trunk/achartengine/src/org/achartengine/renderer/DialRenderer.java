@@ -41,13 +41,13 @@ public class DialRenderer extends DefaultRenderer {
   private double mMinorTickSpacing = MathHelper.NULL_VALUE;
   /** The spacing for the major ticks. */
   private double mMajorTickSpacing = MathHelper.NULL_VALUE;
-  /** An array of the renderers types (default is NEEDLE).*/ 
+  /** An array of the renderers types (default is NEEDLE). */
   private List<Type> visualTypes = new ArrayList<Type>();
-  
+
   public enum Type {
     NEEDLE, ARROW;
   }
-  
+
   /**
    * Returns the chart title.
    * 
@@ -222,7 +222,7 @@ public class DialRenderer extends DefaultRenderer {
     }
     return Type.NEEDLE;
   }
-  
+
   /**
    * Sets the visual types.
    * 
