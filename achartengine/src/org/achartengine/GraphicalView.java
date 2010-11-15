@@ -144,10 +144,11 @@ public class GraphicalView extends View {
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-    if (mRenderer != null && mRenderer.isPanEnabled() || mRenderer.isZoomEnabled()) {
+    if (mRenderer != null && (mRenderer.isPanEnabled() || mRenderer.isZoomEnabled())) {
       handleTouch(event);
+      return true;
     }
-    return true;
+    return super.onTouchEvent(event);
   }
 
   /**
