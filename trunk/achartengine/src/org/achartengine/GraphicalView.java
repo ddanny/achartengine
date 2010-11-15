@@ -56,7 +56,7 @@ public class GraphicalView extends View {
   /** The zoom out icon. */
   private Bitmap zoomOutImage;
   /** The zoom area size. */
-  private static final int ZOOM_SIZE = 50;
+  private static final int ZOOM_SIZE = 45;
   /** The zoom buttons background color. */
   private static final int ZOOM_BUTTONS_COLOR = Color.argb(175, 150, 150, 150);
   /** The pan tool. */
@@ -85,8 +85,8 @@ public class GraphicalView extends View {
         pan = new Pan((XYChart) mChart, mRenderer);
       }
       if (mRenderer.isZoomEnabled()) {
-        zoomIn = new Zoom((XYChart) mChart, mRenderer, true, 1.5f);
-        zoomOut = new Zoom((XYChart) mChart, mRenderer, false, 1.5f);
+        zoomIn = new Zoom((XYChart) mChart, mRenderer, true, mRenderer.getZoomRate());
+        zoomOut = new Zoom((XYChart) mChart, mRenderer, false, mRenderer.getZoomRate());
       }
     }
   }
