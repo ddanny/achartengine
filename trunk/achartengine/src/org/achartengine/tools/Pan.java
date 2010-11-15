@@ -20,11 +20,28 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import android.graphics.PointF;
 
+/**
+ * The pan tool.
+ */
 public class Pan extends AbstractTool {
+  /**
+   * Builds and instance of the pan tool.
+   * 
+   * @param chart the XY chart
+   * @param renderer the renderer
+   */
   public Pan(XYChart chart, XYMultipleSeriesRenderer renderer) {
     super(chart, renderer);
   }
 
+  /**
+   * Apply the tool.
+   * 
+   * @param oldX the previous location on X axis
+   * @param oldY the previous location on Y axis
+   * @param newX the current location on X axis
+   * @param newY the current location on the Y axis
+   */
   public void apply(float oldX, float oldY, float newX, float newY) {
     double[] range = getRange();
     double[] calcRange = mChart.getCalcRange();
