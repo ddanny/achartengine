@@ -87,8 +87,7 @@ public class LineChart extends XYChart {
   public int getLegendShapeWidth() {
     return SHAPE_WIDTH;
   }
-  
-  
+
   /**
    * The graphical representation of the legend shape.
    * 
@@ -114,11 +113,11 @@ public class LineChart extends XYChart {
   public boolean isRenderPoints(SimpleSeriesRenderer renderer) {
     return ((XYSeriesRenderer) renderer).getPointStyle() != PointStyle.POINT;
   }
-  
+
   /**
    * Returns the scatter chart to be used for drawing the data points.
    * 
-   * @return the data points scatter chart 
+   * @return the data points scatter chart
    */
   public ScatterChart getPointsChart() {
     return pointsChart;
