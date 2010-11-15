@@ -20,8 +20,9 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 public abstract class AbstractTool {
   protected XYChart mChart;
-  
+
   protected XYMultipleSeriesRenderer mRenderer;
+
   // TODO: javadoc
   public AbstractTool(XYChart chart, XYMultipleSeriesRenderer renderer) {
     mChart = chart;
@@ -35,7 +36,7 @@ public abstract class AbstractTool {
     double maxY = mRenderer.getYAxisMax();
     return new double[] { minX, maxX, minY, maxY };
   }
-  
+
   public void checkRange(double[] range) {
     double[] calcRange = mChart.getCalcRange();
     if (!mRenderer.isMinXSet()) {
