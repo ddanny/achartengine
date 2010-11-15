@@ -35,7 +35,7 @@ public class TimeSeries extends XYSeries {
    * @param x the date / time value for the X axis
    * @param y the value for the Y axis
    */
-  public void add(Date x, double y) {
+  public synchronized void add(Date x, double y) {
     super.add(x.getTime(), y);
   }
 }

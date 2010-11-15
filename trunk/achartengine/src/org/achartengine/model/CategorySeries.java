@@ -53,7 +53,7 @@ public class CategorySeries implements Serializable {
    * 
    * @param value the new value
    */
-  public void add(double value) {
+  public synchronized void add(double value) {
     add(mCategories.size() + "", value);
   }
 
@@ -63,7 +63,7 @@ public class CategorySeries implements Serializable {
    * @param category the category
    * @param value the new value
    */
-  public void add(String category, double value) {
+  public synchronized void add(String category, double value) {
     mCategories.add(category);
     mValues.add(value);
   }
@@ -73,7 +73,7 @@ public class CategorySeries implements Serializable {
    * 
    * @param index the index in the series of the value to remove
    */
-  public void remove(int index) {
+  public synchronized void remove(int index) {
     mCategories.remove(index);
     mValues.remove(index);
   }
@@ -81,7 +81,7 @@ public class CategorySeries implements Serializable {
   /**
    * Removes all the existing values from the series.
    */
-  public void clear() {
+  public synchronized void clear() {
     mCategories.clear();
     mValues.clear();
   }
@@ -92,7 +92,7 @@ public class CategorySeries implements Serializable {
    * @param index the index
    * @return the value at the index
    */
-  public double getValue(int index) {
+  public synchronized double getValue(int index) {
     return mValues.get(index);
   }
 
@@ -102,7 +102,7 @@ public class CategorySeries implements Serializable {
    * @param index the index
    * @return the category name at the index
    */
-  public String getCategory(int index) {
+  public synchronized String getCategory(int index) {
     return mCategories.get(index);
   }
 
@@ -111,7 +111,7 @@ public class CategorySeries implements Serializable {
    * 
    * @return the series item count
    */
-  public int getItemCount() {
+  public synchronized int getItemCount() {
     return mCategories.size();
   }
 

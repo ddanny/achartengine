@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.achartengine.util.MathHelper;
 
-
 /**
  * An XY series encapsulates values for XY charts like line, time, area,
  * scatter... charts.
@@ -51,7 +50,7 @@ public class XYSeries implements Serializable {
     mTitle = title;
     initRange();
   }
-  
+
   /**
    * Initializes the range for both axes.
    */
@@ -67,17 +66,18 @@ public class XYSeries implements Serializable {
       updateRange(x, y);
     }
   }
-  
+
   /**
    * Updates the range on both axes.
+   * 
    * @param x the new x value
    * @param y the new y value
    */
   private void updateRange(double x, double y) {
-      mMinX = Math.min(mMinX, x);
-      mMaxX = Math.max(mMaxX, x);
-      mMinY = Math.min(mMinY, y);
-      mMaxY = Math.max(mMaxY, y);
+    mMinX = Math.min(mMinX, x);
+    mMaxX = Math.max(mMaxX, x);
+    mMinY = Math.min(mMinY, y);
+    mMaxY = Math.max(mMaxY, y);
   }
 
   /**
@@ -104,41 +104,41 @@ public class XYSeries implements Serializable {
    * @param x the value for the X axis
    * @param y the value for the Y axis
    */
-  public void add(double x, double y) {
+  public synchronized void add(double x, double y) {
     mX.add(x);
     mY.add(y);
     updateRange(x, y);
   }
-  
 
   /**
    * Removes an existing value from the series.
+   * 
    * @param index the index in the series of the value to remove
    */
-  public void remove(int index) {
+  public synchronized void remove(int index) {
     double removedX = mX.remove(index);
     double removedY = mY.remove(index);
     if (removedX == mMinX || removedX == mMaxX || removedY == mMinY || removedY == mMaxY) {
       initRange();
     }
   }
-  
+
   /**
    * Removes all the existing values from the series.
    */
-  public void clear() {
+  public synchronized void clear() {
     mX.clear();
     mY.clear();
     initRange();
   }
-  
+
   /**
    * Returns the X axis value at the specified index.
    * 
    * @param index the index
    * @return the X value
    */
-  public double getX(int index) {
+  public synchronized double getX(int index) {
     return mX.get(index);
   }
 
@@ -148,20 +148,22 @@ public class XYSeries implements Serializable {
    * @param index the index
    * @return the Y value
    */
-  public double getY(int index) {
+  public synchronized double getY(int index) {
     return mY.get(index);
   }
 
   /**
    * Returns the series item count.
+   * 
    * @return the series item count
    */
-  public int getItemCount() {
+  public synchronized int getItemCount() {
     return mX.size();
   }
 
   /**
    * Returns the minimum value on the X axis.
+   * 
    * @return the X axis minimum value
    */
   public double getMinX() {
@@ -170,6 +172,7 @@ public class XYSeries implements Serializable {
 
   /**
    * Returns the minimum value on the Y axis.
+   * 
    * @return the Y axis minimum value
    */
   public double getMinY() {
@@ -178,6 +181,7 @@ public class XYSeries implements Serializable {
 
   /**
    * Returns the maximum value on the X axis.
+   * 
    * @return the X axis maximum value
    */
   public double getMaxX() {
@@ -186,6 +190,7 @@ public class XYSeries implements Serializable {
 
   /**
    * Returns the maximum value on the Y axis.
+   * 
    * @return the Y axis maximum value
    */
   public double getMaxY() {

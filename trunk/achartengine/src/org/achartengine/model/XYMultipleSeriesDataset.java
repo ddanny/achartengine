@@ -30,7 +30,7 @@ public class XYMultipleSeriesDataset implements Serializable {
    * Adds a new XY series to the list.
    * @param series the XY series to ass
    */
-  public void addSeries(XYSeries series) {
+  public synchronized void addSeries(XYSeries series) {
     mSeries.add(series);
   }
   
@@ -39,7 +39,7 @@ public class XYMultipleSeriesDataset implements Serializable {
    * Removes the XY series from the list.
    * @param index the index in the series list of the series to remove
    */
-  public void removeSeries(int index) {
+  public synchronized void removeSeries(int index) {
     mSeries.remove(index);
   }
 
@@ -47,7 +47,7 @@ public class XYMultipleSeriesDataset implements Serializable {
    * Removes the XY series from the list.
    * @param series the XY series to be removed
    */
-  public void removeSeries(XYSeries series) {
+  public synchronized void removeSeries(XYSeries series) {
     mSeries.remove(series);
   }
 
@@ -56,7 +56,7 @@ public class XYMultipleSeriesDataset implements Serializable {
    * @param index the index
    * @return the XY series at the index
    */
-  public XYSeries getSeriesAt(int index) {
+  public synchronized XYSeries getSeriesAt(int index) {
     return mSeries.get(index);
   }
 
@@ -64,7 +64,7 @@ public class XYMultipleSeriesDataset implements Serializable {
    * Returns the XY series count.
    * @return the XY series count
    */
-  public int getSeriesCount() {
+  public synchronized int getSeriesCount() {
     return mSeries.size();
   }
 
@@ -72,7 +72,7 @@ public class XYMultipleSeriesDataset implements Serializable {
    * Returns an array of the XY series.
    * @return the XY series array
    */
-  public XYSeries[] getSeries() {
+  public synchronized XYSeries[] getSeries() {
     return mSeries.toArray(new XYSeries[0]);
   }
 

@@ -40,7 +40,7 @@ public class RangeCategorySeries extends CategorySeries {
    * @param minValue the new minimum value
    * @param maxValue the new maximum value
    */
-  public void add(double minValue, double maxValue) {
+  public synchronized void add(double minValue, double maxValue) {
     super.add(minValue);
     mMaxValues.add(maxValue);
   }
@@ -52,7 +52,7 @@ public class RangeCategorySeries extends CategorySeries {
    * @param minValue the new minimum value
    * @param maxValue the new maximum value
    */
-  public void add(String category, double minValue, double maxValue) {
+  public synchronized void add(String category, double minValue, double maxValue) {
     super.add(category, minValue);
     mMaxValues.add(maxValue);
   }
@@ -62,7 +62,7 @@ public class RangeCategorySeries extends CategorySeries {
    * 
    * @param index the index in the series of the values to remove
    */
-  public void remove(int index) {
+  public synchronized void remove(int index) {
     super.remove(index);
     mMaxValues.remove(index);
   }
@@ -70,7 +70,7 @@ public class RangeCategorySeries extends CategorySeries {
   /**
    * Removes all the existing values from the series.
    */
-  public void clear() {
+  public synchronized void clear() {
     super.clear();
     mMaxValues.clear();
   }
