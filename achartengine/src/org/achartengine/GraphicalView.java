@@ -65,7 +65,7 @@ public class GraphicalView extends View {
   private Zoom zoomIn;
   /** The zoom out tool. */
   private Zoom zoomOut;
-  
+  /** The paint to be used when drawing the chart. */
   private Paint mPaint = new Paint();
 
   /**
