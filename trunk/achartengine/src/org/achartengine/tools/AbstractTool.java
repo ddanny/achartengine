@@ -22,11 +22,12 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
  * Abstract class for being extended by graphical view tools.
  */
 public abstract class AbstractTool {
+  /** The chart. */
   protected XYChart mChart;
-
+  
+  /** The renderer. */
   protected XYMultipleSeriesRenderer mRenderer;
 
-  // TODO: javadoc
   public AbstractTool(XYChart chart, XYMultipleSeriesRenderer renderer) {
     mChart = chart;
     mRenderer = renderer;
