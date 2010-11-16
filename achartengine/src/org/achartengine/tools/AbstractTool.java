@@ -28,6 +28,11 @@ public abstract class AbstractTool {
   /** The renderer. */
   protected XYMultipleSeriesRenderer mRenderer;
 
+  /**
+   * Abstract tool constructor.
+   * @param chart the chart
+   * @param renderer the renderer
+   */
   public AbstractTool(XYChart chart, XYMultipleSeriesRenderer renderer) {
     mChart = chart;
     mRenderer = renderer;
