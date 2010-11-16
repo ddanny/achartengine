@@ -57,7 +57,7 @@ public class TrigonometricFunctionsChart extends AbstractDemoChart {
     List<double[]> x = new ArrayList<double[]>();
     List<double[]> values = new ArrayList<double[]>();
     int step = 4;
-    int count = MathHelper.ANGLE / step + 1;
+    int count = 360 / step + 1;
     x.add(new double[count]);
     x.add(new double[count]);
     double[] sinValues = new double[count];
@@ -65,11 +65,12 @@ public class TrigonometricFunctionsChart extends AbstractDemoChart {
     values.add(sinValues);
     values.add(cosValues);
     for (int i = 0; i < count; i++) {
-      int index = i * step;
-      x.get(0)[i] = index;
-      x.get(1)[i] = index;
-      sinValues[i] = MathHelper.SIN[index];
-      cosValues[i] = MathHelper.COS[index];
+      int angle = i * step;
+      x.get(0)[i] = angle;
+      x.get(1)[i] = angle;
+      double rAngle = Math.toRadians(angle);
+      sinValues[i] = Math.sin(rAngle);
+      cosValues[i] = Math.cos(rAngle);
     }
     int [] colors = new int[] { Color.BLUE, Color.CYAN };
     PointStyle[] styles = new PointStyle[] { PointStyle.POINT, PointStyle.POINT };
