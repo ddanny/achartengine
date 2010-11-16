@@ -18,6 +18,9 @@ package org.achartengine.tools;
 import org.achartengine.chart.XYChart;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
+/**
+ * Abstract class for being extended by graphical view tools.
+ */
 public abstract class AbstractTool {
   protected XYChart mChart;
 
