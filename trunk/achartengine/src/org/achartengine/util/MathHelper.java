@@ -24,70 +24,21 @@ import java.util.List;
  * Utility class for math operations.
  */
 public class MathHelper {
-  /** The maximum angle value for which the sin and cos values are calculated and cached. */
-  public static final int ANGLE = 360;
-  /** The 0 to ANGLE values in radians. */
-  public static final double[] RADIANS = new double[ANGLE + 1];
-  /** The 0 to ANGLE sin values. */
-  public static final double[] SIN = new double[ANGLE + 1];
-  /** The 0 to ANGLE cos values. */
-  public static final double[] COS = new double[ANGLE + 1];
   /** A value that is used a null value. */
   public static final double NULL_VALUE = Double.MAX_VALUE;
-  /** A number formatter to be used to make sure we have a maximum number of fraction digits in the labels. */
+  /**
+   * A number formatter to be used to make sure we have a maximum number of
+   * fraction digits in the labels.
+   */
   private static final NumberFormat FORMAT = NumberFormat.getNumberInstance();
-  
-  static {
-    calculateValues();
-  }
 
   private MathHelper() {
     // empty constructor
   }
 
   /**
-   * Calculates and cache the radians, sin and cos values.
-   */
-  public static void calculateValues() {
-    for (int i = 0; i <= ANGLE; i++) {
-      double radians = Math.toRadians(i);
-      RADIANS[i] = radians;
-      SIN[i] = Math.sin(radians);
-      COS[i] = Math.cos(radians);
-    }
-  }
-
-  /**
-   * Calculates the angle value such as it is included in the [0..360) degrees interval.
-   * @param angle the input angle value
-   * @return the output value in the [0..360) interval
-   */
-  public static int getAngle(int angle) {
-    if (angle < 0) {
-      return ANGLE + angle;
-    }
-    if (angle > ANGLE) {
-      return angle - ANGLE;
-    }
-    return angle;
-  }
-
-  /**
-   * Calculates the sum of a list of doubles.
-   * @param values the input values
-   * @return the sum of the values
-   */
-  public static double sum(List<Double> values) {
-    double sum = 0;
-    int length = values.size();
-    for (int i = 0; i < length; i++) {
-      sum += values.get(i);
-    }
-    return sum;
-  }
-  
-  /**
    * Calculate the minimum and maximum values out of a list of doubles.
+   * 
    * @param values the input values
    * @return an array with the minimum and maximum values
    */
@@ -129,7 +80,8 @@ public class MathHelper {
     for (int i = 0; i < numLabels; i++) {
       double z = labelParams[0] + i * labelParams[2];
       try {
-        // this way, we avoid a label value like 0.4000000000000000001 instead of 0.4
+        // this way, we avoid a label value like 0.4000000000000000001 instead
+        // of 0.4
         z = FORMAT.parse(FORMAT.format(z)).doubleValue();
       } catch (ParseException e) {
         // do nothing here
@@ -190,7 +142,9 @@ public class MathHelper {
   }
 
   /**
-   * Transforms an array of Object into an array of double if the objects are Doubles actually.
+   * Transforms an array of Object into an array of double if the objects are
+   * Doubles actually.
+   * 
    * @param o the array of objects
    * @return the array of doubles
    */
@@ -204,7 +158,9 @@ public class MathHelper {
   }
 
   /**
-   * Transforms an array of Object into an array of float if the objects are Floats actually.
+   * Transforms an array of Object into an array of float if the objects are
+   * Floats actually.
+   * 
    * @param o the array of objects
    * @return the array of floats
    */

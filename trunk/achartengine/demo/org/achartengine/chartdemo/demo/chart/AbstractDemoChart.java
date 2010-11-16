@@ -21,6 +21,7 @@ import java.util.List;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.MultipleCategorySeries;
+import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.DefaultRenderer;
@@ -118,12 +119,12 @@ public abstract class AbstractDemoChart implements IChart {
     XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
     int length = titles.length;
     for (int i = 0; i < length; i++) {
-      XYSeries series = new XYSeries(titles[i]);
+      TimeSeries series = new TimeSeries(titles[i]);
       Date[] xV = xValues.get(i);
       double[] yV = yValues.get(i);
       int seriesLength = xV.length;
       for (int k = 0; k < seriesLength; k++) {
-        series.add(xV[k].getTime(), yV[k]);
+        series.add(xV[k], yV[k]);
       }
       dataset.addSeries(series);
     }
