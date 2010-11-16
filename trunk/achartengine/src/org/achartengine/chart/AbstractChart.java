@@ -33,7 +33,7 @@ import android.graphics.Paint.Style;
  * An abstract class to be implemented by the chart rendering classes.
  */
 public abstract class AbstractChart implements Serializable {
-  
+
   /**
    * The graphical representation of the chart.
    * 
@@ -157,7 +157,7 @@ public abstract class AbstractChart implements Serializable {
     }
     canvas.drawPath(path, paint);
   }
-  
+
   /**
    * Returns the legend shape width.
    * 
