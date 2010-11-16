@@ -143,7 +143,7 @@ public class BarChart extends XYChart {
     if (mType != Type.STACKED) {
       halfDiffX /= seriesNr;
     }
-    return halfDiffX / getCoeficient();
+    return (float) (halfDiffX / (getCoeficient() * (1 + mRenderer.getBarsSpacing())));
   }
 
   /**
@@ -151,7 +151,7 @@ public class BarChart extends XYChart {
    * @return the constant value
    */
   protected float getCoeficient() {
-    return 1;
+    return 1f;
   }
 
 }
