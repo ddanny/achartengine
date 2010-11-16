@@ -56,11 +56,13 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /** The chart values text size. */
   private float mChartValuesTextSize = 9;
   /** A flag for enabling or not the pan. */
-  private boolean panEnabled = true;
+  private boolean mPanEnabled = true;
   /** A flag for enabling or not the zoom. */
-  private boolean zoomEnabled = true;
+  private boolean mZoomEnabled = true;
   /** The zoom rate. */
-  private float zoomRate = 1.5f;
+  private float mZoomRate = 1.5f;
+  /** The spacing between bars, in bar charts. */
+  private double mBarSpacing = 0;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -407,7 +409,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return if pan is enabled
    */
   public boolean isPanEnabled() {
-    return panEnabled;
+    return mPanEnabled;
   }
 
   /**
@@ -416,7 +418,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param enabled pan enabled
    */
   public void setPanEnabled(boolean enabled) {
-    panEnabled = enabled;
+    mPanEnabled = enabled;
   }
 
   /**
@@ -425,7 +427,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return if zoom is enabled
    */
   public boolean isZoomEnabled() {
-    return zoomEnabled;
+    return mZoomEnabled;
   }
 
   /**
@@ -434,7 +436,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param enabled zoom enabled
    */
   public void setZoomEnabled(boolean enabled) {
-    zoomEnabled = enabled;
+    mZoomEnabled = enabled;
   }
 
   /**
@@ -443,7 +445,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the zoom rate
    */
   public float getZoomRate() {
-    return zoomRate;
+    return mZoomRate;
   }
 
   /**
@@ -452,7 +454,29 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param rate the zoom rate
    */
   public void setZoomRate(float rate) {
-    zoomRate = rate;
+    mZoomRate = rate;
   }
+  
+  /**
+   * Returns the spacing between bars, in bar charts.
+   * 
+   * @return the spacing between bars
+   */
+  public double getBarsSpacing() {
+    return mBarSpacing;
+  }
+
+  /**
+   * Sets the spacing between bars, in bar charts.
+   * Only available for bar charts.
+   * This is a coefficient of the bar width. For instance, if you want the spacing to be
+   * a half of the bar width, set this value to 0.5.
+   * 
+   * @param spacing the spacing between bars coefficient
+   */
+  public void setBarSpacing(double spacing) {
+    mBarSpacing = spacing;
+  }
+
 
 }

@@ -15,6 +15,7 @@
  */
 package org.achartengine.chart;
 
+import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.SimpleSeriesRenderer;
@@ -71,7 +72,7 @@ public class RangeBarChart extends BarChart {
       }
     }
   }
-
+  
   /**
    * The graphical representation of the series values as text.
    * 

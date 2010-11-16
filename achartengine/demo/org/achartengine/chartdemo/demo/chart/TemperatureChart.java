@@ -72,6 +72,7 @@ public class TemperatureChart extends AbstractDemoChart {
         -30, 45, Color.GRAY, Color.LTGRAY);
     // renderer.setBackgroundColor(Color.GREEN);
     // renderer.setApplyBackgroundColor(true);
+    renderer.setBarSpacing(0.5);
     renderer.setXLabels(1);
     renderer.setYLabels(10);
     renderer.addTextLabel(1, "Jan");
