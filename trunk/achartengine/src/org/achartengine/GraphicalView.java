@@ -130,7 +130,8 @@ public class GraphicalView extends View {
     } else if (action == MotionEvent.ACTION_DOWN) {
       oldX = event.getX();
       oldY = event.getY();
-      if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled()) && zoomR.contains(oldX, oldY)) {
+      if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())
+          && zoomR.contains(oldX, oldY)) {
         if (oldX < zoomR.centerX()) {
           zoomIn.apply();
         } else {
@@ -145,7 +146,9 @@ public class GraphicalView extends View {
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-    if (mRenderer != null && (mRenderer.isPanXEnabled() || mRenderer.isZoomYEnabled() || mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())) {
+    if (mRenderer != null
+        && (mRenderer.isPanXEnabled() || mRenderer.isZoomYEnabled() || mRenderer.isZoomXEnabled() || mRenderer
+            .isZoomYEnabled())) {
       handleTouch(event);
       return true;
     }
