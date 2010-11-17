@@ -66,6 +66,8 @@ public class DefaultRenderer implements Serializable {
   private Align xLabelsAlign = Align.CENTER;
   /** The Y axis labels alignment. */
   private Align yLabelsAlign = Align.CENTER;
+  /** The legend height. */
+  private int mLegendHeight = 0;
 
   /**
    * Adds a simple renderer to the multiple renderer.
@@ -375,5 +377,24 @@ public class DefaultRenderer implements Serializable {
   public void setYLabelsAlign(Align align) {
     yLabelsAlign = align;
   }
+  
+  /**
+   * Returns the legend height.
+   * 
+   * @return the legend height
+   */
+  public int getLegendHeight() {
+    return mLegendHeight;
+  }
+
+  /**
+   * Sets the legend height, in pixels.
+   * 
+   * @param height the legend height
+   */
+  public void setLegendHeight(int height) {
+    mLegendHeight = height;
+  }
+
 
 }

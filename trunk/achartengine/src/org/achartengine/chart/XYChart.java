@@ -77,8 +77,8 @@ public abstract class XYChart extends AbstractChart {
   @Override
   public void draw(Canvas canvas, int x, int y, int width, int height, Paint paint) {
     paint.setAntiAlias(mRenderer.isAntialiasing());
-    int legendSize = 30;
-    if (mRenderer.isShowLegend()) {
+    int legendSize = mRenderer.getLegendHeight();
+    if (mRenderer.isShowLegend() && legendSize == 0) {
       legendSize = height / 5;
     }
     int left = x + 20;

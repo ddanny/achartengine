@@ -65,8 +65,8 @@ public class DialChart extends AbstractChart {
     paint.setAntiAlias(mRenderer.isAntialiasing());
     paint.setStyle(Style.FILL);
     paint.setTextSize(mRenderer.getLabelsTextSize());
-    int legendSize = 30;
-    if (mRenderer.isShowLegend()) {
+    int legendSize = mRenderer.getLegendHeight();
+    if (mRenderer.isShowLegend() && legendSize == 0) {
       legendSize = height / 5;
     }
     int left = x + 15;
