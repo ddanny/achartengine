@@ -83,10 +83,10 @@ public class GraphicalView extends View {
       zoomOutImage = BitmapFactory.decodeStream(getClass()
           .getResourceAsStream("image/zoom_out.png"));
       mRenderer = ((XYChart) mChart).getRenderer();
-      if (mRenderer.isPanEnabled()) {
+      if (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled()) {
         pan = new Pan((XYChart) mChart, mRenderer);
       }
-      if (mRenderer.isZoomEnabled()) {
+      if (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled()) {
         zoomIn = new Zoom((XYChart) mChart, mRenderer, true, mRenderer.getZoomRate());
         zoomOut = new Zoom((XYChart) mChart, mRenderer, false, mRenderer.getZoomRate());
       }
@@ -102,12 +102,11 @@ public class GraphicalView extends View {
     int width = mRect.width();
     int height = mRect.height();
     mChart.draw(canvas, left, top, width, height, mPaint);
-    if (mRenderer != null && mRenderer.isZoomEnabled()) {
-      Paint paint = new Paint();
-      paint.setColor(ZOOM_BUTTONS_COLOR);
+    if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())) {
+      mPaint.setColor(ZOOM_BUTTONS_COLOR);
       zoomR.set(left + width - ZOOM_SIZE * 2, top + height - ZOOM_SIZE * 0.775f, left + width, top
           + height);
-      canvas.drawRoundRect(zoomR, ZOOM_SIZE / 3, ZOOM_SIZE / 3, paint);
+      canvas.drawRoundRect(zoomR, ZOOM_SIZE / 3, ZOOM_SIZE / 3, mPaint);
       canvas.drawBitmap(zoomInImage, left + width - ZOOM_SIZE * 1.75f, top + height - ZOOM_SIZE
           * 0.625f, null);
       canvas.drawBitmap(zoomOutImage, left + width - ZOOM_SIZE * 0.75f, top + height - ZOOM_SIZE
@@ -121,7 +120,7 @@ public class GraphicalView extends View {
       if (oldX >= 0 || oldY >= 0) {
         float newX = event.getX();
         float newY = event.getY();
-        if (mRenderer.isPanEnabled()) {
+        if (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled()) {
           pan.apply(oldX, oldY, newX, newY);
         }
         oldX = newX;
@@ -131,7 +130,7 @@ public class GraphicalView extends View {
     } else if (action == MotionEvent.ACTION_DOWN) {
       oldX = event.getX();
       oldY = event.getY();
-      if (mRenderer != null && mRenderer.isZoomEnabled() && zoomR.contains(oldX, oldY)) {
+      if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled()) && zoomR.contains(oldX, oldY)) {
         if (oldX < zoomR.centerX()) {
           zoomIn.apply();
         } else {
@@ -146,7 +145,7 @@ public class GraphicalView extends View {
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-    if (mRenderer != null && (mRenderer.isPanEnabled() || mRenderer.isZoomEnabled())) {
+    if (mRenderer != null && (mRenderer.isPanXEnabled() || mRenderer.isZoomYEnabled() || mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())) {
       handleTouch(event);
       return true;
     }
