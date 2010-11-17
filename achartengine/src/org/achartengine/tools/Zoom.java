@@ -52,16 +52,28 @@ public class Zoom extends AbstractTool {
     double newWidth = range[1] - range[0];
     double newHeight = range[3] - range[2];
     if (mZoomIn) {
-      newWidth /= mZoomRate;
-      newHeight /= mZoomRate;
+      if (mRenderer.isZoomXEnabled()) {
+        newWidth /= mZoomRate;
+      }
+      if (mRenderer.isZoomYEnabled()) {
+        newHeight /= mZoomRate;
+      }
     } else {
-      newWidth *= mZoomRate;
-      newHeight *= mZoomRate;
+      if (mRenderer.isZoomXEnabled()) {
+        newWidth *= mZoomRate;
+      }
+      if (mRenderer.isZoomYEnabled()) {
+        newHeight *= mZoomRate;
+      }
     }
 
-    mRenderer.setXAxisMin(centerX - newWidth / 2);
-    mRenderer.setXAxisMax(centerX + newWidth / 2);
-    mRenderer.setYAxisMin(centerY - newHeight / 2);
-    mRenderer.setYAxisMax(centerY + newHeight / 2);
+    if (mRenderer.isZoomXEnabled()) {
+      mRenderer.setXAxisMin(centerX - newWidth / 2);
+      mRenderer.setXAxisMax(centerX + newWidth / 2);
+    }
+    if (mRenderer.isZoomYEnabled()) {
+      mRenderer.setYAxisMin(centerY - newHeight / 2);
+      mRenderer.setYAxisMax(centerY + newHeight / 2);
+    }
   }
 }

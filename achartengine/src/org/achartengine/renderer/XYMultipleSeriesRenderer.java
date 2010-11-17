@@ -55,10 +55,14 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private boolean mDisplayChartValues;
   /** The chart values text size. */
   private float mChartValuesTextSize = 9;
-  /** A flag for enabling or not the pan. */
-  private boolean mPanEnabled = true;
-  /** A flag for enabling or not the zoom. */
-  private boolean mZoomEnabled = true;
+  /** A flag for enabling or not the pan on the X axis. */
+  private boolean mPanXEnabled = true;
+  /** A flag for enabling or not the pan on the Y axis. */
+  private boolean mPanYEnabled = true;
+  /** A flag for enabling or not the zoom on the X axis. */
+  private boolean mZoomXEnabled = true;
+  /** A flag for enabling or not the zoom on the Y axis . */
+  private boolean mZoomYEnabled = true;
   /** The zoom rate. */
   private float mZoomRate = 1.5f;
   /** The spacing between bars, in bar charts. */
@@ -404,39 +408,61 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-   * Returns the enabled state of the pan.
+   * Returns the enabled state of the pan on X axis.
    * 
-   * @return if pan is enabled
+   * @return if pan is enabled on X axis
    */
-  public boolean isPanEnabled() {
-    return mPanEnabled;
+  public boolean isPanXEnabled() {
+    return mPanXEnabled;
+  }
+
+  /**
+   * Returns the enabled state of the pan on Y axis.
+   * 
+   * @return if pan is enabled on Y axis
+   */
+  public boolean isPanYEnabled() {
+    return mPanYEnabled;
   }
 
   /**
    * Sets the enabled state of the pan.
    * 
-   * @param enabled pan enabled
+   * @param enabledX pan enabled on X axis
+   * @param enabledY pan enabled on Y axis
    */
-  public void setPanEnabled(boolean enabled) {
-    mPanEnabled = enabled;
+  public void setPanEnabled(boolean enabledX, boolean enabledY) {
+    mPanXEnabled = enabledX;
+    mPanYEnabled = enabledY;
   }
 
   /**
-   * Returns the enabled state of the zoom.
+   * Returns the enabled state of the zoom on X axis.
    * 
-   * @return if zoom is enabled
+   * @return if zoom is enabled on X axis
    */
-  public boolean isZoomEnabled() {
-    return mZoomEnabled;
+  public boolean isZoomXEnabled() {
+    return mZoomXEnabled;
+  }
+
+  /**
+   * Returns the enabled state of the zoom on Y axis.
+   * 
+   * @return if zoom is enabled on Y axis
+   */
+  public boolean isZoomYEnabled() {
+    return mZoomYEnabled;
   }
 
   /**
    * Sets the enabled state of the zoom.
    * 
-   * @param enabled zoom enabled
+   * @param enabledX zoom enabled on X axis
+   * @param enabledY zoom enabled on Y axis
    */
-  public void setZoomEnabled(boolean enabled) {
-    mZoomEnabled = enabled;
+  public void setZoomEnabled(boolean enabledX, boolean enabledY) {
+    mZoomXEnabled = enabledX;
+    mZoomYEnabled = enabledY;
   }
 
   /**

@@ -55,9 +55,13 @@ public class Pan extends AbstractTool {
     PointF realPoint2 = mChart.toRealPoint(newX, newY);
     double deltaX = realPoint.x - realPoint2.x;
     double deltaY = realPoint.y - realPoint2.y;
-    mRenderer.setXAxisMin(range[0] + deltaX);
-    mRenderer.setXAxisMax(range[1] + deltaX);
-    mRenderer.setYAxisMin(range[2] + deltaY);
-    mRenderer.setYAxisMax(range[3] + deltaY);
+    if (mRenderer.isPanXEnabled()) {
+      mRenderer.setXAxisMin(range[0] + deltaX);
+      mRenderer.setXAxisMax(range[1] + deltaX);
+    }
+    if (mRenderer.isPanYEnabled()) {
+      mRenderer.setYAxisMin(range[2] + deltaY);
+      mRenderer.setYAxisMax(range[3] + deltaY);
+    }
   }
 }
