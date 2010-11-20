@@ -18,6 +18,7 @@ package org.achartengine.renderer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.achartengine.chart.AbstractChart;
 import org.achartengine.util.MathHelper;
 
 /**
@@ -67,6 +68,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private float mZoomRate = 1.5f;
   /** The spacing between bars, in bar charts. */
   private double mBarSpacing = 0;
+  /** The margins colors. */
+  private int mMarginsColor = NO_COLOR;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -503,6 +506,23 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setBarSpacing(double spacing) {
     mBarSpacing = spacing;
   }
+  
+  /**
+   * Returns the margins color.
+   * 
+   * @return the margins color
+   */
+  public int getMarginsColor() {
+    return mMarginsColor;
+  }
 
+  /**
+   * Sets the color of the margins.
+   * 
+   * @param color the margins color
+   */
+  public void setMarginsColor(int color) {
+    mMarginsColor = color;
+  }
 
 }

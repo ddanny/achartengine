@@ -83,6 +83,9 @@ public class GraphicalView extends View {
       zoomOutImage = BitmapFactory.decodeStream(getClass()
           .getResourceAsStream("image/zoom_out.png"));
       mRenderer = ((XYChart) mChart).getRenderer();
+      if (mRenderer.getMarginsColor() == XYMultipleSeriesRenderer.NO_COLOR) {
+        mRenderer.setMarginsColor(mPaint.getColor());
+      }
       if (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled()) {
         pan = new Pan((XYChart) mChart, mRenderer);
       }

@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
@@ -89,7 +90,7 @@ public abstract class XYChart extends AbstractChart {
       screenR = new Rect();
     }
     screenR.set(left, top, right, bottom);
-    drawBackground(mRenderer, canvas, x, y, width, height, paint);
+    drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
 
     if (paint.getTypeface() == null
         || !paint.getTypeface().toString().equals(mRenderer.getTextTypefaceName())
@@ -195,7 +196,15 @@ public abstract class XYChart extends AbstractChart {
         drawChartValuesText(canvas, series, paint, points, i);
       }
     }
-
+    
+    // draw stuff over the margins such as data doesn't render on these areas
+    drawBackground(mRenderer, canvas, x, bottom, width, height - bottom, paint, true, mRenderer.getMarginsColor());
+    if (or == Orientation.HORIZONTAL) {
+      drawBackground(mRenderer, canvas, x, y, left - x, height - y, paint, true, mRenderer.getMarginsColor());
+    } else if (or == Orientation.VERTICAL) {
+      drawBackground(mRenderer, canvas, right, y, width - right, height - y, paint, true, mRenderer.getMarginsColor());
+    }
+    
     boolean showLabels = mRenderer.isShowLabels() && hasValues;
     boolean showGrid = mRenderer.isShowGrid();
     if (showLabels || showGrid) {
@@ -257,7 +266,6 @@ public abstract class XYChart extends AbstractChart {
         }
       }
     }
-
     if (or == Orientation.HORIZONTAL) {
       drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint);
     } else if (or == Orientation.VERTICAL) {
