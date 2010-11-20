@@ -28,6 +28,7 @@ import android.graphics.Color;
 public class BudgetPieChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
+   * 
    * @return the chart name
    */
   public String getName() {
@@ -36,6 +37,7 @@ public class BudgetPieChart extends AbstractDemoChart {
   
   /**
    * Returns the chart description.
+   * 
    * @return the chart description
    */
   public String getDesc() {
@@ -44,6 +46,7 @@ public class BudgetPieChart extends AbstractDemoChart {
   
   /**
    * Executes the chart demo.
+   * 
    * @param context the context
    * @return the built intent
    */
