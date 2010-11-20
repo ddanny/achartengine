@@ -70,6 +70,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private double mBarSpacing = 0;
   /** The margins colors. */
   private int mMarginsColor = NO_COLOR;
+  /** The pan limits. */
+  private double[] mPanLimits;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -523,6 +525,26 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setMarginsColor(int color) {
     mMarginsColor = color;
+  }
+
+  /**
+   * Returns the pan limits.
+   * 
+   * @return the pan limits
+   */
+  public double[] getPanLimits() {
+    return mPanLimits;
+  }
+
+  /**
+   * Sets the pan limits as an array of 4 values.
+   * Setting it to null or a different size array will disable the panning limitation.
+   * Values: [panMinimumX, panMaximumX, panMinimumY, panMaximumY]
+   * 
+   * @param panLimits the pan limits
+   */
+  public void setPanLimits(double[] panLimits) {
+    mPanLimits = panLimits;
   }
 
 }
