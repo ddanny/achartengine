@@ -37,7 +37,7 @@ public class BudgetDoughnutChart extends AbstractDemoChart {
   public String getName() {
     return "Budget chart for several years";
   }
-  
+
   /**
    * Returns the chart description.
    * 
@@ -46,7 +46,7 @@ public class BudgetDoughnutChart extends AbstractDemoChart {
   public String getDesc() {
     return "The budget per project for several years (doughnut chart)";
   }
-  
+
   /**
    * Executes the chart demo.
    * 
@@ -55,17 +55,18 @@ public class BudgetDoughnutChart extends AbstractDemoChart {
    */
   public Intent execute(Context context) {
     List<double[]> values = new ArrayList<double[]>();
-    values.add(new double[] {12, 14, 11, 10, 19});
-    values.add(new double[] {10, 9, 14, 20, 11});
+    values.add(new double[] { 12, 14, 11, 10, 19 });
+    values.add(new double[] { 10, 9, 14, 20, 11 });
     List<String[]> titles = new ArrayList<String[]>();
-    titles.add(new String[] {"P1", "P2", "P3", "P4", "P5"});
-    titles.add(new String[] {"P1", "P2", "P3", "P4", "P5"});
-    int[] colors = new int[] {Color.BLUE, Color.GREEN, Color.MAGENTA, Color.YELLOW, Color.CYAN};
+    titles.add(new String[] { "P1", "P2", "P3", "P4", "P5" });
+    titles.add(new String[] { "P1", "P2", "P3", "P4", "P5" });
+    int[] colors = new int[] { Color.BLUE, Color.GREEN, Color.MAGENTA, Color.YELLOW, Color.CYAN };
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setApplyBackgroundColor(true);
     renderer.setBackgroundColor(Color.rgb(222, 222, 200));
     renderer.setLabelsColor(Color.GRAY);
-    return ChartFactory.getDoughnutChartIntent(context, buildMultipleCategoryDataset("Project budget", titles, values), renderer, "Doughnut chart demo");
+    return ChartFactory.getDoughnutChartIntent(context, buildMultipleCategoryDataset(
+        "Project budget", titles, values), renderer, "Doughnut chart demo");
   }
 
 }
