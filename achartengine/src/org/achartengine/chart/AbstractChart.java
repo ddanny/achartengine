@@ -33,7 +33,7 @@ import android.graphics.Paint.Style;
  * An abstract class to be implemented by the chart rendering classes.
  */
 public abstract class AbstractChart implements Serializable {
-  
+
   /**
    * The graphical representation of the chart.
    * 
@@ -57,7 +57,7 @@ public abstract class AbstractChart implements Serializable {
    * @param height the height of the view to draw to
    * @param paint the paint used for drawing
    * @param newColor if a new color is to be used
-   * @param color the color to be used 
+   * @param color the color to be used
    */
   protected void drawBackground(DefaultRenderer renderer, Canvas canvas, int x, int y, int width,
       int height, Paint paint, boolean newColor, int color) {
