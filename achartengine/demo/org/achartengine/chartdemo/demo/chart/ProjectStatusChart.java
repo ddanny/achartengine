@@ -39,7 +39,7 @@ public class ProjectStatusChart extends AbstractDemoChart {
   public String getName() {
     return "Project tickets status";
   }
-  
+
   /**
    * Returns the chart description.
    * 
@@ -48,7 +48,7 @@ public class ProjectStatusChart extends AbstractDemoChart {
   public String getDesc() {
     return "The opened tickets and the fixed tickets (time chart)";
   }
-  
+
   /**
    * Executes the chart demo.
    * 
@@ -81,8 +81,8 @@ public class ProjectStatusChart extends AbstractDemoChart {
     int[] colors = new int[] { Color.BLUE, Color.GREEN };
     PointStyle[] styles = new PointStyle[] { PointStyle.POINT, PointStyle.POINT };
     XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
-    setChartSettings(renderer, "Project work status", "Date", "Tickets", dates.get(0)[0]
-        .getTime(), dates.get(0)[11].getTime(), 50, 190, Color.GRAY, Color.LTGRAY);
+    setChartSettings(renderer, "Project work status", "Date", "Tickets", dates.get(0)[0].getTime(),
+        dates.get(0)[11].getTime(), 50, 190, Color.GRAY, Color.LTGRAY);
     renderer.setXLabels(5);
     renderer.setYLabels(10);
     renderer.setDisplayChartValues(true);
