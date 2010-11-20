@@ -44,6 +44,8 @@ public class Pan extends AbstractTool {
    */
   public void apply(float oldX, float oldY, float newX, float newY) {
     double[] range = getRange();
+    double[] limits = mRenderer.getPanLimits();
+    boolean limited = limits != null && limits.length == 4;
     double[] calcRange = mChart.getCalcRange();
     if (range[0] == range[2] && calcRange[0] == calcRange[1] || range[1] == range[3]
         && calcRange[2] == calcRange[3]) {
@@ -56,12 +58,40 @@ public class Pan extends AbstractTool {
     double deltaX = realPoint.x - realPoint2.x;
     double deltaY = realPoint.y - realPoint2.y;
     if (mRenderer.isPanXEnabled()) {
-      mRenderer.setXAxisMin(range[0] + deltaX);
-      mRenderer.setXAxisMax(range[1] + deltaX);
+      if (limited) {
+        if (limits[0] > range[0] + deltaX) {
+          setXRange(limits[0], limits[0] + (range[1] - range[0]));
+        } else if (limits[1] < range[1] + deltaX) {
+          setXRange(limits[1] - (range[1] - range[0]), limits[1]);
+        } else {
+          setXRange(range[0] + deltaX, range[1] + deltaX);
+        }
+      } else {
+        setXRange(range[0] + deltaX, range[1] + deltaX);
+      }
     }
     if (mRenderer.isPanYEnabled()) {
-      mRenderer.setYAxisMin(range[2] + deltaY);
-      mRenderer.setYAxisMax(range[3] + deltaY);
+      if (limited) {
+        if (limits[2] > range[2] + deltaY) {
+          setYRange(limits[2], limits[2] + (range[3] - range[2]));
+        } else if (limits[3] < range[3] + deltaY) {
+          setYRange(limits[3] - (range[3] - range[2]), limits[3]);
+        } else {
+          setYRange(range[2] + deltaY, range[3] + deltaY);
+        }
+      } else {
+        setYRange(range[2] + deltaY, range[3] + deltaY);
+      }
     }
+  }
+  
+  private void setXRange(double min, double max) {
+    mRenderer.setXAxisMin(min);
+    mRenderer.setXAxisMax(max);
+  }
+  
+  private void setYRange(double min, double max) {
+    mRenderer.setYAxisMin(min);
+    mRenderer.setYAxisMax(max);
   }
 }
