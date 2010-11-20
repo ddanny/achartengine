@@ -70,7 +70,7 @@ public class PieChart extends AbstractChart {
     int top = y + 5;
     int right = x + width - 5;
     int bottom = y + height - legendSize;
-    drawBackground(mRenderer, canvas, x, y, width, height, paint);
+    drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
 
     int sLength = mDataset.getItemCount();
     double total = 0;

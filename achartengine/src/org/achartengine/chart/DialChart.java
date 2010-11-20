@@ -16,6 +16,7 @@
 package org.achartengine.chart;
 
 import org.achartengine.model.CategorySeries;
+import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.DialRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.DialRenderer.Type;
@@ -73,7 +74,7 @@ public class DialChart extends AbstractChart {
     int top = y + 5;
     int right = x + width - 5;
     int bottom = y + height - legendSize;
-    drawBackground(mRenderer, canvas, x, y, width, height, paint);
+    drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
 
     int sLength = mDataset.getItemCount();
     double total = 0;
