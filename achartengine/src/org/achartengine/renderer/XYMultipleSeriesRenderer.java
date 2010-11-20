@@ -72,6 +72,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private int mMarginsColor = NO_COLOR;
   /** The pan limits. */
   private double[] mPanLimits;
+  /** The X axis labels rotation angle. */
+  private float mXLabelsAngle;
+  /** The Y axis labels rotation angle. */
+  private float mYLabelsAngle;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -546,5 +550,42 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setPanLimits(double[] panLimits) {
     mPanLimits = panLimits;
   }
+
+  /**
+   * Returns the rotation angle of labels for the X axis.
+   * 
+   * @return the rotation angle of labels for the X axis
+   */
+  public float getXLabelsAngle() {
+    return mXLabelsAngle;
+  }
+
+  /**
+   * Sets the rotation angle (in degrees) of labels for the X axis.
+   * 
+   * @param angle the rotation angle of labels for the X axis
+   */
+  public void setXLabelsAngle(float angle) {
+    mXLabelsAngle = angle;
+  }
+
+  /**
+   * Returns the rotation angle of labels for the Y axis.
+   * 
+   * @return the approximate number of labels for the Y axis
+   */
+  public float getYLabelsAngle() {
+    return mYLabelsAngle;
+  }
+
+  /**
+   * Sets the rotation angle (in degrees) of labels for the Y axis.
+   * 
+   * @param angle the rotation angle of labels for the Y axis
+   */
+  public void setYLabelsAngle(float angle) {
+    mYLabelsAngle = angle;
+  }
+
 
 }

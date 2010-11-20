@@ -230,7 +230,7 @@ public abstract class XYChart extends AbstractChart {
           if (showLabels) {
             paint.setColor(mRenderer.getLabelsColor());
             canvas.drawLine(left - 4, yLabel, left, yLabel, paint);
-            drawText(canvas, getLabel(label), left - 2, yLabel - 2, paint, 0);
+            drawText(canvas, getLabel(label), left - 2, yLabel - 2, paint, mRenderer.getYLabelsAngle());
           }
           if (showGrid) {
             paint.setColor(GRID_COLOR);
@@ -240,7 +240,7 @@ public abstract class XYChart extends AbstractChart {
           if (showLabels) {
             paint.setColor(mRenderer.getLabelsColor());
             canvas.drawLine(right + 4, yLabel, right, yLabel, paint);
-            drawText(canvas, getLabel(label), right + 10, yLabel - 2, paint, 0);
+            drawText(canvas, getLabel(label), right + 10, yLabel - 2, paint, mRenderer.getYLabelsAngle());
           }
           if (showGrid) {
             paint.setColor(GRID_COLOR);
@@ -312,10 +312,10 @@ public abstract class XYChart extends AbstractChart {
    * @param x the X axis location of the text
    * @param y the Y axis location of the text
    * @param paint the paint to be used for drawing
-   * @param extraAngle the array of points to be used for drawing the series
+   * @param extraAngle the text angle
    */
-  protected void drawText(Canvas canvas, String text, float x, float y, Paint paint, int extraAngle) {
-    int angle = -mRenderer.getOrientation().getAngle() + extraAngle;
+  protected void drawText(Canvas canvas, String text, float x, float y, Paint paint, float extraAngle) {
+    float angle = -mRenderer.getOrientation().getAngle() + extraAngle;
     if (angle != 0) {
       // canvas.scale(1 / mScale, mScale);
       canvas.rotate(angle, x, y);
@@ -387,7 +387,7 @@ public abstract class XYChart extends AbstractChart {
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
         canvas.drawLine(xLabel, bottom, xLabel, bottom + 4, paint);
-        drawText(canvas, getLabel(label), xLabel, bottom + 12, paint, 0);
+        drawText(canvas, getLabel(label), xLabel, bottom + 12, paint, mRenderer.getXLabelsAngle());
       }
       if (showGrid) {
         paint.setColor(GRID_COLOR);
@@ -399,7 +399,7 @@ public abstract class XYChart extends AbstractChart {
       for (Double location : xTextLabelLocations) {
         float xLabel = (float) (left + xPixelsPerUnit * (location.doubleValue() - minX));
         canvas.drawLine(xLabel, bottom, xLabel, bottom + 4, paint);
-        drawText(canvas, mRenderer.getXTextLabel(location), xLabel, bottom + 12, paint, 0);
+        drawText(canvas, mRenderer.getXTextLabel(location), xLabel, bottom + 12, paint, mRenderer.getXLabelsAngle());
       }
     }
   }
