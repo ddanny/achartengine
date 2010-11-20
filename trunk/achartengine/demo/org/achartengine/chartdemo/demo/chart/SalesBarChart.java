@@ -35,6 +35,7 @@ public class SalesBarChart extends AbstractDemoChart {
 
   /**
    * Returns the chart name.
+   * 
    * @return the chart name
    */
   public String getName() {
@@ -43,6 +44,7 @@ public class SalesBarChart extends AbstractDemoChart {
 
   /**
    * Returns the chart description.
+   * 
    * @return the chart description
    */
   public String getDesc() {
@@ -51,6 +53,7 @@ public class SalesBarChart extends AbstractDemoChart {
 
   /**
    * Executes the chart demo.
+   * 
    * @param context the context
    * @return the built intent
    */
