@@ -31,22 +31,25 @@ import android.graphics.Color;
 public class ProjectStatusBubbleChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
+   * 
    * @return the chart name
    */
   public String getName() {
     return "Project tickets status";
   }
-  
+
   /**
    * Returns the chart description.
+   * 
    * @return the chart description
    */
   public String getDesc() {
     return "The opened tickets and the fixed tickets (bubble chart)";
   }
-  
+
   /**
    * Executes the chart demo.
+   * 
    * @param context the context
    * @return the built intent
    */
@@ -66,7 +69,7 @@ public class ProjectStatusBubbleChart extends AbstractDemoChart {
     fixedTicketSeries.add(4, 1, 3);
     fixedTicketSeries.add(5, 1, 1);
     series.addSeries(fixedTicketSeries);
-    
+
     XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
     XYSeriesRenderer newTicketRenderer = new XYSeriesRenderer();
     newTicketRenderer.setColor(Color.BLUE);
@@ -74,8 +77,9 @@ public class ProjectStatusBubbleChart extends AbstractDemoChart {
     XYSeriesRenderer fixedTicketRenderer = new XYSeriesRenderer();
     fixedTicketRenderer.setColor(Color.GREEN);
     renderer.addSeriesRenderer(fixedTicketRenderer);
-    
-    setChartSettings(renderer, "Project work status", "Priority", "", 0.5, 5.5, 0, 5, Color.GRAY, Color.LTGRAY);
+
+    setChartSettings(renderer, "Project work status", "Priority", "", 0.5, 5.5, 0, 5, Color.GRAY,
+        Color.LTGRAY);
     renderer.setXLabels(7);
     renderer.setYLabels(0);
     renderer.setDisplayChartValues(false);
