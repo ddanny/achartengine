@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 
-
 /**
  * Sales demo bar chart.
  */
@@ -62,8 +61,8 @@ public class SalesBarChart extends AbstractDemoChart {
     List<double[]> values = new ArrayList<double[]>();
     values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030, 11200, 9500, 10500,
         11600, 13500 });
-    values.add(new double[] { 14230, 12300, 14240, 15244, 15900, 19200, 22030, 21200, 19500,
-        15500, 12600, 14000 });
+    values.add(new double[] { 14230, 12300, 14240, 15244, 15900, 19200, 22030, 21200, 19500, 15500,
+        12600, 14000 });
     int[] colors = new int[] { Color.CYAN, Color.BLUE };
     XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
     renderer.setOrientation(Orientation.VERTICAL);
@@ -78,7 +77,8 @@ public class SalesBarChart extends AbstractDemoChart {
     renderer.addTextLabel(10, "Oct");
     renderer.addTextLabel(12, "Dec");
     renderer.setDisplayChartValues(true);
-    return ChartFactory.getBarChartIntent(context, buildBarDataset(titles, values), renderer, Type.DEFAULT);
+    return ChartFactory.getBarChartIntent(context, buildBarDataset(titles, values), renderer,
+        Type.DEFAULT);
   }
 
 }
