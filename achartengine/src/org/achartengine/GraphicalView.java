@@ -18,7 +18,7 @@ package org.achartengine;
 import org.achartengine.chart.AbstractChart;
 import org.achartengine.chart.XYChart;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.tools.Pan;
+import org.achartengine.tools.*;
 import org.achartengine.tools.Zoom;
 
 import android.content.Context;
@@ -55,6 +55,8 @@ public class GraphicalView extends View {
   private Bitmap zoomInImage;
   /** The zoom out icon. */
   private Bitmap zoomOutImage;
+  /** The fit zoom icon. */
+  private Bitmap fitZoomImage;
   /** The zoom area size. */
   private static final int ZOOM_SIZE = 45;
   /** The zoom buttons background color. */
@@ -65,6 +67,8 @@ public class GraphicalView extends View {
   private Zoom zoomIn;
   /** The zoom out tool. */
   private Zoom zoomOut;
+  /** The fit zoom tool. */
+  private FitZoom fitZoom;
   /** The paint to be used when drawing the chart. */
   private Paint mPaint = new Paint();
 
@@ -82,16 +86,18 @@ public class GraphicalView extends View {
       zoomInImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom_in.png"));
       zoomOutImage = BitmapFactory.decodeStream(getClass()
           .getResourceAsStream("image/zoom_out.png"));
+      fitZoomImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom-1.png"));
       mRenderer = ((XYChart) mChart).getRenderer();
       if (mRenderer.getMarginsColor() == XYMultipleSeriesRenderer.NO_COLOR) {
         mRenderer.setMarginsColor(mPaint.getColor());
       }
       if (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled()) {
-        pan = new Pan((XYChart) mChart, mRenderer);
+        pan = new Pan((XYChart) mChart);
       }
       if (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled()) {
-        zoomIn = new Zoom((XYChart) mChart, mRenderer, true, mRenderer.getZoomRate());
-        zoomOut = new Zoom((XYChart) mChart, mRenderer, false, mRenderer.getZoomRate());
+        zoomIn = new Zoom((XYChart) mChart, true, mRenderer.getZoomRate());
+        zoomOut = new Zoom((XYChart) mChart, false, mRenderer.getZoomRate());
+        fitZoom = new FitZoom((XYChart) mChart);
       }
     }
   }
@@ -107,13 +113,13 @@ public class GraphicalView extends View {
     mChart.draw(canvas, left, top, width, height, mPaint);
     if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())) {
       mPaint.setColor(ZOOM_BUTTONS_COLOR);
-      zoomR.set(left + width - ZOOM_SIZE * 2, top + height - ZOOM_SIZE * 0.775f, left + width, top
+      zoomR.set(left + width - ZOOM_SIZE * 3, top + height - ZOOM_SIZE * 0.775f, left + width, top
           + height);
       canvas.drawRoundRect(zoomR, ZOOM_SIZE / 3, ZOOM_SIZE / 3, mPaint);
-      canvas.drawBitmap(zoomInImage, left + width - ZOOM_SIZE * 1.75f, top + height - ZOOM_SIZE
-          * 0.625f, null);
-      canvas.drawBitmap(zoomOutImage, left + width - ZOOM_SIZE * 0.75f, top + height - ZOOM_SIZE
-          * 0.625f, null);
+      float buttonY = top + height - ZOOM_SIZE * 0.625f;
+      canvas.drawBitmap(zoomInImage, left + width - ZOOM_SIZE * 2.75f, buttonY, null);
+      canvas.drawBitmap(zoomOutImage, left + width - ZOOM_SIZE * 1.75f, buttonY, null);
+      canvas.drawBitmap(fitZoomImage, left + width - ZOOM_SIZE * 0.75f, buttonY, null);
     }
   }
 
@@ -135,10 +141,12 @@ public class GraphicalView extends View {
       oldY = event.getY();
       if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())
           && zoomR.contains(oldX, oldY)) {
-        if (oldX < zoomR.centerX()) {
+        if (oldX < zoomR.left + zoomR.width() / 3) {
           zoomIn.apply();
-        } else {
+        } else if (oldX < zoomR.left + zoomR.width() * 2 / 3) {
           zoomOut.apply();
+        } else {
+          fitZoom.apply();
         }
       }
     } else if (action == MotionEvent.ACTION_UP) {

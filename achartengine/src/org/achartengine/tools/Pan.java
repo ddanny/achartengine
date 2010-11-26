@@ -24,14 +24,15 @@ import android.graphics.PointF;
  * The pan tool.
  */
 public class Pan extends AbstractTool {
+
   /**
    * Builds and instance of the pan tool.
    * 
    * @param chart the XY chart
    * @param renderer the renderer
    */
-  public Pan(XYChart chart, XYMultipleSeriesRenderer renderer) {
-    super(chart, renderer);
+  public Pan(XYChart chart) {
+    super(chart);
   }
 
   /**

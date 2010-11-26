@@ -16,7 +16,6 @@
 package org.achartengine.tools;
 
 import org.achartengine.chart.XYChart;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 /**
  * The zoom tool.
@@ -35,8 +34,8 @@ public class Zoom extends AbstractTool {
    * @param in zoom in or out
    * @param rate the zoom rate
    */
-  public Zoom(XYChart chart, XYMultipleSeriesRenderer renderer, boolean in, float rate) {
-    super(chart, renderer);
+  public Zoom(XYChart chart, boolean in, float rate) {
+    super(chart);
     mZoomIn = in;
     mZoomRate = rate;
   }

@@ -153,5 +153,13 @@ public class BarChart extends XYChart {
   protected float getCoeficient() {
     return 1f;
   }
-
+  
+  /**
+   * Returns the default axis minimum.
+   * 
+   * @return the default axis minimum
+   */
+  public double getDefaultMinimum() {
+    return 0;
+  }
 }

@@ -412,6 +412,10 @@ public abstract class XYChart extends AbstractChart {
   public XYMultipleSeriesRenderer getRenderer() {
     return mRenderer;
   }
+  
+  public XYMultipleSeriesDataset getDataset() {
+    return mDataset;
+  }
 
   public double[] getCalcRange() {
     return calcRange;
@@ -458,6 +462,15 @@ public abstract class XYChart extends AbstractChart {
    */
   public boolean isRenderPoints(SimpleSeriesRenderer renderer) {
     return false;
+  }
+  
+  /**
+   * Returns the default axis minimum.
+   * 
+   * @return the default axis minimum
+   */
+  public double getDefaultMinimum() {
+    return MathHelper.NULL_VALUE;
   }
 
   /**
