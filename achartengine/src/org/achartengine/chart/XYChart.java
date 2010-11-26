@@ -200,10 +200,13 @@ public abstract class XYChart extends AbstractChart {
     
     // draw stuff over the margins such as data doesn't render on these areas
     drawBackground(mRenderer, canvas, x, bottom, width, height - bottom, paint, true, mRenderer.getMarginsColor());
+    drawBackground(mRenderer, canvas, x, y, width, margins[0], paint, true, mRenderer.getMarginsColor());
     if (or == Orientation.HORIZONTAL) {
       drawBackground(mRenderer, canvas, x, y, left - x, height - y, paint, true, mRenderer.getMarginsColor());
+      drawBackground(mRenderer, canvas, right, y, margins[3], height - y, paint, true, mRenderer.getMarginsColor());
     } else if (or == Orientation.VERTICAL) {
       drawBackground(mRenderer, canvas, right, y, width - right, height - y, paint, true, mRenderer.getMarginsColor());
+      drawBackground(mRenderer, canvas, x, y, left - x, height - y, paint, true, mRenderer.getMarginsColor());
     }
     
     boolean showLabels = mRenderer.isShowLabels() && hasValues;
