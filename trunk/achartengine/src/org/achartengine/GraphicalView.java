@@ -159,7 +159,7 @@ public class GraphicalView extends View {
   }
 
   /**
-   * Schedule a user interface repaint.
+   * Schedule a view content repaint.
    */
   public void repaint() {
     mHandler.post(new Runnable() {
@@ -168,4 +168,21 @@ public class GraphicalView extends View {
       }
     });
   }
+
+  /**
+   * Schedule a view content repaint, in the specified rectangle area.
+   * 
+   * @param left the left position of the area to be repainted 
+   * @param top the top position of the area to be repainted
+   * @param right the right position of the area to be repainted
+   * @param bottom the bottom position of the area to be repainted
+   */
+  public void repaint(final int left, final int top, final int right, final int bottom) {
+    mHandler.post(new Runnable() {
+      public void run() {
+        invalidate(left, top, right, bottom);
+      }
+    });
+  }
+
 }
