@@ -82,10 +82,11 @@ public abstract class XYChart extends AbstractChart {
     if (mRenderer.isShowLegend() && legendSize == 0) {
       legendSize = height / 5;
     }
-    int left = x + 20;
-    int top = y + 10;
-    int right = x + width;
-    int bottom = y + height - legendSize;
+    int[] margins = mRenderer.getMargins();
+    int left = x + margins[1];
+    int top = y + margins[0];
+    int right = x + width - margins[3];
+    int bottom = y + height - margins[2] - legendSize;
     if (screenR == null) {
       screenR = new Rect();
     }
