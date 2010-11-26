@@ -24,18 +24,16 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 public abstract class AbstractTool {
   /** The chart. */
   protected XYChart mChart;
-  
   /** The renderer. */
   protected XYMultipleSeriesRenderer mRenderer;
 
   /**
    * Abstract tool constructor.
    * @param chart the chart
-   * @param renderer the renderer
    */
-  public AbstractTool(XYChart chart, XYMultipleSeriesRenderer renderer) {
+  public AbstractTool(XYChart chart) {
     mChart = chart;
-    mRenderer = renderer;
+    mRenderer = chart.getRenderer();
   }
 
   public double[] getRange() {
