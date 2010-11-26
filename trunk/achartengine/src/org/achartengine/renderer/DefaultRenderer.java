@@ -70,6 +70,8 @@ public class DefaultRenderer implements Serializable {
   private Align yLabelsAlign = Align.CENTER;
   /** The legend height. */
   private int mLegendHeight = 0;
+  /** The margins size. */
+  private int[] mMargins = new int[] { 10, 20, 0, 0 };
 
   /**
    * Adds a simple renderer to the multiple renderer.
@@ -396,6 +398,24 @@ public class DefaultRenderer implements Serializable {
    */
   public void setLegendHeight(int height) {
     mLegendHeight = height;
+  }
+  
+  /**
+   * Returns the margin sizes.
+   * An array containing the margins in this order: top, left, bottom, right
+   * @return the margin sizes
+   */
+  public int[] getMargins() {
+    return mMargins;
+  }
+
+  /**
+   * Sets the margins, in pixels.
+   * 
+   * @param margins an array containing the margin size values, in this order: top, left, bottom, right
+   */
+  public void setMargins(int[] margins) {
+    mMargins = margins;
   }
 
 
