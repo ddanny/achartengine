@@ -76,6 +76,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private float mXLabelsAngle;
   /** The Y axis labels rotation angle. */
   private float mYLabelsAngle;
+  /** The initial axis range. */
+  private double[] initialRange = new double[] { mMinX, mMaxX, mMinY, mMaxY };
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -222,6 +224,9 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param min the X axis range start value
    */
   public void setXAxisMin(double min) {
+    if (!isMinXSet()) {
+      initialRange[0] = min;
+    }
     mMinX = min;
   }
 
@@ -249,6 +254,9 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param max the X axis range end value
    */
   public void setXAxisMax(double max) {
+    if (!isMaxXSet()) {
+      initialRange[1] = max;
+    }
     mMaxX = max;
   }
 
@@ -276,6 +284,9 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param min the Y axis range start value
    */
   public void setYAxisMin(double min) {
+    if (!isMinYSet()) {
+      initialRange[2] = min;
+    }
     mMinY = min;
   }
 
@@ -303,6 +314,9 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param max the Y axis range end value
    */
   public void setYAxisMax(double max) {
+    if (!isMaxYSet()) {
+      initialRange[3] = max;
+    }
     mMaxY = max;
   }
 
@@ -586,6 +600,35 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setYLabelsAngle(float angle) {
     mYLabelsAngle = angle;
   }
+  
+  /**
+   * Sets the axes range values.
+   * 
+   * @param range an array having the values in this order: minX, maxX, minY, maxY
+   */
+  public void setRange(double[] range) {
+    setXAxisMin(range[0]);
+    setXAxisMax(range[1]);
+    setYAxisMin(range[2]);
+    setYAxisMax(range[3]);
+  }
 
+  /**
+   * Returns if the initial range is set.
+   * 
+   * @return the initial range was set or not
+   */
+  public boolean isInitialRangeSet() {
+    return isMinXSet() && isMaxXSet() && isMinYSet() && isMaxYSet();
+  }
+  
+  /**
+   * Returns the initial range.
+   * 
+   * @return the initial range
+   */
+  public double[] getInitialRange() {
+    return initialRange;
+  }
 
 }
