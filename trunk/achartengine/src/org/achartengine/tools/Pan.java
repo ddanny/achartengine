@@ -48,7 +48,7 @@ public class Pan extends AbstractTool {
     double[] limits = mRenderer.getPanLimits();
     boolean limited = limits != null && limits.length == 4;
     double[] calcRange = mChart.getCalcRange();
-    if (range[0] == range[2] && calcRange[0] == calcRange[1] || range[1] == range[3]
+    if (range[0] == range[1] && calcRange[0] == calcRange[1] || range[2] == range[3]
         && calcRange[2] == calcRange[3]) {
       return;
     }
