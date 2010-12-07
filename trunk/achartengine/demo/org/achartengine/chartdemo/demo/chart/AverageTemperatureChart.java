@@ -86,6 +86,7 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     // renderer.setMarginsColor(Color.CYAN);
 
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
+//    renderer.setInitialRange(new double[]{-5, 15, -5, 35});
     // renderer.setXLabelsAngle(-90);
     // renderer.setYLabelsAngle(-90);
     Intent intent = ChartFactory.getLineChartIntent(context, buildDataset(titles, x, values),
