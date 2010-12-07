@@ -623,6 +623,16 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
   
   /**
+   * Sets the axes initial range values.
+   * This will be used in the zoom fit tool.
+   * 
+   * @param range an array having the values in this order: minX, maxX, minY, maxY
+   */
+  public void setInitialRange(double[] range) {
+    initialRange = range;
+  }
+  
+  /**
    * Returns the initial range.
    * 
    * @return the initial range
