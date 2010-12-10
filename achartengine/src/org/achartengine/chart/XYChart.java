@@ -15,6 +15,7 @@
  */
 package org.achartengine.chart;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -170,31 +171,26 @@ public abstract class XYChart extends AbstractChart {
       hasValues = true;
       SimpleSeriesRenderer seriesRenderer = mRenderer.getSeriesRendererAt(i);
       int originalValuesLength = series.getItemCount();
-      float[] points = null;
       int valuesLength = originalValuesLength;
       int length = valuesLength * 2;
-      points = new float[length];
+      List<Float> points = new ArrayList<Float>();
       for (int j = 0; j < length; j += 2) {
         int index = j / 2;
-        points[j] = (float) (left + xPixelsPerUnit * (series.getX(index) - minX));
-        points[j + 1] = (float) (bottom - yPixelsPerUnit * (series.getY(index) - minY));
-      }
-      drawSeries(canvas, paint, points, seriesRenderer, Math.min(bottom,
-          (float) (bottom + yPixelsPerUnit * minY)), i);
-      if (isRenderPoints(seriesRenderer)) {
-        ScatterChart pointsChart = getPointsChart();
-        if (pointsChart != null) {
-          pointsChart.drawSeries(canvas, paint, points, seriesRenderer, 0, i);
+        double yValue = series.getY(index);
+        if (yValue != MathHelper.NULL_VALUE) {
+          points.add((float) (left + xPixelsPerUnit * (series.getX(index) - minX)));
+          points.add((float) (bottom - yPixelsPerUnit * (yValue - minY)));
+        } else {
+          if (points.size() > 0) {
+            drawSeries(series, canvas, paint, points, seriesRenderer, Math.min(bottom, 
+                (float) (bottom + yPixelsPerUnit * minY)), i, or);
+            points.clear();
+          }
         }
       }
-      paint.setTextSize(mRenderer.getChartValuesTextSize());
-      if (or == Orientation.HORIZONTAL) {
-        paint.setTextAlign(Align.CENTER);
-      } else {
-        paint.setTextAlign(Align.LEFT);
-      }
-      if (mRenderer.isDisplayChartValues()) {
-        drawChartValuesText(canvas, series, paint, points, i);
+      if (points.size() > 0) {
+        drawSeries(series, canvas, paint, points, seriesRenderer, Math.min(bottom,
+            (float) (bottom + yPixelsPerUnit * minY)), i, or);
       }
     }
     
@@ -291,6 +287,27 @@ public abstract class XYChart extends AbstractChart {
     }
   }
 
+  private void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList, 
+      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or) {
+    float[] points = MathHelper.getFloats(pointsList);
+    drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex);
+    if (isRenderPoints(seriesRenderer)) {
+      ScatterChart pointsChart = getPointsChart();
+      if (pointsChart != null) {
+        pointsChart.drawSeries(canvas, paint, points, seriesRenderer, 0, seriesIndex);
+      }
+    }
+    paint.setTextSize(mRenderer.getChartValuesTextSize());
+    if (or == Orientation.HORIZONTAL) {
+      paint.setTextAlign(Align.CENTER);
+    } else {
+      paint.setTextAlign(Align.LEFT);
+    }
+    if (mRenderer.isDisplayChartValues()) {
+      drawChartValuesText(canvas, series, paint, points, seriesIndex);
+    }
+  }
+  
   /**
    * The graphical representation of the series values as text.
    * 

@@ -142,35 +142,18 @@ public class MathHelper {
   }
 
   /**
-   * Transforms an array of Object into an array of double if the objects are
-   * Doubles actually.
+   * Transforms a list of Float values into an array of float.
    * 
-   * @param o the array of objects
-   * @return the array of doubles
-   */
-  public static double[] getDoubles(Object[] o) {
-    int length = o.length;
-    double[] values = new double[length];
-    for (int i = 0; i < length; i++) {
-      values[i] = ((Double) o[i]).doubleValue();
-    }
-    return values;
-  }
-
-  /**
-   * Transforms an array of Object into an array of float if the objects are
-   * Floats actually.
-   * 
-   * @param o the array of objects
+   * @param values the list of Float
    * @return the array of floats
    */
-  public static float[] getFloats(Object[] o) {
-    int length = o.length;
-    float[] values = new float[length];
+  public static float[] getFloats(List<Float> values) {
+    int length = values.size();
+    float[] result = new float[length];
     for (int i = 0; i < length; i++) {
-      values[i] = ((Float) o[i]).floatValue();
+      result[i] = values.get(i).floatValue();
     }
-    return values;
+    return result;
   }
 
 }
