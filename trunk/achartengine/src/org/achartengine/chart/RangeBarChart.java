@@ -71,7 +71,7 @@ public class RangeBarChart extends BarChart {
       }
     }
   }
-  
+
   /**
    * The graphical representation of the series values as text.
    * 
@@ -96,9 +96,10 @@ public class RangeBarChart extends BarChart {
       drawText(canvas, getLabel(series.getY(k / 2)), x, points[k + 1] + 7.5f, paint, 0);
     }
   }
-  
+
   /**
-   * Returns the value of a constant used to calculate the half-distance. 
+   * Returns the value of a constant used to calculate the half-distance.
+   * 
    * @return the constant value
    */
   protected float getCoeficient() {
