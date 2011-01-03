@@ -16,7 +16,6 @@
 package org.achartengine.tools;
 
 import org.achartengine.chart.XYChart;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import android.graphics.PointF;
 
