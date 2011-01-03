@@ -28,10 +28,12 @@ import android.graphics.Paint.Style;
  * The scatter chart rendering class.
  */
 public class ScatterChart extends XYChart {
-  /** The point shape size. */
+  /** The default point shape size. */
   private static final float SIZE = 3;
   /** The legend shape width. */
   private static final int SHAPE_WIDTH = 10;
+  /** The point shape size. */
+  private float size = SIZE;
 
   /**
    * Builds a new scatter chart instance.
@@ -41,6 +43,7 @@ public class ScatterChart extends XYChart {
    */
   public ScatterChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
     super(dataset, renderer);
+    size = renderer.getPointSize();
   }
 
   /**
@@ -153,8 +156,8 @@ public class ScatterChart extends XYChart {
    * @param y the y value of the point the shape should be drawn at
    */
   private void drawX(Canvas canvas, Paint paint, float x, float y) {
-    canvas.drawLine(x - SIZE, y - SIZE, x + SIZE, y + SIZE, paint);
-    canvas.drawLine(x + SIZE, y - SIZE, x - SIZE, y + SIZE, paint);
+    canvas.drawLine(x - size, y - size, x + size, y + size, paint);
+    canvas.drawLine(x + size, y - size, x - size, y + size, paint);
   }
 
   /**
@@ -166,7 +169,7 @@ public class ScatterChart extends XYChart {
    * @param y the y value of the point the shape should be drawn at
    */
   private void drawCircle(Canvas canvas, Paint paint, float x, float y) {
-    canvas.drawCircle(x, y, SIZE, paint);
+    canvas.drawCircle(x, y, size, paint);
   }
 
   /**
@@ -180,10 +183,10 @@ public class ScatterChart extends XYChart {
    */
   private void drawTriangle(Canvas canvas, Paint paint, float[] path, float x, float y) {
     path[0] = x;
-    path[1] = y - SIZE - SIZE / 2;
-    path[2] = x - SIZE;
-    path[3] = y + SIZE;
-    path[4] = x + SIZE;
+    path[1] = y - size - size / 2;
+    path[2] = x - size;
+    path[3] = y + size;
+    path[4] = x + size;
     path[5] = path[3];
     drawPath(canvas, path, paint, true);
   }
@@ -197,7 +200,7 @@ public class ScatterChart extends XYChart {
    * @param y the y value of the point the shape should be drawn at
    */
   private void drawSquare(Canvas canvas, Paint paint, float x, float y) {
-    canvas.drawRect(x - SIZE, y - SIZE, x + SIZE, y + SIZE, paint);
+    canvas.drawRect(x - size, y - size, x + size, y + size, paint);
   }
 
   /**
@@ -211,12 +214,12 @@ public class ScatterChart extends XYChart {
    */
   private void drawDiamond(Canvas canvas, Paint paint, float[] path, float x, float y) {
     path[0] = x;
-    path[1] = y - SIZE;
-    path[2] = x - SIZE;
+    path[1] = y - size;
+    path[2] = x - size;
     path[3] = y;
     path[4] = x;
-    path[5] = y + SIZE;
-    path[6] = x + SIZE;
+    path[5] = y + size;
+    path[6] = x + size;
     path[7] = y;
     drawPath(canvas, path, paint, true);
   }

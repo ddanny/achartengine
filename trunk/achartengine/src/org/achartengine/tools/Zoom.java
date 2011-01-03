@@ -30,7 +30,6 @@ public class Zoom extends AbstractTool {
    * Builds the zoom tool.
    * 
    * @param chart the chart
-   * @param renderer the renderer
    * @param in zoom in or out
    * @param rate the zoom rate
    */
