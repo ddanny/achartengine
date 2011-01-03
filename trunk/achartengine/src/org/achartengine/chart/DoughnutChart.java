@@ -32,13 +32,10 @@ import android.graphics.Paint.Style;
 public class DoughnutChart extends AbstractChart {
   /** The legend shape width. */
   private static final int SHAPE_WIDTH = 10;
-
   /** The series dataset. */
   private MultipleCategorySeries mDataset;
-
   /** The series renderer. */
   private DefaultRenderer mRenderer;
-
   /** A step variable to control the size of the legend shape. */
   private int mStep;
 
