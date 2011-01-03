@@ -99,6 +99,10 @@ public class DoughnutChart extends AbstractChart {
       }
       float currentAngle = 0;
       RectF oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
+      float prevX2 = 0;
+      float prevY2 = 0;
+      float minDist = 20;
+      float coef = 1;
       for (int i = 0; i < sLength; i++) {
         paint.setColor(mRenderer.getSeriesRendererAt(i).getColor());
         float value = (float) mDataset.getValues(category)[i];
@@ -113,6 +117,13 @@ public class DoughnutChart extends AbstractChart {
           int y1 = Math.round(centerY + (float) (shortRadius * cosValue));
           int x2 = Math.round(centerX + (float) (longRadius * sinValue));
           int y2 = Math.round(centerY + (float) (longRadius * cosValue));
+          if (Math.sqrt((x2 - prevX2) * (x2 - prevX2) + (y2 - prevY2) * (y2 - prevY2)) <= minDist) {
+            coef *= 1.1;
+            x2 = Math.round(centerX + (float) (longRadius * coef * sinValue));
+            y2 = Math.round(centerY + (float) (longRadius * coef * cosValue));
+          } else {
+            coef = 1;
+          }
           canvas.drawLine(x1, y1, x2, y2, paint);
           int extra = 10;
           paint.setTextAlign(Align.LEFT);
@@ -122,6 +133,8 @@ public class DoughnutChart extends AbstractChart {
           }
           canvas.drawLine(x2, y2, x2 + extra, y2, paint);
           canvas.drawText(mDataset.getTitles(category)[i], x2 + extra, y2 + 5, paint);
+          prevX2 = x2;
+          prevY2 = y2;
         }
         currentAngle += angle;
       }
