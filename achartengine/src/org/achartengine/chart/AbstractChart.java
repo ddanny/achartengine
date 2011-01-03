@@ -139,6 +139,11 @@ public abstract class AbstractChart implements Serializable {
     return exceed;
   }
 
+  /**
+   * Checks if the current chart is rendered as vertical.
+   * @param renderer the renderer
+   * @return if the chart is rendered as a vertical one
+   */
   private boolean isVertical(DefaultRenderer renderer) {
     return renderer instanceof XYMultipleSeriesRenderer
         && ((XYMultipleSeriesRenderer) renderer).getOrientation() == Orientation.VERTICAL;
