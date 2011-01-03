@@ -29,7 +29,6 @@ public class Pan extends AbstractTool {
    * Builds and instance of the pan tool.
    * 
    * @param chart the XY chart
-   * @param renderer the renderer
    */
   public Pan(XYChart chart) {
     super(chart);

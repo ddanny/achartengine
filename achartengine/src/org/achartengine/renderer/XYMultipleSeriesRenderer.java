@@ -18,7 +18,6 @@ package org.achartengine.renderer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.achartengine.chart.AbstractChart;
 import org.achartengine.util.MathHelper;
 
 /**
@@ -78,6 +77,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private float mYLabelsAngle;
   /** The initial axis range. */
   private double[] initialRange = new double[] { mMinX, mMaxX, mMinY, mMaxY };
+  /** The point size for charts displaying points. */
+  private float mPointSize = 3;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -505,7 +506,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setZoomRate(float rate) {
     mZoomRate = rate;
   }
-  
+
   /**
    * Returns the spacing between bars, in bar charts.
    * 
@@ -516,17 +517,16 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-   * Sets the spacing between bars, in bar charts.
-   * Only available for bar charts.
-   * This is a coefficient of the bar width. For instance, if you want the spacing to be
-   * a half of the bar width, set this value to 0.5.
+   * Sets the spacing between bars, in bar charts. Only available for bar
+   * charts. This is a coefficient of the bar width. For instance, if you want
+   * the spacing to be a half of the bar width, set this value to 0.5.
    * 
    * @param spacing the spacing between bars coefficient
    */
   public void setBarSpacing(double spacing) {
     mBarSpacing = spacing;
   }
-  
+
   /**
    * Returns the margins color.
    * 
@@ -555,9 +555,9 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-   * Sets the pan limits as an array of 4 values.
-   * Setting it to null or a different size array will disable the panning limitation.
-   * Values: [panMinimumX, panMaximumX, panMinimumY, panMaximumY]
+   * Sets the pan limits as an array of 4 values. Setting it to null or a
+   * different size array will disable the panning limitation. Values:
+   * [panMinimumX, panMaximumX, panMinimumY, panMaximumY]
    * 
    * @param panLimits the pan limits
    */
@@ -600,11 +600,30 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setYLabelsAngle(float angle) {
     mYLabelsAngle = angle;
   }
-  
+
+  /**
+   * Returns the size of the points, for charts displaying points.
+   * 
+   * @return the point size
+   */
+  public float getPointSize() {
+    return mPointSize;
+  }
+
+  /**
+   * Sets the size of the points, for charts displaying points.
+   * 
+   * @param size the point size
+   */
+  public void setPointSize(float size) {
+    mPointSize = size;
+  }
+
   /**
    * Sets the axes range values.
    * 
-   * @param range an array having the values in this order: minX, maxX, minY, maxY
+   * @param range an array having the values in this order: minX, maxX, minY,
+   *          maxY
    */
   public void setRange(double[] range) {
     setXAxisMin(range[0]);
@@ -621,17 +640,17 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public boolean isInitialRangeSet() {
     return isMinXSet() && isMaxXSet() && isMinYSet() && isMaxYSet();
   }
-  
+
   /**
-   * Sets the axes initial range values.
-   * This will be used in the zoom fit tool.
+   * Sets the axes initial range values. This will be used in the zoom fit tool.
    * 
-   * @param range an array having the values in this order: minX, maxX, minY, maxY
+   * @param range an array having the values in this order: minX, maxX, minY,
+   *          maxY
    */
   public void setInitialRange(double[] range) {
     initialRange = range;
   }
-  
+
   /**
    * Returns the initial range.
    * 
