@@ -128,7 +128,9 @@ public class BarChart extends XYChart {
   }
 
   /**
-   * Calculates and returns the half-distance in the graphical representation of 2 consecutive points.
+   * Calculates and returns the half-distance in the graphical representation of
+   * 2 consecutive points.
+   * 
    * @param points the points
    * @param length the points length
    * @param seriesNr the series number
@@ -148,12 +150,13 @@ public class BarChart extends XYChart {
 
   /**
    * Returns the value of a constant used to calculate the half-distance.
+   * 
    * @return the constant value
    */
   protected float getCoeficient() {
     return 1f;
   }
-  
+
   /**
    * Returns the default axis minimum.
    * 
