@@ -182,7 +182,7 @@ public abstract class XYChart extends AbstractChart {
           points.add((float) (bottom - yPixelsPerUnit * (yValue - minY)));
         } else {
           if (points.size() > 0) {
-            drawSeries(series, canvas, paint, points, seriesRenderer, Math.min(bottom, 
+            drawSeries(series, canvas, paint, points, seriesRenderer, Math.min(bottom,
                 (float) (bottom + yPixelsPerUnit * minY)), i, or);
             points.clear();
           }
@@ -193,18 +193,24 @@ public abstract class XYChart extends AbstractChart {
             (float) (bottom + yPixelsPerUnit * minY)), i, or);
       }
     }
-    
+
     // draw stuff over the margins such as data doesn't render on these areas
-    drawBackground(mRenderer, canvas, x, bottom, width, height - bottom, paint, true, mRenderer.getMarginsColor());
-    drawBackground(mRenderer, canvas, x, y, width, margins[0], paint, true, mRenderer.getMarginsColor());
+    drawBackground(mRenderer, canvas, x, bottom, width, height - bottom, paint, true, mRenderer
+        .getMarginsColor());
+    drawBackground(mRenderer, canvas, x, y, width, margins[0], paint, true, mRenderer
+        .getMarginsColor());
     if (or == Orientation.HORIZONTAL) {
-      drawBackground(mRenderer, canvas, x, y, left - x, height - y, paint, true, mRenderer.getMarginsColor());
-      drawBackground(mRenderer, canvas, right, y, margins[3], height - y, paint, true, mRenderer.getMarginsColor());
+      drawBackground(mRenderer, canvas, x, y, left - x, height - y, paint, true, mRenderer
+          .getMarginsColor());
+      drawBackground(mRenderer, canvas, right, y, margins[3], height - y, paint, true, mRenderer
+          .getMarginsColor());
     } else if (or == Orientation.VERTICAL) {
-      drawBackground(mRenderer, canvas, right, y, width - right, height - y, paint, true, mRenderer.getMarginsColor());
-      drawBackground(mRenderer, canvas, x, y, left - x, height - y, paint, true, mRenderer.getMarginsColor());
+      drawBackground(mRenderer, canvas, right, y, width - right, height - y, paint, true, mRenderer
+          .getMarginsColor());
+      drawBackground(mRenderer, canvas, x, y, left - x, height - y, paint, true, mRenderer
+          .getMarginsColor());
     }
-    
+
     boolean showLabels = mRenderer.isShowLabels() && hasValues;
     boolean showGrid = mRenderer.isShowGrid();
     if (showLabels || showGrid) {
@@ -230,7 +236,8 @@ public abstract class XYChart extends AbstractChart {
           if (showLabels) {
             paint.setColor(mRenderer.getLabelsColor());
             canvas.drawLine(left - 4, yLabel, left, yLabel, paint);
-            drawText(canvas, getLabel(label), left - 2, yLabel - 2, paint, mRenderer.getYLabelsAngle());
+            drawText(canvas, getLabel(label), left - 2, yLabel - 2, paint, mRenderer
+                .getYLabelsAngle());
           }
           if (showGrid) {
             paint.setColor(GRID_COLOR);
@@ -240,7 +247,8 @@ public abstract class XYChart extends AbstractChart {
           if (showLabels) {
             paint.setColor(mRenderer.getLabelsColor());
             canvas.drawLine(right + 4, yLabel, right, yLabel, paint);
-            drawText(canvas, getLabel(label), right + 10, yLabel - 2, paint, mRenderer.getYLabelsAngle());
+            drawText(canvas, getLabel(label), right + 10, yLabel - 2, paint, mRenderer
+                .getYLabelsAngle());
           }
           if (showGrid) {
             paint.setColor(GRID_COLOR);
@@ -257,7 +265,8 @@ public abstract class XYChart extends AbstractChart {
           drawText(canvas, mRenderer.getXTitle(), x + width / 2, bottom + 24, paint, 0);
           drawText(canvas, mRenderer.getYTitle(), x + 10, y + height / 2, paint, -90);
           paint.setTextSize(mRenderer.getChartTitleTextSize());
-          drawText(canvas, mRenderer.getChartTitle(), x + width / 2, y + mRenderer.getChartTitleTextSize(), paint, 0);
+          drawText(canvas, mRenderer.getChartTitle(), x + width / 2, y
+              + mRenderer.getChartTitleTextSize(), paint, 0);
         } else if (or == Orientation.VERTICAL) {
           drawText(canvas, mRenderer.getXTitle(), x + width / 2, y + height - 10, paint, -90);
           drawText(canvas, mRenderer.getYTitle(), right + 20, y + height / 2, paint, 0);
@@ -287,7 +296,7 @@ public abstract class XYChart extends AbstractChart {
     }
   }
 
-  private void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList, 
+  private void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or) {
     float[] points = MathHelper.getFloats(pointsList);
     drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex);
@@ -307,7 +316,7 @@ public abstract class XYChart extends AbstractChart {
       drawChartValuesText(canvas, series, paint, points, seriesIndex);
     }
   }
-  
+
   /**
    * The graphical representation of the series values as text.
    * 
@@ -335,7 +344,8 @@ public abstract class XYChart extends AbstractChart {
    * @param paint the paint to be used for drawing
    * @param extraAngle the text angle
    */
-  protected void drawText(Canvas canvas, String text, float x, float y, Paint paint, float extraAngle) {
+  protected void drawText(Canvas canvas, String text, float x, float y, Paint paint,
+      float extraAngle) {
     float angle = -mRenderer.getOrientation().getAngle() + extraAngle;
     if (angle != 0) {
       // canvas.scale(1 / mScale, mScale);
@@ -420,7 +430,8 @@ public abstract class XYChart extends AbstractChart {
       for (Double location : xTextLabelLocations) {
         float xLabel = (float) (left + xPixelsPerUnit * (location.doubleValue() - minX));
         canvas.drawLine(xLabel, bottom, xLabel, bottom + 4, paint);
-        drawText(canvas, mRenderer.getXTextLabel(location), xLabel, bottom + 12, paint, mRenderer.getXLabelsAngle());
+        drawText(canvas, mRenderer.getXTextLabel(location), xLabel, bottom + 12, paint, mRenderer
+            .getXLabelsAngle());
       }
     }
   }
@@ -429,7 +440,7 @@ public abstract class XYChart extends AbstractChart {
   public XYMultipleSeriesRenderer getRenderer() {
     return mRenderer;
   }
-  
+
   public XYMultipleSeriesDataset getDataset() {
     return mDataset;
   }
@@ -480,7 +491,7 @@ public abstract class XYChart extends AbstractChart {
   public boolean isRenderPoints(SimpleSeriesRenderer renderer) {
     return false;
   }
-  
+
   /**
    * Returns the default axis minimum.
    * 
