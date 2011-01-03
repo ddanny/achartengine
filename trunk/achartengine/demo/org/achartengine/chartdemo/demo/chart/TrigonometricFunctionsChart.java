@@ -21,7 +21,6 @@ import java.util.List;
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.util.MathHelper;
 
 import android.content.Context;
 import android.content.Intent;
