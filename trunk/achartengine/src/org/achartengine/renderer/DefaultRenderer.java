@@ -71,7 +71,7 @@ public class DefaultRenderer implements Serializable {
   /** The legend height. */
   private int mLegendHeight = 0;
   /** The margins size. */
-  private int[] mMargins = new int[] { 10, 20, 0, 0 };
+  private int[] mMargins = new int[] { 20, 20, 0, 0 };
 
   /**
    * Adds a simple renderer to the multiple renderer.
