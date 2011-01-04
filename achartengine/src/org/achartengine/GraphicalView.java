@@ -49,6 +49,10 @@ public class GraphicalView extends View {
   private float oldX;
   /** The old y coordinate. */
   private float oldY;
+  /** The old x2 coordinate. */
+  private float oldX2;
+  /** The old y2 coordinate. */
+  private float oldY2;
   /** The zoom buttons rectangle. */
   private RectF zoomR = new RectF();
   /** The zoom in icon. */
@@ -67,6 +71,8 @@ public class GraphicalView extends View {
   private Zoom zoomIn;
   /** The zoom out tool. */
   private Zoom zoomOut;
+  /** The zoom for the pinch gesture. */
+  private Zoom pinchZoom;
   /** The fit zoom tool. */
   private FitZoom fitZoom;
   /** The paint to be used when drawing the chart. */
@@ -98,6 +104,7 @@ public class GraphicalView extends View {
         zoomIn = new Zoom((XYChart) mChart, true, mRenderer.getZoomRate());
         zoomOut = new Zoom((XYChart) mChart, false, mRenderer.getZoomRate());
         fitZoom = new FitZoom((XYChart) mChart);
+        pinchZoom = new Zoom((XYChart) mChart, true, 1);
       }
     }
   }
@@ -127,18 +134,39 @@ public class GraphicalView extends View {
     int action = event.getAction();
     if (mRenderer != null && action == MotionEvent.ACTION_MOVE) {
       if (oldX >= 0 || oldY >= 0) {
-        float newX = event.getX();
-        float newY = event.getY();
-        if (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled()) {
+        float newX = event.getX(0);
+        float newY = event.getY(0);
+        if (event.getPointerCount() > 1 && (oldX2 >= 0 || oldY2 >= 0) && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())) {
+          float newX2 = event.getX(1);
+          float newY2 = event.getY(1);
+          float newDeltaX = Math.abs(newX - newX2);
+          float newDeltaY = Math.abs(newY - newY2);
+          float oldDeltaX = Math.abs(oldX - oldX2);
+          float oldDeltaY = Math.abs(oldY - oldY2);
+          float zoomRate = 1;
+          if (Math.abs(newX - oldX) >= Math.abs(newY - oldY)) {
+            zoomRate = newDeltaX / oldDeltaX;
+          } else {
+            zoomRate = newDeltaY / oldDeltaY;
+          }
+          if (zoomRate > 0.909 && zoomRate < 1.1) {
+            pinchZoom.setZoomRate(zoomRate);
+            pinchZoom.apply();
+          }
+          oldX2 = newX2;
+          oldY2 = newY2;
+        } else if (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled()) {
           pan.apply(oldX, oldY, newX, newY);
+          oldX2 = 0;
+          oldY2 = 0;
         }
         oldX = newX;
         oldY = newY;
         repaint();
       }
     } else if (action == MotionEvent.ACTION_DOWN) {
-      oldX = event.getX();
-      oldY = event.getY();
+      oldX = event.getX(0);
+      oldY = event.getY(0);
       if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())
           && zoomR.contains(oldX, oldY)) {
         if (oldX < zoomR.left + zoomR.width() / 3) {
@@ -149,9 +177,15 @@ public class GraphicalView extends View {
           fitZoom.apply();
         }
       }
-    } else if (action == MotionEvent.ACTION_UP) {
+    } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) {
       oldX = 0;
       oldY = 0;
+      oldX2 = 0;
+      oldY2 = 0;
+      if (action == MotionEvent.ACTION_POINTER_UP) {
+        oldX = -1;
+        oldY = -1;
+      }
     }
   }
 
