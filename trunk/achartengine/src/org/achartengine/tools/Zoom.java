@@ -36,6 +36,14 @@ public class Zoom extends AbstractTool {
   public Zoom(XYChart chart, boolean in, float rate) {
     super(chart);
     mZoomIn = in;
+    setZoomRate(rate);
+  }
+  
+  /**
+   * Sets the zoom rate.
+   * @param rate
+   */
+  public void setZoomRate(float rate) {
     mZoomRate = rate;
   }
 
