@@ -27,7 +27,6 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 import org.achartengine.util.MathHelper;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -52,8 +51,6 @@ public abstract class XYChart extends AbstractChart {
   private Rect screenR;
   /** The calculated range. */
   private double[] calcRange = new double[4];
-  /** The grid color. */
-  protected static final int GRID_COLOR = Color.argb(75, 200, 200, 200);
 
   /**
    * Builds a new XY chart instance.
@@ -240,7 +237,7 @@ public abstract class XYChart extends AbstractChart {
                 .getYLabelsAngle());
           }
           if (showGrid) {
-            paint.setColor(GRID_COLOR);
+            paint.setColor(mRenderer.getGridColor());
             canvas.drawLine(left, yLabel, right, yLabel, paint);
           }
         } else if (or == Orientation.VERTICAL) {
@@ -251,7 +248,7 @@ public abstract class XYChart extends AbstractChart {
                 .getYLabelsAngle());
           }
           if (showGrid) {
-            paint.setColor(GRID_COLOR);
+            paint.setColor(mRenderer.getGridColor());
             canvas.drawLine(right, yLabel, left, yLabel, paint);
           }
         }
@@ -421,7 +418,7 @@ public abstract class XYChart extends AbstractChart {
         drawText(canvas, getLabel(label), xLabel, bottom + 12, paint, mRenderer.getXLabelsAngle());
       }
       if (showGrid) {
-        paint.setColor(GRID_COLOR);
+        paint.setColor(mRenderer.getGridColor());
         canvas.drawLine(xLabel, bottom, xLabel, top, paint);
       }
     }

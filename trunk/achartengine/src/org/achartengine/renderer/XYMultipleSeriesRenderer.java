@@ -20,6 +20,8 @@ import java.util.Map;
 
 import org.achartengine.util.MathHelper;
 
+import android.graphics.Color;
+
 /**
  * Multiple XY series renderer.
  */
@@ -79,6 +81,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private double[] initialRange = new double[] { mMinX, mMaxX, mMinY, mMaxY };
   /** The point size for charts displaying points. */
   private float mPointSize = 3;
+  /** The grid color. */
+  private int mGridColor = Color.argb(75, 200, 200, 200);
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -543,6 +547,24 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setMarginsColor(int color) {
     mMarginsColor = color;
+  }
+
+  /**
+   * Returns the grid color.
+   * 
+   * @return the grid color
+   */
+  public int getGridColor() {
+    return mGridColor;
+  }
+
+  /**
+   * Sets the color of the grid.
+   * 
+   * @param color the grid color
+   */
+  public void setGridColor(int color) {
+    mGridColor = color;
   }
 
   /**

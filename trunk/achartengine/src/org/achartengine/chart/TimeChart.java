@@ -90,7 +90,7 @@ public class TimeChart extends LineChart {
         drawText(canvas, format.format(new Date(label)), xLabel, bottom + 12, paint, mRenderer.getXLabelsAngle());
       }
       if (showGrid) {
-        paint.setColor(GRID_COLOR);
+        paint.setColor(mRenderer.getGridColor());
         canvas.drawLine(xLabel, bottom, xLabel, top, paint);
       }
     }
