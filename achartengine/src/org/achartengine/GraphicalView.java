@@ -188,6 +188,48 @@ public class GraphicalView extends View {
       }
     }
   }
+  
+  /**
+   * Sets the zoom rate.
+   * 
+   * @param rate the zoom rate
+   */
+  public void setZoomRate(float rate) {
+    if (zoomIn != null && zoomOut != null) {
+      zoomIn.setZoomRate(rate);
+      zoomOut.setZoomRate(rate);
+    }
+  }
+  
+  /**
+   * Do a chart zoom in.
+   */
+  public void zoomIn() {
+    if (zoomIn != null) {
+      zoomIn.apply();
+      repaint();
+    }
+  }
+  
+  /**
+   * Do a chart zoom out.
+   */
+  public void zoomOut() {
+    if (zoomOut != null) {
+      zoomOut.apply();
+      repaint();
+    }
+  }
+
+  /**
+   * Do a chart zoom reset / fit zoom.
+   */
+  public void zoomReset() {
+    if (fitZoom != null) {
+      fitZoom.apply();
+      repaint();
+    }
+  }
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
