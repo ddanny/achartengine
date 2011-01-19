@@ -113,7 +113,7 @@ public abstract class AbstractChart implements Serializable {
 
         if (i > 0 && getExceed(currentWidth, renderer, right, width)) {
           currentX = left;
-          currentY += 15;
+          currentY += renderer.getLegendTextSize();
           currentWidth = currentX + extraSize;
         }
         if (getExceed(currentWidth, renderer, right, width)) {
