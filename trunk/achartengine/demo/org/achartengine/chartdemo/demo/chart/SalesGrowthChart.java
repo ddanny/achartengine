@@ -33,22 +33,25 @@ import android.graphics.Color;
 public class SalesGrowthChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
+   * 
    * @return the chart name
    */
   public String getName() {
     return "Sales growth";
   }
-  
+
   /**
    * Returns the chart description.
+   * 
    * @return the chart description
    */
   public String getDesc() {
     return "The sales growth across several years (time chart)";
   }
-  
+
   /**
    * Executes the chart demo.
+   * 
    * @param context the context
    * @return the built intent
    */
@@ -65,8 +68,8 @@ public class SalesGrowthChart extends AbstractDemoChart {
         new Date(100, 9, 1), new Date(100, 11, 1) };
     dates.add(dateValues);
 
-    values.add(new double[] { 4.9, 5.3, 3.2, 4.5, 6.5, 4.7, 5.8, 4.3, 4, 2.3, -0.5, -2.9, 3.2,
-        5.5, 4.6, 9.4, 4.3, 1.2, 0, 0.4, 4.5, 3.4, 4.5, 4.3, 4 });
+    values.add(new double[] { 4.9, 5.3, 3.2, 4.5, 6.5, 4.7, 5.8, 4.3, 4, 2.3, -0.5, -2.9, 3.2, 5.5,
+        4.6, 9.4, 4.3, 1.2, 0, 0.4, 4.5, 3.4, 4.5, 4.3, 4 });
     int[] colors = new int[] { Color.BLUE };
     PointStyle[] styles = new PointStyle[] { PointStyle.POINT };
     XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
