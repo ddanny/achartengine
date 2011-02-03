@@ -75,7 +75,7 @@ public class ProjectStatusBubbleChart extends AbstractDemoChart {
     renderer.setChartTitleTextSize(20);
     renderer.setLabelsTextSize(15);
     renderer.setLegendTextSize(15);
-    renderer.setMargins(new int[] {20, 30, 15, 0});
+    renderer.setMargins(new int[] { 20, 30, 15, 0 });
     XYSeriesRenderer newTicketRenderer = new XYSeriesRenderer();
     newTicketRenderer.setColor(Color.BLUE);
     renderer.addSeriesRenderer(newTicketRenderer);
