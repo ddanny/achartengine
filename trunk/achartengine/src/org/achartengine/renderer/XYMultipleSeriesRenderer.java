@@ -73,6 +73,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private int mMarginsColor = NO_COLOR;
   /** The pan limits. */
   private double[] mPanLimits;
+  /** The zoom limits. */
+  private double[] mZoomLimits;
   /** The X axis labels rotation angle. */
   private float mXLabelsAngle;
   /** The Y axis labels rotation angle. */
@@ -585,6 +587,26 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setPanLimits(double[] panLimits) {
     mPanLimits = panLimits;
+  }
+
+  /**
+   * Returns the zoom limits.
+   * 
+   * @return the zoom limits
+   */
+  public double[] getZoomLimits() {
+    return mZoomLimits;
+  }
+
+  /**
+   * Sets the zoom limits as an array of 4 values. Setting it to null or a
+   * different size array will disable the zooming limitation. Values:
+   * [zoomMinimumX, zoomMaximumX, zoomMinimumY, zoomMaximumY]
+   * 
+   * @param zoomLimits the zoom limits
+   */
+  public void setZoomLimits(double[] zoomLimits) {
+    mZoomLimits = zoomLimits;
   }
 
   /**
