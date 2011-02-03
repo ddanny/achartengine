@@ -73,8 +73,8 @@ public class SalesComparisonChart extends AbstractDemoChart {
     int[] colors = new int[] { Color.BLUE, Color.CYAN, Color.GREEN };
     PointStyle[] styles = new PointStyle[] { PointStyle.POINT, PointStyle.POINT, PointStyle.POINT };
     XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
-    setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.75, 12.25,
-        -5000, 19000, Color.GRAY, Color.LTGRAY);
+    setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.75,
+        12.25, -5000, 19000, Color.GRAY, Color.LTGRAY);
     renderer.setXLabels(12);
     renderer.setYLabels(10);
     renderer.setDisplayChartValues(true);
