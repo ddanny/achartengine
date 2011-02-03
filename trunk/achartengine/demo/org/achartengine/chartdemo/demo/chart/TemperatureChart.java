@@ -82,6 +82,7 @@ public class TemperatureChart extends AbstractDemoChart {
     renderer.addTextLabel(10, "Oct");
     renderer.addTextLabel(12, "Dec");
     renderer.setDisplayChartValues(true);
+    renderer.setChartValuesTextSize(12);
     return ChartFactory.getRangeBarChartIntent(context, dataset, renderer, Type.DEFAULT,
         "Temperature range");
   }

@@ -78,12 +78,12 @@ public class SalesComparisonChart extends AbstractDemoChart {
     renderer.setXLabels(12);
     renderer.setYLabels(10);
     renderer.setDisplayChartValues(true);
-    renderer.setChartTitleTextSize(14);
+    renderer.setChartTitleTextSize(20);
     renderer.setTextTypeface("sans_serif", Typeface.BOLD);
-    renderer.setChartValuesTextSize(7.5f);
-    renderer.setLabelsTextSize(9.5f);
-    renderer.setAxisTitleTextSize(12);
-    renderer.setLegendTextSize(11);
+    renderer.setChartValuesTextSize(10f);
+    renderer.setLabelsTextSize(14f);
+    renderer.setAxisTitleTextSize(15);
+    renderer.setLegendTextSize(15);
     length = renderer.getSeriesRendererCount();
     for (int i = 0; i < length; i++) {
       XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(i);

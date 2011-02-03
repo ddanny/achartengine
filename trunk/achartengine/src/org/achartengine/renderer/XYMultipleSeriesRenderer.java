@@ -56,7 +56,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /** If the values should be displayed above the chart points. */
   private boolean mDisplayChartValues;
   /** The chart values text size. */
-  private float mChartValuesTextSize = 9;
+  private float mChartValuesTextSize = 10;
   /** A flag for enabling or not the pan on the X axis. */
   private boolean mPanXEnabled = true;
   /** A flag for enabling or not the pan on the Y axis. */
