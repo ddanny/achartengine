@@ -63,4 +63,15 @@ public abstract class AbstractTool {
       mRenderer.setYAxisMax(range[3]);
     }
   }
+  
+  protected void setXRange(double min, double max) {
+    mRenderer.setXAxisMin(min);
+    mRenderer.setXAxisMax(max);
+  }
+  
+  protected void setYRange(double min, double max) {
+    mRenderer.setYAxisMin(min);
+    mRenderer.setYAxisMax(max);
+  }
+
 }

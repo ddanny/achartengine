@@ -83,14 +83,4 @@ public class Pan extends AbstractTool {
       }
     }
   }
-  
-  private void setXRange(double min, double max) {
-    mRenderer.setXAxisMin(min);
-    mRenderer.setXAxisMax(max);
-  }
-  
-  private void setYRange(double min, double max) {
-    mRenderer.setYAxisMin(min);
-    mRenderer.setYAxisMax(max);
-  }
 }

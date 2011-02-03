@@ -53,6 +53,9 @@ public class Zoom extends AbstractTool {
   public void apply() {
     double[] range = getRange();
     checkRange(range);
+    double[] limits = mRenderer.getZoomLimits();
+    boolean limited = limits != null && limits.length == 4;
+    
     double centerX = (range[0] + range[1]) / 2;
     double centerY = (range[2] + range[3]) / 2;
     double newWidth = range[1] - range[0];
@@ -74,12 +77,19 @@ public class Zoom extends AbstractTool {
     }
 
     if (mRenderer.isZoomXEnabled()) {
-      mRenderer.setXAxisMin(centerX - newWidth / 2);
-      mRenderer.setXAxisMax(centerX + newWidth / 2);
+      double newXMin = centerX - newWidth / 2;
+      double newXMax = centerX + newWidth / 2;
+      if (!limited || limits[0] <= newXMin && limits[1] >= newXMax) {
+        setXRange(newXMin, newXMax);
+      }
     }
     if (mRenderer.isZoomYEnabled()) {
-      mRenderer.setYAxisMin(centerY - newHeight / 2);
-      mRenderer.setYAxisMax(centerY + newHeight / 2);
+      double newYMin = centerY - newHeight / 2;
+      double newYMax = centerY + newHeight / 2;
+      if (!limited || limits[2] <= newYMin && limits[3] >= newYMax) {
+        setYRange(newYMin, newYMax);
+      }
     }
   }
+  
 }
