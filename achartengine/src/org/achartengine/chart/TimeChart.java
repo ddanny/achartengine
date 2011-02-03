@@ -86,8 +86,8 @@ public class TimeChart extends LineChart {
       float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
-        canvas.drawLine(xLabel, bottom, xLabel, bottom + 4, paint);
-        drawText(canvas, format.format(new Date(label)), xLabel, bottom + 12, paint, mRenderer.getXLabelsAngle());
+        canvas.drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
+        drawText(canvas, format.format(new Date(label)), xLabel, bottom + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
       }
       if (showGrid) {
         paint.setColor(mRenderer.getGridColor());

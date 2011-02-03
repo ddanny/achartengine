@@ -53,7 +53,7 @@ public class DefaultRenderer implements Serializable {
   /** The labels color. */
   private int mLabelsColor = TEXT_COLOR;
   /** The labels text size. */
-  private float mLabelsTextSize = 9;
+  private float mLabelsTextSize = 10;
   /** If the legend is visible. */
   private boolean mShowLegend = true;
   /** The legend text size. */
@@ -71,7 +71,7 @@ public class DefaultRenderer implements Serializable {
   /** The legend height. */
   private int mLegendHeight = 0;
   /** The margins size. */
-  private int[] mMargins = new int[] { 20, 20, 0, 0 };
+  private int[] mMargins = new int[] { 20, 30, 10, 0 };
 
   /**
    * Adds a simple renderer to the multiple renderer.

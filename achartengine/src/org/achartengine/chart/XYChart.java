@@ -219,7 +219,7 @@ public abstract class XYChart extends AbstractChart {
         paint.setTextSize(mRenderer.getLabelsTextSize());
         paint.setTextAlign(mRenderer.getXLabelsAlign());
         if (mRenderer.getXLabelsAlign() == Align.LEFT) {
-          xLabelsLeft += 3;
+          xLabelsLeft += mRenderer.getLabelsTextSize() / 4;
         }
       }
       drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
@@ -260,7 +260,7 @@ public abstract class XYChart extends AbstractChart {
         paint.setTextSize(size);
         paint.setTextAlign(Align.CENTER);
         if (or == Orientation.HORIZONTAL) {
-          drawText(canvas, mRenderer.getXTitle(), x + width / 2, bottom + 12 + size, paint, 0);
+          drawText(canvas, mRenderer.getXTitle(), x + width / 2, bottom + mRenderer.getLabelsTextSize() * 4 / 3 + size, paint, 0);
           drawText(canvas, mRenderer.getYTitle(), x + size, y + height / 2, paint, -90);
           paint.setTextSize(mRenderer.getChartTitleTextSize());
           drawText(canvas, mRenderer.getChartTitle(), x + width / 2, y
@@ -416,8 +416,8 @@ public abstract class XYChart extends AbstractChart {
       float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
-        canvas.drawLine(xLabel, bottom, xLabel, bottom + 4, paint);
-        drawText(canvas, getLabel(label), xLabel, bottom + mRenderer.getLabelsTextSize(), paint, mRenderer.getXLabelsAngle());
+        canvas.drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
+        drawText(canvas, getLabel(label), xLabel, bottom + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
       }
       if (showGrid) {
         paint.setColor(mRenderer.getGridColor());

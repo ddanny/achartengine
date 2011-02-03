@@ -68,6 +68,12 @@ public abstract class AbstractDemoChart implements IChart {
    */
   protected XYMultipleSeriesRenderer buildRenderer(int[] colors, PointStyle[] styles) {
     XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+    renderer.setAxisTitleTextSize(16);
+    renderer.setChartTitleTextSize(20);
+    renderer.setLabelsTextSize(15);
+    renderer.setLegendTextSize(15);
+    renderer.setPointSize(5f);
+    renderer.setMargins(new int[] {20, 30, 15, 0});
     int length = colors.length;
     for (int i = 0; i < length; i++) {
       XYSeriesRenderer r = new XYSeriesRenderer();
@@ -174,6 +180,9 @@ public abstract class AbstractDemoChart implements IChart {
    */
   protected DefaultRenderer buildCategoryRenderer(int[] colors) {
     DefaultRenderer renderer = new DefaultRenderer();
+    renderer.setLabelsTextSize(15);
+    renderer.setLegendTextSize(15);
+    renderer.setMargins(new int[] {20, 30, 15, 0});
     for (int color : colors) {
       SimpleSeriesRenderer r = new SimpleSeriesRenderer();
       r.setColor(color);
@@ -212,6 +221,10 @@ public abstract class AbstractDemoChart implements IChart {
    */
   protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
     XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+    renderer.setAxisTitleTextSize(16);
+    renderer.setChartTitleTextSize(20);
+    renderer.setLabelsTextSize(15);
+    renderer.setLegendTextSize(15);
     int length = colors.length;
     for (int i = 0; i < length; i++) {
       SimpleSeriesRenderer r = new SimpleSeriesRenderer();

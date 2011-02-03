@@ -80,6 +80,11 @@ public class XYChartBuilder extends Activity {
     setContentView(R.layout.xy_chart);
     mX = (EditText) findViewById(R.id.xValue);
     mY = (EditText) findViewById(R.id.yValue);
+    mRenderer.setAxisTitleTextSize(16);
+    mRenderer.setChartTitleTextSize(20);
+    mRenderer.setLabelsTextSize(15);
+    mRenderer.setLegendTextSize(15);
+    mRenderer.setMargins(new int[] {20, 30, 15, 0});
 
     mAdd = (Button) findViewById(R.id.add);
     mNewSeries = (Button) findViewById(R.id.new_series);
