@@ -86,8 +86,6 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     // renderer.setGridColor(Color.GREEN);
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
-    // renderer.setInitialRange(new double[]{-5, 15, -5, 35});
-    // renderer.setPointSize(5);
     Intent intent = ChartFactory.getLineChartIntent(context, buildDataset(titles, x, values),
         renderer, "Average temperature");
     return intent;
