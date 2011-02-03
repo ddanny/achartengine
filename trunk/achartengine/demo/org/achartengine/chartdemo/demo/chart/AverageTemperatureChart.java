@@ -83,13 +83,13 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     renderer.setShowGrid(true);
     renderer.setXLabelsAlign(Align.RIGHT);
     renderer.setYLabelsAlign(Align.RIGHT);
-//     renderer.setGridColor(Color.GREEN);
+    // renderer.setGridColor(Color.GREEN);
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
-//    renderer.setInitialRange(new double[]{-5, 15, -5, 35});
+    // renderer.setInitialRange(new double[]{-5, 15, -5, 35});
     // renderer.setXLabelsAngle(-90);
     // renderer.setYLabelsAngle(-90);
-//    renderer.setPointSize(5);
+    // renderer.setPointSize(5);
     Intent intent = ChartFactory.getLineChartIntent(context, buildDataset(titles, x, values),
         renderer, "Average temperature");
     return intent;
