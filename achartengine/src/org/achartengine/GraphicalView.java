@@ -234,7 +234,7 @@ public class GraphicalView extends View {
   @Override
   public boolean onTouchEvent(MotionEvent event) {
     if (mRenderer != null
-        && (mRenderer.isPanXEnabled() || mRenderer.isZoomYEnabled() || mRenderer.isZoomXEnabled() || mRenderer
+        && (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled() || mRenderer.isZoomXEnabled() || mRenderer
             .isZoomYEnabled())) {
       handleTouch(event);
       return true;
