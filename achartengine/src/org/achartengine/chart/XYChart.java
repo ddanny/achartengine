@@ -211,8 +211,8 @@ public abstract class XYChart extends AbstractChart {
     boolean showLabels = mRenderer.isShowLabels() && hasValues;
     boolean showGrid = mRenderer.isShowGrid();
     if (showLabels || showGrid) {
-      List<Double> xLabels = MathHelper.getLabels(minX, maxX, mRenderer.getXLabels());
-      List<Double> yLabels = MathHelper.getLabels(minY, maxY, mRenderer.getYLabels());
+      List<Double> xLabels = getValidLabels(MathHelper.getLabels(minX, maxX, mRenderer.getXLabels()));
+      List<Double> yLabels = getValidLabels(MathHelper.getLabels(minY, maxY, mRenderer.getYLabels()));
       int xLabelsLeft = left;
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
@@ -293,6 +293,16 @@ public abstract class XYChart extends AbstractChart {
     if (rotate) {
       transform(canvas, angle, true);
     }
+  }
+  
+  private List<Double> getValidLabels(List<Double> labels) {
+    List<Double> result = new ArrayList<Double>(labels);
+    for (Double label : labels) {
+      if (label.isNaN()) {
+        result.remove(label);
+      }
+    }
+    return result;
   }
 
   private void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
