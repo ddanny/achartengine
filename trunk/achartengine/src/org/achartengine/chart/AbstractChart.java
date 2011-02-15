@@ -141,6 +141,7 @@ public abstract class AbstractChart implements Serializable {
 
   /**
    * Checks if the current chart is rendered as vertical.
+   * 
    * @param renderer the renderer
    * @return if the chart is rendered as a vertical one
    */
