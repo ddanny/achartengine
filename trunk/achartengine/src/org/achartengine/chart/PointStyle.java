@@ -36,6 +36,7 @@ public enum PointStyle {
 
   /**
    * Returns the point shape name.
+   * 
    * @return the point shape name
    */
   public String getName() {
@@ -44,6 +45,7 @@ public enum PointStyle {
 
   /**
    * Returns the point shape name.
+   * 
    * @return the point shape name
    */
   public String toString() {
@@ -70,6 +72,7 @@ public enum PointStyle {
 
   /**
    * Returns the point shape index based on the given name.
+   * 
    * @return the point shape index
    */
   public static int getIndexForName(String name) {
