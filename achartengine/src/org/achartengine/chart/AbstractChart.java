@@ -85,12 +85,16 @@ public abstract class AbstractChart implements Serializable {
    * @param height the height of the area to draw to
    * @param legendSize the legend size
    * @param paint the paint to be used for drawing
+   * @param calculate if only calculating the legend size
+   * 
+   * @return the legend height
    */
-  protected void drawLegend(Canvas canvas, DefaultRenderer renderer, String[] titles, int left,
-      int right, int y, int width, int height, int legendSize, Paint paint) {
+  protected int drawLegend(Canvas canvas, DefaultRenderer renderer, String[] titles, int left,
+      int right, int y, int width, int height, int legendSize, Paint paint, boolean calculate) {
+    float size = 32;
     if (renderer.isShowLegend()) {
       float currentX = left;
-      float currentY = y + height - legendSize + 32;
+      float currentY = y + height - legendSize + size;
       final float lineSize = getLegendShapeWidth();
       paint.setTextAlign(Align.LEFT);
       paint.setTextSize(renderer.getLegendTextSize());
@@ -114,6 +118,7 @@ public abstract class AbstractChart implements Serializable {
         if (i > 0 && getExceed(currentWidth, renderer, right, width)) {
           currentX = left;
           currentY += renderer.getLegendTextSize();
+          size += renderer.getLegendTextSize();
           currentWidth = currentX + extraSize;
         }
         if (getExceed(currentWidth, renderer, right, width)) {
@@ -124,11 +129,14 @@ public abstract class AbstractChart implements Serializable {
           int nr = paint.breakText(text, true, maxWidth, widths);
           text = text.substring(0, nr) + "...";
         }
-        drawLegendShape(canvas, renderer.getSeriesRendererAt(i), currentX, currentY, paint);
-        canvas.drawText(text, currentX + lineSize + 5, currentY + 5, paint);
+        if (!calculate) {
+          drawLegendShape(canvas, renderer.getSeriesRendererAt(i), currentX, currentY, paint);
+          canvas.drawText(text, currentX + lineSize + 5, currentY + 5, paint);
+        }
         currentX += extraSize;
       }
     }
+    return Math.round(size + renderer.getLegendTextSize());
   }
 
   private boolean getExceed(float currentWidth, DefaultRenderer renderer, int right, int width) {
