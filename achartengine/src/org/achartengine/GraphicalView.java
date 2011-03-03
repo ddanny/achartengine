@@ -82,10 +82,12 @@ public class GraphicalView extends View {
     if (mChart instanceof XYChart) {
       mRenderer = ((XYChart) mChart).getRenderer();
       if (mRenderer.isZoomButtonsVisible()) {
-        zoomInImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom_in.png"));
-        zoomOutImage = BitmapFactory.decodeStream(getClass()
-          .getResourceAsStream("image/zoom_out.png"));
-        fitZoomImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom-1.png"));
+        zoomInImage = BitmapFactory.decodeStream(getClass()
+            .getResourceAsStream("image/zoom_in.png"));
+        zoomOutImage = BitmapFactory.decodeStream(getClass().getResourceAsStream(
+            "image/zoom_out.png"));
+        fitZoomImage = BitmapFactory.decodeStream(getClass()
+            .getResourceAsStream("image/zoom-1.png"));
       }
       if (mRenderer.getMarginsColor() == XYMultipleSeriesRenderer.NO_COLOR) {
         mRenderer.setMarginsColor(mPaint.getColor());
@@ -95,17 +97,17 @@ public class GraphicalView extends View {
         zoomOut = new Zoom((XYChart) mChart, false, mRenderer.getZoomRate());
         fitZoom = new FitZoom((XYChart) mChart);
       }
-    }
-    int version = 7;
-    try {
-      version = Integer.valueOf(Build.VERSION.SDK);
-    } catch (Exception e) {
-      // do nothing
-    }
-    if (version < 7) {
-      touchHandler = new TouchHandlerOld(this, mChart);
-    } else {
-      touchHandler = new TouchHandler(this, mChart);
+      int version = 7;
+      try {
+        version = Integer.valueOf(Build.VERSION.SDK);
+      } catch (Exception e) {
+        // do nothing
+      }
+      if (version < 7) {
+        touchHandler = new TouchHandlerOld(this, mChart);
+      } else {
+        touchHandler = new TouchHandler(this, mChart);
+      }
     }
   }
 
@@ -118,7 +120,8 @@ public class GraphicalView extends View {
     int width = mRect.width();
     int height = mRect.height();
     mChart.draw(canvas, left, top, width, height, mPaint);
-    if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled()) && mRenderer.isZoomButtonsVisible()) {
+    if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())
+        && mRenderer.isZoomButtonsVisible()) {
       mPaint.setColor(ZOOM_BUTTONS_COLOR);
       zoomSize = Math.max(zoomSize, Math.min(width, height) / 7);
       zoomR.set(left + width - zoomSize * 3, top + height - zoomSize * 0.775f, left + width, top
@@ -142,7 +145,7 @@ public class GraphicalView extends View {
       zoomOut.setZoomRate(rate);
     }
   }
-  
+
   /**
    * Do a chart zoom in.
    */
@@ -152,7 +155,7 @@ public class GraphicalView extends View {
       repaint();
     }
   }
-  
+
   /**
    * Do a chart zoom out.
    */
@@ -172,11 +175,11 @@ public class GraphicalView extends View {
       repaint();
     }
   }
-  
+
   protected RectF getZoomRectangle() {
     return zoomR;
   }
-  
+
   @Override
   public boolean onTouchEvent(MotionEvent event) {
     if (mRenderer != null
@@ -202,7 +205,7 @@ public class GraphicalView extends View {
   /**
    * Schedule a view content repaint, in the specified rectangle area.
    * 
-   * @param left the left position of the area to be repainted 
+   * @param left the left position of the area to be repainted
    * @param top the top position of the area to be repainted
    * @param right the right position of the area to be repainted
    * @param bottom the bottom position of the area to be repainted
