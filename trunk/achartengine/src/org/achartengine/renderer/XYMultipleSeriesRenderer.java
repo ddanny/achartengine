@@ -65,6 +65,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private boolean mZoomXEnabled = true;
   /** A flag for enabling or not the zoom on the Y axis . */
   private boolean mZoomYEnabled = true;
+  /** A flag for enabling the visibility of the zoom buttons. */
+  private boolean mZoomButtonsVisible = false;
   /** The zoom rate. */
   private float mZoomRate = 1.5f;
   /** The spacing between bars, in bar charts. */
@@ -495,6 +497,24 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mZoomYEnabled = enabledY;
   }
 
+  /**
+   * Returns the visible state of the zoom buttons.
+   * 
+   * @return if zoom buttons are visible
+   */
+  public boolean isZoomButtonsVisible() {
+    return mZoomButtonsVisible;
+  }
+
+  /**
+   * Sets the visible state of the zoom buttons.
+   * 
+   * @param visible if the zoom buttons are visible
+   */
+  public void setZoomButtonsVisible(boolean visible) {
+    mZoomButtonsVisible = visible;
+  }
+  
   /**
    * Returns the zoom rate.
    * 

@@ -18,7 +18,7 @@ package org.achartengine;
 import org.achartengine.chart.AbstractChart;
 import org.achartengine.chart.XYChart;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.tools.*;
+import org.achartengine.tools.FitZoom;
 import org.achartengine.tools.Zoom;
 
 import android.content.Context;
@@ -29,6 +29,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Build;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,14 +46,6 @@ public class GraphicalView extends View {
   private Rect mRect = new Rect();
   /** The user interface thread handler. */
   private Handler mHandler;
-  /** The old x coordinate. */
-  private float oldX;
-  /** The old y coordinate. */
-  private float oldY;
-  /** The old x2 coordinate. */
-  private float oldX2;
-  /** The old y2 coordinate. */
-  private float oldY2;
   /** The zoom buttons rectangle. */
   private RectF zoomR = new RectF();
   /** The zoom in icon. */
@@ -62,21 +55,19 @@ public class GraphicalView extends View {
   /** The fit zoom icon. */
   private Bitmap fitZoomImage;
   /** The zoom area size. */
-  private static final int ZOOM_SIZE = 45;
+  private int zoomSize = 50;
   /** The zoom buttons background color. */
   private static final int ZOOM_BUTTONS_COLOR = Color.argb(175, 150, 150, 150);
-  /** The pan tool. */
-  private Pan pan;
   /** The zoom in tool. */
   private Zoom zoomIn;
   /** The zoom out tool. */
   private Zoom zoomOut;
-  /** The zoom for the pinch gesture. */
-  private Zoom pinchZoom;
   /** The fit zoom tool. */
   private FitZoom fitZoom;
   /** The paint to be used when drawing the chart. */
   private Paint mPaint = new Paint();
+  /** The touch handler. */
+  private ITouchHandler touchHandler;
 
   /**
    * Creates a new graphical view.
@@ -89,23 +80,32 @@ public class GraphicalView extends View {
     mChart = chart;
     mHandler = new Handler();
     if (mChart instanceof XYChart) {
-      zoomInImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom_in.png"));
-      zoomOutImage = BitmapFactory.decodeStream(getClass()
-          .getResourceAsStream("image/zoom_out.png"));
-      fitZoomImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom-1.png"));
       mRenderer = ((XYChart) mChart).getRenderer();
+      if (mRenderer.isZoomButtonsVisible()) {
+        zoomInImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom_in.png"));
+        zoomOutImage = BitmapFactory.decodeStream(getClass()
+          .getResourceAsStream("image/zoom_out.png"));
+        fitZoomImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom-1.png"));
+      }
       if (mRenderer.getMarginsColor() == XYMultipleSeriesRenderer.NO_COLOR) {
         mRenderer.setMarginsColor(mPaint.getColor());
-      }
-      if (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled()) {
-        pan = new Pan((XYChart) mChart);
       }
       if (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled()) {
         zoomIn = new Zoom((XYChart) mChart, true, mRenderer.getZoomRate());
         zoomOut = new Zoom((XYChart) mChart, false, mRenderer.getZoomRate());
         fitZoom = new FitZoom((XYChart) mChart);
-        pinchZoom = new Zoom((XYChart) mChart, true, 1);
       }
+    }
+    int version = 7;
+    try {
+      version = Integer.valueOf(Build.VERSION.SDK);
+    } catch (Exception e) {
+      // do nothing
+    }
+    if (version < 7) {
+      touchHandler = new TouchHandlerOld(this, mChart);
+    } else {
+      touchHandler = new TouchHandler(this, mChart);
     }
   }
 
@@ -118,77 +118,19 @@ public class GraphicalView extends View {
     int width = mRect.width();
     int height = mRect.height();
     mChart.draw(canvas, left, top, width, height, mPaint);
-    if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())) {
+    if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled()) && mRenderer.isZoomButtonsVisible()) {
       mPaint.setColor(ZOOM_BUTTONS_COLOR);
-      zoomR.set(left + width - ZOOM_SIZE * 3, top + height - ZOOM_SIZE * 0.775f, left + width, top
+      zoomSize = Math.max(zoomSize, Math.min(width, height) / 7);
+      zoomR.set(left + width - zoomSize * 3, top + height - zoomSize * 0.775f, left + width, top
           + height);
-      canvas.drawRoundRect(zoomR, ZOOM_SIZE / 3, ZOOM_SIZE / 3, mPaint);
-      float buttonY = top + height - ZOOM_SIZE * 0.625f;
-      canvas.drawBitmap(zoomInImage, left + width - ZOOM_SIZE * 2.75f, buttonY, null);
-      canvas.drawBitmap(zoomOutImage, left + width - ZOOM_SIZE * 1.75f, buttonY, null);
-      canvas.drawBitmap(fitZoomImage, left + width - ZOOM_SIZE * 0.75f, buttonY, null);
+      canvas.drawRoundRect(zoomR, zoomSize / 3, zoomSize / 3, mPaint);
+      float buttonY = top + height - zoomSize * 0.625f;
+      canvas.drawBitmap(zoomInImage, left + width - zoomSize * 2.75f, buttonY, null);
+      canvas.drawBitmap(zoomOutImage, left + width - zoomSize * 1.75f, buttonY, null);
+      canvas.drawBitmap(fitZoomImage, left + width - zoomSize * 0.75f, buttonY, null);
     }
   }
 
-  public void handleTouch(MotionEvent event) {
-    int action = event.getAction();
-    if (mRenderer != null && action == MotionEvent.ACTION_MOVE) {
-      if (oldX >= 0 || oldY >= 0) {
-        float newX = event.getX(0);
-        float newY = event.getY(0);
-        if (event.getPointerCount() > 1 && (oldX2 >= 0 || oldY2 >= 0) && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())) {
-          float newX2 = event.getX(1);
-          float newY2 = event.getY(1);
-          float newDeltaX = Math.abs(newX - newX2);
-          float newDeltaY = Math.abs(newY - newY2);
-          float oldDeltaX = Math.abs(oldX - oldX2);
-          float oldDeltaY = Math.abs(oldY - oldY2);
-          float zoomRate = 1;
-          if (Math.abs(newX - oldX) >= Math.abs(newY - oldY)) {
-            zoomRate = newDeltaX / oldDeltaX;
-          } else {
-            zoomRate = newDeltaY / oldDeltaY;
-          }
-          if (zoomRate > 0.909 && zoomRate < 1.1) {
-            pinchZoom.setZoomRate(zoomRate);
-            pinchZoom.apply();
-          }
-          oldX2 = newX2;
-          oldY2 = newY2;
-        } else if (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled()) {
-          pan.apply(oldX, oldY, newX, newY);
-          oldX2 = 0;
-          oldY2 = 0;
-        }
-        oldX = newX;
-        oldY = newY;
-        repaint();
-      }
-    } else if (action == MotionEvent.ACTION_DOWN) {
-      oldX = event.getX(0);
-      oldY = event.getY(0);
-      if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())
-          && zoomR.contains(oldX, oldY)) {
-        if (oldX < zoomR.left + zoomR.width() / 3) {
-          zoomIn.apply();
-        } else if (oldX < zoomR.left + zoomR.width() * 2 / 3) {
-          zoomOut.apply();
-        } else {
-          fitZoom.apply();
-        }
-      }
-    } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) {
-      oldX = 0;
-      oldY = 0;
-      oldX2 = 0;
-      oldY2 = 0;
-      if (action == MotionEvent.ACTION_POINTER_UP) {
-        oldX = -1;
-        oldY = -1;
-      }
-    }
-  }
-  
   /**
    * Sets the zoom rate.
    * 
@@ -230,13 +172,17 @@ public class GraphicalView extends View {
       repaint();
     }
   }
-
+  
+  protected RectF getZoomRectangle() {
+    return zoomR;
+  }
+  
   @Override
   public boolean onTouchEvent(MotionEvent event) {
     if (mRenderer != null
         && (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled() || mRenderer.isZoomXEnabled() || mRenderer
             .isZoomYEnabled())) {
-      handleTouch(event);
+      touchHandler.handleTouch(event);
       return true;
     }
     return super.onTouchEvent(event);
