@@ -4,7 +4,7 @@
     <description>Build for project achartengine. </description>
 
 	<property name="app_name" value="achartengine"/>
-	<property name="app_version" value="0.6.0"/>	
+	<property name="app_version" value="0.7.0.r145"/>	
     <property name="src_root.dir" location="${basedir}"/>
     <property name="achartengine.package" value="org/achartengine"/>
 	<property name="src.dir" location="${src_root.dir}/src/"/>
@@ -183,7 +183,7 @@
 				<include name="LICENSE-2.0.txt" />
 			</fileset>
 			<fileset dir="${build.dir}">
-				<include name="src/**/*" />				
+				<include name="src/**/*" />
 				<include name="lib/${app_name}-${app_version}.jar" />
 			</fileset>			
 		</zip>

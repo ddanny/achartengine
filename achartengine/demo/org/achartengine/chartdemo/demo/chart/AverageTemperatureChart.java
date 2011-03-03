@@ -83,6 +83,7 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     renderer.setShowGrid(true);
     renderer.setXLabelsAlign(Align.RIGHT);
     renderer.setYLabelsAlign(Align.RIGHT);
+    renderer.setZoomButtonsVisible(true);
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
     Intent intent = ChartFactory.getLineChartIntent(context, buildDataset(titles, x, values),
