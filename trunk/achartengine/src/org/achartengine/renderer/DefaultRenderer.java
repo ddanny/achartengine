@@ -58,6 +58,8 @@ public class DefaultRenderer implements Serializable {
   private boolean mShowLegend = true;
   /** The legend text size. */
   private float mLegendTextSize = 12;
+  /** If the legend should size to fit. */
+  private boolean mFitLegend = false;
   /** If the grid should be displayed. */
   private boolean mShowGrid = false;
   /** The simple renderers that are included in this multiple series renderer. */
@@ -281,6 +283,24 @@ public class DefaultRenderer implements Serializable {
    */
   public void setShowLegend(boolean showLegend) {
     mShowLegend = showLegend;
+  }
+
+  /**
+   * Returns if the legend should size to fit.
+   * 
+   * @return the fit behavior
+   */
+  public boolean isFitLegend() {
+    return mFitLegend;
+  }
+  
+  /**
+   * Sets if the legend should size to fit.
+   * 
+   * @param fit the fit behavior
+   */
+  public void setFitLegend(boolean fit) {
+    mFitLegend = fit;
   }
 
   /**

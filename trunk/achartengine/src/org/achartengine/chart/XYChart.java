@@ -77,6 +77,7 @@ public abstract class XYChart extends AbstractChart {
   public void draw(Canvas canvas, int x, int y, int width, int height, Paint paint) {
     paint.setAntiAlias(mRenderer.isAntialiasing());
     int legendSize = mRenderer.getLegendHeight();
+    
     if (mRenderer.isShowLegend() && legendSize == 0) {
       legendSize = height / 5;
     }
@@ -84,6 +85,14 @@ public abstract class XYChart extends AbstractChart {
     int left = x + margins[1];
     int top = y + margins[0];
     int right = x + width - margins[3];
+    int sLength = mDataset.getSeriesCount();
+    String[] titles = new String[sLength];
+    for (int i = 0; i < sLength; i++) {
+      titles[i] = mDataset.getSeriesAt(i).getTitle();
+    }
+    if (mRenderer.isFitLegend()) {
+      legendSize = drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, true);
+    }
     int bottom = y + height - margins[2] - legendSize;
     if (screenR == null) {
       screenR = new Rect();
@@ -123,11 +132,8 @@ public abstract class XYChart extends AbstractChart {
     boolean isMaxYSet = mRenderer.isMaxYSet();
     double xPixelsPerUnit = 0;
     double yPixelsPerUnit = 0;
-    int sLength = mDataset.getSeriesCount();
-    String[] titles = new String[sLength];
     for (int i = 0; i < sLength; i++) {
       XYSeries series = mDataset.getSeriesAt(i);
-      titles[i] = series.getTitle();
       if (series.getItemCount() == 0) {
         continue;
       }
@@ -273,12 +279,11 @@ public abstract class XYChart extends AbstractChart {
         }
       }
     }
-
     if (or == Orientation.HORIZONTAL) {
-      drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint);
+      drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
     } else if (or == Orientation.VERTICAL) {
       transform(canvas, angle, true);
-      drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint);
+      drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
       transform(canvas, angle, false);
     }
     if (mRenderer.isShowAxes()) {

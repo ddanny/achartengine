@@ -69,9 +69,6 @@ public class PieChart extends AbstractChart {
     int left = x + 15;
     int top = y + 5;
     int right = x + width - 5;
-    int bottom = y + height - legendSize;
-    drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
-
     int sLength = mDataset.getItemCount();
     double total = 0;
     String[] titles = new String[sLength];
@@ -79,6 +76,12 @@ public class PieChart extends AbstractChart {
       total += mDataset.getValue(i);
       titles[i] = mDataset.getCategory(i);
     }
+    if (mRenderer.isFitLegend()) {
+      legendSize = drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, true);
+    }
+    int bottom = y + height - legendSize;
+    drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
+
     float currentAngle = 0;
     int mRadius = Math.min(Math.abs(right - left), Math.abs(bottom - top));
     int radius = (int) (mRadius * 0.35 * mRenderer.getScale());
@@ -126,7 +129,7 @@ public class PieChart extends AbstractChart {
       }
       currentAngle += angle;
     }
-    drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint);
+    drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
   }
 
   /**

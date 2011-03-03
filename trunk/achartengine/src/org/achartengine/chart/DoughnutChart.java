@@ -72,11 +72,19 @@ public class DoughnutChart extends AbstractChart {
     int left = x + 15;
     int top = y + 5;
     int right = x + width - 5;
+    int cLength = mDataset.getCategoriesCount();
+    String[] categories = new String[cLength];
+    for (int category = 0; category < cLength; category++) {
+      categories[category] = mDataset.getCategory(category);
+    }
+    if (mRenderer.isFitLegend()) {
+      legendSize = drawLegend(canvas, mRenderer, categories, left, right, y, width, height, legendSize, paint, true);
+    }
+
     int bottom = y + height - legendSize;
     drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
     mStep = SHAPE_WIDTH * 3 / 4;
 
-    int cLength = mDataset.getCategoriesCount();
     int mRadius = Math.min(Math.abs(right - left), Math.abs(bottom - top));
     double rCoef = 0.35 * mRenderer.getScale();
     double decCoef = 0.2 / cLength;
@@ -85,7 +93,6 @@ public class DoughnutChart extends AbstractChart {
     int centerY = (bottom + top) / 2;
     float shortRadius = radius * 0.9f;
     float longRadius = radius * 1.1f;
-    String[] categories = new String[cLength];
     for (int category = 0; category < cLength; category++) {
       int sLength = mDataset.getItemCount(category);
       double total = 0;
@@ -146,9 +153,8 @@ public class DoughnutChart extends AbstractChart {
       oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
       canvas.drawArc(oval, 0, 360, true, paint);
       radius -= 1;
-      categories[category] = mDataset.getCategory(category);
     }
-    drawLegend(canvas, mRenderer, categories, left, right, y, width, height, legendSize, paint);
+    drawLegend(canvas, mRenderer, categories, left, right, y, width, height, legendSize, paint, false);
   }
 
   /**
