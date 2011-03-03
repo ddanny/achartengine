@@ -384,6 +384,13 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public Double[] getXTextLabelLocations() {
     return mXTextLabels.keySet().toArray(new Double[0]);
   }
+  
+  /**
+   * Clears the existing text labels.
+   */
+  public void clearTextLabels() {
+    mXTextLabels.clear();
+  }
 
   /**
    * Returns the approximate number of labels for the Y axis.
