@@ -72,6 +72,8 @@ public class DefaultRenderer implements Serializable {
   private int mLegendHeight = 0;
   /** The margins size. */
   private int[] mMargins = new int[] { 20, 30, 10, 0 };
+  /** A value to be used for scaling the chart. */
+  private float mScale = 1;
 
   /**
    * Adds a simple renderer to the multiple renderer.
@@ -380,6 +382,25 @@ public class DefaultRenderer implements Serializable {
    */
   public void setYLabelsAlign(Align align) {
     yLabelsAlign = align;
+  }
+  
+  /**
+   * Returns the value to be used for scaling the chart.
+   *  
+   * @return the scale value
+   */
+  public float getScale() {
+    return mScale;
+  }
+  
+  /**
+   * Sets the value to be used for scaling the chart.
+   * It works on some charts like pie, doughnut, dial.
+   * 
+   * @param scale the scale value
+   */
+  public void setScale(float scale) {
+    mScale = scale;
   }
   
   /**

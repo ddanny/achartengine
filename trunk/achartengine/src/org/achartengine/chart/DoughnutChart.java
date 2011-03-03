@@ -78,7 +78,7 @@ public class DoughnutChart extends AbstractChart {
 
     int cLength = mDataset.getCategoriesCount();
     int mRadius = Math.min(Math.abs(right - left), Math.abs(bottom - top));
-    double rCoef = 0.35;
+    double rCoef = 0.35 * mRenderer.getScale();
     double decCoef = 0.2 / cLength;
     int radius = (int) (mRadius * rCoef);
     int centerX = (left + right) / 2;

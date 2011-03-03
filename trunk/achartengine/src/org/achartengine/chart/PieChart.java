@@ -81,7 +81,7 @@ public class PieChart extends AbstractChart {
     }
     float currentAngle = 0;
     int mRadius = Math.min(Math.abs(right - left), Math.abs(bottom - top));
-    int radius = (int) (mRadius * 0.35);
+    int radius = (int) (mRadius * 0.35 * mRenderer.getScale());
     int centerX = (left + right) / 2;
     int centerY = (bottom + top) / 2;
     float shortRadius = radius * 0.9f;
