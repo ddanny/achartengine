@@ -481,6 +481,12 @@ public abstract class XYChart extends AbstractChart {
     return calcRange;
   }
 
+  /**
+   * Transforms a screen point to a real coordinates point.
+   * @param screenX the screen x axis value
+   * @param screenY the screen y axis value
+   * @return the real coordinates point
+   */
   public PointF toRealPoint(float screenX, float screenY) {
     double realMinX = mRenderer.getXAxisMin();
     double realMaxX = mRenderer.getXAxisMax();
