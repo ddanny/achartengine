@@ -53,6 +53,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private Orientation mOrientation = Orientation.HORIZONTAL;
   /** The X axis text labels. */
   private Map<Double, String> mXTextLabels = new HashMap<Double, String>();
+  /** The Y axis text labels. */
+  private Map<Double, String> mYTextLabels = new HashMap<Double, String>();
   /** If the values should be displayed above the chart points. */
   private boolean mDisplayChartValues;
   /** The chart values text size. */
@@ -361,8 +363,19 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * 
    * @param x the X axis value
    * @param text the text label
+   * @deprecated use addXTextLabel instead
    */
   public void addTextLabel(double x, String text) {
+    addXTextLabel(x, text);
+  }
+
+  /**
+   * Adds a new text label for the specified X axis value.
+   * 
+   * @param x the X axis value
+   * @param text the text label
+   */
+  public void addXTextLabel(double x, String text) {
     mXTextLabels.put(x, text);
   }
 
@@ -387,9 +400,53 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   
   /**
    * Clears the existing text labels.
+   * @deprecated use clearXTextLabels instead
    */
   public void clearTextLabels() {
+    clearXTextLabels();
+  }
+
+  /**
+   * Clears the existing text labels on the X axis.
+   */
+  public void clearXTextLabels() {
     mXTextLabels.clear();
+  }
+
+  /**
+   * Adds a new text label for the specified Y axis value.
+   * 
+   * @param y the Y axis value
+   * @param text the text label
+   */
+  public void addYTextLabel(double y, String text) {
+    mYTextLabels.put(y, text);
+  }
+
+  /**
+   * Returns the Y axis text label at the specified Y axis value.
+   * 
+   * @param y the Y axis value
+   * @return the Y axis text label
+   */
+  public String getYTextLabel(Double y) {
+    return mYTextLabels.get(y);
+  }
+
+  /**
+   * Returns the Y text label locations.
+   * 
+   * @return the Y text label locations
+   */
+  public Double[] getYTextLabelLocations() {
+    return mYTextLabels.keySet().toArray(new Double[0]);
+  }
+  
+  /**
+   * Clears the existing text labels on the Y axis.
+   */
+  public void clearYTextLabels() {
+    mYTextLabels.clear();
   }
 
   /**

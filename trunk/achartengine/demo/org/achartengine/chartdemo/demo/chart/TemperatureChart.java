@@ -24,6 +24,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 
 /**
  * Temperature demo range chart.
@@ -75,12 +76,21 @@ public class TemperatureChart extends AbstractDemoChart {
     renderer.setBarSpacing(0.5);
     renderer.setXLabels(1);
     renderer.setYLabels(10);
-    renderer.addTextLabel(1, "Jan");
-    renderer.addTextLabel(3, "Mar");
-    renderer.addTextLabel(5, "May");
-    renderer.addTextLabel(7, "Jul");
-    renderer.addTextLabel(10, "Oct");
-    renderer.addTextLabel(12, "Dec");
+    renderer.addXTextLabel(1, "Jan");
+    renderer.addXTextLabel(3, "Mar");
+    renderer.addXTextLabel(5, "May");
+    renderer.addXTextLabel(7, "Jul");
+    renderer.addXTextLabel(10, "Oct");
+    renderer.addXTextLabel(12, "Dec");
+    renderer.addYTextLabel(-25, "Very cold");
+    renderer.addYTextLabel(-15, "Cold");
+    renderer.addYTextLabel(-5, "Quite cold");
+    renderer.addYTextLabel(5, "OK");
+    renderer.addYTextLabel(15, "Decent");
+    renderer.addYTextLabel(25, "Warm");
+    renderer.setMargins(new int[] {30, 70, 10, 0});
+    renderer.setYLabelsAlign(Align.RIGHT);
+    
     renderer.setDisplayChartValues(true);
     renderer.setChartValuesTextSize(12);
     return ChartFactory.getRangeBarChartIntent(context, dataset, renderer, Type.DEFAULT,

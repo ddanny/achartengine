@@ -70,12 +70,12 @@ public class SalesBarChart extends AbstractDemoChart {
         12.5, 0, 24000, Color.GRAY, Color.LTGRAY);
     renderer.setXLabels(1);
     renderer.setYLabels(10);
-    renderer.addTextLabel(1, "Jan");
-    renderer.addTextLabel(3, "Mar");
-    renderer.addTextLabel(5, "May");
-    renderer.addTextLabel(7, "Jul");
-    renderer.addTextLabel(10, "Oct");
-    renderer.addTextLabel(12, "Dec");
+    renderer.addXTextLabel(1, "Jan");
+    renderer.addXTextLabel(3, "Mar");
+    renderer.addXTextLabel(5, "May");
+    renderer.addXTextLabel(7, "Jul");
+    renderer.addXTextLabel(10, "Oct");
+    renderer.addXTextLabel(12, "Dec");
     renderer.setDisplayChartValues(true);
     return ChartFactory.getBarChartIntent(context, buildBarDataset(titles, values), renderer,
         Type.DEFAULT);
