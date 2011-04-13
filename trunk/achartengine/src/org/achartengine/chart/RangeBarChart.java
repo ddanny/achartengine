@@ -15,6 +15,8 @@
  */
 package org.achartengine.chart;
 
+import java.util.Arrays;
+
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.SimpleSeriesRenderer;
@@ -56,6 +58,7 @@ public class RangeBarChart extends BarChart {
     int length = points.length;
     paint.setColor(seriesRenderer.getColor());
     paint.setStyle(Style.FILL);
+    System.out.println(Arrays.toString(points));
     float halfDiffX = getHalfDiffX(points, length, seriesNr);
     for (int i = 0; i < length; i += 4) {
       float xMin = points[i];
@@ -67,6 +70,7 @@ public class RangeBarChart extends BarChart {
         canvas.drawRect(xMin - halfDiffX, yMax, xMax + halfDiffX, yMin, paint);
       } else {
         float startX = xMin - seriesNr * halfDiffX + seriesIndex * 2 * halfDiffX;
+        System.out.println("start=" + startX + "  stop=" + (startX + 2 * halfDiffX));
         canvas.drawRect(startX, yMax, startX + 2 * halfDiffX, yMin, paint);
       }
     }

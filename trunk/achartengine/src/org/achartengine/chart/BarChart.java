@@ -137,7 +137,7 @@ public class BarChart extends XYChart {
    * @return the calculated half-distance value
    */
   protected float getHalfDiffX(float[] points, int length, int seriesNr) {
-    float halfDiffX = (points[length - 2] - points[0]) / length;
+    float halfDiffX = (points[length - 2] - points[0]) / (length - 4);
     if (halfDiffX == 0) {
       halfDiffX = 10;
     }
@@ -145,7 +145,7 @@ public class BarChart extends XYChart {
     if (mType != Type.STACKED) {
       halfDiffX /= seriesNr;
     }
-    return (float) (halfDiffX / (getCoeficient() * (1 + mRenderer.getBarsSpacing())));
+    return (float) (halfDiffX / (getCoeficient() * (1 + mRenderer.getBarSpacing())));
   }
 
   /**
