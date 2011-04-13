@@ -259,7 +259,25 @@ public abstract class XYChart extends AbstractChart {
           }
         }
       }
+      
+      if (showLabels) {
+        paint.setColor(mRenderer.getLabelsColor());
+        Double[] yTextLabelLocations = mRenderer.getYTextLabelLocations();
+        for (Double location : yTextLabelLocations) {
+          float yLabel = (float) (bottom - yPixelsPerUnit * (location.doubleValue() - minY));
+          String label = mRenderer.getYTextLabel(location);
+          if (or == Orientation.HORIZONTAL) {
+            canvas.drawLine(left - 4, yLabel, left, yLabel, paint);
+            drawText(canvas, label, left - 2, yLabel - 2, paint, mRenderer.getYLabelsAngle());
+          } else {
+            canvas.drawLine(right + 4, yLabel, right, yLabel, paint);
+            drawText(canvas, label, right + 10, yLabel - 2, paint, mRenderer.getYLabelsAngle());
+          }
+        }
+      }
 
+
+      
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
         float size = mRenderer.getAxisTitleTextSize();
