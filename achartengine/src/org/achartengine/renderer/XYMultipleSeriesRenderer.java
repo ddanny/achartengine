@@ -601,8 +601,18 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * Returns the spacing between bars, in bar charts.
    * 
    * @return the spacing between bars
+   * @deprecated use getBarSpacing instead
    */
   public double getBarsSpacing() {
+    return getBarSpacing();
+  }
+
+  /**
+   * Returns the spacing between bars, in bar charts.
+   * 
+   * @return the spacing between bars
+   */
+  public double getBarSpacing() {
     return mBarSpacing;
   }
 
