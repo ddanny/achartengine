@@ -90,7 +90,7 @@ public abstract class XYChart extends AbstractChart {
     for (int i = 0; i < sLength; i++) {
       titles[i] = mDataset.getSeriesAt(i).getTitle();
     }
-    if (mRenderer.isFitLegend()) {
+    if (mRenderer.isFitLegend() && mRenderer.isShowLegend()) {
       legendSize = drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, true);
     }
     int bottom = y + height - margins[2] - legendSize;
