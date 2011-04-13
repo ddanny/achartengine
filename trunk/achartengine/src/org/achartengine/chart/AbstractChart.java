@@ -138,6 +138,14 @@ public abstract class AbstractChart implements Serializable {
     return Math.round(size + renderer.getLegendTextSize());
   }
 
+  /**
+   * Calculates if the current width exceeds the total width.
+   * @param currentWidth the current width
+   * @param renderer the renderer
+   * @param right the right side pixel value
+   * @param width the total width
+   * @return if the current width exceeds the total width
+   */
   private boolean getExceed(float currentWidth, DefaultRenderer renderer, int right, int width) {
     boolean exceed = currentWidth > right;
     if (isVertical(renderer)) {
