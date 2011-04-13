@@ -459,5 +459,4 @@ public class DefaultRenderer implements Serializable {
     mMargins = margins;
   }
 
-
 }
