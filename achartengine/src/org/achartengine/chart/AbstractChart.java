@@ -140,6 +140,7 @@ public abstract class AbstractChart implements Serializable {
 
   /**
    * Calculates if the current width exceeds the total width.
+   * 
    * @param currentWidth the current width
    * @param renderer the renderer
    * @param right the right side pixel value
