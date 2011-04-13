@@ -44,4 +44,5 @@ public class GraphicalActivity extends Activity {
     }
     setContentView(mView);
   }
+  
 }
