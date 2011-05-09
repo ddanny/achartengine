@@ -30,10 +30,10 @@ import android.graphics.Paint.Style;
 public class RangeBarChart extends BarChart {
   /** The chart type. */
   public static final String TYPE = "RangeBar";
-  
+
   RangeBarChart() {
   }
-  
+
   /**
    * Builds a new range bar chart instance.
    * 
@@ -110,9 +110,10 @@ public class RangeBarChart extends BarChart {
   protected float getCoeficient() {
     return 0.5f;
   }
-  
+
   /**
    * Returns the chart type identifier.
+   * 
    * @return the chart type
    */
   public String getChartType() {
