@@ -28,11 +28,16 @@ import android.graphics.Paint.Style;
  * The line chart rendering class.
  */
 public class LineChart extends XYChart {
+  /** The constant to identify this chart type. */
+  public static final String TYPE = "Line";
   /** The legend shape width. */
   private static final int SHAPE_WIDTH = 30;
   /** The scatter chart to be used to draw the data points. */
   private ScatterChart pointsChart;
 
+  LineChart() {
+  }
+  
   /**
    * Builds a new line chart instance.
    * 
@@ -41,6 +46,12 @@ public class LineChart extends XYChart {
    */
   public LineChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
     super(dataset, renderer);
+    pointsChart = new ScatterChart(dataset, renderer);
+  }
+  
+  // TODO: javadoc
+  protected void setDatasetRenderer(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
+    super.setDatasetRenderer(dataset, renderer);
     pointsChart = new ScatterChart(dataset, renderer);
   }
 
@@ -121,6 +132,14 @@ public class LineChart extends XYChart {
    */
   public ScatterChart getPointsChart() {
     return pointsChart;
+  }
+
+  /**
+   * Returns the chart type identifier.
+   * @return the chart type
+   */
+  public String getChartType() {
+    return TYPE;
   }
 
 }

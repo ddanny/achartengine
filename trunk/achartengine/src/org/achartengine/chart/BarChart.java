@@ -28,6 +28,8 @@ import android.graphics.Paint.Style;
  * The bar chart rendering class.
  */
 public class BarChart extends XYChart {
+  /** The constant to identify this chart type. */
+  public static final String TYPE = "Bar";
   /** The legend shape width. */
   private static final int SHAPE_WIDTH = 12;
   /** The chart type. */
@@ -40,6 +42,9 @@ public class BarChart extends XYChart {
     DEFAULT, STACKED;
   }
 
+  BarChart() {
+  }
+  
   /**
    * Builds a new bar chart instance.
    * 
@@ -164,5 +169,13 @@ public class BarChart extends XYChart {
    */
   public double getDefaultMinimum() {
     return 0;
+  }
+  
+  /**
+   * Returns the chart type identifier.
+   * @return the chart type
+   */
+  public String getChartType() {
+    return TYPE;
   }
 }

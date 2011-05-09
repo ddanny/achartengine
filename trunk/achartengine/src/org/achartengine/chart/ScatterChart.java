@@ -28,6 +28,8 @@ import android.graphics.Paint.Style;
  * The scatter chart rendering class.
  */
 public class ScatterChart extends XYChart {
+  /** The constant to identify this chart type. */
+  public static final String TYPE = "Scatter";
   /** The default point shape size. */
   private static final float SIZE = 3;
   /** The legend shape width. */
@@ -35,6 +37,9 @@ public class ScatterChart extends XYChart {
   /** The point shape size. */
   private float size = SIZE;
 
+  ScatterChart() {
+  }
+  
   /**
    * Builds a new scatter chart instance.
    * 
@@ -43,6 +48,12 @@ public class ScatterChart extends XYChart {
    */
   public ScatterChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
     super(dataset, renderer);
+    size = renderer.getPointSize();
+  }
+  
+  // TODO: javadoc
+  protected void setDatasetRenderer(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
+    super.setDatasetRenderer(dataset, renderer);
     size = renderer.getPointSize();
   }
 
@@ -222,6 +233,14 @@ public class ScatterChart extends XYChart {
     path[6] = x + size;
     path[7] = y;
     drawPath(canvas, path, paint, true);
+  }
+
+  /**
+   * Returns the chart type identifier.
+   * @return the chart type
+   */
+  public String getChartType() {
+    return TYPE;
   }
 
 }

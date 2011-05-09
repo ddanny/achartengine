@@ -185,7 +185,7 @@ public abstract class AbstractChart implements Serializable {
     }
     canvas.drawPath(path, paint);
   }
-
+  
   /**
    * Returns the legend shape width.
    * 
