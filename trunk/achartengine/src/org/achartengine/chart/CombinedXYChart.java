@@ -43,7 +43,8 @@ public class CombinedXYChart extends XYChart {
    * @param renderers the multiple series renderer
    * @param types the XY chart types
    */
-  public CombinedXYChart(XYMultipleSeriesDataset[] datasets, XYMultipleSeriesRenderer[] renderers, String[] types) {
+  public CombinedXYChart(XYMultipleSeriesDataset[] datasets, XYMultipleSeriesRenderer[] renderers,
+      String[] types) {
     super(datasets[0], renderers[0]);
     mDatasets = datasets;
     mRenderers = renderers;
@@ -62,7 +63,7 @@ public class CombinedXYChart extends XYChart {
       }
     }
   }
-  
+
   private XYChart getXYChart(String type) throws IllegalAccessException, InstantiationException {
     XYChart chart = null;
     int length = xyChartTypes.length;
@@ -74,7 +75,7 @@ public class CombinedXYChart extends XYChart {
     }
     return chart;
   }
-  
+
   /**
    * The graphical representation of the XY chart.
    * 
