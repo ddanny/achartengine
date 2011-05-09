@@ -39,7 +39,7 @@ public class ScatterChart extends XYChart {
 
   ScatterChart() {
   }
-  
+
   /**
    * Builds a new scatter chart instance.
    * 
@@ -50,9 +50,10 @@ public class ScatterChart extends XYChart {
     super(dataset, renderer);
     size = renderer.getPointSize();
   }
-  
+
   // TODO: javadoc
-  protected void setDatasetRenderer(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
+  protected void setDatasetRenderer(XYMultipleSeriesDataset dataset,
+      XYMultipleSeriesRenderer renderer) {
     super.setDatasetRenderer(dataset, renderer);
     size = renderer.getPointSize();
   }
@@ -237,6 +238,7 @@ public class ScatterChart extends XYChart {
 
   /**
    * Returns the chart type identifier.
+   * 
    * @return the chart type
    */
   public String getChartType() {
