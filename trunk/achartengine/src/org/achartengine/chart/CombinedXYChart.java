@@ -23,14 +23,14 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 /**
- * The line chart rendering class.
+ * The combined XY chart rendering class.
  */
 public class CombinedXYChart extends XYChart {
   /** The datasets. */
   private XYMultipleSeriesDataset[] mDatasets;
   /** The renderers. */
   private XYMultipleSeriesRenderer[] mRenderers;
-  /** The embedded charts. */
+  /** The embedded XY charts. */
   private XYChart[] mCharts;
   /** The supported charts for being combined. */
   private Class[] xyChartTypes = new Class[] { TimeChart.class, LineChart.class, BarChart.class,
