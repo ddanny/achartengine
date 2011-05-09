@@ -30,11 +30,16 @@ import android.graphics.Paint;
  * The time chart rendering class.
  */
 public class TimeChart extends LineChart {
+  /** The constant to identify this chart type. */
+  public static final String TYPE = "Time";
   /** The number of milliseconds in a day. */
   public static final long DAY = 24 * 60 * 60 * 1000;
   /** The date format pattern to be used in formatting the X axis  labels. */
   private String mDateFormat;
 
+  TimeChart() {
+  }
+  
   /**
    * Builds a new time chart instance.
    * 
@@ -121,4 +126,13 @@ public class TimeChart extends LineChart {
     }
     return format;
   }
+  
+  /**
+   * Returns the chart type identifier.
+   * @return the chart type
+   */
+  public String getChartType() {
+    return TYPE;
+  }
+
 }

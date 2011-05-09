@@ -52,6 +52,9 @@ public abstract class XYChart extends AbstractChart {
   /** The calculated range. */
   private double[] calcRange = new double[4];
 
+  protected XYChart() {
+  }
+  
   /**
    * Builds a new XY chart instance.
    * 
@@ -59,6 +62,12 @@ public abstract class XYChart extends AbstractChart {
    * @param renderer the multiple series renderer
    */
   public XYChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
+    mDataset = dataset;
+    mRenderer = renderer;
+  }
+  
+  // TODO: javadoc
+  protected void setDatasetRenderer(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
     mDataset = dataset;
     mRenderer = renderer;
   }
@@ -547,4 +556,10 @@ public abstract class XYChart extends AbstractChart {
   public ScatterChart getPointsChart() {
     return null;
   }
+  
+  /**
+   * Returns the chart type identifier.
+   * @return the chart type
+   */
+  public abstract String getChartType();
 }
