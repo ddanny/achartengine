@@ -90,7 +90,7 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     renderer.setZoomButtonsVisible(true);
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
-    
+
     XYMultipleSeriesDataset series = new XYMultipleSeriesDataset();
     XYValueSeries lightSeries = new XYValueSeries("Visible light");
     lightSeries.add(0.5, 0, 0);
@@ -109,24 +109,17 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     lightSeries.add(12.5, 20, 0);
     series.addSeries(lightSeries);
     XYMultipleSeriesRenderer lRenderer = new XYMultipleSeriesRenderer();
-    
-    
-//    lightRenderer.setAxisTitleTextSize(16);
-//    lightRenderer.setChartTitleTextSize(20);
-//    lightRenderer.setLabelsTextSize(15);
-//    lightRenderer.setLegendTextSize(15);
-//    renderer.setMargins(new int[] { 20, 30, 15, 0 });
     XYSeriesRenderer lightRenderer = new XYSeriesRenderer();
     lightRenderer.setColor(Color.YELLOW);
     lRenderer.addSeriesRenderer(lightRenderer);
-    
+
     XYMultipleSeriesDataset[] datasets = new XYMultipleSeriesDataset[2];
-    XYMultipleSeriesRenderer[] renderers = new XYMultipleSeriesRenderer[] {renderer, lRenderer};
+    XYMultipleSeriesRenderer[] renderers = new XYMultipleSeriesRenderer[] { renderer, lRenderer };
     datasets[0] = buildDataset(titles, x, values);
     datasets[1] = series;
-    String[] types = new String[] {LineChart.TYPE, BubbleChart.TYPE};
-    Intent intent = ChartFactory.getCombinedXYChartIntent(context, datasets,
-        renderers, types, "Average temperature");
+    String[] types = new String[] { LineChart.TYPE, BubbleChart.TYPE };
+    Intent intent = ChartFactory.getCombinedXYChartIntent(context, datasets, renderers, types,
+        "Average temperature");
     return intent;
   }
 
