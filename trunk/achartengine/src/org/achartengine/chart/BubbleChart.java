@@ -40,7 +40,7 @@ public class BubbleChart extends XYChart {
 
   BubbleChart() {
   }
-  
+
   /**
    * Builds a new bubble chart instance.
    * 
@@ -116,6 +116,7 @@ public class BubbleChart extends XYChart {
 
   /**
    * Returns the chart type identifier.
+   * 
    * @return the chart type
    */
   public String getChartType() {
