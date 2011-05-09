@@ -44,7 +44,7 @@ public class BarChart extends XYChart {
 
   BarChart() {
   }
-  
+
   /**
    * Builds a new bar chart instance.
    * 
@@ -170,9 +170,10 @@ public class BarChart extends XYChart {
   public double getDefaultMinimum() {
     return 0;
   }
-  
+
   /**
    * Returns the chart type identifier.
+   * 
    * @return the chart type
    */
   public String getChartType() {
