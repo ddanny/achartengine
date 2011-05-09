@@ -37,7 +37,7 @@ public class LineChart extends XYChart {
 
   LineChart() {
   }
-  
+
   /**
    * Builds a new line chart instance.
    * 
@@ -48,9 +48,10 @@ public class LineChart extends XYChart {
     super(dataset, renderer);
     pointsChart = new ScatterChart(dataset, renderer);
   }
-  
+
   // TODO: javadoc
-  protected void setDatasetRenderer(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
+  protected void setDatasetRenderer(XYMultipleSeriesDataset dataset,
+      XYMultipleSeriesRenderer renderer) {
     super.setDatasetRenderer(dataset, renderer);
     pointsChart = new ScatterChart(dataset, renderer);
   }
@@ -136,6 +137,7 @@ public class LineChart extends XYChart {
 
   /**
    * Returns the chart type identifier.
+   * 
    * @return the chart type
    */
   public String getChartType() {
