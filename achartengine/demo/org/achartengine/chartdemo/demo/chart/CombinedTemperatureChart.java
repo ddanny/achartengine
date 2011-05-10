@@ -108,7 +108,7 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     sunSeries.add(12, 5, 5.5);
     XYSeriesRenderer lightRenderer = new XYSeriesRenderer();
     lightRenderer.setColor(Color.YELLOW);
-    
+
     XYSeries waterSeries = new XYSeries("Water Temperature");
     waterSeries.add(1, 16);
     waterSeries.add(2, 15);
@@ -125,14 +125,15 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     renderer.setBarSpacing(0.5);
     XYSeriesRenderer waterRenderer = new XYSeriesRenderer();
     waterRenderer.setColor(Color.argb(200, 0, 200, 200));
-    
+
     XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);
     dataset.addSeries(0, sunSeries);
     dataset.addSeries(0, waterSeries);
     renderer.addSeriesRenderer(0, lightRenderer);
     renderer.addSeriesRenderer(0, waterRenderer);
-    
-    String[] types = new String[] { BarChart.TYPE, BubbleChart.TYPE, LineChart.TYPE, LineChart.TYPE, LineChart.TYPE, LineChart.TYPE };
+
+    String[] types = new String[] { BarChart.TYPE, BubbleChart.TYPE, LineChart.TYPE,
+        LineChart.TYPE, LineChart.TYPE, LineChart.TYPE };
     Intent intent = ChartFactory.getCombinedXYChartIntent(context, dataset, renderer, types,
         "Average temperature");
     return intent;
