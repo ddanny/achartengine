@@ -87,6 +87,16 @@ public class DefaultRenderer implements Serializable {
   }
 
   /**
+   * Adds a simple renderer to the multiple renderer.
+   *
+   * @param index the index in the renderers list
+   * @param renderer the renderer to be added
+   */
+  public void addSeriesRenderer(int index, SimpleSeriesRenderer renderer) {
+    mRenderers.add(index, renderer);
+  }
+
+  /**
    * Removes a simple renderer from the multiple renderer.
    * 
    * @param renderer the renderer to be removed
