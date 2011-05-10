@@ -53,7 +53,7 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
    * @return the chart description
    */
   public String getDesc() {
-    return "The average temperature in 4 Greek islands, water temperature and sun shine hours (combined chart)";
+    return "The average temperature in 4 Greek islands, water temperature and sun shine hours (combined)";
   }
 
   /**
