@@ -94,11 +94,11 @@ public abstract class AbstractChart implements Serializable {
     if (renderer.isShowLegend()) {
       float currentX = left;
       float currentY = y + height - legendSize + size;
-      final float lineSize = getLegendShapeWidth();
       paint.setTextAlign(Align.LEFT);
       paint.setTextSize(renderer.getLegendTextSize());
       int sLength = Math.min(titles.length, renderer.getSeriesRendererCount());
       for (int i = 0; i < sLength; i++) {
+        final float lineSize = getLegendShapeWidth(i);
         String text = titles[i];
         if (titles.length == renderer.getSeriesRendererCount()) {
           paint.setColor(renderer.getSeriesRendererAt(i).getColor());
@@ -129,7 +129,7 @@ public abstract class AbstractChart implements Serializable {
           text = text.substring(0, nr) + "...";
         }
         if (!calculate) {
-          drawLegendShape(canvas, renderer.getSeriesRendererAt(i), currentX, currentY, paint);
+          drawLegendShape(canvas, renderer.getSeriesRendererAt(i), currentX, currentY, i, paint);
           canvas.drawText(text, currentX + lineSize + 5, currentY + 5, paint);
         }
         currentX += extraSize;
@@ -147,7 +147,7 @@ public abstract class AbstractChart implements Serializable {
    * @param width the total width
    * @return if the current width exceeds the total width
    */
-  private boolean getExceed(float currentWidth, DefaultRenderer renderer, int right, int width) {
+  protected boolean getExceed(float currentWidth, DefaultRenderer renderer, int right, int width) {
     boolean exceed = currentWidth > right;
     if (isVertical(renderer)) {
       exceed = currentWidth > width;
@@ -161,7 +161,7 @@ public abstract class AbstractChart implements Serializable {
    * @param renderer the renderer
    * @return if the chart is rendered as a vertical one
    */
-  private boolean isVertical(DefaultRenderer renderer) {
+  protected boolean isVertical(DefaultRenderer renderer) {
     return renderer instanceof XYMultipleSeriesRenderer
         && ((XYMultipleSeriesRenderer) renderer).getOrientation() == Orientation.VERTICAL;
   }
@@ -189,9 +189,10 @@ public abstract class AbstractChart implements Serializable {
   /**
    * Returns the legend shape width.
    * 
+   * @param seriesIndex the series index
    * @return the legend shape width
    */
-  public abstract int getLegendShapeWidth();
+  public abstract int getLegendShapeWidth(int seriesIndex);
 
   /**
    * The graphical representation of the legend shape.
@@ -200,9 +201,10 @@ public abstract class AbstractChart implements Serializable {
    * @param renderer the series renderer
    * @param x the x value of the point the shape should be drawn at
    * @param y the y value of the point the shape should be drawn at
+   * @param seriesIndex the series index
    * @param paint the paint to be used for drawing
    */
   public abstract void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x,
-      float y, Paint paint);
+      float y, int seriesIndex, Paint paint);
 
 }

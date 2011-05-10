@@ -241,9 +241,10 @@ public class DialChart extends AbstractChart {
   /**
    * Returns the legend shape width.
    * 
+   * @param seriesIndex the series index
    * @return the legend shape width
    */
-  public int getLegendShapeWidth() {
+  public int getLegendShapeWidth(int seriesIndex) {
     return SHAPE_WIDTH;
   }
 
@@ -254,10 +255,11 @@ public class DialChart extends AbstractChart {
    * @param renderer the series renderer
    * @param x the x value of the point the shape should be drawn at
    * @param y the y value of the point the shape should be drawn at
+   * @param seriesIndex the series index
    * @param paint the paint to be used for drawing
    */
   public void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x, float y,
-      Paint paint) {
+      int seriesIndex, Paint paint) {
     canvas.drawRect(x, y - SHAPE_WIDTH / 2, x + SHAPE_WIDTH, y + SHAPE_WIDTH / 2, paint);
   }
 

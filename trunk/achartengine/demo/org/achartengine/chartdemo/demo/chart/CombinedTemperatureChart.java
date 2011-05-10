@@ -19,10 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
+import org.achartengine.chart.BarChart;
 import org.achartengine.chart.BubbleChart;
 import org.achartengine.chart.LineChart;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
 import org.achartengine.model.XYValueSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
@@ -72,7 +74,7 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     values.add(new double[] { 10, 10, 12, 15, 20, 24, 26, 26, 23, 18, 14, 11 });
     values.add(new double[] { 5, 5.3, 8, 12, 17, 22, 24.2, 24, 19, 15, 9, 6 });
     values.add(new double[] { 9, 10, 11, 15, 19, 23, 26, 25, 22, 18, 13, 10 });
-    int[] colors = new int[] { Color.BLUE, Color.GREEN, Color.CYAN, Color.YELLOW };
+    int[] colors = new int[] { Color.BLUE, Color.GREEN, Color.CYAN, Color.rgb(200, 150, 0) };
     PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND,
         PointStyle.TRIANGLE, PointStyle.SQUARE };
     XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
@@ -91,34 +93,47 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
 
-    XYMultipleSeriesDataset series = new XYMultipleSeriesDataset();
-    XYValueSeries lightSeries = new XYValueSeries("Visible light");
-    lightSeries.add(0.5, 0, 0);
-    lightSeries.add(1, 5, 9);
-    lightSeries.add(2, 5, 10);
-    lightSeries.add(3, 5, 11.5);
-    lightSeries.add(4, 5, 12.5);
-    lightSeries.add(5, 5, 14);
-    lightSeries.add(6, 5, 15);
-    lightSeries.add(7, 5, 14);
-    lightSeries.add(8, 5, 12.75);
-    lightSeries.add(9, 5, 12);
-    lightSeries.add(10, 5, 11);
-    lightSeries.add(11, 5, 10);
-    lightSeries.add(12, 5, 9);
-    lightSeries.add(12.5, 20, 0);
-    series.addSeries(lightSeries);
-    XYMultipleSeriesRenderer lRenderer = new XYMultipleSeriesRenderer();
+    XYValueSeries sunSeries = new XYValueSeries("Sunshine hours");
+    sunSeries.add(1, 5, 4.3);
+    sunSeries.add(2, 5, 4.9);
+    sunSeries.add(3, 5, 5.9);
+    sunSeries.add(4, 5, 8.8);
+    sunSeries.add(5, 5, 10.8);
+    sunSeries.add(6, 5, 11.9);
+    sunSeries.add(7, 5, 13.6);
+    sunSeries.add(8, 5, 12.8);
+    sunSeries.add(9, 5, 11.4);
+    sunSeries.add(10, 5, 9.5);
+    sunSeries.add(11, 5, 7.5);
+    sunSeries.add(12, 5, 5.5);
     XYSeriesRenderer lightRenderer = new XYSeriesRenderer();
     lightRenderer.setColor(Color.YELLOW);
-    lRenderer.addSeriesRenderer(lightRenderer);
-
-    XYMultipleSeriesDataset[] datasets = new XYMultipleSeriesDataset[2];
-    XYMultipleSeriesRenderer[] renderers = new XYMultipleSeriesRenderer[] { renderer, lRenderer };
-    datasets[0] = buildDataset(titles, x, values);
-    datasets[1] = series;
-    String[] types = new String[] { LineChart.TYPE, BubbleChart.TYPE };
-    Intent intent = ChartFactory.getCombinedXYChartIntent(context, datasets, renderers, types,
+    
+    XYSeries waterSeries = new XYSeries("Water Temperature");
+    waterSeries.add(1, 16);
+    waterSeries.add(2, 15);
+    waterSeries.add(3, 16);
+    waterSeries.add(4, 17);
+    waterSeries.add(5, 20);
+    waterSeries.add(6, 23);
+    waterSeries.add(7, 25);
+    waterSeries.add(8, 25.5);
+    waterSeries.add(9, 26.5);
+    waterSeries.add(10, 24);
+    waterSeries.add(11, 22);
+    waterSeries.add(12, 18);
+    renderer.setBarSpacing(0.5);
+    XYSeriesRenderer waterRenderer = new XYSeriesRenderer();
+    waterRenderer.setColor(Color.argb(200, 0, 200, 200));
+    
+    XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);
+    dataset.addSeries(0, sunSeries);
+    dataset.addSeries(0, waterSeries);
+    renderer.addSeriesRenderer(0, lightRenderer);
+    renderer.addSeriesRenderer(0, waterRenderer);
+    
+    String[] types = new String[] { BarChart.TYPE, BubbleChart.TYPE, LineChart.TYPE, LineChart.TYPE, LineChart.TYPE, LineChart.TYPE };
+    Intent intent = ChartFactory.getCombinedXYChartIntent(context, dataset, renderer, types,
         "Average temperature");
     return intent;
   }

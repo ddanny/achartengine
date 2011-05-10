@@ -54,7 +54,7 @@ public abstract class XYChart extends AbstractChart {
 
   protected XYChart() {
   }
-  
+
   /**
    * Builds a new XY chart instance.
    * 
@@ -65,9 +65,10 @@ public abstract class XYChart extends AbstractChart {
     mDataset = dataset;
     mRenderer = renderer;
   }
-  
+
   // TODO: javadoc
-  protected void setDatasetRenderer(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer) {
+  protected void setDatasetRenderer(XYMultipleSeriesDataset dataset,
+      XYMultipleSeriesRenderer renderer) {
     mDataset = dataset;
     mRenderer = renderer;
   }
@@ -86,7 +87,7 @@ public abstract class XYChart extends AbstractChart {
   public void draw(Canvas canvas, int x, int y, int width, int height, Paint paint) {
     paint.setAntiAlias(mRenderer.isAntialiasing());
     int legendSize = mRenderer.getLegendHeight();
-    
+
     if (mRenderer.isShowLegend() && legendSize == 0) {
       legendSize = height / 5;
     }
@@ -100,7 +101,8 @@ public abstract class XYChart extends AbstractChart {
       titles[i] = mDataset.getSeriesAt(i).getTitle();
     }
     if (mRenderer.isFitLegend() && mRenderer.isShowLegend()) {
-      legendSize = drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, true);
+      legendSize = drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize,
+          paint, true);
     }
     int bottom = y + height - margins[2] - legendSize;
     if (screenR == null) {
@@ -226,8 +228,10 @@ public abstract class XYChart extends AbstractChart {
     boolean showLabels = mRenderer.isShowLabels() && hasValues;
     boolean showGrid = mRenderer.isShowGrid();
     if (showLabels || showGrid) {
-      List<Double> xLabels = getValidLabels(MathHelper.getLabels(minX, maxX, mRenderer.getXLabels()));
-      List<Double> yLabels = getValidLabels(MathHelper.getLabels(minY, maxY, mRenderer.getYLabels()));
+      List<Double> xLabels = getValidLabels(MathHelper
+          .getLabels(minX, maxX, mRenderer.getXLabels()));
+      List<Double> yLabels = getValidLabels(MathHelper
+          .getLabels(minY, maxY, mRenderer.getYLabels()));
       int xLabelsLeft = left;
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
@@ -268,7 +272,7 @@ public abstract class XYChart extends AbstractChart {
           }
         }
       }
-      
+
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
         Double[] yTextLabelLocations = mRenderer.getYTextLabelLocations();
@@ -285,15 +289,14 @@ public abstract class XYChart extends AbstractChart {
         }
       }
 
-
-      
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
         float size = mRenderer.getAxisTitleTextSize();
         paint.setTextSize(size);
         paint.setTextAlign(Align.CENTER);
         if (or == Orientation.HORIZONTAL) {
-          drawText(canvas, mRenderer.getXTitle(), x + width / 2, bottom + mRenderer.getLabelsTextSize() * 4 / 3 + size, paint, 0);
+          drawText(canvas, mRenderer.getXTitle(), x + width / 2, bottom
+              + mRenderer.getLabelsTextSize() * 4 / 3 + size, paint, 0);
           drawText(canvas, mRenderer.getYTitle(), x + size, y + height / 2, paint, -90);
           paint.setTextSize(mRenderer.getChartTitleTextSize());
           drawText(canvas, mRenderer.getChartTitle(), x + width / 2, y
@@ -326,7 +329,7 @@ public abstract class XYChart extends AbstractChart {
       transform(canvas, angle, true);
     }
   }
-  
+
   private List<Double> getValidLabels(List<Double> labels) {
     List<Double> result = new ArrayList<Double>(labels);
     for (Double label : labels) {
@@ -337,14 +340,14 @@ public abstract class XYChart extends AbstractChart {
     return result;
   }
 
-  private void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
+  protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or) {
     float[] points = MathHelper.getFloats(pointsList);
     drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex);
     if (isRenderPoints(seriesRenderer)) {
       ScatterChart pointsChart = getPointsChart();
       if (pointsChart != null) {
-        pointsChart.drawSeries(canvas, paint, points, seriesRenderer, 0, seriesIndex);
+        pointsChart.drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex);
       }
     }
     paint.setTextSize(mRenderer.getChartValuesTextSize());
@@ -459,7 +462,8 @@ public abstract class XYChart extends AbstractChart {
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
         canvas.drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
-        drawText(canvas, getLabel(label), xLabel, bottom + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
+        drawText(canvas, getLabel(label), xLabel, bottom + mRenderer.getLabelsTextSize() * 4 / 3,
+            paint, mRenderer.getXLabelsAngle());
       }
       if (showGrid) {
         paint.setColor(mRenderer.getGridColor());
@@ -471,8 +475,8 @@ public abstract class XYChart extends AbstractChart {
       for (Double location : xTextLabelLocations) {
         float xLabel = (float) (left + xPixelsPerUnit * (location.doubleValue() - minX));
         canvas.drawLine(xLabel, bottom, xLabel, bottom + 4, paint);
-        drawText(canvas, mRenderer.getXTextLabel(location), xLabel, bottom + mRenderer.getLabelsTextSize(), paint, mRenderer
-            .getXLabelsAngle());
+        drawText(canvas, mRenderer.getXTextLabel(location), xLabel, bottom
+            + mRenderer.getLabelsTextSize(), paint, mRenderer.getXLabelsAngle());
       }
     }
   }
@@ -492,6 +496,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * Transforms a screen point to a real coordinates point.
+   * 
    * @param screenX the screen x axis value
    * @param screenY the screen y axis value
    * @return the real coordinates point
@@ -556,9 +561,10 @@ public abstract class XYChart extends AbstractChart {
   public ScatterChart getPointsChart() {
     return null;
   }
-  
+
   /**
    * Returns the chart type identifier.
+   * 
    * @return the chart type
    */
   public abstract String getChartType();

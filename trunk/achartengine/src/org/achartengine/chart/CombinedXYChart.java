@@ -15,9 +15,13 @@
  */
 package org.achartengine.chart;
 
+import java.util.List;
+
 import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -26,10 +30,6 @@ import android.graphics.Paint;
  * The combined XY chart rendering class.
  */
 public class CombinedXYChart extends XYChart {
-  /** The datasets. */
-  private XYMultipleSeriesDataset[] mDatasets;
-  /** The renderers. */
-  private XYMultipleSeriesRenderer[] mRenderers;
   /** The embedded XY charts. */
   private XYChart[] mCharts;
   /** The supported charts for being combined. */
@@ -43,11 +43,9 @@ public class CombinedXYChart extends XYChart {
    * @param renderers the multiple series renderer
    * @param types the XY chart types
    */
-  public CombinedXYChart(XYMultipleSeriesDataset[] datasets, XYMultipleSeriesRenderer[] renderers,
+  public CombinedXYChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer,
       String[] types) {
-    super(datasets[0], renderers[0]);
-    mDatasets = datasets;
-    mRenderers = renderers;
+    super(dataset, renderer);
     int length = types.length;
     mCharts = new XYChart[length];
     for (int i = 0; i < length; i++) {
@@ -59,7 +57,13 @@ public class CombinedXYChart extends XYChart {
       if (mCharts[i] == null) {
         throw new IllegalArgumentException("Unknown chart type " + types[i]);
       } else {
-        mCharts[i].setDatasetRenderer(datasets[i], renderers[i]);
+        XYMultipleSeriesDataset newDataset = new XYMultipleSeriesDataset();
+        newDataset.addSeries(dataset.getSeriesAt(i));
+        XYMultipleSeriesRenderer newRenderer = new XYMultipleSeriesRenderer();
+        // TODO: copy other parameters here
+        newRenderer.setBarSpacing(renderer.getBarSpacing());
+        newRenderer.addSeriesRenderer(renderer.getSeriesRendererAt(i));
+        mCharts[i].setDatasetRenderer(newDataset, newRenderer);
       }
     }
   }
@@ -77,23 +81,6 @@ public class CombinedXYChart extends XYChart {
   }
 
   /**
-   * The graphical representation of the XY chart.
-   * 
-   * @param canvas the canvas to paint to
-   * @param x the top left x value of the view to draw to
-   * @param y the top left y value of the view to draw to
-   * @param width the width of the view to draw to
-   * @param height the height of the view to draw to
-   * @param paint the paint
-   */
-  @Override
-  public void draw(Canvas canvas, int x, int y, int width, int height, Paint paint) {
-    for (XYChart chart : mCharts) {
-      chart.draw(canvas, x, y, width, height, paint);
-    }
-  }
-
-  /**
    * The graphical representation of a series.
    * 
    * @param canvas the canvas to paint to
@@ -105,15 +92,23 @@ public class CombinedXYChart extends XYChart {
    */
   public void drawSeries(Canvas canvas, Paint paint, float[] points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex) {
+    mCharts[seriesIndex].drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, 0);
+  }
+
+  protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
+      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or) {
+    mCharts[seriesIndex].drawSeries(series, canvas, paint, pointsList, seriesRenderer, yAxisValue,
+        0, or);
   }
 
   /**
    * Returns the legend shape width.
    * 
+   * @param seriesIndex the series index
    * @return the legend shape width
    */
-  public int getLegendShapeWidth() {
-    return 0;
+  public int getLegendShapeWidth(int seriesIndex) {
+    return mCharts[seriesIndex].getLegendShapeWidth(0);
   }
 
   /**
@@ -123,13 +118,12 @@ public class CombinedXYChart extends XYChart {
    * @param renderer the series renderer
    * @param x the x value of the point the shape should be drawn at
    * @param y the y value of the point the shape should be drawn at
+   * @param seriesIndex the series index
    * @param paint the paint to be used for drawing
    */
   public void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x, float y,
-      Paint paint) {
-    for (XYChart chart : mCharts) {
-      chart.drawLegendShape(canvas, renderer, x, y, paint);
-    }
+      int seriesIndex, Paint paint) {
+    mCharts[seriesIndex].drawLegendShape(canvas, renderer, x, y, 0, paint);
   }
 
   /**

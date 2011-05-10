@@ -36,6 +36,16 @@ public class XYMultipleSeriesDataset implements Serializable {
   }
 
   /**
+   * Adds a new XY series to the list.
+   * 
+   * @param index the index in the series list
+   * @param series the XY series to ass
+   */
+  public synchronized void addSeries(int index, XYSeries series) {
+    mSeries.add(index, series);
+  }
+
+  /**
    * Removes the XY series from the list.
    * 
    * @param index the index in the series list of the series to remove
