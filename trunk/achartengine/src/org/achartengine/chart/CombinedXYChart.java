@@ -39,8 +39,8 @@ public class CombinedXYChart extends XYChart {
   /**
    * Builds a new combined XY chart instance.
    * 
-   * @param datasets the multiple series dataset
-   * @param renderers the multiple series renderer
+   * @param dataset the multiple series dataset
+   * @param renderer the multiple series renderer
    * @param types the XY chart types
    */
   public CombinedXYChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer,
