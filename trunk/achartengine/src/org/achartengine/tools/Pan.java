@@ -17,8 +17,6 @@ package org.achartengine.tools;
 
 import org.achartengine.chart.XYChart;
 
-import android.graphics.PointF;
-
 /**
  * The pan tool.
  */
@@ -52,10 +50,10 @@ public class Pan extends AbstractTool {
     }
     checkRange(range);
 
-    PointF realPoint = mChart.toRealPoint(oldX, oldY);
-    PointF realPoint2 = mChart.toRealPoint(newX, newY);
-    double deltaX = realPoint.x - realPoint2.x;
-    double deltaY = realPoint.y - realPoint2.y;
+    double[] realPoint = mChart.toRealPoint(oldX, oldY);
+    double[] realPoint2 = mChart.toRealPoint(newX, newY);
+    double deltaX = realPoint[0] - realPoint2[0];
+    double deltaY = realPoint[1] - realPoint2[1];
     if (mRenderer.isPanXEnabled()) {
       if (limited) {
         if (limits[0] > range[0] + deltaX) {
