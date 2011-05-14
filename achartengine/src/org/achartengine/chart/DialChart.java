@@ -70,9 +70,9 @@ public class DialChart extends AbstractChart {
     if (mRenderer.isShowLegend() && legendSize == 0) {
       legendSize = height / 5;
     }
-    int left = x + 15;
-    int top = y + 5;
-    int right = x + width - 5;
+    int left = x;
+    int top = y;
+    int right = x + width;
     
     int sLength = mDataset.getItemCount();
     double total = 0;
@@ -136,7 +136,7 @@ public class DialChart extends AbstractChart {
       boolean type = mRenderer.getVisualTypeForIndex(i) == Type.ARROW;
       drawNeedle(canvas, angle, centerX, centerY, shortRadius, type, paint);
     }
-
+    
     drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
   }
 
