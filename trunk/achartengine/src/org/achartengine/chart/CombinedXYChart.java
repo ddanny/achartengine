@@ -96,6 +96,7 @@ public class CombinedXYChart extends XYChart {
     mCharts[seriesIndex].drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, 0);
   }
 
+  @Override
   protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or) {
     mCharts[seriesIndex].drawSeries(series, canvas, paint, pointsList, seriesRenderer, yAxisValue,
@@ -133,7 +134,7 @@ public class CombinedXYChart extends XYChart {
    * @return the chart type
    */
   public String getChartType() {
-    return "";
+    return "Combined";
   }
 
 }
