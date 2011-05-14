@@ -62,6 +62,8 @@ public class DefaultRenderer implements Serializable {
   private boolean mFitLegend = false;
   /** If the grid should be displayed. */
   private boolean mShowGrid = false;
+  /** If the custom text grid should be displayed. */
+  private boolean mShowCustomTextGrid = false;
   /** The simple renderers that are included in this multiple series renderer. */
   private List<SimpleSeriesRenderer> mRenderers = new ArrayList<SimpleSeriesRenderer>();
   /** The antialiasing flag. */
@@ -258,7 +260,7 @@ public class DefaultRenderer implements Serializable {
   public void setShowLabels(boolean showLabels) {
     mShowLabels = showLabels;
   }
-
+  
   /**
    * Returns if the grid should be visible.
    * 
@@ -275,6 +277,24 @@ public class DefaultRenderer implements Serializable {
    */
   public void setShowGrid(boolean showGrid) {
     mShowGrid = showGrid;
+  }
+
+  /**
+   * Returns if the grid should be visible for custom X or Y labels.
+   * 
+   * @return the visibility flag for the custom text grid
+   */
+  public boolean isShowCustomTextGrid() {
+    return mShowCustomTextGrid;
+  }
+
+  /**
+   * Sets if the grid for custom X or Y labels should be visible.
+   * 
+   * @param showGrid the visibility flag for the custom text grid
+   */
+  public void setShowCustomTextGrid(boolean showGrid) {
+    mShowCustomTextGrid = showGrid;
   }
 
   /**
