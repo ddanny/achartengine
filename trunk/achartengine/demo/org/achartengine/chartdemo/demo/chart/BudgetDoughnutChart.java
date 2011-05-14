@@ -59,7 +59,7 @@ public class BudgetDoughnutChart extends AbstractDemoChart {
     values.add(new double[] { 10, 9, 14, 20, 11 });
     List<String[]> titles = new ArrayList<String[]>();
     titles.add(new String[] { "P1", "P2", "P3", "P4", "P5" });
-    titles.add(new String[] { "P1", "P2", "P3", "P4", "P5" });
+    titles.add(new String[] { "Project1", "Project2", "Project3", "Project4", "Project5" });
     int[] colors = new int[] { Color.BLUE, Color.GREEN, Color.MAGENTA, Color.YELLOW, Color.CYAN };
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setApplyBackgroundColor(true);
