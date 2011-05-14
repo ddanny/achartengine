@@ -81,7 +81,8 @@ public class DoughnutChart extends AbstractChart {
       categories[category] = mDataset.getCategory(category);
     }
     if (mRenderer.isFitLegend()) {
-      legendSize = drawLegend(canvas, mRenderer, categories, left, right, y, width, height, legendSize, paint, true);
+      legendSize = drawLegend(canvas, mRenderer, categories, left, right, y, width, height,
+          legendSize, paint, true);
     }
 
     int bottom = y + height - legendSize;
@@ -121,7 +122,7 @@ public class DoughnutChart extends AbstractChart {
           int y1 = Math.round(centerY + (float) (shortRadius * cosValue));
           int x2 = Math.round(centerX + (float) (longRadius * sinValue));
           int y2 = Math.round(centerY + (float) (longRadius * cosValue));
-          
+
           float size = mRenderer.getLabelsTextSize();
           float extra = Math.max(size / 2, 10);
           paint.setTextAlign(Align.LEFT);
@@ -145,7 +146,7 @@ public class DoughnutChart extends AbstractChart {
             }
             okBounds = !intersects;
           }
-          
+
           y2 = (int) (yLabel - size / 2);
           canvas.drawLine(x1, y1, x2, y2, paint);
           canvas.drawLine(x2, y2, x2 + extra, y2, paint);
@@ -167,7 +168,8 @@ public class DoughnutChart extends AbstractChart {
       radius -= 1;
     }
     prevLabelsBounds.clear();
-    drawLegend(canvas, mRenderer, categories, left, right, y, width, height, legendSize, paint, false);
+    drawLegend(canvas, mRenderer, categories, left, right, y, width, height, legendSize, paint,
+        false);
   }
 
   /**
