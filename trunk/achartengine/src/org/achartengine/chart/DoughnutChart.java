@@ -15,6 +15,9 @@
  */
 package org.achartengine.chart;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.achartengine.model.MultipleCategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
@@ -93,6 +96,7 @@ public class DoughnutChart extends AbstractChart {
     int centerY = (bottom + top) / 2;
     float shortRadius = radius * 0.9f;
     float longRadius = radius * 1.1f;
+    List<RectF> prevLabelsBounds = new ArrayList<RectF>();
     for (int category = 0; category < cLength; category++) {
       int sLength = mDataset.getItemCount(category);
       double total = 0;
@@ -103,10 +107,6 @@ public class DoughnutChart extends AbstractChart {
       }
       float currentAngle = 0;
       RectF oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
-      float prevX2 = 0;
-      float prevY2 = 0;
-      float minDist = 20;
-      float coef = 1;
       for (int i = 0; i < sLength; i++) {
         paint.setColor(mRenderer.getSeriesRendererAt(i).getColor());
         float value = (float) mDataset.getValues(category)[i];
@@ -121,24 +121,36 @@ public class DoughnutChart extends AbstractChart {
           int y1 = Math.round(centerY + (float) (shortRadius * cosValue));
           int x2 = Math.round(centerX + (float) (longRadius * sinValue));
           int y2 = Math.round(centerY + (float) (longRadius * cosValue));
-          if (Math.sqrt((x2 - prevX2) * (x2 - prevX2) + (y2 - prevY2) * (y2 - prevY2)) <= minDist) {
-            coef *= 1.1;
-            x2 = Math.round(centerX + (float) (longRadius * coef * sinValue));
-            y2 = Math.round(centerY + (float) (longRadius * coef * cosValue));
-          } else {
-            coef = 1;
-          }
-          canvas.drawLine(x1, y1, x2, y2, paint);
-          float extra = mRenderer.getLabelsTextSize();
+          
+          float size = mRenderer.getLabelsTextSize();
+          float extra = Math.max(size / 2, 10);
           paint.setTextAlign(Align.LEFT);
           if (x1 > x2) {
             extra = -extra;
             paint.setTextAlign(Align.RIGHT);
           }
+          float xLabel = x2 + extra;
+          float yLabel = y2;
+          float widthLabel = paint.measureText(mDataset.getTitles(category)[i]);
+          boolean okBounds = false;
+          while (!okBounds) {
+            boolean intersects = false;
+            int length = prevLabelsBounds.size();
+            for (int j = 0; j < length && !intersects; j++) {
+              RectF prevLabelBounds = prevLabelsBounds.get(j);
+              if (prevLabelBounds.intersects(xLabel, yLabel, xLabel + widthLabel, yLabel + size)) {
+                intersects = true;
+                yLabel = Math.max(yLabel, prevLabelBounds.bottom);
+              }
+            }
+            okBounds = !intersects;
+          }
+          
+          y2 = (int) (yLabel - size / 2);
+          canvas.drawLine(x1, y1, x2, y2, paint);
           canvas.drawLine(x2, y2, x2 + extra, y2, paint);
-          canvas.drawText(mDataset.getTitles(category)[i], x2 + extra, y2 + extra / 2, paint);
-          prevX2 = x2;
-          prevY2 = y2;
+          canvas.drawText(mDataset.getTitles(category)[i], xLabel, yLabel, paint);
+          prevLabelsBounds.add(new RectF(xLabel, yLabel, xLabel + widthLabel, yLabel + size));
         }
         currentAngle += angle;
       }
@@ -154,6 +166,7 @@ public class DoughnutChart extends AbstractChart {
       canvas.drawArc(oval, 0, 360, true, paint);
       radius -= 1;
     }
+    prevLabelsBounds.clear();
     drawLegend(canvas, mRenderer, categories, left, right, y, width, height, legendSize, paint, false);
   }
 
