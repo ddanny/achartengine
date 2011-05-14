@@ -209,7 +209,7 @@ public class DialRenderer extends DefaultRenderer {
   public void setMajorTicksSpacing(double spacing) {
     mMajorTickSpacing = spacing;
   }
-  
+
   /**
    * Returns the visual type at the specified index.
    * 
