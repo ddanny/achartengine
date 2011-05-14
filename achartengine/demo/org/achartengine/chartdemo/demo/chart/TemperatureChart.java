@@ -71,10 +71,8 @@ public class TemperatureChart extends AbstractDemoChart {
     XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
     setChartSettings(renderer, "Monthly temperature range", "Month", "Celsius degrees", 0.5, 12.5,
         -30, 45, Color.GRAY, Color.LTGRAY);
-    // renderer.setBackgroundColor(Color.GREEN);
-    // renderer.setApplyBackgroundColor(true);
     renderer.setBarSpacing(0.5);
-    renderer.setXLabels(1);
+    renderer.setXLabels(0);
     renderer.setYLabels(10);
     renderer.addXTextLabel(1, "Jan");
     renderer.addXTextLabel(3, "Mar");
@@ -90,7 +88,6 @@ public class TemperatureChart extends AbstractDemoChart {
     renderer.addYTextLabel(25, "Warm");
     renderer.setMargins(new int[] {30, 70, 10, 0});
     renderer.setYLabelsAlign(Align.RIGHT);
-    
     renderer.setDisplayChartValues(true);
     renderer.setChartValuesTextSize(12);
     return ChartFactory.getRangeBarChartIntent(context, dataset, renderer, Type.DEFAULT,
