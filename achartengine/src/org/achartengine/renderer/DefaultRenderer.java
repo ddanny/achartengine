@@ -90,7 +90,7 @@ public class DefaultRenderer implements Serializable {
 
   /**
    * Adds a simple renderer to the multiple renderer.
-   *
+   * 
    * @param index the index in the renderers list
    * @param renderer the renderer to be added
    */
@@ -260,7 +260,7 @@ public class DefaultRenderer implements Serializable {
   public void setShowLabels(boolean showLabels) {
     mShowLabels = showLabels;
   }
-  
+
   /**
    * Returns if the grid should be visible.
    * 
@@ -323,7 +323,7 @@ public class DefaultRenderer implements Serializable {
   public boolean isFitLegend() {
     return mFitLegend;
   }
-  
+
   /**
    * Sets if the legend should size to fit.
    * 
@@ -433,26 +433,26 @@ public class DefaultRenderer implements Serializable {
   public void setYLabelsAlign(Align align) {
     yLabelsAlign = align;
   }
-  
+
   /**
    * Returns the value to be used for scaling the chart.
-   *  
+   * 
    * @return the scale value
    */
   public float getScale() {
     return mScale;
   }
-  
+
   /**
-   * Sets the value to be used for scaling the chart.
-   * It works on some charts like pie, doughnut, dial.
+   * Sets the value to be used for scaling the chart. It works on some charts
+   * like pie, doughnut, dial.
    * 
    * @param scale the scale value
    */
   public void setScale(float scale) {
     mScale = scale;
   }
-  
+
   /**
    * Returns the legend height.
    * 
@@ -470,10 +470,11 @@ public class DefaultRenderer implements Serializable {
   public void setLegendHeight(int height) {
     mLegendHeight = height;
   }
-  
+
   /**
-   * Returns the margin sizes.
-   * An array containing the margins in this order: top, left, bottom, right
+   * Returns the margin sizes. An array containing the margins in this order:
+   * top, left, bottom, right
+   * 
    * @return the margin sizes
    */
   public int[] getMargins() {
@@ -483,7 +484,8 @@ public class DefaultRenderer implements Serializable {
   /**
    * Sets the margins, in pixels.
    * 
-   * @param margins an array containing the margin size values, in this order: top, left, bottom, right
+   * @param margins an array containing the margin size values, in this order:
+   *          top, left, bottom, right
    */
   public void setMargins(int[] margins) {
     mMargins = margins;
