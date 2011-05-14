@@ -66,9 +66,9 @@ public class PieChart extends AbstractChart {
     if (mRenderer.isShowLegend() && legendSize == 0) {
       legendSize = height / 5;
     }
-    int left = x + 15;
-    int top = y + 5;
-    int right = x + width - 5;
+    int left = x;
+    int top = y;
+    int right = x + width;
     int sLength = mDataset.getItemCount();
     double total = 0;
     String[] titles = new String[sLength];
@@ -116,14 +116,14 @@ public class PieChart extends AbstractChart {
           coef = 1;
         }
         canvas.drawLine(x1, y1, x2, y2, paint);
-        int extra = 10;
+        float extra = mRenderer.getLabelsTextSize();
         paint.setTextAlign(Align.LEFT);
         if (x1 > x2) {
           extra = -extra;
           paint.setTextAlign(Align.RIGHT);
         }
         canvas.drawLine(x2, y2, x2 + extra, y2, paint);
-        canvas.drawText(mDataset.getCategory(i), x2 + extra, y2 + 5, paint);
+        canvas.drawText(mDataset.getCategory(i), x2 + extra, y2 + extra / 2, paint);
         prevX2 = x2;
         prevY2 = y2;
       }
