@@ -520,25 +520,24 @@ public abstract class XYChart extends AbstractChart {
    * @param screenY the screen y axis value
    * @return the real coordinates point
    */
-  public PointF toRealPoint(float screenX, float screenY) {
+  public double[] toRealPoint(float screenX, float screenY) {
     double realMinX = mRenderer.getXAxisMin();
     double realMaxX = mRenderer.getXAxisMax();
     double realMinY = mRenderer.getYAxisMin();
     double realMaxY = mRenderer.getYAxisMax();
-    return new PointF(
-        (float) ((screenX - screenR.left) * (realMaxX - realMinX) / screenR.width() + realMinX),
-        (float) ((screenR.top + screenR.height() - screenY) * (realMaxY - realMinY)
-            / screenR.height() + realMinY));
+    return new double[] {
+        (screenX - screenR.left) * (realMaxX - realMinX) / screenR.width() + realMinX,
+        (screenR.top + screenR.height() - screenY) * (realMaxY - realMinY) / screenR.height() + realMinY };
   }
 
-  public PointF toScreenPoint(PointF realPoint) {
+  public double[] toScreenPoint(double[] realPoint) {
     double realMinX = mRenderer.getXAxisMin();
     double realMaxX = mRenderer.getXAxisMax();
     double realMinY = mRenderer.getYAxisMin();
     double realMaxY = mRenderer.getYAxisMax();
-    return new PointF(
-        (float) ((realPoint.x - realMinX) * screenR.width() / (realMaxX - realMinX) + screenR.left),
-        (float) ((realMaxY - realPoint.y) * screenR.height() / (realMaxY - realMinY) + screenR.top));
+    return new double[] {
+        (realPoint[0] - realMinX) * screenR.width() / (realMaxX - realMinX) + screenR.left,
+        (realMaxY - realPoint[1]) * screenR.height() / (realMaxY - realMinY) + screenR.top};
   }
 
   /**
