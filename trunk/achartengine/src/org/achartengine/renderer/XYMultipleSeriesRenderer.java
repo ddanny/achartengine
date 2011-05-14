@@ -397,9 +397,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public Double[] getXTextLabelLocations() {
     return mXTextLabels.keySet().toArray(new Double[0]);
   }
-  
+
   /**
    * Clears the existing text labels.
+   * 
    * @deprecated use clearXTextLabels instead
    */
   public void clearTextLabels() {
@@ -441,7 +442,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public Double[] getYTextLabelLocations() {
     return mYTextLabels.keySet().toArray(new Double[0]);
   }
-  
+
   /**
    * Clears the existing text labels on the Y axis.
    */
@@ -578,7 +579,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setZoomButtonsVisible(boolean visible) {
     mZoomButtonsVisible = visible;
   }
-  
+
   /**
    * Returns the zoom rate.
    * 
