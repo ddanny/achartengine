@@ -247,9 +247,10 @@ public abstract class XYChart extends AbstractChart {
       int length = yLabels.size();
       for (int i = 0; i < length; i++) {
         double label = yLabels.get(i);
+        boolean textLabel = mRenderer.getYTextLabel(label) != null;
         float yLabel = (float) (bottom - yPixelsPerUnit * (label - minY));
         if (or == Orientation.HORIZONTAL) {
-          if (showLabels) {
+          if (showLabels && !textLabel) {
             paint.setColor(mRenderer.getLabelsColor());
             canvas.drawLine(left - 4, yLabel, left, yLabel, paint);
             drawText(canvas, getLabel(label), left - 2, yLabel - 2, paint, mRenderer
@@ -260,7 +261,7 @@ public abstract class XYChart extends AbstractChart {
             canvas.drawLine(left, yLabel, right, yLabel, paint);
           }
         } else if (or == Orientation.VERTICAL) {
-          if (showLabels) {
+          if (showLabels && !textLabel) {
             paint.setColor(mRenderer.getLabelsColor());
             canvas.drawLine(right + 4, yLabel, right, yLabel, paint);
             drawText(canvas, getLabel(label), right + 10, yLabel - 2, paint, mRenderer
@@ -277,14 +278,16 @@ public abstract class XYChart extends AbstractChart {
         paint.setColor(mRenderer.getLabelsColor());
         Double[] yTextLabelLocations = mRenderer.getYTextLabelLocations();
         for (Double location : yTextLabelLocations) {
-          float yLabel = (float) (bottom - yPixelsPerUnit * (location.doubleValue() - minY));
-          String label = mRenderer.getYTextLabel(location);
-          if (or == Orientation.HORIZONTAL) {
-            canvas.drawLine(left - 4, yLabel, left, yLabel, paint);
-            drawText(canvas, label, left - 2, yLabel - 2, paint, mRenderer.getYLabelsAngle());
-          } else {
-            canvas.drawLine(right + 4, yLabel, right, yLabel, paint);
-            drawText(canvas, label, right + 10, yLabel - 2, paint, mRenderer.getYLabelsAngle());
+          if (minY <= location && location <= maxY) {
+            float yLabel = (float) (bottom - yPixelsPerUnit * (location.doubleValue() - minY));
+            String label = mRenderer.getYTextLabel(location);
+            if (or == Orientation.HORIZONTAL) {
+              canvas.drawLine(left - 4, yLabel, left, yLabel, paint);
+              drawText(canvas, label, left - 2, yLabel - 2, paint, mRenderer.getYLabelsAngle());
+            } else {
+              canvas.drawLine(right + 4, yLabel, right, yLabel, paint);
+              drawText(canvas, label, right + 10, yLabel - 2, paint, mRenderer.getYLabelsAngle());
+            }
           }
         }
       }

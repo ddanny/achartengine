@@ -62,6 +62,7 @@ public class CombinedXYChart extends XYChart {
         XYMultipleSeriesRenderer newRenderer = new XYMultipleSeriesRenderer();
         // TODO: copy other parameters here
         newRenderer.setBarSpacing(renderer.getBarSpacing());
+        newRenderer.setPointSize(renderer.getPointSize());
         newRenderer.addSeriesRenderer(renderer.getSeriesRendererAt(i));
         mCharts[i].setDatasetRenderer(newDataset, newRenderer);
       }
