@@ -73,7 +73,7 @@ public class DialChart extends AbstractChart {
     int left = x;
     int top = y;
     int right = x + width;
-    
+
     int sLength = mDataset.getItemCount();
     double total = 0;
     String[] titles = new String[sLength];
@@ -83,11 +83,12 @@ public class DialChart extends AbstractChart {
     }
 
     if (mRenderer.isFitLegend()) {
-      legendSize = drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, true);
+      legendSize = drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize,
+          paint, true);
     }
     int bottom = y + height - legendSize;
     drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
-    
+
     int mRadius = Math.min(Math.abs(right - left), Math.abs(bottom - top));
     int radius = (int) (mRadius * 0.35 * mRenderer.getScale());
     int centerX = (left + right) / 2;
@@ -136,7 +137,7 @@ public class DialChart extends AbstractChart {
       boolean type = mRenderer.getVisualTypeForIndex(i) == Type.ARROW;
       drawNeedle(canvas, angle, centerX, centerY, shortRadius, type, paint);
     }
-    
+
     drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
   }
 
