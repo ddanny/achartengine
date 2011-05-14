@@ -527,7 +527,8 @@ public abstract class XYChart extends AbstractChart {
     double realMaxY = mRenderer.getYAxisMax();
     return new double[] {
         (screenX - screenR.left) * (realMaxX - realMinX) / screenR.width() + realMinX,
-        (screenR.top + screenR.height() - screenY) * (realMaxY - realMinY) / screenR.height() + realMinY };
+        (screenR.top + screenR.height() - screenY) * (realMaxY - realMinY) / screenR.height()
+            + realMinY };
   }
 
   public double[] toScreenPoint(double[] realPoint) {
@@ -537,7 +538,7 @@ public abstract class XYChart extends AbstractChart {
     double realMaxY = mRenderer.getYAxisMax();
     return new double[] {
         (realPoint[0] - realMinX) * screenR.width() / (realMaxX - realMinX) + screenR.left,
-        (realMaxY - realPoint[1]) * screenR.height() / (realMaxY - realMinY) + screenR.top};
+        (realMaxY - realPoint[1]) * screenR.height() / (realMaxY - realMinY) + screenR.top };
   }
 
   /**
