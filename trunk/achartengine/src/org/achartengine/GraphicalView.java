@@ -227,8 +227,7 @@ public class GraphicalView extends View {
     if (!isDrawingCacheEnabled()) {
       setDrawingCacheEnabled(true);
     }
-    Bitmap bitmap = getDrawingCache();
-    return bitmap;
+    return getDrawingCache();
   }
 
 }
