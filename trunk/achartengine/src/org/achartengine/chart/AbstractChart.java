@@ -211,6 +211,7 @@ public abstract class AbstractChart implements Serializable {
 
   /**
    * Calculates the best text to fit into the available space.
+   * 
    * @param text the entire text
    * @param width the width to fit the text into
    * @param paint the paint
@@ -229,8 +230,8 @@ public abstract class AbstractChart implements Serializable {
     }
     return newText;
   }
-  
-  protected void drawLabel(Canvas canvas, String labelText, DefaultRenderer renderer, 
+
+  protected void drawLabel(Canvas canvas, String labelText, DefaultRenderer renderer,
       List<RectF> prevLabelsBounds, int centerX, int centerY, float shortRadius, float longRadius,
       float currentAngle, float angle, int left, int right, Paint paint) {
     if (renderer.isShowLabels()) {
@@ -242,7 +243,7 @@ public abstract class AbstractChart implements Serializable {
       int y1 = Math.round(centerY + (float) (shortRadius * cosValue));
       int x2 = Math.round(centerX + (float) (longRadius * sinValue));
       int y2 = Math.round(centerY + (float) (longRadius * cosValue));
-      
+
       float size = renderer.getLabelsTextSize();
       float extra = Math.max(size / 2, 10);
       paint.setTextAlign(Align.LEFT);
@@ -271,7 +272,7 @@ public abstract class AbstractChart implements Serializable {
         }
         okBounds = !intersects;
       }
-      
+
       y2 = (int) (yLabel - size / 2);
       canvas.drawLine(x1, y1, x2, y2, paint);
       canvas.drawLine(x2, y2, x2 + extra, y2, paint);
@@ -279,5 +280,5 @@ public abstract class AbstractChart implements Serializable {
       prevLabelsBounds.add(new RectF(xLabel, yLabel, xLabel + widthLabel, yLabel + size));
     }
   }
-  
+
 }
