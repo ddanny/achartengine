@@ -112,7 +112,8 @@ public class DoughnutChart extends AbstractChart {
         float value = (float) mDataset.getValues(category)[i];
         float angle = (float) (value / total * 360);
         canvas.drawArc(oval, currentAngle, angle, true, paint);
-        drawLabel(canvas, mDataset.getTitles(category)[i], mRenderer, prevLabelsBounds, centerX, centerY, shortRadius, longRadius, currentAngle, angle, left, right, paint);
+        drawLabel(canvas, mDataset.getTitles(category)[i], mRenderer, prevLabelsBounds, centerX,
+            centerY, shortRadius, longRadius, currentAngle, angle, left, right, paint);
         currentAngle += angle;
       }
       radius -= (int) mRadius * decCoef;
