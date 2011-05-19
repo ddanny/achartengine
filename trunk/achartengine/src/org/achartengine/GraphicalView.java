@@ -217,5 +217,18 @@ public class GraphicalView extends View {
       }
     });
   }
+  
+  /**
+   * Saves the content of the graphical view to a bitmap.
+   * 
+   * @return the bitmap
+   */
+  public Bitmap toBitmap() {
+    if (!isDrawingCacheEnabled()) {
+      setDrawingCacheEnabled(true);
+    }
+    Bitmap bitmap = getDrawingCache();
+    return bitmap;
+  }
 
 }
