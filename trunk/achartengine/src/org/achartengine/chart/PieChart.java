@@ -79,7 +79,8 @@ public class PieChart extends AbstractChart {
       titles[i] = mDataset.getCategory(i);
     }
     if (mRenderer.isFitLegend()) {
-      legendSize = drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, true);
+      legendSize = drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize,
+          paint, true);
     }
     int bottom = y + height - legendSize;
     drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
@@ -99,7 +100,8 @@ public class PieChart extends AbstractChart {
       float value = (float) mDataset.getValue(i);
       float angle = (float) (value / total * 360);
       canvas.drawArc(oval, currentAngle, angle, true, paint);
-      drawLabel(canvas, mDataset.getCategory(i), mRenderer, prevLabelsBounds, centerX, centerY, shortRadius, longRadius, currentAngle, angle, left, right, paint);
+      drawLabel(canvas, mDataset.getCategory(i), mRenderer, prevLabelsBounds, centerX, centerY,
+          shortRadius, longRadius, currentAngle, angle, left, right, paint);
       currentAngle += angle;
     }
     prevLabelsBounds.clear();
