@@ -16,6 +16,7 @@
 package org.achartengine.chart;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
@@ -26,6 +27,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 
@@ -207,4 +209,75 @@ public abstract class AbstractChart implements Serializable {
   public abstract void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x,
       float y, int seriesIndex, Paint paint);
 
+  /**
+   * Calculates the best text to fit into the available space.
+   * @param text the entire text
+   * @param width the width to fit the text into
+   * @param paint the paint
+   * @return the text to fit into the space
+   */
+  private String getFitText(String text, float width, Paint paint) {
+    String newText = text;
+    int length = text.length();
+    int diff = 0;
+    while (paint.measureText(newText) > width && diff < length) {
+      diff++;
+      newText = text.substring(0, length - diff) + "...";
+    }
+    if (diff == length) {
+      newText = "...";
+    }
+    return newText;
+  }
+  
+  protected void drawLabel(Canvas canvas, String labelText, DefaultRenderer renderer, 
+      List<RectF> prevLabelsBounds, int centerX, int centerY, float shortRadius, float longRadius,
+      float currentAngle, float angle, int left, int right, Paint paint) {
+    if (renderer.isShowLabels()) {
+      paint.setColor(renderer.getLabelsColor());
+      double rAngle = Math.toRadians(90 - (currentAngle + angle / 2));
+      double sinValue = Math.sin(rAngle);
+      double cosValue = Math.cos(rAngle);
+      int x1 = Math.round(centerX + (float) (shortRadius * sinValue));
+      int y1 = Math.round(centerY + (float) (shortRadius * cosValue));
+      int x2 = Math.round(centerX + (float) (longRadius * sinValue));
+      int y2 = Math.round(centerY + (float) (longRadius * cosValue));
+      
+      float size = renderer.getLabelsTextSize();
+      float extra = Math.max(size / 2, 10);
+      paint.setTextAlign(Align.LEFT);
+      if (x1 > x2) {
+        extra = -extra;
+        paint.setTextAlign(Align.RIGHT);
+      }
+      float xLabel = x2 + extra;
+      float yLabel = y2;
+      float width = right - xLabel;
+      if (x1 > x2) {
+        width = xLabel - left;
+      }
+      labelText = getFitText(labelText, width, paint);
+      float widthLabel = paint.measureText(labelText);
+      boolean okBounds = false;
+      while (!okBounds) {
+        boolean intersects = false;
+        int length = prevLabelsBounds.size();
+        for (int j = 0; j < length && !intersects; j++) {
+          RectF prevLabelBounds = prevLabelsBounds.get(j);
+          if (prevLabelBounds.intersects(xLabel, yLabel, xLabel + widthLabel, yLabel + size)) {
+            intersects = true;
+            yLabel = Math.max(yLabel, prevLabelBounds.bottom);
+          }
+        }
+        okBounds = !intersects;
+      }
+      
+      y2 = (int) (yLabel - size / 2);
+      canvas.drawLine(x1, y1, x2, y2, paint);
+      canvas.drawLine(x2, y2, x2 + extra, y2, paint);
+      canvas.drawText(labelText, xLabel, yLabel, paint);
+      prevLabelsBounds.add(new RectF(xLabel, yLabel, xLabel + widthLabel, yLabel + size));
+    }
+  }
+  
 }

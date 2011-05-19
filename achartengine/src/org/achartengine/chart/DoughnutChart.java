@@ -26,7 +26,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 
 /**
@@ -113,46 +112,7 @@ public class DoughnutChart extends AbstractChart {
         float value = (float) mDataset.getValues(category)[i];
         float angle = (float) (value / total * 360);
         canvas.drawArc(oval, currentAngle, angle, true, paint);
-        if (mRenderer.isShowLabels()) {
-          paint.setColor(mRenderer.getLabelsColor());
-          double rAngle = Math.toRadians(90 - (currentAngle + angle / 2));
-          double sinValue = Math.sin(rAngle);
-          double cosValue = Math.cos(rAngle);
-          int x1 = Math.round(centerX + (float) (shortRadius * sinValue));
-          int y1 = Math.round(centerY + (float) (shortRadius * cosValue));
-          int x2 = Math.round(centerX + (float) (longRadius * sinValue));
-          int y2 = Math.round(centerY + (float) (longRadius * cosValue));
-
-          float size = mRenderer.getLabelsTextSize();
-          float extra = Math.max(size / 2, 10);
-          paint.setTextAlign(Align.LEFT);
-          if (x1 > x2) {
-            extra = -extra;
-            paint.setTextAlign(Align.RIGHT);
-          }
-          float xLabel = x2 + extra;
-          float yLabel = y2;
-          float widthLabel = paint.measureText(mDataset.getTitles(category)[i]);
-          boolean okBounds = false;
-          while (!okBounds) {
-            boolean intersects = false;
-            int length = prevLabelsBounds.size();
-            for (int j = 0; j < length && !intersects; j++) {
-              RectF prevLabelBounds = prevLabelsBounds.get(j);
-              if (prevLabelBounds.intersects(xLabel, yLabel, xLabel + widthLabel, yLabel + size)) {
-                intersects = true;
-                yLabel = Math.max(yLabel, prevLabelBounds.bottom);
-              }
-            }
-            okBounds = !intersects;
-          }
-
-          y2 = (int) (yLabel - size / 2);
-          canvas.drawLine(x1, y1, x2, y2, paint);
-          canvas.drawLine(x2, y2, x2 + extra, y2, paint);
-          canvas.drawText(mDataset.getTitles(category)[i], xLabel, yLabel, paint);
-          prevLabelsBounds.add(new RectF(xLabel, yLabel, xLabel + widthLabel, yLabel + size));
-        }
+        drawLabel(canvas, mDataset.getTitles(category)[i], mRenderer, prevLabelsBounds, centerX, centerY, shortRadius, longRadius, currentAngle, angle, left, right, paint);
         currentAngle += angle;
       }
       radius -= (int) mRadius * decCoef;
