@@ -15,6 +15,9 @@
  */
 package org.achartengine.chartdemo.demo.chart;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chartdemo.demo.R;
@@ -24,7 +27,10 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -125,6 +131,14 @@ public class XYChartBuilder extends Activity {
         mX.requestFocus();
         if (mChartView != null) {
           mChartView.repaint();
+        }
+        Bitmap bitmap = mChartView.toBitmap();
+        try {
+          File file = new File(Environment.getExternalStorageDirectory(), "test.jpg");
+          FileOutputStream output = new FileOutputStream(file);
+          bitmap.compress(CompressFormat.JPEG, 100, output);
+        } catch (Exception e) {
+          e.printStackTrace();
         }
       }
     });
