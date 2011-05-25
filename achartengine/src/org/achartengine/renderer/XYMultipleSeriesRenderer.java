@@ -98,7 +98,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private Align[] yLabelsAlign;
   /** The Y axis alignment. */
   private Align[] yAxisAlign;
-  
+
   /**
    * An enum for the XY chart orientation of the X axis.
    */
@@ -124,12 +124,12 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public XYMultipleSeriesRenderer() {
     this(1);
   }
-  
+
   public XYMultipleSeriesRenderer(int scaleNumber) {
     scalesCount = scaleNumber;
     initAxesRange(scaleNumber);
   }
-  
+
   public void initAxesRange(int scales) {
     mYTitle = new String[scales];
     yLabelsAlign = new Align[scales];
@@ -142,7 +142,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
       initAxesRangeForScale(i);
     }
   }
-  
+
   public void initAxesRangeForScale(int i) {
     mMinX[i] = MathHelper.NULL_VALUE;
     mMaxX[i] = -MathHelper.NULL_VALUE;
@@ -960,7 +960,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setRange(double[] range) {
     setRange(range, 0);
   }
-  
+
   /**
    * Sets the axes range values.
    * 
@@ -973,7 +973,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     setYAxisMin(range[2], scale);
     setYAxisMax(range[3], scale);
   }
-  
+
   public boolean isInitialRangeSet() {
     return isInitialRangeSet(0);
   }
@@ -995,7 +995,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public double[] getInitialRange() {
     return getInitialRange(0);
   }
-  
+
   /**
    * Returns the initial range.
    * 
@@ -1024,7 +1024,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setInitialRange(double[] range, int scale) {
     setInitialRange(range, scale);
   }
-  
+
   /**
    * Returns the X axis labels alignment.
    * 
@@ -1051,19 +1051,19 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public Align getYLabelsAlign(int scale) {
     return yLabelsAlign[scale];
   }
-  
+
   public void setYLabelsAlign(Align align) {
     setYLabelsAlign(align, 0);
   }
-  
+
   public Align getYAxisAlign(int scale) {
     return yAxisAlign[scale];
   }
-  
+
   public void setYAxisAlign(Align align, int scale) {
     yAxisAlign[scale] = align;
   }
-  
+
   /**
    * Sets the Y axis labels alignment.
    * 
