@@ -48,8 +48,9 @@ public abstract class AbstractDemoChart implements IChart {
     addXYSeries(dataset, titles, xValues, yValues, 0);
     return dataset;
   }
-  
-  public void addXYSeries(XYMultipleSeriesDataset dataset, String[] titles, List<double[]> xValues, List<double[]> yValues, int scale) {
+
+  public void addXYSeries(XYMultipleSeriesDataset dataset, String[] titles, List<double[]> xValues,
+      List<double[]> yValues, int scale) {
     int length = titles.length;
     for (int i = 0; i < length; i++) {
       XYSeries series = new XYSeries(titles[i], scale);
@@ -75,7 +76,7 @@ public abstract class AbstractDemoChart implements IChart {
     setRenderer(renderer, colors, styles);
     return renderer;
   }
-  
+
   protected void setRenderer(XYMultipleSeriesRenderer renderer, int[] colors, PointStyle[] styles) {
     renderer.setAxisTitleTextSize(16);
     renderer.setChartTitleTextSize(20);
