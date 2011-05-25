@@ -25,6 +25,7 @@ import org.achartengine.chartdemo.demo.chart.BudgetDoughnutChart;
 import org.achartengine.chartdemo.demo.chart.BudgetPieChart;
 import org.achartengine.chartdemo.demo.chart.CombinedTemperatureChart;
 import org.achartengine.chartdemo.demo.chart.IChart;
+import org.achartengine.chartdemo.demo.chart.MultipleTemperatureChart;
 import org.achartengine.chartdemo.demo.chart.ProjectStatusBubbleChart;
 import org.achartengine.chartdemo.demo.chart.ProjectStatusChart;
 import org.achartengine.chartdemo.demo.chart.SalesBarChart;
@@ -50,7 +51,7 @@ public class ChartDemo extends ListActivity {
 		  new SalesBarChart(), new TrigonometricFunctionsChart(), new ScatterChart(), new SalesComparisonChart(),
           new ProjectStatusChart(), new SalesGrowthChart(), new BudgetPieChart(), new BudgetDoughnutChart(), 
           new ProjectStatusBubbleChart(), new TemperatureChart(), new WeightDialChart(), new SensorValuesChart(),
-          new CombinedTemperatureChart()};
+          new CombinedTemperatureChart(), new MultipleTemperatureChart()};
 	
   private String[] mMenuText;
 

@@ -36,42 +36,42 @@ public abstract class AbstractTool {
     mRenderer = chart.getRenderer();
   }
 
-  public double[] getRange() {
-    double minX = mRenderer.getXAxisMin();
-    double maxX = mRenderer.getXAxisMax();
-    double minY = mRenderer.getYAxisMin();
-    double maxY = mRenderer.getYAxisMax();
+  public double[] getRange(int scale) {
+    double minX = mRenderer.getXAxisMin(scale);
+    double maxX = mRenderer.getXAxisMax(scale);
+    double minY = mRenderer.getYAxisMin(scale);
+    double maxY = mRenderer.getYAxisMax(scale);
     return new double[] { minX, maxX, minY, maxY };
   }
 
-  public void checkRange(double[] range) {
-    double[] calcRange = mChart.getCalcRange();
-    if (!mRenderer.isMinXSet()) {
+  public void checkRange(double[] range, int scale) {
+    double[] calcRange = mChart.getCalcRange(scale);
+    if (!mRenderer.isMinXSet(scale)) {
       range[0] = calcRange[0];
-      mRenderer.setXAxisMin(range[0]);
+      mRenderer.setXAxisMin(range[0], scale);
     }
-    if (!mRenderer.isMaxXSet()) {
+    if (!mRenderer.isMaxXSet(scale)) {
       range[1] = calcRange[1];
-      mRenderer.setXAxisMax(range[1]);
+      mRenderer.setXAxisMax(range[1], scale);
     }
-    if (!mRenderer.isMinYSet()) {
+    if (!mRenderer.isMinYSet(scale)) {
       range[2] = calcRange[2];
-      mRenderer.setYAxisMin(range[2]);
+      mRenderer.setYAxisMin(range[2], scale);
     }
-    if (!mRenderer.isMaxYSet()) {
+    if (!mRenderer.isMaxYSet(scale)) {
       range[3] = calcRange[3];
-      mRenderer.setYAxisMax(range[3]);
+      mRenderer.setYAxisMax(range[3], scale);
     }
   }
   
-  protected void setXRange(double min, double max) {
-    mRenderer.setXAxisMin(min);
-    mRenderer.setXAxisMax(max);
+  protected void setXRange(double min, double max, int scale) {
+    mRenderer.setXAxisMin(min, scale);
+    mRenderer.setXAxisMax(max, scale);
   }
   
-  protected void setYRange(double min, double max) {
-    mRenderer.setYAxisMin(min);
-    mRenderer.setYAxisMax(max);
+  protected void setYRange(double min, double max, int scale) {
+    mRenderer.setYAxisMin(min, scale);
+    mRenderer.setYAxisMax(max, scale);
   }
 
 }

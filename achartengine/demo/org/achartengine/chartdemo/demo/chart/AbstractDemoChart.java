@@ -45,9 +45,14 @@ public abstract class AbstractDemoChart implements IChart {
   protected XYMultipleSeriesDataset buildDataset(String[] titles, List<double[]> xValues,
       List<double[]> yValues) {
     XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+    addXYSeries(dataset, titles, xValues, yValues, 0);
+    return dataset;
+  }
+  
+  public void addXYSeries(XYMultipleSeriesDataset dataset, String[] titles, List<double[]> xValues, List<double[]> yValues, int scale) {
     int length = titles.length;
     for (int i = 0; i < length; i++) {
-      XYSeries series = new XYSeries(titles[i]);
+      XYSeries series = new XYSeries(titles[i], scale);
       double[] xV = xValues.get(i);
       double[] yV = yValues.get(i);
       int seriesLength = xV.length;
@@ -56,7 +61,6 @@ public abstract class AbstractDemoChart implements IChart {
       }
       dataset.addSeries(series);
     }
-    return dataset;
   }
 
   /**
@@ -68,12 +72,17 @@ public abstract class AbstractDemoChart implements IChart {
    */
   protected XYMultipleSeriesRenderer buildRenderer(int[] colors, PointStyle[] styles) {
     XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+    setRenderer(renderer, colors, styles);
+    return renderer;
+  }
+  
+  protected void setRenderer(XYMultipleSeriesRenderer renderer, int[] colors, PointStyle[] styles) {
     renderer.setAxisTitleTextSize(16);
     renderer.setChartTitleTextSize(20);
     renderer.setLabelsTextSize(15);
     renderer.setLegendTextSize(15);
     renderer.setPointSize(5f);
-    renderer.setMargins(new int[] { 20, 30, 15, 0 });
+    renderer.setMargins(new int[] { 20, 30, 15, 20 });
     int length = colors.length;
     for (int i = 0; i < length; i++) {
       XYSeriesRenderer r = new XYSeriesRenderer();
@@ -81,7 +90,6 @@ public abstract class AbstractDemoChart implements IChart {
       r.setPointStyle(styles[i]);
       renderer.addSeriesRenderer(r);
     }
-    return renderer;
   }
 
   /**

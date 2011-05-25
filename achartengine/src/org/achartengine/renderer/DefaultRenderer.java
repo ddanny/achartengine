@@ -21,7 +21,6 @@ import java.util.List;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.Paint.Align;
 
 /**
  * An abstract renderer to be extended by the multiple series classes.
@@ -68,14 +67,10 @@ public class DefaultRenderer implements Serializable {
   private List<SimpleSeriesRenderer> mRenderers = new ArrayList<SimpleSeriesRenderer>();
   /** The antialiasing flag. */
   private boolean antialiasing = true;
-  /** The X axis labels alignment. */
-  private Align xLabelsAlign = Align.CENTER;
-  /** The Y axis labels alignment. */
-  private Align yLabelsAlign = Align.CENTER;
   /** The legend height. */
   private int mLegendHeight = 0;
   /** The margins size. */
-  private int[] mMargins = new int[] { 20, 30, 10, 0 };
+  private int[] mMargins = new int[] { 20, 30, 10, 20 };
   /** A value to be used for scaling the chart. */
   private float mScale = 1;
 
@@ -396,42 +391,6 @@ public class DefaultRenderer implements Serializable {
    */
   public void setAntialiasing(boolean antialiasing) {
     this.antialiasing = antialiasing;
-  }
-
-  /**
-   * Returns the X axis labels alignment.
-   * 
-   * @return X labels alignment
-   */
-  public Align getXLabelsAlign() {
-    return xLabelsAlign;
-  }
-
-  /**
-   * Sets the X axis labels alignment.
-   * 
-   * @param align the X labels alignment
-   */
-  public void setXLabelsAlign(Align align) {
-    xLabelsAlign = align;
-  }
-
-  /**
-   * Returns the Y axis labels alignment.
-   * 
-   * @return Y labels alignment
-   */
-  public Align getYLabelsAlign() {
-    return yLabelsAlign;
-  }
-
-  /**
-   * Sets the Y axis labels alignment.
-   * 
-   * @param align the Y labels alignment
-   */
-  public void setYLabelsAlign(Align align) {
-    yLabelsAlign = align;
   }
 
   /**

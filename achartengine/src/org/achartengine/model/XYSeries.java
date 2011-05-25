@@ -40,6 +40,8 @@ public class XYSeries implements Serializable {
   private double mMinY = MathHelper.NULL_VALUE;
   /** The maximum value for the Y axis. */
   private double mMaxY = -MathHelper.NULL_VALUE;
+  /** The scale number for this series. */
+  private int mScaleNumber;
 
   /**
    * Builds a new XY series.
@@ -47,8 +49,23 @@ public class XYSeries implements Serializable {
    * @param title the series title.
    */
   public XYSeries(String title) {
+    this(title, 0);
+  }
+
+  /**
+   * Builds a new XY series.
+   * 
+   * @param title the series title.
+   * @param scaleNumber the series scale number
+   */
+  public XYSeries(String title, int scaleNumber) {
     mTitle = title;
+    mScaleNumber = scaleNumber;
     initRange();
+  }
+  
+  public int getScaleNumber() {
+    return mScaleNumber;
   }
 
   /**

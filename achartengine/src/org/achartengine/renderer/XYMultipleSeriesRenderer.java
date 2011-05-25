@@ -16,11 +16,13 @@
 package org.achartengine.renderer;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.achartengine.util.MathHelper;
 
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 
 /**
  * Multiple XY series renderer.
@@ -33,18 +35,17 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /** The X axis title. */
   private String mXTitle = "";
   /** The Y axis title. */
-  private String mYTitle = "";
+  private String[] mYTitle;
   /** The axis title text size. */
   private float mAxisTitleTextSize = 12;
   /** The start value in the X axis range. */
-  private double mMinX = MathHelper.NULL_VALUE;
+  private double[] mMinX;
   /** The end value in the X axis range. */
-  private double mMaxX = -MathHelper.NULL_VALUE;
+  private double[] mMaxX;
   /** The start value in the Y axis range. */
-  private double mMinY = MathHelper.NULL_VALUE;
+  private double[] mMinY;
   /** The end value in the Y axis range. */
-  private double mMaxY = -MathHelper.NULL_VALUE;
-
+  private double[] mMaxY;
   /** The approximative number of labels on the x axis. */
   private int mXLabels = 5;
   /** The approximative number of labels on the y axis. */
@@ -54,7 +55,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /** The X axis text labels. */
   private Map<Double, String> mXTextLabels = new HashMap<Double, String>();
   /** The Y axis text labels. */
-  private Map<Double, String> mYTextLabels = new HashMap<Double, String>();
+  private Map<Integer, Map<Double, String>> mYTextLabels = new LinkedHashMap<Integer, Map<Double, String>>();
   /** If the values should be displayed above the chart points. */
   private boolean mDisplayChartValues;
   /** The chart values text size. */
@@ -84,12 +85,20 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /** The Y axis labels rotation angle. */
   private float mYLabelsAngle;
   /** The initial axis range. */
-  private double[] initialRange = new double[] { mMinX, mMaxX, mMinY, mMaxY };
+  private Map<Integer, double[]> initialRange = new LinkedHashMap<Integer, double[]>();
   /** The point size for charts displaying points. */
   private float mPointSize = 3;
   /** The grid color. */
   private int mGridColor = Color.argb(75, 200, 200, 200);
-
+  /** The number of scales. */
+  private int scalesCount;
+  /** The X axis labels alignment. */
+  private Align xLabelsAlign = Align.CENTER;
+  /** The Y axis labels alignment. */
+  private Align[] yLabelsAlign;
+  /** The Y axis alignment. */
+  private Align[] yAxisAlign;
+  
   /**
    * An enum for the XY chart orientation of the X axis.
    */
@@ -110,6 +119,41 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     public int getAngle() {
       return mAngle;
     }
+  }
+
+  public XYMultipleSeriesRenderer() {
+    this(1);
+  }
+  
+  public XYMultipleSeriesRenderer(int scaleNumber) {
+    scalesCount = scaleNumber;
+    initAxesRange(scaleNumber);
+  }
+  
+  public void initAxesRange(int scales) {
+    mYTitle = new String[scales];
+    yLabelsAlign = new Align[scales];
+    yAxisAlign = new Align[scales];
+    mMinX = new double[scales];
+    mMaxX = new double[scales];
+    mMinY = new double[scales];
+    mMaxY = new double[scales];
+    for (int i = 0; i < scales; i++) {
+      initAxesRangeForScale(i);
+    }
+  }
+  
+  public void initAxesRangeForScale(int i) {
+    mMinX[i] = MathHelper.NULL_VALUE;
+    mMaxX[i] = -MathHelper.NULL_VALUE;
+    mMinY[i] = MathHelper.NULL_VALUE;
+    mMaxY[i] = -MathHelper.NULL_VALUE;
+    double[] range = new double[] { mMinX[i], mMaxX[i], mMinY[i], mMaxY[i] };
+    initialRange.put(i, range);
+    mYTitle[i] = "";
+    mYTextLabels.put(i, new HashMap<Double, String>());
+    yLabelsAlign[i] = Align.CENTER;
+    yAxisAlign[i] = Align.LEFT;
   }
 
   /**
@@ -190,7 +234,16 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the Y axis title
    */
   public String getYTitle() {
-    return mYTitle;
+    return getYTitle(0);
+  }
+
+  /**
+   * Returns the title for the Y axis.
+   * 
+   * @return the Y axis title
+   */
+  public String getYTitle(int scale) {
+    return mYTitle[scale];
   }
 
   /**
@@ -199,7 +252,16 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param title the Y axis title
    */
   public void setYTitle(String title) {
-    mYTitle = title;
+    setYTitle(title, 0);
+  }
+
+  /**
+   * Sets the title for the Y axis.
+   * 
+   * @param title the Y axis title
+   */
+  public void setYTitle(String title, int scale) {
+    mYTitle[scale] = title;
   }
 
   /**
@@ -226,7 +288,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the X axis range start value
    */
   public double getXAxisMin() {
-    return mMinX;
+    return getXAxisMin(0);
   }
 
   /**
@@ -235,10 +297,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param min the X axis range start value
    */
   public void setXAxisMin(double min) {
-    if (!isMinXSet()) {
-      initialRange[0] = min;
-    }
-    mMinX = min;
+    setXAxisMin(min, 0);
   }
 
   /**
@@ -247,7 +306,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the minX was set or not
    */
   public boolean isMinXSet() {
-    return mMinX != MathHelper.NULL_VALUE;
+    return isMinXSet(0);
   }
 
   /**
@@ -256,7 +315,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the X axis range end value
    */
   public double getXAxisMax() {
-    return mMaxX;
+    return getXAxisMax(0);
   }
 
   /**
@@ -265,10 +324,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param max the X axis range end value
    */
   public void setXAxisMax(double max) {
-    if (!isMaxXSet()) {
-      initialRange[1] = max;
-    }
-    mMaxX = max;
+    setXAxisMax(max, 0);
   }
 
   /**
@@ -277,7 +333,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the maxX was set or not
    */
   public boolean isMaxXSet() {
-    return mMaxX != -MathHelper.NULL_VALUE;
+    return isMaxXSet(0);
   }
 
   /**
@@ -286,7 +342,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the Y axis range end value
    */
   public double getYAxisMin() {
-    return mMinY;
+    return getYAxisMin(0);
   }
 
   /**
@@ -295,10 +351,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param min the Y axis range start value
    */
   public void setYAxisMin(double min) {
-    if (!isMinYSet()) {
-      initialRange[2] = min;
-    }
-    mMinY = min;
+    setYAxisMin(min, 0);
   }
 
   /**
@@ -307,7 +360,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the minY was set or not
    */
   public boolean isMinYSet() {
-    return mMinY != MathHelper.NULL_VALUE;
+    return isMinYSet(0);
   }
 
   /**
@@ -316,7 +369,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the Y axis range end value
    */
   public double getYAxisMax() {
-    return mMaxY;
+    return getYAxisMax(0);
   }
 
   /**
@@ -325,10 +378,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param max the Y axis range end value
    */
   public void setYAxisMax(double max) {
-    if (!isMaxYSet()) {
-      initialRange[3] = max;
-    }
-    mMaxY = max;
+    setYAxisMax(max, 0);
   }
 
   /**
@@ -337,7 +387,127 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the maxY was set or not
    */
   public boolean isMaxYSet() {
-    return mMaxY != -MathHelper.NULL_VALUE;
+    return isMaxYSet(0);
+  }
+
+  /**
+   * Returns the start value of the X axis range.
+   * 
+   * @return the X axis range start value
+   */
+  public double getXAxisMin(int scale) {
+    return mMinX[scale];
+  }
+
+  /**
+   * Sets the start value of the X axis range.
+   * 
+   * @param min the X axis range start value
+   */
+  public void setXAxisMin(double min, int scale) {
+    if (!isMinXSet(scale)) {
+      initialRange.get(scale)[0] = min;
+    }
+    mMinX[scale] = min;
+  }
+
+  /**
+   * Returns if the minimum X value was set.
+   * 
+   * @return the minX was set or not
+   */
+  public boolean isMinXSet(int scale) {
+    return mMinX[scale] != MathHelper.NULL_VALUE;
+  }
+
+  /**
+   * Returns the end value of the X axis range.
+   * 
+   * @return the X axis range end value
+   */
+  public double getXAxisMax(int scale) {
+    return mMaxX[scale];
+  }
+
+  /**
+   * Sets the end value of the X axis range.
+   * 
+   * @param max the X axis range end value
+   */
+  public void setXAxisMax(double max, int scale) {
+    if (!isMaxXSet(scale)) {
+      initialRange.get(scale)[1] = max;
+    }
+    mMaxX[scale] = max;
+  }
+
+  /**
+   * Returns if the maximum X value was set.
+   * 
+   * @return the maxX was set or not
+   */
+  public boolean isMaxXSet(int scale) {
+    return mMaxX[scale] != -MathHelper.NULL_VALUE;
+  }
+
+  /**
+   * Returns the start value of the Y axis range.
+   * 
+   * @return the Y axis range end value
+   */
+  public double getYAxisMin(int scale) {
+    return mMinY[scale];
+  }
+
+  /**
+   * Sets the start value of the Y axis range.
+   * 
+   * @param min the Y axis range start value
+   */
+  public void setYAxisMin(double min, int scale) {
+    if (!isMinYSet(scale)) {
+      initialRange.get(scale)[2] = min;
+    }
+    mMinY[scale] = min;
+  }
+
+  /**
+   * Returns if the minimum Y value was set.
+   * 
+   * @return the minY was set or not
+   */
+  public boolean isMinYSet(int scale) {
+    return mMinY[scale] != MathHelper.NULL_VALUE;
+  }
+
+  /**
+   * Returns the end value of the Y axis range.
+   * 
+   * @return the Y axis range end value
+   */
+  public double getYAxisMax(int scale) {
+    return mMaxY[scale];
+  }
+
+  /**
+   * Sets the end value of the Y axis range.
+   * 
+   * @param max the Y axis range end value
+   */
+  public void setYAxisMax(double max, int scale) {
+    if (!isMaxYSet(scale)) {
+      initialRange.get(scale)[3] = max;
+    }
+    mMaxY[scale] = max;
+  }
+
+  /**
+   * Returns if the maximum Y value was set.
+   * 
+   * @return the maxY was set or not
+   */
+  public boolean isMaxYSet(int scale) {
+    return mMaxY[scale] != -MathHelper.NULL_VALUE;
   }
 
   /**
@@ -421,7 +591,17 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param text the text label
    */
   public void addYTextLabel(double y, String text) {
-    mYTextLabels.put(y, text);
+    addYTextLabel(y, text, 0);
+  }
+
+  /**
+   * Adds a new text label for the specified Y axis value.
+   * 
+   * @param y the Y axis value
+   * @param text the text label
+   */
+  public void addYTextLabel(double y, String text, int scale) {
+    mYTextLabels.get(scale).put(y, text);
   }
 
   /**
@@ -431,7 +611,17 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the Y axis text label
    */
   public String getYTextLabel(Double y) {
-    return mYTextLabels.get(y);
+    return getYTextLabel(y, 0);
+  }
+
+  /**
+   * Returns the Y axis text label at the specified Y axis value.
+   * 
+   * @param y the Y axis value
+   * @return the Y axis text label
+   */
+  public String getYTextLabel(Double y, int scale) {
+    return mYTextLabels.get(scale).get(y);
   }
 
   /**
@@ -440,7 +630,16 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the Y text label locations
    */
   public Double[] getYTextLabelLocations() {
-    return mYTextLabels.keySet().toArray(new Double[0]);
+    return getYTextLabelLocations(0);
+  }
+
+  /**
+   * Returns the Y text label locations.
+   * 
+   * @return the Y text label locations
+   */
+  public Double[] getYTextLabelLocations(int scale) {
+    return mYTextLabels.get(scale).keySet().toArray(new Double[0]);
   }
 
   /**
@@ -758,17 +957,25 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mPointSize = size;
   }
 
+  public void setRange(double[] range) {
+    setRange(range, 0);
+  }
+  
   /**
    * Sets the axes range values.
    * 
    * @param range an array having the values in this order: minX, maxX, minY,
    *          maxY
    */
-  public void setRange(double[] range) {
-    setXAxisMin(range[0]);
-    setXAxisMax(range[1]);
-    setYAxisMin(range[2]);
-    setYAxisMax(range[3]);
+  public void setRange(double[] range, int scale) {
+    setXAxisMin(range[0], scale);
+    setXAxisMax(range[1], scale);
+    setYAxisMin(range[2], scale);
+    setYAxisMax(range[3], scale);
+  }
+  
+  public boolean isInitialRangeSet() {
+    return isInitialRangeSet(0);
   }
 
   /**
@@ -776,8 +983,26 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * 
    * @return the initial range was set or not
    */
-  public boolean isInitialRangeSet() {
-    return isMinXSet() && isMaxXSet() && isMinYSet() && isMaxYSet();
+  public boolean isInitialRangeSet(int scale) {
+    return isMinXSet(scale) && isMaxXSet(scale) && isMinYSet(scale) && isMaxYSet(scale);
+  }
+
+  /**
+   * Returns the initial range.
+   * 
+   * @return the initial range
+   */
+  public double[] getInitialRange() {
+    return getInitialRange(0);
+  }
+  
+  /**
+   * Returns the initial range.
+   * 
+   * @return the initial range
+   */
+  public double[] getInitialRange(int scale) {
+    return initialRange.get(scale);
   }
 
   /**
@@ -787,16 +1012,69 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    *          maxY
    */
   public void setInitialRange(double[] range) {
-    initialRange = range;
+    setInitialRange(range, 0);
   }
 
   /**
-   * Returns the initial range.
+   * Sets the axes initial range values. This will be used in the zoom fit tool.
    * 
-   * @return the initial range
+   * @param range an array having the values in this order: minX, maxX, minY,
+   *          maxY
    */
-  public double[] getInitialRange() {
-    return initialRange;
+  public void setInitialRange(double[] range, int scale) {
+    setInitialRange(range, scale);
+  }
+  
+  /**
+   * Returns the X axis labels alignment.
+   * 
+   * @return X labels alignment
+   */
+  public Align getXLabelsAlign() {
+    return xLabelsAlign;
+  }
+
+  /**
+   * Sets the X axis labels alignment.
+   * 
+   * @param align the X labels alignment
+   */
+  public void setXLabelsAlign(Align align) {
+    xLabelsAlign = align;
+  }
+
+  /**
+   * Returns the Y axis labels alignment.
+   * 
+   * @return Y labels alignment
+   */
+  public Align getYLabelsAlign(int scale) {
+    return yLabelsAlign[scale];
+  }
+  
+  public void setYLabelsAlign(Align align) {
+    setYLabelsAlign(align, 0);
+  }
+  
+  public Align getYAxisAlign(int scale) {
+    return yAxisAlign[scale];
+  }
+  
+  public void setYAxisAlign(Align align, int scale) {
+    yAxisAlign[scale] = align;
+  }
+  
+  /**
+   * Sets the Y axis labels alignment.
+   * 
+   * @param align the Y labels alignment
+   */
+  public void setYLabelsAlign(Align align, int scale) {
+    yLabelsAlign[scale] = align;
+  }
+
+  public int getScalesCount() {
+    return scalesCount;
   }
 
 }
