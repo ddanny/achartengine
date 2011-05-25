@@ -47,12 +47,13 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 public class ChartDemo extends ListActivity {
-  private IChart[] mCharts = new IChart[] {new AverageTemperatureChart(), new SalesStackedBarChart(),
-		  new SalesBarChart(), new TrigonometricFunctionsChart(), new ScatterChart(), new SalesComparisonChart(),
-          new ProjectStatusChart(), new SalesGrowthChart(), new BudgetPieChart(), new BudgetDoughnutChart(), 
-          new ProjectStatusBubbleChart(), new TemperatureChart(), new WeightDialChart(), new SensorValuesChart(),
-          new CombinedTemperatureChart(), new MultipleTemperatureChart()};
-	
+  private IChart[] mCharts = new IChart[] { new AverageTemperatureChart(),
+      new SalesStackedBarChart(), new SalesBarChart(), new TrigonometricFunctionsChart(),
+      new ScatterChart(), new SalesComparisonChart(), new ProjectStatusChart(),
+      new SalesGrowthChart(), new BudgetPieChart(), new BudgetDoughnutChart(),
+      new ProjectStatusBubbleChart(), new TemperatureChart(), new WeightDialChart(),
+      new SensorValuesChart(), new CombinedTemperatureChart(), new MultipleTemperatureChart() };
+
   private String[] mMenuText;
 
   private String[] mMenuSummary;
@@ -73,7 +74,8 @@ public class ChartDemo extends ListActivity {
     mMenuText[length + 1] = "Random values charts";
     mMenuSummary[length + 1] = "Chart demos using randomly generated values";
     setListAdapter(new SimpleAdapter(this, getListValues(), android.R.layout.simple_list_item_2,
-        new String[] { IChart.NAME, IChart.DESC }, new int[] { android.R.id.text1, android.R.id.text2 }));
+        new String[] { IChart.NAME, IChart.DESC }, new int[] { android.R.id.text1,
+            android.R.id.text2 }));
   }
 
   private List<Map<String, String>> getListValues() {
