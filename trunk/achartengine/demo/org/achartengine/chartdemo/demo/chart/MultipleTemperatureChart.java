@@ -39,7 +39,7 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
    * @return the chart name
    */
   public String getName() {
-    return "Average temperature";
+    return "Temperature and sunshine";
   }
 
   /**
@@ -85,6 +85,8 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     renderer.setZoomButtonsVisible(true);
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
+    
+    renderer.setYTitle("Hours", 1);
     renderer.setYAxisAlign(Align.RIGHT, 1);
     renderer.setYLabelsAlign(Align.LEFT, 1);
     XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);

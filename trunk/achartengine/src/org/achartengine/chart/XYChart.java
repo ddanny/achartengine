@@ -359,11 +359,18 @@ public abstract class XYChart extends AbstractChart {
         float size = mRenderer.getAxisTitleTextSize();
         paint.setTextSize(size);
         paint.setTextAlign(Align.CENTER);
-        // TODO: make y title work on both alignment types
         if (or == Orientation.HORIZONTAL) {
           drawText(canvas, mRenderer.getXTitle(), x + width / 2, bottom
               + mRenderer.getLabelsTextSize() * 4 / 3 + size, paint, 0);
-          drawText(canvas, mRenderer.getYTitle(), x + size, y + height / 2, paint, -90);
+          for (int i = 0; i < maxScaleNumber; i++) {
+            Align axisAlign = mRenderer.getYAxisAlign(i);
+            if (axisAlign == Align.LEFT) { 
+              drawText(canvas, mRenderer.getYTitle(i), x + size, y + height / 2, paint, -90);
+            } else {
+              drawText(canvas, mRenderer.getYTitle(i), x + width, y + height / 2, paint, -90);
+            }
+          }
+          
           paint.setTextSize(mRenderer.getChartTitleTextSize());
           drawText(canvas, mRenderer.getChartTitle(), x + width / 2, y
               + mRenderer.getChartTitleTextSize(), paint, 0);
