@@ -145,10 +145,8 @@ public class BarChart extends XYChart {
    */
   protected float getHalfDiffX(float[] points, int length, int seriesNr) {
     int div = length;
-    if (length > 2) {// && length < 10) {
+    if (length > 2) {
       div = length - 2;
-//    } else {
-//      div = length - 4;
     }
     float halfDiffX = (points[length - 2] - points[0]) / div;
     if (halfDiffX == 0) {
