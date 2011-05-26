@@ -144,7 +144,13 @@ public class BarChart extends XYChart {
    * @return the calculated half-distance value
    */
   protected float getHalfDiffX(float[] points, int length, int seriesNr) {
-    float halfDiffX = (points[length - 2] - points[0]) / (length - 4);
+    int div = length;
+    if (length > 2) {// && length < 10) {
+      div = length - 2;
+//    } else {
+//      div = length - 4;
+    }
+    float halfDiffX = (points[length - 2] - points[0]) / div;
     if (halfDiffX == 0) {
       halfDiffX = 10;
     }
