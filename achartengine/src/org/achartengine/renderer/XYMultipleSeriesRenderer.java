@@ -962,7 +962,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return the initial range was set or not
    */
   public boolean isInitialRangeSet(int scale) {
-    return isMinXSet(scale) && isMaxXSet(scale) && isMinYSet(scale) && isMaxYSet(scale);
+    return initialRange.get(scale) != null;
   }
 
   /**

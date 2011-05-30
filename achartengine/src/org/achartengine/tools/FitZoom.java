@@ -43,7 +43,9 @@ public class FitZoom extends AbstractTool {
       int scales = mRenderer.getScalesCount();
       if (mRenderer.isInitialRangeSet()) {
         for (int i = 0; i < scales; i++) {
-          mRenderer.setRange(mRenderer.getInitialRange(i), i);
+          if (mRenderer.isInitialRangeSet(i)) {
+            mRenderer.setRange(mRenderer.getInitialRange(i), i);
+          }
         }
       } else {
         XYSeries[] series = ((XYChart) mChart).getDataset().getSeries();
