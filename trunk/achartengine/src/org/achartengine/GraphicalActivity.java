@@ -29,7 +29,7 @@ public class GraphicalActivity extends Activity {
   private GraphicalView mView;
   /** The chart to be drawn. */
   private AbstractChart mChart;
-
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -44,5 +44,5 @@ public class GraphicalActivity extends Activity {
     }
     setContentView(mView);
   }
-  
+
 }
