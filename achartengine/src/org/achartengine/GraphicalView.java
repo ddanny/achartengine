@@ -92,9 +92,10 @@ public class GraphicalView extends View {
           .getResourceAsStream("image/zoom_out.png"));
       fitZoomImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom-1.png"));
     }
-    
-    if (mRenderer instanceof XYMultipleSeriesRenderer && ((XYMultipleSeriesRenderer)mRenderer).getMarginsColor() == XYMultipleSeriesRenderer.NO_COLOR) {
-      ((XYMultipleSeriesRenderer)mRenderer).setMarginsColor(mPaint.getColor());
+
+    if (mRenderer instanceof XYMultipleSeriesRenderer
+        && ((XYMultipleSeriesRenderer) mRenderer).getMarginsColor() == XYMultipleSeriesRenderer.NO_COLOR) {
+      ((XYMultipleSeriesRenderer) mRenderer).setMarginsColor(mPaint.getColor());
     }
     if (mRenderer.isZoomEnabled() && mRenderer.isZoomButtonsVisible()) {
       zoomIn = new Zoom(mChart, true, mRenderer.getZoomRate());
@@ -135,7 +136,7 @@ public class GraphicalView extends View {
       canvas.drawBitmap(fitZoomImage, left + width - zoomSize * 0.75f, buttonY, null);
     }
   }
-  
+
   /**
    * Sets the zoom rate.
    * 
