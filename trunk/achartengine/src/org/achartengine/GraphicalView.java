@@ -135,7 +135,7 @@ public class GraphicalView extends View {
       canvas.drawBitmap(fitZoomImage, left + width - zoomSize * 0.75f, buttonY, null);
     }
   }
-
+  
   /**
    * Sets the zoom rate.
    * 
