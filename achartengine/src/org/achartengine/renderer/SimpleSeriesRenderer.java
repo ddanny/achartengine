@@ -43,5 +43,4 @@ public class SimpleSeriesRenderer implements Serializable {
   public void setColor(int color) {
     mColor = color;
   }
-
 }
