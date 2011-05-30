@@ -51,21 +51,23 @@ public abstract class AbstractTool {
   public void checkRange(double[] range, int scale) {
     if (mChart instanceof XYChart) {
       double[] calcRange = ((XYChart) mChart).getCalcRange(scale);
-      if (!mRenderer.isMinXSet(scale)) {
-        range[0] = calcRange[0];
-        mRenderer.setXAxisMin(range[0], scale);
-      }
-      if (!mRenderer.isMaxXSet(scale)) {
-        range[1] = calcRange[1];
-        mRenderer.setXAxisMax(range[1], scale);
-      }
-      if (!mRenderer.isMinYSet(scale)) {
-        range[2] = calcRange[2];
-        mRenderer.setYAxisMin(range[2], scale);
-      }
-      if (!mRenderer.isMaxYSet(scale)) {
-        range[3] = calcRange[3];
-        mRenderer.setYAxisMax(range[3], scale);
+      if (calcRange != null) {
+        if (!mRenderer.isMinXSet(scale)) {
+          range[0] = calcRange[0];
+          mRenderer.setXAxisMin(range[0], scale);
+        }
+        if (!mRenderer.isMaxXSet(scale)) {
+          range[1] = calcRange[1];
+          mRenderer.setXAxisMax(range[1], scale);
+        }
+        if (!mRenderer.isMinYSet(scale)) {
+          range[2] = calcRange[2];
+          mRenderer.setYAxisMin(range[2], scale);
+        }
+        if (!mRenderer.isMaxYSet(scale)) {
+          range[3] = calcRange[3];
+          mRenderer.setYAxisMax(range[3], scale);
+        }
       }
     }
   }
