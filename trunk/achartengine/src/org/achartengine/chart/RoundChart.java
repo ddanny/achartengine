@@ -18,24 +18,25 @@ package org.achartengine.chart;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.achartengine.model.MultipleCategorySeries;
+import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Paint.Style;
 
 /**
- * The doughnut chart rendering class.
+ * The pie chart rendering class.
  */
-public class DoughnutChart extends RoundChart {
+public abstract class RoundChart extends AbstractChart {
+  /** The legend shape width. */
+  protected static final int SHAPE_WIDTH = 10;
   /** The series dataset. */
-  private MultipleCategorySeries mDataset;
-  /** A step variable to control the size of the legend shape. */
-  private int mStep;
+  protected CategorySeries mDataset;
+  /** The series renderer. */
+  protected DefaultRenderer mRenderer;
 
   /**
    * Builds a new pie chart instance.
@@ -43,9 +44,9 @@ public class DoughnutChart extends RoundChart {
    * @param dataset the series dataset
    * @param renderer the series renderer
    */
-  public DoughnutChart(MultipleCategorySeries dataset, DefaultRenderer renderer) {
-    super(null, renderer);
+  public RoundChart(CategorySeries dataset, DefaultRenderer renderer) {
     mDataset = dataset;
+    mRenderer = renderer;
   }
 
   /**
@@ -70,63 +71,41 @@ public class DoughnutChart extends RoundChart {
     int left = x;
     int top = y;
     int right = x + width;
-    int cLength = mDataset.getCategoriesCount();
-    String[] categories = new String[cLength];
-    for (int category = 0; category < cLength; category++) {
-      categories[category] = mDataset.getCategory(category);
+    int sLength = mDataset.getItemCount();
+    double total = 0;
+    String[] titles = new String[sLength];
+    for (int i = 0; i < sLength; i++) {
+      total += mDataset.getValue(i);
+      titles[i] = mDataset.getCategory(i);
     }
     if (mRenderer.isFitLegend()) {
-      legendSize = drawLegend(canvas, mRenderer, categories, left, right, y, width, height,
-          legendSize, paint, true);
+      legendSize = drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize,
+          paint, true);
     }
-
     int bottom = y + height - legendSize;
     drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
-    mStep = SHAPE_WIDTH * 3 / 4;
 
+    float currentAngle = 0;
     int mRadius = Math.min(Math.abs(right - left), Math.abs(bottom - top));
-    double rCoef = 0.35 * mRenderer.getScale();
-    double decCoef = 0.2 / cLength;
-    int radius = (int) (mRadius * rCoef);
+    int radius = (int) (mRadius * 0.35 * mRenderer.getScale());
     int centerX = (left + right) / 2;
     int centerY = (bottom + top) / 2;
     float shortRadius = radius * 0.9f;
     float longRadius = radius * 1.1f;
+
+    RectF oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
     List<RectF> prevLabelsBounds = new ArrayList<RectF>();
-    for (int category = 0; category < cLength; category++) {
-      int sLength = mDataset.getItemCount(category);
-      double total = 0;
-      String[] titles = new String[sLength];
-      for (int i = 0; i < sLength; i++) {
-        total += mDataset.getValues(category)[i];
-        titles[i] = mDataset.getTitles(category)[i];
-      }
-      float currentAngle = 0;
-      RectF oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
-      for (int i = 0; i < sLength; i++) {
-        paint.setColor(mRenderer.getSeriesRendererAt(i).getColor());
-        float value = (float) mDataset.getValues(category)[i];
-        float angle = (float) (value / total * 360);
-        canvas.drawArc(oval, currentAngle, angle, true, paint);
-        drawLabel(canvas, mDataset.getTitles(category)[i], mRenderer, prevLabelsBounds, centerX,
-            centerY, shortRadius, longRadius, currentAngle, angle, left, right, paint);
-        currentAngle += angle;
-      }
-      radius -= (int) mRadius * decCoef;
-      shortRadius -= mRadius * decCoef - 2;
-      if (mRenderer.getBackgroundColor() != 0) {
-        paint.setColor(mRenderer.getBackgroundColor());
-      } else {
-        paint.setColor(Color.WHITE);
-      }
-      paint.setStyle(Style.FILL);
-      oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
-      canvas.drawArc(oval, 0, 360, true, paint);
-      radius -= 1;
+    for (int i = 0; i < sLength; i++) {
+      paint.setColor(mRenderer.getSeriesRendererAt(i).getColor());
+      float value = (float) mDataset.getValue(i);
+      float angle = (float) (value / total * 360);
+      canvas.drawArc(oval, currentAngle, angle, true, paint);
+      drawLabel(canvas, mDataset.getCategory(i), mRenderer, prevLabelsBounds, centerX, centerY,
+          shortRadius, longRadius, currentAngle, angle, left, right, paint);
+      currentAngle += angle;
     }
     prevLabelsBounds.clear();
-    drawLegend(canvas, mRenderer, categories, left, right, y, width, height, legendSize, paint,
-        false);
+    drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
   }
 
   /**
@@ -151,8 +130,16 @@ public class DoughnutChart extends RoundChart {
    */
   public void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x, float y,
       int seriesIndex, Paint paint) {
-    mStep--;
-    canvas.drawCircle(x + SHAPE_WIDTH - mStep, y, mStep, paint);
+    canvas.drawRect(x, y - SHAPE_WIDTH / 2, x + SHAPE_WIDTH, y + SHAPE_WIDTH / 2, paint);
+  }
+
+  /**
+   * Returns the renderer.
+   * 
+   * @return the renderer
+   */
+  public DefaultRenderer getRenderer() {
+    return mRenderer;
   }
 
 }

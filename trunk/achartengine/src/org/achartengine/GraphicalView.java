@@ -16,7 +16,9 @@
 package org.achartengine;
 
 import org.achartengine.chart.AbstractChart;
+import org.achartengine.chart.RoundChart;
 import org.achartengine.chart.XYChart;
+import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.tools.FitZoom;
 import org.achartengine.tools.Zoom;
@@ -41,7 +43,7 @@ public class GraphicalView extends View {
   /** The chart to be drawn. */
   private AbstractChart mChart;
   /** The chart renderer. */
-  private XYMultipleSeriesRenderer mRenderer;
+  private DefaultRenderer mRenderer;
   /** The view bounds. */
   private Rect mRect = new Rect();
   /** The user interface thread handler. */
@@ -81,33 +83,34 @@ public class GraphicalView extends View {
     mHandler = new Handler();
     if (mChart instanceof XYChart) {
       mRenderer = ((XYChart) mChart).getRenderer();
-      if (mRenderer.isZoomButtonsVisible()) {
-        zoomInImage = BitmapFactory.decodeStream(getClass()
-            .getResourceAsStream("image/zoom_in.png"));
-        zoomOutImage = BitmapFactory.decodeStream(getClass().getResourceAsStream(
-            "image/zoom_out.png"));
-        fitZoomImage = BitmapFactory.decodeStream(getClass()
-            .getResourceAsStream("image/zoom-1.png"));
-      }
-      if (mRenderer.getMarginsColor() == XYMultipleSeriesRenderer.NO_COLOR) {
-        mRenderer.setMarginsColor(mPaint.getColor());
-      }
-      if (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled()) {
-        zoomIn = new Zoom((XYChart) mChart, true, mRenderer.getZoomRate());
-        zoomOut = new Zoom((XYChart) mChart, false, mRenderer.getZoomRate());
-        fitZoom = new FitZoom((XYChart) mChart);
-      }
-      int version = 7;
-      try {
-        version = Integer.valueOf(Build.VERSION.SDK);
-      } catch (Exception e) {
-        // do nothing
-      }
-      if (version < 7) {
-        touchHandler = new TouchHandlerOld(this, mChart);
-      } else {
-        touchHandler = new TouchHandler(this, mChart);
-      }
+    } else {
+      mRenderer = ((RoundChart) mChart).getRenderer();
+    }
+    if (mRenderer.isZoomButtonsVisible()) {
+      zoomInImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom_in.png"));
+      zoomOutImage = BitmapFactory.decodeStream(getClass()
+          .getResourceAsStream("image/zoom_out.png"));
+      fitZoomImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom-1.png"));
+    }
+    
+    if (mRenderer instanceof XYMultipleSeriesRenderer && ((XYMultipleSeriesRenderer)mRenderer).getMarginsColor() == XYMultipleSeriesRenderer.NO_COLOR) {
+      ((XYMultipleSeriesRenderer)mRenderer).setMarginsColor(mPaint.getColor());
+    }
+    if (mRenderer.isZoomEnabled() && mRenderer.isZoomButtonsVisible()) {
+      zoomIn = new Zoom(mChart, true, mRenderer.getZoomRate());
+      zoomOut = new Zoom(mChart, false, mRenderer.getZoomRate());
+      fitZoom = new FitZoom(mChart);
+    }
+    int version = 7;
+    try {
+      version = Integer.valueOf(Build.VERSION.SDK);
+    } catch (Exception e) {
+      // do nothing
+    }
+    if (version < 7) {
+      touchHandler = new TouchHandlerOld(this, mChart);
+    } else {
+      touchHandler = new TouchHandler(this, mChart);
     }
   }
 
@@ -120,8 +123,7 @@ public class GraphicalView extends View {
     int width = mRect.width();
     int height = mRect.height();
     mChart.draw(canvas, left, top, width, height, mPaint);
-    if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())
-        && mRenderer.isZoomButtonsVisible()) {
+    if (mRenderer != null && mRenderer.isZoomEnabled() && mRenderer.isZoomButtonsVisible()) {
       mPaint.setColor(ZOOM_BUTTONS_COLOR);
       zoomSize = Math.max(zoomSize, Math.min(width, height) / 7);
       zoomR.set(left + width - zoomSize * 3, top + height - zoomSize * 0.775f, left + width, top
@@ -182,9 +184,7 @@ public class GraphicalView extends View {
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-    if (mRenderer != null
-        && (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled() || mRenderer.isZoomXEnabled() || mRenderer
-            .isZoomYEnabled())) {
+    if (mRenderer != null && (mRenderer.isPanEnabled() || mRenderer.isZoomEnabled())) {
       touchHandler.handleTouch(event);
       return true;
     }
@@ -217,7 +217,7 @@ public class GraphicalView extends View {
       }
     });
   }
-  
+
   /**
    * Saves the content of the graphical view to a bitmap.
    * 

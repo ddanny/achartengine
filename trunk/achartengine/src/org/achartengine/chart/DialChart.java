@@ -18,7 +18,6 @@ package org.achartengine.chart;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.DialRenderer;
-import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.DialRenderer.Type;
 import org.achartengine.util.MathHelper;
 
@@ -30,13 +29,9 @@ import android.graphics.Paint.Style;
 /**
  * The dial chart rendering class.
  */
-public class DialChart extends AbstractChart {
-  /** The legend shape width. */
-  private static final int SHAPE_WIDTH = 10;
+public class DialChart extends RoundChart {
   /** The radius of the needle. */
   private static final int NEEDLE_RADIUS = 10;
-  /** The series dataset. */
-  private CategorySeries mDataset;
   /** The series renderer. */
   private DialRenderer mRenderer;
 
@@ -47,7 +42,7 @@ public class DialChart extends AbstractChart {
    * @param renderer the dial renderer
    */
   public DialChart(CategorySeries dataset, DialRenderer renderer) {
-    mDataset = dataset;
+    super(dataset, renderer);
     mRenderer = renderer;
   }
 
@@ -137,7 +132,6 @@ public class DialChart extends AbstractChart {
       boolean type = mRenderer.getVisualTypeForIndex(i) == Type.ARROW;
       drawNeedle(canvas, angle, centerX, centerY, shortRadius, type, paint);
     }
-
     drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
   }
 
@@ -237,31 +231,6 @@ public class DialChart extends AbstractChart {
           needleCenterY, centerX + needleSinValue, centerY + needleCosValue };
     }
     drawPath(canvas, points, paint, true);
-  }
-
-  /**
-   * Returns the legend shape width.
-   * 
-   * @param seriesIndex the series index
-   * @return the legend shape width
-   */
-  public int getLegendShapeWidth(int seriesIndex) {
-    return SHAPE_WIDTH;
-  }
-
-  /**
-   * The graphical representation of the legend shape.
-   * 
-   * @param canvas the canvas to paint to
-   * @param renderer the series renderer
-   * @param x the x value of the point the shape should be drawn at
-   * @param y the y value of the point the shape should be drawn at
-   * @param seriesIndex the series index
-   * @param paint the paint to be used for drawing
-   */
-  public void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x, float y,
-      int seriesIndex, Paint paint) {
-    canvas.drawRect(x, y - SHAPE_WIDTH / 2, x + SHAPE_WIDTH, y + SHAPE_WIDTH / 2, paint);
   }
 
 }

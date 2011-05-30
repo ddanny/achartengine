@@ -68,10 +68,6 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private boolean mZoomXEnabled = true;
   /** A flag for enabling or not the zoom on the Y axis . */
   private boolean mZoomYEnabled = true;
-  /** A flag for enabling the visibility of the zoom buttons. */
-  private boolean mZoomButtonsVisible = false;
-  /** The zoom rate. */
-  private float mZoomRate = 1.5f;
   /** The spacing between bars, in bar charts. */
   private double mBarSpacing = 0;
   /** The margins colors. */
@@ -704,6 +700,15 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
+   * Returns the enabled state of the pan on at least one axis.
+   * 
+   * @return if pan is enabled
+   */
+  public boolean isPanEnabled() {
+    return isPanXEnabled() && isPanYEnabled();
+  }
+
+  /**
    * Returns the enabled state of the pan on X axis.
    * 
    * @return if pan is enabled on X axis
@@ -733,6 +738,15 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
+   * Returns the enabled state of the zoom on at least one axis.
+   * 
+   * @return if zoom is enabled
+   */
+  public boolean isZoomEnabled() {
+    return isZoomXEnabled() || isZoomYEnabled();
+  }
+
+  /**
    * Returns the enabled state of the zoom on X axis.
    * 
    * @return if zoom is enabled on X axis
@@ -759,42 +773,6 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setZoomEnabled(boolean enabledX, boolean enabledY) {
     mZoomXEnabled = enabledX;
     mZoomYEnabled = enabledY;
-  }
-
-  /**
-   * Returns the visible state of the zoom buttons.
-   * 
-   * @return if zoom buttons are visible
-   */
-  public boolean isZoomButtonsVisible() {
-    return mZoomButtonsVisible;
-  }
-
-  /**
-   * Sets the visible state of the zoom buttons.
-   * 
-   * @param visible if the zoom buttons are visible
-   */
-  public void setZoomButtonsVisible(boolean visible) {
-    mZoomButtonsVisible = visible;
-  }
-
-  /**
-   * Returns the zoom rate.
-   * 
-   * @return the zoom rate
-   */
-  public float getZoomRate() {
-    return mZoomRate;
-  }
-
-  /**
-   * Sets the zoom rate.
-   * 
-   * @param rate the zoom rate
-   */
-  public void setZoomRate(float rate) {
-    mZoomRate = rate;
   }
 
   /**
