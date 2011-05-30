@@ -1000,7 +1000,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    *          maxY
    */
   public void setInitialRange(double[] range, int scale) {
-    setInitialRange(range, scale);
+    initialRange.put(scale, range);
   }
 
   /**
