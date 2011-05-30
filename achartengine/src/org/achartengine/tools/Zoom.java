@@ -15,7 +15,10 @@
  */
 package org.achartengine.tools;
 
+import org.achartengine.chart.AbstractChart;
+import org.achartengine.chart.RoundChart;
 import org.achartengine.chart.XYChart;
+import org.achartengine.renderer.DefaultRenderer;
 
 /**
  * The zoom tool.
@@ -33,7 +36,7 @@ public class Zoom extends AbstractTool {
    * @param in zoom in or out
    * @param rate the zoom rate
    */
-  public Zoom(XYChart chart, boolean in, float rate) {
+  public Zoom(AbstractChart chart, boolean in, float rate) {
     super(chart);
     mZoomIn = in;
     setZoomRate(rate);
@@ -52,46 +55,55 @@ public class Zoom extends AbstractTool {
    * Apply the zoom.
    */
   public void apply() {
-    int scales = mRenderer.getScalesCount();
-    for (int i = 0; i < scales; i++) {
-      double[] range = getRange(i);
-      checkRange(range, i);
-      double[] limits = mRenderer.getZoomLimits();
-      boolean limited = limits != null && limits.length == 4;
+    if (mChart instanceof XYChart) {
+      int scales = mRenderer.getScalesCount();
+      for (int i = 0; i < scales; i++) {
+        double[] range = getRange(i);
+        checkRange(range, i);
+        double[] limits = mRenderer.getZoomLimits();
+        boolean limited = limits != null && limits.length == 4;
 
-      double centerX = (range[0] + range[1]) / 2;
-      double centerY = (range[2] + range[3]) / 2;
-      double newWidth = range[1] - range[0];
-      double newHeight = range[3] - range[2];
+        double centerX = (range[0] + range[1]) / 2;
+        double centerY = (range[2] + range[3]) / 2;
+        double newWidth = range[1] - range[0];
+        double newHeight = range[3] - range[2];
+        if (mZoomIn) {
+          if (mRenderer.isZoomXEnabled()) {
+            newWidth /= mZoomRate;
+          }
+          if (mRenderer.isZoomYEnabled()) {
+            newHeight /= mZoomRate;
+          }
+        } else {
+          if (mRenderer.isZoomXEnabled()) {
+            newWidth *= mZoomRate;
+          }
+          if (mRenderer.isZoomYEnabled()) {
+            newHeight *= mZoomRate;
+          }
+        }
+
+        if (mRenderer.isZoomXEnabled()) {
+          double newXMin = centerX - newWidth / 2;
+          double newXMax = centerX + newWidth / 2;
+          if (!limited || limits[0] <= newXMin && limits[1] >= newXMax) {
+            setXRange(newXMin, newXMax, i);
+          }
+        }
+        if (mRenderer.isZoomYEnabled()) {
+          double newYMin = centerY - newHeight / 2;
+          double newYMax = centerY + newHeight / 2;
+          if (!limited || limits[2] <= newYMin && limits[3] >= newYMax) {
+            setYRange(newYMin, newYMax, i);
+          }
+        }
+      }
+    } else {
+      DefaultRenderer renderer = ((RoundChart) mChart).getRenderer();
       if (mZoomIn) {
-        if (mRenderer.isZoomXEnabled()) {
-          newWidth /= mZoomRate;
-        }
-        if (mRenderer.isZoomYEnabled()) {
-          newHeight /= mZoomRate;
-        }
+        renderer.setScale(renderer.getScale() * mZoomRate);
       } else {
-        if (mRenderer.isZoomXEnabled()) {
-          newWidth *= mZoomRate;
-        }
-        if (mRenderer.isZoomYEnabled()) {
-          newHeight *= mZoomRate;
-        }
-      }
-
-      if (mRenderer.isZoomXEnabled()) {
-        double newXMin = centerX - newWidth / 2;
-        double newXMax = centerX + newWidth / 2;
-        if (!limited || limits[0] <= newXMin && limits[1] >= newXMax) {
-          setXRange(newXMin, newXMax, i);
-        }
-      }
-      if (mRenderer.isZoomYEnabled()) {
-        double newYMin = centerY - newHeight / 2;
-        double newYMax = centerY + newHeight / 2;
-        if (!limited || limits[2] <= newYMin && limits[3] >= newYMax) {
-          setYRange(newYMin, newYMax, i);
-        }
+        renderer.setScale(renderer.getScale() / mZoomRate);
       }
     }
   }

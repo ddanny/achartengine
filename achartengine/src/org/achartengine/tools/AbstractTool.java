@@ -15,6 +15,7 @@
  */
 package org.achartengine.tools;
 
+import org.achartengine.chart.AbstractChart;
 import org.achartengine.chart.XYChart;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
@@ -23,17 +24,20 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
  */
 public abstract class AbstractTool {
   /** The chart. */
-  protected XYChart mChart;
+  protected AbstractChart mChart;
   /** The renderer. */
   protected XYMultipleSeriesRenderer mRenderer;
 
   /**
    * Abstract tool constructor.
+   * 
    * @param chart the chart
    */
-  public AbstractTool(XYChart chart) {
+  public AbstractTool(AbstractChart chart) {
     mChart = chart;
-    mRenderer = chart.getRenderer();
+    if (chart instanceof XYChart) {
+      mRenderer = ((XYChart) chart).getRenderer();
+    }
   }
 
   public double[] getRange(int scale) {
@@ -45,30 +49,32 @@ public abstract class AbstractTool {
   }
 
   public void checkRange(double[] range, int scale) {
-    double[] calcRange = mChart.getCalcRange(scale);
-    if (!mRenderer.isMinXSet(scale)) {
-      range[0] = calcRange[0];
-      mRenderer.setXAxisMin(range[0], scale);
-    }
-    if (!mRenderer.isMaxXSet(scale)) {
-      range[1] = calcRange[1];
-      mRenderer.setXAxisMax(range[1], scale);
-    }
-    if (!mRenderer.isMinYSet(scale)) {
-      range[2] = calcRange[2];
-      mRenderer.setYAxisMin(range[2], scale);
-    }
-    if (!mRenderer.isMaxYSet(scale)) {
-      range[3] = calcRange[3];
-      mRenderer.setYAxisMax(range[3], scale);
+    if (mChart instanceof XYChart) {
+      double[] calcRange = ((XYChart) mChart).getCalcRange(scale);
+      if (!mRenderer.isMinXSet(scale)) {
+        range[0] = calcRange[0];
+        mRenderer.setXAxisMin(range[0], scale);
+      }
+      if (!mRenderer.isMaxXSet(scale)) {
+        range[1] = calcRange[1];
+        mRenderer.setXAxisMax(range[1], scale);
+      }
+      if (!mRenderer.isMinYSet(scale)) {
+        range[2] = calcRange[2];
+        mRenderer.setYAxisMin(range[2], scale);
+      }
+      if (!mRenderer.isMaxYSet(scale)) {
+        range[3] = calcRange[3];
+        mRenderer.setYAxisMax(range[3], scale);
+      }
     }
   }
-  
+
   protected void setXRange(double min, double max, int scale) {
     mRenderer.setXAxisMin(min, scale);
     mRenderer.setXAxisMax(max, scale);
   }
-  
+
   protected void setYRange(double min, double max, int scale) {
     mRenderer.setYAxisMin(min, scale);
     mRenderer.setYAxisMax(max, scale);

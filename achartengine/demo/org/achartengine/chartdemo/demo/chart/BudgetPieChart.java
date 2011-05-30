@@ -54,6 +54,8 @@ public class BudgetPieChart extends AbstractDemoChart {
     double[] values = new double[] { 12, 14, 11, 10, 19 };
     int[] colors = new int[] { Color.BLUE, Color.GREEN, Color.MAGENTA, Color.YELLOW, Color.CYAN };
     DefaultRenderer renderer = buildCategoryRenderer(colors);
+    renderer.setZoomButtonsVisible(true);
+    renderer.setZoomEnabled(true);
     return ChartFactory.getPieChartIntent(context, buildCategoryDataset("Project budget", values),
         renderer, "Budget");
   }

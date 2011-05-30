@@ -73,6 +73,14 @@ public class DefaultRenderer implements Serializable {
   private int[] mMargins = new int[] { 20, 30, 10, 20 };
   /** A value to be used for scaling the chart. */
   private float mScale = 1;
+  /** A flag for enabling the zoom. */
+  private boolean mZoomEnabled = true;
+  /** A flag for enabling the visibility of the zoom buttons. */
+  private boolean mZoomButtonsVisible = false;
+  /** The zoom rate. */
+  private float mZoomRate = 1.5f;
+  /** The original chart scale. */
+  private float mOriginalScale = mScale;
 
   /**
    * Adds a simple renderer to the multiple renderer.
@@ -403,13 +411,88 @@ public class DefaultRenderer implements Serializable {
   }
 
   /**
+   * Returns the original value to be used for scaling the chart.
+   * 
+   * @return the original scale value
+   */
+  public float getOriginalScale() {
+    return mOriginalScale;
+  }
+
+  /**
    * Sets the value to be used for scaling the chart. It works on some charts
    * like pie, doughnut, dial.
    * 
    * @param scale the scale value
    */
   public void setScale(float scale) {
+    if (mOriginalScale == 1) {
+      mOriginalScale = scale;
+    }
     mScale = scale;
+  }
+
+  /**
+   * Returns the enabled state of the zoom.
+   * 
+   * @return if zoom is enabled
+   */
+  public boolean isZoomEnabled() {
+    return mZoomEnabled;
+  }
+
+  /**
+   * Sets the enabled state of the zoom.
+   * 
+   * @param enabled zoom enabled
+   */
+  public void setZoomEnabled(boolean enabled) {
+    mZoomEnabled = enabled;
+  }
+
+  /**
+   * Returns the visible state of the zoom buttons.
+   * 
+   * @return if zoom buttons are visible
+   */
+  public boolean isZoomButtonsVisible() {
+    return mZoomButtonsVisible;
+  }
+
+  /**
+   * Sets the visible state of the zoom buttons.
+   * 
+   * @param visible if the zoom buttons are visible
+   */
+  public void setZoomButtonsVisible(boolean visible) {
+    mZoomButtonsVisible = visible;
+  }
+
+  /**
+   * Returns the zoom rate.
+   * 
+   * @return the zoom rate
+   */
+  public float getZoomRate() {
+    return mZoomRate;
+  }
+
+  /**
+   * Returns the enabled state of the pan.
+   * 
+   * @return if pan is enabled
+   */
+  public boolean isPanEnabled() {
+    return false;
+  }
+
+  /**
+   * Sets the zoom rate.
+   * 
+   * @param rate the zoom rate
+   */
+  public void setZoomRate(float rate) {
+    mZoomRate = rate;
   }
 
   /**

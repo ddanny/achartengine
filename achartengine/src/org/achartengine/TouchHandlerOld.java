@@ -16,8 +16,9 @@
 package org.achartengine;
 
 import org.achartengine.chart.AbstractChart;
+import org.achartengine.chart.RoundChart;
 import org.achartengine.chart.XYChart;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.tools.Pan;
 
 import android.graphics.RectF;
@@ -28,7 +29,7 @@ import android.view.MotionEvent;
  */
 public class TouchHandlerOld implements ITouchHandler {
   /** The chart renderer. */
-  private XYMultipleSeriesRenderer mRenderer;
+  private DefaultRenderer mRenderer;
   /** The old x coordinate. */
   private float oldX;
   /** The old y coordinate. */
@@ -49,9 +50,13 @@ public class TouchHandlerOld implements ITouchHandler {
   public TouchHandlerOld(GraphicalView view, AbstractChart chart) {
     graphicalView = view;
     zoomR = graphicalView.getZoomRectangle();
-    mRenderer = ((XYChart) chart).getRenderer();
-    if (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled()) {
-      pan = new Pan((XYChart) chart);
+    if (chart instanceof XYChart) {
+      mRenderer = ((XYChart) chart).getRenderer();
+      if (mRenderer.isPanEnabled()) {
+        pan = new Pan((XYChart) chart);
+      }
+    } else {
+      mRenderer = ((RoundChart) chart).getRenderer();
     }
   }
 
@@ -61,7 +66,7 @@ public class TouchHandlerOld implements ITouchHandler {
       if (oldX >= 0 || oldY >= 0) {
         float newX = event.getX();
         float newY = event.getY();
-        if (mRenderer.isPanXEnabled() || mRenderer.isPanYEnabled()) {
+        if (mRenderer.isPanEnabled()) {
           pan.apply(oldX, oldY, newX, newY);
         }
         oldX = newX;
@@ -71,8 +76,7 @@ public class TouchHandlerOld implements ITouchHandler {
     } else if (action == MotionEvent.ACTION_DOWN) {
       oldX = event.getX();
       oldY = event.getY();
-      if (mRenderer != null && (mRenderer.isZoomXEnabled() || mRenderer.isZoomYEnabled())
-          && zoomR.contains(oldX, oldY)) {
+      if (mRenderer != null && mRenderer.isZoomEnabled() && zoomR.contains(oldX, oldY)) {
         if (oldX < zoomR.left + zoomR.width() / 3) {
           graphicalView.zoomIn();
         } else if (oldX < zoomR.left + zoomR.width() * 2 / 3) {

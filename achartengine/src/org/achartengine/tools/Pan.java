@@ -43,17 +43,18 @@ public class Pan extends AbstractTool {
     int scales = mRenderer.getScalesCount();
     double[] limits = mRenderer.getPanLimits();
     boolean limited = limits != null && limits.length == 4;
+    XYChart chart = (XYChart) mChart;
     for (int i = 0; i < scales; i++) {
       double[] range = getRange(i);
-      double[] calcRange = mChart.getCalcRange(i);
+      double[] calcRange = chart.getCalcRange(i);
       if (range[0] == range[1] && calcRange[0] == calcRange[1] || range[2] == range[3]
           && calcRange[2] == calcRange[3]) {
         return;
       }
       checkRange(range, i);
 
-      double[] realPoint = mChart.toRealPoint(oldX, oldY);
-      double[] realPoint2 = mChart.toRealPoint(newX, newY);
+      double[] realPoint = chart.toRealPoint(oldX, oldY);
+      double[] realPoint2 = chart.toRealPoint(newX, newY);
       double deltaX = realPoint[0] - realPoint2[0];
       double deltaY = realPoint[1] - realPoint2[1];
       if (mRenderer.isPanXEnabled()) {
