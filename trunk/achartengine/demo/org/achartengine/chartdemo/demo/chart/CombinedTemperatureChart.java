@@ -133,7 +133,9 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     dataset.addSeries(0, waterSeries);
     renderer.addSeriesRenderer(0, lightRenderer);
     renderer.addSeriesRenderer(0, waterRenderer);
-
+    waterRenderer.setDisplayChartValues(true);
+    waterRenderer.setChartValuesTextSize(10);
+    
     String[] types = new String[] { BarChart.TYPE, BubbleChart.TYPE, LineChart.TYPE,
         LineChart.TYPE };
     Intent intent = ChartFactory.getCombinedXYChartIntent(context, dataset, renderer, types,

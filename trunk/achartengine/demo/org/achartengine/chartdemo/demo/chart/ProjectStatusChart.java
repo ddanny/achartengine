@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.PointStyle;
+import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import android.content.Context;
@@ -85,7 +86,11 @@ public class ProjectStatusChart extends AbstractDemoChart {
         dates.get(0)[11].getTime(), 50, 190, Color.GRAY, Color.LTGRAY);
     renderer.setXLabels(5);
     renderer.setYLabels(10);
-    renderer.setDisplayChartValues(true);
+    length = renderer.getSeriesRendererCount();
+    for (int i = 0; i < length; i++) {
+      SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
+      seriesRenderer.setDisplayChartValues(true);
+    }
     return ChartFactory.getTimeChartIntent(context, buildDateDataset(titles, dates, values),
         renderer, "MM/dd/yyyy");
   }

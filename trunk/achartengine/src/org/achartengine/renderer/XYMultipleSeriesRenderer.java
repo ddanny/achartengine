@@ -56,10 +56,6 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private Map<Double, String> mXTextLabels = new HashMap<Double, String>();
   /** The Y axis text labels. */
   private Map<Integer, Map<Double, String>> mYTextLabels = new LinkedHashMap<Integer, Map<Double, String>>();
-  /** If the values should be displayed above the chart points. */
-  private boolean mDisplayChartValues;
-  /** The chart values text size. */
-  private float mChartValuesTextSize = 10;
   /** A flag for enabling or not the pan on the X axis. */
   private boolean mPanXEnabled = true;
   /** A flag for enabling or not the pan on the Y axis. */
@@ -664,39 +660,29 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-   * Returns if the chart point values should be displayed as text.
-   * 
-   * @return if the chart point values should be displayed as text
-   */
-  public boolean isDisplayChartValues() {
-    return mDisplayChartValues;
-  }
-
-  /**
    * Sets if the chart point values should be displayed as text.
    * 
    * @param display if the chart point values should be displayed as text
+   * @deprecated use SimpleSeriesRenderer.setDisplayChartValues() instead
    */
   public void setDisplayChartValues(boolean display) {
-    mDisplayChartValues = display;
-  }
-
-  /**
-   * Returns the chart values text size.
-   * 
-   * @return the chart values text size
-   */
-  public float getChartValuesTextSize() {
-    return mChartValuesTextSize;
+    SimpleSeriesRenderer[] renderers = getSeriesRenderers();
+    for (SimpleSeriesRenderer renderer : renderers) {
+      renderer.setDisplayChartValues(display);
+    }
   }
 
   /**
    * Sets the chart values text size.
    * 
    * @param textSize the chart values text size
+   * @deprecated use SimpleSeriesRenderer.setChartValuesTextSize() instead
    */
   public void setChartValuesTextSize(float textSize) {
-    mChartValuesTextSize = textSize;
+    SimpleSeriesRenderer[] renderers = getSeriesRenderers();
+    for (SimpleSeriesRenderer renderer : renderers) {
+      renderer.setChartValuesTextSize(textSize);
+    }
   }
 
   /**
