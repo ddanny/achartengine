@@ -34,12 +34,12 @@ public class TimeChart extends LineChart {
   public static final String TYPE = "Time";
   /** The number of milliseconds in a day. */
   public static final long DAY = 24 * 60 * 60 * 1000;
-  /** The date format pattern to be used in formatting the X axis  labels. */
+  /** The date format pattern to be used in formatting the X axis labels. */
   private String mDateFormat;
 
   TimeChart() {
   }
-  
+
   /**
    * Builds a new time chart instance.
    * 
@@ -51,24 +51,28 @@ public class TimeChart extends LineChart {
   }
 
   /**
-   * Returns the date format pattern to be used for formatting the X axis labels.
+   * Returns the date format pattern to be used for formatting the X axis
+   * labels.
+   * 
    * @return the date format pattern for the X axis labels
    */
   public String getDateFormat() {
     return mDateFormat;
   }
-  
+
   /**
    * Sets the date format pattern to be used for formatting the X axis labels.
-   * @param format the date format pattern for the X axis labels.
-   * If null, an appropriate default format will be used.
+   * 
+   * @param format the date format pattern for the X axis labels. If null, an
+   *          appropriate default format will be used.
    */
   public void setDateFormat(String format) {
     mDateFormat = format;
   }
-  
+
   /**
    * The graphical representation of the labels on the X axis.
+   * 
    * @param xLabels the X labels values
    * @param xTextLabelLocations the X text label locations
    * @param canvas the canvas to paint to
@@ -80,29 +84,34 @@ public class TimeChart extends LineChart {
    * @param minX the minimum value on the X axis in the chart
    */
   @Override
-  protected void drawXLabels(List<Double> xLabels, Double[] xTextLabelLocations, Canvas canvas, Paint paint, int left,
-      int top, int bottom, double xPixelsPerUnit, double minX) {
+  protected void drawXLabels(List<Double> xLabels, Double[] xTextLabelLocations, Canvas canvas,
+      Paint paint, int left, int top, int bottom, double xPixelsPerUnit, double minX) {
     int length = xLabels.size();
-    boolean showLabels = mRenderer.isShowLabels();
-    boolean showGrid = mRenderer.isShowGrid();
-    DateFormat format = getDateFormat(xLabels.get(0), xLabels.get(length - 1));
-    for (int i = 0; i < length; i++) {
-      long label = Math.round(xLabels.get(i));
-      float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
-      if (showLabels) {
-        paint.setColor(mRenderer.getLabelsColor());
-        canvas.drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
-        drawText(canvas, format.format(new Date(label)), xLabel, bottom + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
-      }
-      if (showGrid) {
-        paint.setColor(mRenderer.getGridColor());
-        canvas.drawLine(xLabel, bottom, xLabel, top, paint);
+    if (length > 0) {
+      boolean showLabels = mRenderer.isShowLabels();
+      boolean showGrid = mRenderer.isShowGrid();
+      DateFormat format = getDateFormat(xLabels.get(0), xLabels.get(length - 1));
+      for (int i = 0; i < length; i++) {
+        long label = Math.round(xLabels.get(i));
+        float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
+        if (showLabels) {
+          paint.setColor(mRenderer.getLabelsColor());
+          canvas
+              .drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
+          drawText(canvas, format.format(new Date(label)), xLabel, bottom
+              + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
+        }
+        if (showGrid) {
+          paint.setColor(mRenderer.getGridColor());
+          canvas.drawLine(xLabel, bottom, xLabel, top, paint);
+        }
       }
     }
   }
 
   /**
    * Returns the date format pattern to be used, based on the date range.
+   * 
    * @param start the start date in milliseconds
    * @param end the end date in milliseconds
    * @return the date format
@@ -126,9 +135,10 @@ public class TimeChart extends LineChart {
     }
     return format;
   }
-  
+
   /**
    * Returns the chart type identifier.
+   * 
    * @return the chart type
    */
   public String getChartType() {
