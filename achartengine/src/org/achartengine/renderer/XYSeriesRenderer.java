@@ -124,4 +124,5 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   public void setLineWidth(float lineWidth) {
     mLineWidth = lineWidth;
   }
+  
 }

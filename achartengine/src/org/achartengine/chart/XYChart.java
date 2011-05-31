@@ -430,13 +430,13 @@ public abstract class XYChart extends AbstractChart {
         pointsChart.drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex);
       }
     }
-    paint.setTextSize(mRenderer.getChartValuesTextSize());
+    paint.setTextSize(seriesRenderer.getChartValuesTextSize());
     if (or == Orientation.HORIZONTAL) {
       paint.setTextAlign(Align.CENTER);
     } else {
       paint.setTextAlign(Align.LEFT);
     }
-    if (mRenderer.isDisplayChartValues()) {
+    if (seriesRenderer.isDisplayChartValues()) {
       drawChartValuesText(canvas, series, paint, points, seriesIndex);
     }
   }

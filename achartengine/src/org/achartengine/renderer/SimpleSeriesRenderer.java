@@ -25,6 +25,10 @@ import android.graphics.Color;
 public class SimpleSeriesRenderer implements Serializable {
   /** The series color. */
   private int mColor = Color.BLUE;
+  /** If the values should be displayed above the chart points. */
+  private boolean mDisplayChartValues;
+  /** The chart values text size. */
+  private float mChartValuesTextSize = 10;
 
   /**
    * Returns the series color.
@@ -43,4 +47,41 @@ public class SimpleSeriesRenderer implements Serializable {
   public void setColor(int color) {
     mColor = color;
   }
+  
+  /**
+   * Returns if the chart point values should be displayed as text.
+   * 
+   * @return if the chart point values should be displayed as text
+   */
+  public boolean isDisplayChartValues() {
+    return mDisplayChartValues;
+  }
+
+  /**
+   * Sets if the chart point values should be displayed as text.
+   * 
+   * @param display if the chart point values should be displayed as text
+   */
+  public void setDisplayChartValues(boolean display) {
+    mDisplayChartValues = display;
+  }
+
+  /**
+   * Returns the chart values text size.
+   * 
+   * @return the chart values text size
+   */
+  public float getChartValuesTextSize() {
+    return mChartValuesTextSize;
+  }
+
+  /**
+   * Sets the chart values text size.
+   * 
+   * @param textSize the chart values text size
+   */
+  public void setChartValuesTextSize(float textSize) {
+    mChartValuesTextSize = textSize;
+  }
+
 }

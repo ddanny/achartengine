@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.BarChart.Type;
+import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
@@ -76,7 +77,11 @@ public class SalesBarChart extends AbstractDemoChart {
     renderer.addXTextLabel(7, "Jul");
     renderer.addXTextLabel(10, "Oct");
     renderer.addXTextLabel(12, "Dec");
-    renderer.setDisplayChartValues(true);
+    int length = renderer.getSeriesRendererCount();
+    for (int i = 0; i < length; i++) {
+      SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
+      seriesRenderer.setDisplayChartValues(true);
+    }
     return ChartFactory.getBarChartIntent(context, buildBarDataset(titles, values), renderer,
         Type.DEFAULT);
   }
