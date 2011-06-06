@@ -532,5 +532,5 @@ public class DefaultRenderer implements Serializable {
   public void setMargins(int[] margins) {
     mMargins = margins;
   }
-  
+
 }
