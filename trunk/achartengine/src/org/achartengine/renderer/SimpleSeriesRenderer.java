@@ -49,7 +49,7 @@ public class SimpleSeriesRenderer implements Serializable {
   public void setColor(int color) {
     mColor = color;
   }
-  
+
   /**
    * Returns if the chart point values should be displayed as text.
    * 
@@ -88,14 +88,16 @@ public class SimpleSeriesRenderer implements Serializable {
 
   /**
    * Returns the stroke style.
+   * 
    * @return the stroke style
    */
   public BasicStroke getStroke() {
     return mStroke;
   }
-  
+
   /**
    * Sets the stroke style.
+   * 
    * @param stroke the stroke style
    */
   public void setStroke(BasicStroke stroke) {

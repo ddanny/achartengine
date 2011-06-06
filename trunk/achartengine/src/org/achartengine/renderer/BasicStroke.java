@@ -30,8 +30,8 @@ public class BasicStroke implements Serializable {
   public static final BasicStroke DASHED = new BasicStroke(Cap.ROUND, Join.BEVEL, 10, new float[] {
       10, 10 }, 1);
   /** The dot line style. */
-  public static final BasicStroke DOTTED = new BasicStroke(Cap.ROUND, Join.BEVEL, 5, new float[] { 2,
-      10 }, 1);
+  public static final BasicStroke DOTTED = new BasicStroke(Cap.ROUND, Join.BEVEL, 5, new float[] {
+      2, 10 }, 1);
   /** The stroke cap. */
   private Cap mCap;
   /** The stroke join. */
