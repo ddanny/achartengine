@@ -49,7 +49,12 @@ public class LineChart extends XYChart {
     pointsChart = new ScatterChart(dataset, renderer);
   }
 
-  // TODO: javadoc
+  /**
+   * Sets the series and the renderer.
+   * 
+   * @param dataset the series dataset
+   * @param renderer the series renderer
+   */
   protected void setDatasetRenderer(XYMultipleSeriesDataset dataset,
       XYMultipleSeriesRenderer renderer) {
     super.setDatasetRenderer(dataset, renderer);
