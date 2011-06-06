@@ -29,6 +29,8 @@ public class SimpleSeriesRenderer implements Serializable {
   private boolean mDisplayChartValues;
   /** The chart values text size. */
   private float mChartValuesTextSize = 10;
+  /** The stroke style. */
+  private BasicStroke mStroke;
 
   /**
    * Returns the series color.
@@ -82,6 +84,22 @@ public class SimpleSeriesRenderer implements Serializable {
    */
   public void setChartValuesTextSize(float textSize) {
     mChartValuesTextSize = textSize;
+  }
+
+  /**
+   * Returns the stroke style.
+   * @return the stroke style
+   */
+  public BasicStroke getStroke() {
+    return mStroke;
+  }
+  
+  /**
+   * Sets the stroke style.
+   * @param stroke the stroke style
+   */
+  public void setStroke(BasicStroke stroke) {
+    mStroke = stroke;
   }
 
 }
