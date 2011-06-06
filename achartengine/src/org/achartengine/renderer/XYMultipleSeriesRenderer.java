@@ -232,6 +232,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns the title for the Y axis.
    * 
+   * @param scale the renderer scale
    * @return the Y axis title
    */
   public String getYTitle(int scale) {
@@ -251,6 +252,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * Sets the title for the Y axis.
    * 
    * @param title the Y axis title
+   * @param scale the renderer scale
    */
   public void setYTitle(String title, int scale) {
     mYTitle[scale] = title;
@@ -385,6 +387,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns the start value of the X axis range.
    * 
+   * @param scale the renderer scale
    * @return the X axis range start value
    */
   public double getXAxisMin(int scale) {
@@ -395,6 +398,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * Sets the start value of the X axis range.
    * 
    * @param min the X axis range start value
+   * @param scale the renderer scale
    */
   public void setXAxisMin(double min, int scale) {
     if (!isMinXSet(scale)) {
@@ -406,6 +410,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns if the minimum X value was set.
    * 
+   * @param scale the renderer scale
    * @return the minX was set or not
    */
   public boolean isMinXSet(int scale) {
@@ -415,6 +420,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns the end value of the X axis range.
    * 
+   * @param scale the renderer scale
    * @return the X axis range end value
    */
   public double getXAxisMax(int scale) {
@@ -425,6 +431,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * Sets the end value of the X axis range.
    * 
    * @param max the X axis range end value
+   * @param scale the renderer scale
    */
   public void setXAxisMax(double max, int scale) {
     if (!isMaxXSet(scale)) {
@@ -436,6 +443,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns if the maximum X value was set.
    * 
+   * @param scale the renderer scale
    * @return the maxX was set or not
    */
   public boolean isMaxXSet(int scale) {
@@ -445,6 +453,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns the start value of the Y axis range.
    * 
+   * @param scale the renderer scale
    * @return the Y axis range end value
    */
   public double getYAxisMin(int scale) {
@@ -455,6 +464,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * Sets the start value of the Y axis range.
    * 
    * @param min the Y axis range start value
+   * @param scale the renderer scale
    */
   public void setYAxisMin(double min, int scale) {
     if (!isMinYSet(scale)) {
@@ -466,6 +476,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns if the minimum Y value was set.
    * 
+   * @param scale the renderer scale
    * @return the minY was set or not
    */
   public boolean isMinYSet(int scale) {
@@ -475,6 +486,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns the end value of the Y axis range.
    * 
+   * @param scale the renderer scale
    * @return the Y axis range end value
    */
   public double getYAxisMax(int scale) {
@@ -485,6 +497,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * Sets the end value of the Y axis range.
    * 
    * @param max the Y axis range end value
+   * @param scale the renderer scale
    */
   public void setYAxisMax(double max, int scale) {
     if (!isMaxYSet(scale)) {
@@ -496,6 +509,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns if the maximum Y value was set.
    * 
+   * @param scale the renderer scale
    * @return the maxY was set or not
    */
   public boolean isMaxYSet(int scale) {
@@ -591,6 +605,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * 
    * @param y the Y axis value
    * @param text the text label
+   * @param scale the renderer scale
    */
   public void addYTextLabel(double y, String text, int scale) {
     mYTextLabels.get(scale).put(y, text);
@@ -610,6 +625,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * Returns the Y axis text label at the specified Y axis value.
    * 
    * @param y the Y axis value
+   * @param scale the renderer scale
    * @return the Y axis text label
    */
   public String getYTextLabel(Double y, int scale) {
@@ -628,6 +644,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns the Y text label locations.
    * 
+   * @param scale the renderer scale
    * @return the Y text label locations
    */
   public Double[] getYTextLabelLocations(int scale) {
@@ -930,6 +947,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * 
    * @param range an array having the values in this order: minX, maxX, minY,
    *          maxY
+   * @param scale the renderer scale
    */
   public void setRange(double[] range, int scale) {
     setXAxisMin(range[0], scale);
@@ -945,6 +963,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns if the initial range is set.
    * 
+   * @param scale the renderer scale
    * @return the initial range was set or not
    */
   public boolean isInitialRangeSet(int scale) {
@@ -963,6 +982,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns the initial range.
    * 
+   * @param scale the renderer scale
    * @return the initial range
    */
   public double[] getInitialRange(int scale) {
@@ -984,6 +1004,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * 
    * @param range an array having the values in this order: minX, maxX, minY,
    *          maxY
+   * @param scale the renderer scale
    */
   public void setInitialRange(double[] range, int scale) {
     initialRange.put(scale, range);
@@ -1010,6 +1031,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Returns the Y axis labels alignment.
    * 
+   * @param scale the renderer scale
    * @return Y labels alignment
    */
   public Align getYLabelsAlign(int scale) {
