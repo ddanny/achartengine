@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A series for the category charts like the bar and pie ones.
+ * A series for the category charts like the pie ones.
  */
 public class CategorySeries implements Serializable {
   /** The series title. */
