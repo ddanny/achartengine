@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.BasicStroke;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -29,11 +30,16 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 import org.achartengine.util.MathHelper;
 
 import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.Paint.Align;
+import android.graphics.Paint.Cap;
+import android.graphics.Paint.Join;
+import android.graphics.Paint.Style;
 
 /**
  * The XY chart rendering class.
@@ -422,6 +428,19 @@ public abstract class XYChart extends AbstractChart {
 
   protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or) {
+    BasicStroke stroke = seriesRenderer.getStroke();
+    Cap cap = paint.getStrokeCap();
+    Join join = paint.getStrokeJoin();
+    float miter = paint.getStrokeMiter();
+    PathEffect pathEffect = paint.getPathEffect();
+    Style style = paint.getStyle();
+    if (stroke != null) {
+      PathEffect effect = null;
+      if (stroke.getIntervals() != null) {
+        effect = new DashPathEffect(stroke.getIntervals(), stroke.getPhase());
+      }
+      setStroke(stroke.getCap(), stroke.getJoin(), stroke.getMiter(), Style.FILL_AND_STROKE, effect, paint);
+    }
     float[] points = MathHelper.getFloats(pointsList);
     drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex);
     if (isRenderPoints(seriesRenderer)) {
@@ -439,8 +458,19 @@ public abstract class XYChart extends AbstractChart {
     if (seriesRenderer.isDisplayChartValues()) {
       drawChartValuesText(canvas, series, paint, points, seriesIndex);
     }
+    if (stroke != null) {
+      setStroke(cap, join, miter, style, pathEffect, paint);
+    }
   }
-
+  
+  private void setStroke(Cap cap, Join join, float miter, Style style, PathEffect pathEffect, Paint paint) {
+    paint.setStrokeCap(cap);
+    paint.setStrokeJoin(join);
+    paint.setStrokeMiter(miter);
+    paint.setPathEffect(pathEffect);
+    paint.setStyle(style);
+  }
+  
   /**
    * The graphical representation of the series values as text.
    * 
