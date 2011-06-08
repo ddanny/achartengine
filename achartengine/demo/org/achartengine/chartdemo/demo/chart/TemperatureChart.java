@@ -19,6 +19,7 @@ import org.achartengine.ChartFactory;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.RangeCategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import android.content.Context;
@@ -66,7 +67,6 @@ public class TemperatureChart extends AbstractDemoChart {
       series.add(minValues[k], maxValues[k]);
     }
     dataset.addSeries(series.toXYSeries());
-
     int[] colors = new int[] { Color.CYAN };
     XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
     setChartSettings(renderer, "Monthly temperature range", "Month", "Celsius degrees", 0.5, 12.5,
@@ -88,8 +88,12 @@ public class TemperatureChart extends AbstractDemoChart {
     renderer.addYTextLabel(25, "Warm");
     renderer.setMargins(new int[] {30, 70, 10, 0});
     renderer.setYLabelsAlign(Align.RIGHT);
-    renderer.setDisplayChartValues(true);
-    renderer.setChartValuesTextSize(12);
+    SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
+    r.setDisplayChartValues(true);
+    r.setChartValuesTextSize(12);
+    r.setGradientEnabled(true);
+    r.setGradientStart(-20, Color.BLUE);
+    r.setGradientStop(20, Color.GREEN);
     return ChartFactory.getRangeBarChartIntent(context, dataset, renderer, Type.DEFAULT,
         "Temperature range");
   }

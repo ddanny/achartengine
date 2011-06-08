@@ -31,7 +31,17 @@ public class SimpleSeriesRenderer implements Serializable {
   private float mChartValuesTextSize = 10;
   /** The stroke style. */
   private BasicStroke mStroke;
-
+  /** If gradient is enabled. */
+  private boolean mGradientEnabled = false;
+  /** The gradient start value. */
+  private double mGradientStartValue; 
+  /** The gradient start color. */
+  private int mGradientStartColor;
+  /** The gradient stop value. */
+  private double mGradientStopValue; 
+  /** The gradient stop color. */
+  private int mGradientStopColor;
+  
   /**
    * Returns the series color.
    * 
@@ -102,6 +112,74 @@ public class SimpleSeriesRenderer implements Serializable {
    */
   public void setStroke(BasicStroke stroke) {
     mStroke = stroke;
+  }
+  
+  /**
+   * Returns the gradient is enabled value.
+   * @return the gradient enabled
+   */
+  public boolean isGradientEnabled() {
+    return mGradientEnabled;
+  }
+  
+  /**
+   * Sets the gradient enabled value.
+   * @param enabled the gradient enabled
+   */
+  public void setGradientEnabled(boolean enabled) {
+    mGradientEnabled = enabled;
+  }
+
+  /**
+   * Returns the gradient start value.
+   * @return the gradient start value
+   */
+  public double getGradientStartValue() {
+    return mGradientStartValue;
+  }
+  
+  /**
+   * Returns the gradient start color.
+   * @return the gradient start color
+   */
+  public int getGradientStartColor() {
+    return mGradientStartColor;
+  }
+  
+  /**
+   * Sets the gradient start value and color.
+   * @param start the gradient start value
+   * @param color the gradient start color
+   */
+  public void setGradientStart(double start, int color) {
+    mGradientStartValue = start;
+    mGradientStartColor = color;
+  }
+
+  /**
+   * Returns the gradient stop value.
+   * @return the gradient stop value
+   */
+  public double getGradientStopValue() {
+    return mGradientStopValue;
+  }
+  
+  /**
+   * Returns the gradient stop color.
+   * @return the gradient stop color
+   */
+  public int getGradientStopColor() {
+    return mGradientStopColor;
+  }
+  
+  /**
+   * Sets the gradient stop value and color.
+   * @param start the gradient stop value
+   * @param color the gradient stop color
+   */
+  public void setGradientStop(double start, int color) {
+    mGradientStopValue = start;
+    mGradientStopColor = color;
   }
 
 }

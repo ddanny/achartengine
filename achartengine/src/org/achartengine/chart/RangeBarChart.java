@@ -68,13 +68,9 @@ public class RangeBarChart extends BarChart {
       // xMin = xMax
       float xMax = points[i + 2];
       float yMax = points[i + 3];
-      if (mType == Type.STACKED) {
-        canvas.drawRect(xMin - halfDiffX, yMax, xMax + halfDiffX, yMin, paint);
-      } else {
-        float startX = xMin - seriesNr * halfDiffX + seriesIndex * 2 * halfDiffX;
-        canvas.drawRect(startX, yMax, startX + 2 * halfDiffX, yMin, paint);
-      }
+      drawBar(canvas, xMin, yMin, xMax, yMax, halfDiffX, seriesNr, seriesIndex, paint);
     }
+    paint.setColor(seriesRenderer.getColor());
   }
 
   /**

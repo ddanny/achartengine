@@ -56,9 +56,9 @@ public abstract class XYChart extends AbstractChart {
   /** The canvas center point. */
   private PointF mCenter;
   /** The visible chart area, in screen coordinates. */
-  private Rect screenR;
+  private Rect mScreenR;
   /** The calculated range. */
-  private Map<Integer, double[]> calcRange = new HashMap<Integer, double[]>();
+  private Map<Integer, double[]> mCalcRange = new HashMap<Integer, double[]>();
 
   protected XYChart() {
   }
@@ -113,10 +113,10 @@ public abstract class XYChart extends AbstractChart {
           paint, true);
     }
     int bottom = y + height - margins[2] - legendSize;
-    if (screenR == null) {
-      screenR = new Rect();
+    if (mScreenR == null) {
+      mScreenR = new Rect();
     }
-    screenR.set(left, top, right, bottom);
+    mScreenR.set(left, top, right, bottom);
     drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
 
     if (paint.getTypeface() == null
@@ -168,8 +168,8 @@ public abstract class XYChart extends AbstractChart {
       isMaxXSet[i] = mRenderer.isMaxXSet(i);
       isMinYSet[i] = mRenderer.isMinYSet(i);
       isMaxYSet[i] = mRenderer.isMaxYSet(i);
-      if (calcRange.get(i) == null) {
-        calcRange.put(i, new double[4]);
+      if (mCalcRange.get(i) == null) {
+        mCalcRange.put(i, new double[4]);
       }
     }
     double[] xPixelsPerUnit = new double[maxScaleNumber];
@@ -183,22 +183,22 @@ public abstract class XYChart extends AbstractChart {
       if (!isMinXSet[scale]) {
         double minimumX = series.getMinX();
         minX[scale] = Math.min(minX[scale], minimumX);
-        calcRange.get(scale)[0] = minX[scale];
+        mCalcRange.get(scale)[0] = minX[scale];
       }
       if (!isMaxXSet[scale]) {
         double maximumX = series.getMaxX();
         maxX[scale] = Math.max(maxX[scale], maximumX);
-        calcRange.get(scale)[1] = maxX[scale];
+        mCalcRange.get(scale)[1] = maxX[scale];
       }
       if (!isMinYSet[scale]) {
         double minimumY = series.getMinY();
         minY[scale] = Math.min(minY[scale], (float) minimumY);
-        calcRange.get(scale)[2] = minY[scale];
+        mCalcRange.get(scale)[2] = minY[scale];
       }
       if (!isMaxYSet[scale]) {
         double maximumY = series.getMaxY();
         maxY[scale] = Math.max(maxY[scale], (float) maximumY);
-        calcRange.get(scale)[3] = maxY[scale];
+        mCalcRange.get(scale)[3] = maxY[scale];
       }
     }
     for (int i = 0; i < maxScaleNumber; i++) {
@@ -415,7 +415,15 @@ public abstract class XYChart extends AbstractChart {
       transform(canvas, angle, true);
     }
   }
-
+  
+  protected Rect getScreenR() {
+    return mScreenR;
+  }
+  
+  protected void setScreenR(Rect screenR) {
+    mScreenR = screenR;
+  }
+  
   private List<Double> getValidLabels(List<Double> labels) {
     List<Double> result = new ArrayList<Double>(labels);
     for (Double label : labels) {
@@ -596,7 +604,7 @@ public abstract class XYChart extends AbstractChart {
       }
     }
   }
-
+  
   // TODO: docs
   public XYMultipleSeriesRenderer getRenderer() {
     return mRenderer;
@@ -607,7 +615,11 @@ public abstract class XYChart extends AbstractChart {
   }
 
   public double[] getCalcRange(int scale) {
-    return calcRange.get(scale);
+    return mCalcRange.get(scale);
+  }
+  
+  public void setCalcRange(double[] range, int scale) {
+    mCalcRange.put(scale, range);
   }
 
   public double[] toRealPoint(float screenX, float screenY) {
@@ -639,8 +651,8 @@ public abstract class XYChart extends AbstractChart {
     double realMinY = mRenderer.getYAxisMin(scale);
     double realMaxY = mRenderer.getYAxisMax(scale);
     return new double[] {
-        (screenX - screenR.left) * (realMaxX - realMinX) / screenR.width() + realMinX,
-        (screenR.top + screenR.height() - screenY) * (realMaxY - realMinY) / screenR.height()
+        (screenX - mScreenR.left) * (realMaxX - realMinX) / mScreenR.width() + realMinX,
+        (mScreenR.top + mScreenR.height() - screenY) * (realMaxY - realMinY) / mScreenR.height()
             + realMinY };
   }
 
@@ -649,9 +661,16 @@ public abstract class XYChart extends AbstractChart {
     double realMaxX = mRenderer.getXAxisMax(scale);
     double realMinY = mRenderer.getYAxisMin(scale);
     double realMaxY = mRenderer.getYAxisMax(scale);
+    if (!mRenderer.isMinXSet(scale) || !mRenderer.isMaxXSet(scale) || !mRenderer.isMinXSet(scale) || !mRenderer.isMaxYSet(scale)) {
+      double[] calcRange = getCalcRange(scale);
+      realMinX = calcRange[0];
+      realMaxX = calcRange[1];
+      realMinY = calcRange[2];
+      realMaxY = calcRange[3];
+    }
     return new double[] {
-        (realPoint[0] - realMinX) * screenR.width() / (realMaxX - realMinX) + screenR.left,
-        (realMaxY - realPoint[1]) * screenR.height() / (realMaxY - realMinY) + screenR.top };
+        (realPoint[0] - realMinX) * mScreenR.width() / (realMaxX - realMinX) + mScreenR.left,
+        (realMaxY - realPoint[1]) * mScreenR.height() / (realMaxY - realMinY) + mScreenR.top };
   }
 
   /**
