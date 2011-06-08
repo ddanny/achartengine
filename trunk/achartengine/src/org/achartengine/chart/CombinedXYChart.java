@@ -63,6 +63,19 @@ public class CombinedXYChart extends XYChart {
         // TODO: copy other parameters here
         newRenderer.setBarSpacing(renderer.getBarSpacing());
         newRenderer.setPointSize(renderer.getPointSize());
+        int scale = dataset.getSeriesAt(i).getScaleNumber();
+        if (renderer.isMinXSet(scale)) {
+          newRenderer.setXAxisMin(renderer.getXAxisMin(scale));
+        }
+        if (renderer.isMaxXSet(scale)) {
+          newRenderer.setXAxisMax(renderer.getXAxisMax(scale));
+        }
+        if (renderer.isMinYSet(scale)) {
+          newRenderer.setYAxisMin(renderer.getYAxisMin(scale));
+        }
+        if (renderer.isMaxYSet(scale)) {
+          newRenderer.setYAxisMax(renderer.getYAxisMax(scale));
+        }
         newRenderer.addSeriesRenderer(renderer.getSeriesRendererAt(i));
         mCharts[i].setDatasetRenderer(newDataset, newRenderer);
       }
@@ -93,12 +106,16 @@ public class CombinedXYChart extends XYChart {
    */
   public void drawSeries(Canvas canvas, Paint paint, float[] points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex) {
+    mCharts[seriesIndex].setScreenR(getScreenR());
+    mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex).getScaleNumber()), 0);
     mCharts[seriesIndex].drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, 0);
   }
 
   @Override
   protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or) {
+    mCharts[seriesIndex].setScreenR(getScreenR());
+    mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex).getScaleNumber()), 0);
     mCharts[seriesIndex].drawSeries(series, canvas, paint, pointsList, seriesRenderer, yAxisValue,
         0, or);
   }
