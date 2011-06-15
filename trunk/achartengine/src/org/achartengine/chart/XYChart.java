@@ -464,7 +464,8 @@ public abstract class XYChart extends AbstractChart {
       paint.setTextAlign(Align.LEFT);
     }
     if (seriesRenderer.isDisplayChartValues()) {
-      drawChartValuesText(canvas, series, paint, points, seriesIndex);
+      paint.setTextAlign(seriesRenderer.getChartValuesTextAlign());
+      drawChartValuesText(canvas, series, seriesRenderer, paint, points, seriesIndex);
     }
     if (stroke != null) {
       setStroke(cap, join, miter, style, pathEffect, paint);
@@ -484,14 +485,15 @@ public abstract class XYChart extends AbstractChart {
    * 
    * @param canvas the canvas to paint to
    * @param series the series to be painted
+   * @param renderer the series renderer
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
    * @param seriesIndex the index of the series currently being drawn
    */
-  protected void drawChartValuesText(Canvas canvas, XYSeries series, Paint paint, float[] points,
+  protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer, Paint paint, float[] points,
       int seriesIndex) {
     for (int k = 0; k < points.length; k += 2) {
-      drawText(canvas, getLabel(series.getY(k / 2)), points[k], points[k + 1] - 3.5f, paint, 0);
+      drawText(canvas, getLabel(series.getY(k / 2)), points[k], points[k + 1] - renderer.getChartValuesSpacing(), paint, 0);
     }
   }
 

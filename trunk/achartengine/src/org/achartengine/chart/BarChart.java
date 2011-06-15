@@ -105,20 +105,20 @@ public class BarChart extends XYChart {
       float gradientMaxY = Math.min(maxY, yMax);
       int gradientMinColor = renderer.getGradientStopColor();
       int gradientMaxColor = renderer.getGradientStartColor();
-      int gradientStartColor = gradientMinColor;
-      int gradientStopColor = gradientMaxColor;
+      int gradientStartColor = gradientMaxColor;
+      int gradientStopColor = gradientMinColor;
 
       if (yMin < minY) {
-        paint.setColor(gradientMaxColor);
+        paint.setColor(gradientMinColor);
         canvas.drawRect(Math.round(xMin), Math.round(yMin), Math.round(xMax), Math.round(gradientMinY), paint);
       } else {
-        gradientStopColor = getGradientPartialColor(gradientMaxColor, gradientMinColor, (maxY - gradientMinY) / (maxY - minY));
+        gradientStopColor = getGradientPartialColor(gradientMinColor, gradientMaxColor, (maxY - gradientMinY) / (maxY - minY));
       }
       if (yMax > maxY) {
-        paint.setColor(gradientMinColor);
+        paint.setColor(gradientMaxColor);
         canvas.drawRect(Math.round(xMin), Math.round(gradientMaxY), Math.round(xMax), Math.round(yMax), paint);
       } else {
-        gradientStartColor = getGradientPartialColor(gradientMinColor, gradientMaxColor, (gradientMaxY - minY) / (maxY - minY));
+        gradientStartColor = getGradientPartialColor(gradientMaxColor, gradientMinColor, (gradientMaxY - minY) / (maxY - minY));
       }
       GradientDrawable gradient = new GradientDrawable(Orientation.BOTTOM_TOP, new int[] {gradientStartColor, gradientStopColor});
       gradient.setBounds(Math.round(xMin), Math.round(gradientMinY), Math.round(xMax), Math.round(gradientMaxY));
@@ -141,11 +141,12 @@ public class BarChart extends XYChart {
    * 
    * @param canvas the canvas to paint to
    * @param series the series to be painted
+   * @param renderer the series renderer
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
    * @param seriesIndex the index of the series currently being drawn
    */
-  protected void drawChartValuesText(Canvas canvas, XYSeries series, Paint paint, float[] points,
+  protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer, Paint paint, float[] points,
       int seriesIndex) {
     int seriesNr = mDataset.getSeriesCount();
     float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
@@ -154,7 +155,7 @@ public class BarChart extends XYChart {
       if (mType == Type.DEFAULT) {
         x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
       }
-      drawText(canvas, getLabel(series.getY(k / 2)), x, points[k + 1] - 3.5f, paint, 0);
+      drawText(canvas, getLabel(series.getY(k / 2)), x, points[k + 1] - renderer.getChartValuesSpacing(), paint, 0);
     }
   }
 

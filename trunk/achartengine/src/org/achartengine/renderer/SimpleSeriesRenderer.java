@@ -18,6 +18,7 @@ package org.achartengine.renderer;
 import java.io.Serializable;
 
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 
 /**
  * A simple series renderer.
@@ -29,6 +30,10 @@ public class SimpleSeriesRenderer implements Serializable {
   private boolean mDisplayChartValues;
   /** The chart values text size. */
   private float mChartValuesTextSize = 10;
+  /** The chart values text alignment. */
+  private Align mChartValuesTextAlign = Align.CENTER;
+  /** The chart values spacing from the data point. */
+  private float mChartValuesSpacing = 5f;
   /** The stroke style. */
   private BasicStroke mStroke;
   /** If gradient is enabled. */
@@ -94,6 +99,43 @@ public class SimpleSeriesRenderer implements Serializable {
    */
   public void setChartValuesTextSize(float textSize) {
     mChartValuesTextSize = textSize;
+  }
+
+  
+  /**
+   * Returns the chart values text align.
+   * 
+   * @return the chart values text align
+   */
+  public Align getChartValuesTextAlign() {
+    return mChartValuesTextAlign;
+  }
+
+  /**
+   * Sets the chart values text align.
+   * 
+   * @param textSize the chart values text align
+   */
+  public void setChartValuesTextAlign(Align align) {
+    mChartValuesTextAlign = align;
+  }
+  
+  /**
+   * Returns the chart values spacing from the data point.
+   * 
+   * @return the chart values spacing
+   */
+  public float getChartValuesSpacing() {
+    return mChartValuesSpacing;
+  }
+
+  /**
+   * Sets the chart values spacing from the data point.
+   * 
+   * @param textSize the chart values spacing (in pixels) from the chart data point
+   */
+  public void setChartValuesSpacing(float spacing) {
+    mChartValuesSpacing = spacing;
   }
 
   /**

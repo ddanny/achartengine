@@ -71,7 +71,7 @@ public class SalesStackedBarChart extends AbstractDemoChart {
     renderer.setDisplayChartValues(true);
     renderer.setXLabelsAlign(Align.LEFT);
     renderer.setYLabelsAlign(Align.LEFT);
-    // renderer.setPanEnabled(false);
+//     renderer.setPanEnabled(false);
     // renderer.setZoomEnabled(false);
     renderer.setZoomRate(1.1f);
     renderer.setBarSpacing(0.5f);

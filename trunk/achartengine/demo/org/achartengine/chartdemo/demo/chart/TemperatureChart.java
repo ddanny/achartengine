@@ -91,6 +91,7 @@ public class TemperatureChart extends AbstractDemoChart {
     SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
     r.setDisplayChartValues(true);
     r.setChartValuesTextSize(12);
+    r.setChartValuesSpacing(3);
     r.setGradientEnabled(true);
     r.setGradientStart(-20, Color.BLUE);
     r.setGradientStop(20, Color.GREEN);
