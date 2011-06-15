@@ -84,9 +84,9 @@ public class BarChart extends XYChart {
     }
     paint.setColor(seriesRenderer.getColor());
   }
-  
-  protected void drawBar(Canvas canvas, float xMin, float yMin, float xMax, float yMax, float halfDiffX,
-      int seriesNr, int seriesIndex, Paint paint) {
+
+  protected void drawBar(Canvas canvas, float xMin, float yMin, float xMax, float yMax,
+      float halfDiffX, int seriesNr, int seriesIndex, Paint paint) {
     int scale = mDataset.getSeriesAt(seriesIndex).getScaleNumber();
     if (mType == Type.STACKED) {
       drawBar(canvas, xMin - halfDiffX, yMax, xMax + halfDiffX, yMin, scale, seriesIndex, paint);
@@ -95,12 +95,14 @@ public class BarChart extends XYChart {
       drawBar(canvas, startX, yMax, startX + 2 * halfDiffX, yMin, scale, seriesIndex, paint);
     }
   }
-  
-  private void drawBar(Canvas canvas, float xMin, float yMin, float xMax, float yMax, int scale, int seriesIndex, Paint paint) {
+
+  private void drawBar(Canvas canvas, float xMin, float yMin, float xMax, float yMax, int scale,
+      int seriesIndex, Paint paint) {
     SimpleSeriesRenderer renderer = mRenderer.getSeriesRendererAt(seriesIndex);
     if (renderer.isGradientEnabled()) {
-      float minY = (float) toScreenPoint(new double[] {0, renderer.getGradientStopValue()}, scale)[1];
-      float maxY = (float) toScreenPoint(new double[] {0, renderer.getGradientStartValue()}, scale)[1];
+      float minY = (float) toScreenPoint(new double[] { 0, renderer.getGradientStopValue() }, scale)[1];
+      float maxY = (float) toScreenPoint(new double[] { 0, renderer.getGradientStartValue() },
+          scale)[1];
       float gradientMinY = Math.max(minY, yMin);
       float gradientMaxY = Math.min(maxY, yMax);
       int gradientMinColor = renderer.getGradientStopColor();
@@ -110,26 +112,34 @@ public class BarChart extends XYChart {
 
       if (yMin < minY) {
         paint.setColor(gradientMinColor);
-        canvas.drawRect(Math.round(xMin), Math.round(yMin), Math.round(xMax), Math.round(gradientMinY), paint);
+        canvas.drawRect(Math.round(xMin), Math.round(yMin), Math.round(xMax), Math
+            .round(gradientMinY), paint);
       } else {
-        gradientStopColor = getGradientPartialColor(gradientMinColor, gradientMaxColor, (maxY - gradientMinY) / (maxY - minY));
+        gradientStopColor = getGradientPartialColor(gradientMinColor, gradientMaxColor,
+            (maxY - gradientMinY) / (maxY - minY));
       }
       if (yMax > maxY) {
         paint.setColor(gradientMaxColor);
-        canvas.drawRect(Math.round(xMin), Math.round(gradientMaxY), Math.round(xMax), Math.round(yMax), paint);
+        canvas.drawRect(Math.round(xMin), Math.round(gradientMaxY), Math.round(xMax), Math
+            .round(yMax), paint);
       } else {
-        gradientStartColor = getGradientPartialColor(gradientMaxColor, gradientMinColor, (gradientMaxY - minY) / (maxY - minY));
+        gradientStartColor = getGradientPartialColor(gradientMaxColor, gradientMinColor,
+            (gradientMaxY - minY) / (maxY - minY));
       }
-      GradientDrawable gradient = new GradientDrawable(Orientation.BOTTOM_TOP, new int[] {gradientStartColor, gradientStopColor});
-      gradient.setBounds(Math.round(xMin), Math.round(gradientMinY), Math.round(xMax), Math.round(gradientMaxY));
+      GradientDrawable gradient = new GradientDrawable(Orientation.BOTTOM_TOP, new int[] {
+          gradientStartColor, gradientStopColor });
+      gradient.setBounds(Math.round(xMin), Math.round(gradientMinY), Math.round(xMax), Math
+          .round(gradientMaxY));
       gradient.draw(canvas);
     } else {
-      canvas.drawRect(Math.round(xMin), Math.round(yMin), Math.round(xMax), Math.round(yMax), paint);
+      canvas
+          .drawRect(Math.round(xMin), Math.round(yMin), Math.round(xMax), Math.round(yMax), paint);
     }
   }
-  
+
   private int getGradientPartialColor(int minColor, int maxColor, float fraction) {
-    int alpha = Math.round(fraction * Color.alpha(minColor) + (1 - fraction) * Color.alpha(maxColor));
+    int alpha = Math.round(fraction * Color.alpha(minColor) + (1 - fraction)
+        * Color.alpha(maxColor));
     int r = Math.round(fraction * Color.red(minColor) + (1 - fraction) * Color.red(maxColor));
     int g = Math.round(fraction * Color.green(minColor) + (1 - fraction) * Color.green(maxColor));
     int b = Math.round(fraction * Color.blue(minColor) + (1 - fraction) * Color.blue((maxColor)));
@@ -146,8 +156,8 @@ public class BarChart extends XYChart {
    * @param points the array of points to be used for drawing the series
    * @param seriesIndex the index of the series currently being drawn
    */
-  protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer, Paint paint, float[] points,
-      int seriesIndex) {
+  protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer,
+      Paint paint, float[] points, int seriesIndex) {
     int seriesNr = mDataset.getSeriesCount();
     float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
     for (int k = 0; k < points.length; k += 2) {
@@ -155,7 +165,8 @@ public class BarChart extends XYChart {
       if (mType == Type.DEFAULT) {
         x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
       }
-      drawText(canvas, getLabel(series.getY(k / 2)), x, points[k + 1] - renderer.getChartValuesSpacing(), paint, 0);
+      drawText(canvas, getLabel(series.getY(k / 2)), x, points[k + 1]
+          - renderer.getChartValuesSpacing(), paint, 0);
     }
   }
 
