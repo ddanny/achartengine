@@ -376,7 +376,6 @@ public abstract class XYChart extends AbstractChart {
               drawText(canvas, mRenderer.getYTitle(i), x + width, y + height / 2, paint, -90);
             }
           }
-          
           paint.setTextSize(mRenderer.getChartTitleTextSize());
           drawText(canvas, mRenderer.getChartTitle(), x + width / 2, y
               + mRenderer.getChartTitleTextSize(), paint, 0);
