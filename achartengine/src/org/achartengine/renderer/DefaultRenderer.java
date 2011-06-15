@@ -26,6 +26,10 @@ import android.graphics.Typeface;
  * An abstract renderer to be extended by the multiple series classes.
  */
 public class DefaultRenderer implements Serializable {
+  /** The chart title. */
+  private String mChartTitle = "";
+  /** The chart title text size. */
+  private float mChartTitleTextSize = 15;
   /** A no color constant. */
   public static final int NO_COLOR = 0;
   /** The default background color. */
@@ -81,6 +85,42 @@ public class DefaultRenderer implements Serializable {
   private float mZoomRate = 1.5f;
   /** The original chart scale. */
   private float mOriginalScale = mScale;
+
+  /**
+   * Returns the chart title.
+   * 
+   * @return the chart title
+   */
+  public String getChartTitle() {
+    return mChartTitle;
+  }
+
+  /**
+   * Sets the chart title.
+   * 
+   * @param title the chart title
+   */
+  public void setChartTitle(String title) {
+    mChartTitle = title;
+  }
+
+  /**
+   * Returns the chart title text size.
+   * 
+   * @return the chart title text size
+   */
+  public float getChartTitleTextSize() {
+    return mChartTitleTextSize;
+  }
+
+  /**
+   * Sets the chart title text size.
+   * 
+   * @param textSize the chart title text size
+   */
+  public void setChartTitleTextSize(float textSize) {
+    mChartTitleTextSize = textSize;
+  }
 
   /**
    * Adds a simple renderer to the multiple renderer.

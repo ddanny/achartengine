@@ -56,6 +56,7 @@ public class BudgetPieChart extends AbstractDemoChart {
     DefaultRenderer renderer = buildCategoryRenderer(colors);
     renderer.setZoomButtonsVisible(true);
     renderer.setZoomEnabled(true);
+    renderer.setChartTitleTextSize(20);
     return ChartFactory.getPieChartIntent(context, buildCategoryDataset("Project budget", values),
         renderer, "Budget");
   }

@@ -127,6 +127,7 @@ public class DoughnutChart extends RoundChart {
     prevLabelsBounds.clear();
     drawLegend(canvas, mRenderer, categories, left, right, y, width, height, legendSize, paint,
         false);
+    drawTitle(canvas, x, y, width, paint);
   }
 
   /**

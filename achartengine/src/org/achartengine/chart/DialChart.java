@@ -133,6 +133,7 @@ public class DialChart extends RoundChart {
       drawNeedle(canvas, angle, centerX, centerY, shortRadius, type, paint);
     }
     drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
+    drawTitle(canvas, x, y, width, paint);
   }
 
   /**

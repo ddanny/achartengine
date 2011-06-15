@@ -30,6 +30,7 @@ import android.graphics.Paint.Style;
  * The pie chart rendering class.
  */
 public class PieChart extends RoundChart {
+
   /**
    * Builds a new pie chart instance.
    * 
@@ -97,6 +98,7 @@ public class PieChart extends RoundChart {
     }
     prevLabelsBounds.clear();
     drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
+    drawTitle(canvas, x, y, width, paint);
   }
 
 }
