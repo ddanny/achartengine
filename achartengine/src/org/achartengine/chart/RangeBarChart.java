@@ -78,11 +78,12 @@ public class RangeBarChart extends BarChart {
    * 
    * @param canvas the canvas to paint to
    * @param series the series to be painted
+   * @param renderer the series renderer
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
    * @param seriesIndex the index of the series currently being drawn
    */
-  protected void drawChartValuesText(Canvas canvas, XYSeries series, Paint paint, float[] points,
+  protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer, Paint paint, float[] points,
       int seriesIndex) {
     int seriesNr = mDataset.getSeriesCount();
     float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
@@ -92,9 +93,9 @@ public class RangeBarChart extends BarChart {
         x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
       }
       // draw the maximum value
-      drawText(canvas, getLabel(series.getY(k / 2 + 1)), x, points[k + 3] - 3f, paint, 0);
+      drawText(canvas, getLabel(series.getY(k / 2 + 1)), x, points[k + 3] - renderer.getChartValuesSpacing(), paint, 0);
       // draw the minimum value
-      drawText(canvas, getLabel(series.getY(k / 2)), x, points[k + 1] + 7.5f, paint, 0);
+      drawText(canvas, getLabel(series.getY(k / 2)), x, points[k + 1] + renderer.getChartValuesTextSize() + renderer.getChartValuesSpacing() - 3, paint, 0);
     }
   }
 
