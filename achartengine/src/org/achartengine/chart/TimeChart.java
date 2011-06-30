@@ -82,10 +82,11 @@ public class TimeChart extends LineChart {
    * @param bottom the bottom value of the labels area
    * @param xPixelsPerUnit the amount of pixels per one unit in the chart labels
    * @param minX the minimum value on the X axis in the chart
+   * @param maxX the maximum value on the X axis in the chart
    */
   @Override
   protected void drawXLabels(List<Double> xLabels, Double[] xTextLabelLocations, Canvas canvas,
-      Paint paint, int left, int top, int bottom, double xPixelsPerUnit, double minX) {
+      Paint paint, int left, int top, int bottom, double xPixelsPerUnit, double minX, double maxX) {
     int length = xLabels.size();
     if (length > 0) {
       boolean showLabels = mRenderer.isShowLabels();
@@ -107,6 +108,7 @@ public class TimeChart extends LineChart {
         }
       }
     }
+    drawXTextLabels(xTextLabelLocations, canvas, paint, true, left, top, bottom, xPixelsPerUnit, minX, maxX);
   }
 
   /**
