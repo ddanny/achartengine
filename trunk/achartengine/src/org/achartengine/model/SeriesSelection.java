@@ -13,19 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.achartengine;
+package org.achartengine.model;
 
-import android.view.MotionEvent;
-
-/**
- * The interface to be implemented by the touch handlers.
- */
-public interface ITouchHandler {
-  /**
-   * Handles the touch event.
-   * 
-   * @param event the touch event
-   * @return true if the event was handled
-   */
-  boolean handleTouch(MotionEvent event);
+public class SeriesSelection {
+  private int mSeriesIndex;
+  
+  private int mPointIndex;
+  
+  private double mValue;
+  
+  public SeriesSelection(int seriesIndex, int pointIndex, double value){
+    mSeriesIndex = seriesIndex;
+    mPointIndex = pointIndex;
+    mValue = value;
+  }
+  
+  public int getSeriesIndex() {
+    return mSeriesIndex;
+  }
+  
+  public int getPointIndex() {
+    return mPointIndex;
+  }
+  
+  public double getValue() {
+    return mValue;
+  }
 }

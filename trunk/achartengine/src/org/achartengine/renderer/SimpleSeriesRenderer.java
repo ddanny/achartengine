@@ -114,7 +114,7 @@ public class SimpleSeriesRenderer implements Serializable {
   /**
    * Sets the chart values text align.
    * 
-   * @param textSize the chart values text align
+   * @param align the chart values text align
    */
   public void setChartValuesTextAlign(Align align) {
     mChartValuesTextAlign = align;
@@ -132,7 +132,7 @@ public class SimpleSeriesRenderer implements Serializable {
   /**
    * Sets the chart values spacing from the data point.
    * 
-   * @param textSize the chart values spacing (in pixels) from the chart data point
+   * @param spacing the chart values spacing (in pixels) from the chart data point
    */
   public void setChartValuesSpacing(float spacing) {
     mChartValuesSpacing = spacing;

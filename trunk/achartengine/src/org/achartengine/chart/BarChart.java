@@ -23,6 +23,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
@@ -58,6 +59,25 @@ public class BarChart extends XYChart {
   public BarChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, Type type) {
     super(dataset, renderer);
     mType = type;
+  }
+
+  @Override
+  protected RectF[] clickableAreasForPoints(float[] points, float yAxisValue, int seriesIndex) {
+    int seriesNr = mDataset.getSeriesCount();
+    int length = points.length;
+    RectF[] ret = new RectF[length / 2];
+    float halfDiffX = getHalfDiffX(points, length, seriesNr);
+    for (int i = 0; i < length; i += 2) {
+      float x = points[i];
+      float y = points[i + 1];
+      if (mType == Type.STACKED) {
+        ret[i / 2] = new RectF(x - halfDiffX, y, x + halfDiffX, yAxisValue);
+      } else {
+        float startX = x - seriesNr * halfDiffX + seriesIndex * 2 * halfDiffX;
+        ret[i / 2] = new RectF(startX, y, startX + 2 * halfDiffX, yAxisValue);
+      }
+    }
+    return ret;
   }
 
   /**

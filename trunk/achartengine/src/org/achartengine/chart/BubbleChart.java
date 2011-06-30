@@ -23,6 +23,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Paint.Style;
 
 /**
@@ -75,6 +76,21 @@ public class BubbleChart extends XYChart {
       double size = series.getValue(i / 2) * coef + MIN_BUBBLE_SIZE;
       drawCircle(canvas, paint, points[i], points[i + 1], (float) size);
     }
+  }
+
+  @Override
+  protected RectF[] clickableAreasForPoints(float[] points, float yAxisValue, int seriesIndex) {
+    int length = points.length;
+    XYValueSeries series = (XYValueSeries) mDataset.getSeriesAt(seriesIndex);
+    double max = series.getMaxValue();
+    double coef = MAX_BUBBLE_SIZE / max;
+    RectF[] ret = new RectF[length / 2];
+    for (int i = 0; i < length; i += 2) {
+      double size = series.getValue(i / 2) * coef + MIN_BUBBLE_SIZE;
+      ret[i / 2] = new RectF(points[i] - (float) size, points[i + 1] - (float) size, points[i]
+          + (float) size, points[i + 1] + (float) size);
+    }
+    return ret;
   }
 
   /**

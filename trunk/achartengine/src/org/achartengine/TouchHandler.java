@@ -51,7 +51,7 @@ public class TouchHandler implements ITouchHandler {
   /**
    * Creates a new graphical view.
    * 
-   * @param context the context
+   * @param view the graphical view
    * @param chart the chart to be drawn
    */
   public TouchHandler(GraphicalView view, AbstractChart chart) {
@@ -75,7 +75,7 @@ public class TouchHandler implements ITouchHandler {
    * 
    * @param event the touch event
    */
-  public void handleTouch(MotionEvent event) {
+  public boolean handleTouch(MotionEvent event) {
     int action = event.getAction();
     if (mRenderer != null && action == MotionEvent.ACTION_MOVE) {
       if (oldX >= 0 || oldY >= 0) {
@@ -108,6 +108,7 @@ public class TouchHandler implements ITouchHandler {
         oldX = newX;
         oldY = newY;
         graphicalView.repaint();
+        return true;
       }
     } else if (action == MotionEvent.ACTION_DOWN) {
       oldX = event.getX(0);
@@ -120,6 +121,7 @@ public class TouchHandler implements ITouchHandler {
         } else {
           graphicalView.zoomReset();
         }
+        return true;
       }
     } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) {
       oldX = 0;
@@ -131,6 +133,7 @@ public class TouchHandler implements ITouchHandler {
         oldY = -1;
       }
     }
+    return !mRenderer.isClickEnabled();
   }
 
 }
