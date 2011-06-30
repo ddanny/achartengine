@@ -66,12 +66,13 @@ public class SalesStackedBarChart extends AbstractDemoChart {
     XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
     setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.5,
         12.5, 0, 24000, Color.GRAY, Color.LTGRAY);
+    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
+    renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
     renderer.setXLabels(12);
     renderer.setYLabels(10);
-    renderer.setDisplayChartValues(true);
     renderer.setXLabelsAlign(Align.LEFT);
     renderer.setYLabelsAlign(Align.LEFT);
-     renderer.setPanEnabled(true, false);
+    renderer.setPanEnabled(true, false);
     // renderer.setZoomEnabled(false);
     renderer.setZoomRate(1.1f);
     renderer.setBarSpacing(0.5f);
