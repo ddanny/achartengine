@@ -103,7 +103,7 @@ public class GraphicalView extends View {
         && ((XYMultipleSeriesRenderer) mRenderer).getMarginsColor() == XYMultipleSeriesRenderer.NO_COLOR) {
       ((XYMultipleSeriesRenderer) mRenderer).setMarginsColor(mPaint.getColor());
     }
-    if (mRenderer.isZoomEnabled() && mRenderer.isZoomButtonsVisible()) {
+    if (mRenderer.isZoomEnabled() && mRenderer.isZoomButtonsVisible() || mRenderer.isExternalZoomEnabled()) {
       zoomIn = new Zoom(mChart, true, mRenderer.getZoomRate());
       zoomOut = new Zoom(mChart, false, mRenderer.getZoomRate());
       fitZoom = new FitZoom(mChart);

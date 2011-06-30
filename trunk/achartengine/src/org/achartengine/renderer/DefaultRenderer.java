@@ -83,6 +83,8 @@ public class DefaultRenderer implements Serializable {
   private boolean mZoomButtonsVisible = false;
   /** The zoom rate. */
   private float mZoomRate = 1.5f;
+  /** A flag for enabling the external zoom. */
+  private boolean mExternalZoomEnabled = false;
   /** The original chart scale. */
   private float mOriginalScale = mScale;
   /** A flag for enabling the click on elements. */
@@ -508,6 +510,24 @@ public class DefaultRenderer implements Serializable {
    */
   public void setZoomButtonsVisible(boolean visible) {
     mZoomButtonsVisible = visible;
+  }
+
+  /**
+   * Returns the enabled state of the external (application implemented) zoom.
+   * 
+   * @return if external zoom is enabled
+   */
+  public boolean isExternalZoomEnabled() {
+    return mExternalZoomEnabled;
+  }
+
+  /**
+   * Sets the enabled state of the external (application implemented) zoom.
+   * 
+   * @param enabled external zoom enabled
+   */
+  public void setExternalZoomEnabled(boolean enabled) {
+    mExternalZoomEnabled = enabled;
   }
 
   /**
