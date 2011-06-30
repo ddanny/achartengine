@@ -668,7 +668,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @return if pan is enabled
    */
   public boolean isPanEnabled() {
-    return isPanXEnabled() && isPanYEnabled();
+    return isPanXEnabled() || isPanYEnabled();
   }
 
   /**
