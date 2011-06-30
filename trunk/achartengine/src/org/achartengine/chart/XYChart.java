@@ -304,7 +304,7 @@ public abstract class XYChart extends AbstractChart {
         }
       }
       drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
-          bottom, xPixelsPerUnit[0], minX[0]);
+          bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
 
       for (int i = 0; i < maxScaleNumber; i++) {
         paint.setTextAlign(mRenderer.getYLabelsAlign(i));
@@ -595,13 +595,13 @@ public abstract class XYChart extends AbstractChart {
    * @param bottom the bottom value of the labels area
    * @param xPixelsPerUnit the amount of pixels per one unit in the chart labels
    * @param minX the minimum value on the X axis in the chart
+   * @param maxX the maximum value on the X axis in the chart
    */
   protected void drawXLabels(List<Double> xLabels, Double[] xTextLabelLocations, Canvas canvas,
-      Paint paint, int left, int top, int bottom, double xPixelsPerUnit, double minX) {
+      Paint paint, int left, int top, int bottom, double xPixelsPerUnit, double minX, double maxX) {
     int length = xLabels.size();
     boolean showLabels = mRenderer.isShowLabels();
     boolean showGrid = mRenderer.isShowGrid();
-    boolean showCustomTextGrid = mRenderer.isShowCustomTextGrid();
     for (int i = 0; i < length; i++) {
       double label = xLabels.get(i);
       float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
@@ -616,17 +616,38 @@ public abstract class XYChart extends AbstractChart {
         canvas.drawLine(xLabel, bottom, xLabel, top, paint);
       }
     }
+    drawXTextLabels(xTextLabelLocations, canvas, paint, showLabels, left, top, bottom, xPixelsPerUnit, minX, maxX);
+  }
+  
+  /**
+   * The graphical representation of the text labels on the X axis.
+   * 
+   * @param xTextLabelLocations the X text label locations
+   * @param canvas the canvas to paint to
+   * @param paint the paint to be used for drawing
+   * @param left the left value of the labels area
+   * @param top the top value of the labels area
+   * @param bottom the bottom value of the labels area
+   * @param xPixelsPerUnit the amount of pixels per one unit in the chart labels
+   * @param minX the minimum value on the X axis in the chart
+   * @param maxX the maximum value on the X axis in the chart
+   */
+  protected void drawXTextLabels(Double[] xTextLabelLocations, Canvas canvas, Paint paint, 
+      boolean showLabels, int left, int top, int bottom, double xPixelsPerUnit, double minX, double maxX) {
+    boolean showCustomTextGrid = mRenderer.isShowCustomTextGrid();
     if (showLabels) {
       paint.setColor(mRenderer.getLabelsColor());
       for (Double location : xTextLabelLocations) {
-        float xLabel = (float) (left + xPixelsPerUnit * (location.doubleValue() - minX));
-        paint.setColor(mRenderer.getLabelsColor());
-        canvas.drawLine(xLabel, bottom, xLabel, bottom + 4, paint);
-        drawText(canvas, mRenderer.getXTextLabel(location), xLabel, bottom
-            + mRenderer.getLabelsTextSize(), paint, mRenderer.getXLabelsAngle());
-        if (showCustomTextGrid) {
-          paint.setColor(mRenderer.getGridColor());
-          canvas.drawLine(xLabel, bottom, xLabel, top, paint);
+        if (minX <= location && location <= maxX) {
+          float xLabel = (float) (left + xPixelsPerUnit * (location.doubleValue() - minX));
+          paint.setColor(mRenderer.getLabelsColor());
+          canvas.drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
+          drawText(canvas, mRenderer.getXTextLabel(location), xLabel, bottom
+              + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
+          if (showCustomTextGrid) {
+            paint.setColor(mRenderer.getGridColor());
+            canvas.drawLine(xLabel, bottom, xLabel, top, paint);
+          }
         }
       }
     }
