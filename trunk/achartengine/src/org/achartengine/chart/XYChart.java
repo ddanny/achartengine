@@ -247,6 +247,9 @@ public abstract class XYChart extends AbstractChart {
         if (yValue != MathHelper.NULL_VALUE) {
           points.add((float) (left + xPixelsPerUnit[scale] * (series.getX(index) - minX[scale])));
           points.add((float) (bottom - yPixelsPerUnit[scale] * (yValue - minY[scale])));
+        } else if (isRenderNullValues()) {
+          points.add((float) (left + xPixelsPerUnit[scale] * (series.getX(index) - minX[scale])));
+          points.add((float) (bottom - yPixelsPerUnit[scale] * (-minY[scale])));
         } else {
           if (points.size() > 0) {
             drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or);
@@ -767,6 +770,15 @@ public abstract class XYChart extends AbstractChart {
    */
   protected abstract RectF[] clickableAreasForPoints(float[] points, float yAxisValue,
       int seriesIndex);
+  
+  /**
+   * Returns if the chart should display the null values.
+   * 
+   * @return if null values should be rendered
+   */
+  protected boolean isRenderNullValues() {
+    return false;
+  }
 
   /**
    * Returns if the chart should display the points as a certain shape.
