@@ -19,6 +19,7 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.util.MathHelper;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -180,13 +181,16 @@ public class BarChart extends XYChart {
       Paint paint, float[] points, int seriesIndex) {
     int seriesNr = mDataset.getSeriesCount();
     float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
-    for (int k = 0; k < points.length; k += 2) {
-      float x = points[k];
-      if (mType == Type.DEFAULT) {
-        x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
+    for (int i = 0; i < points.length; i += 2) {
+      int index = i / 2;
+      if (series.getY(index) != MathHelper.NULL_VALUE) {
+        float x = points[i];
+        if (mType == Type.DEFAULT) {
+          x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
+        }
+        drawText(canvas, getLabel(series.getY(index)), x, points[i + 1]
+            - renderer.getChartValuesSpacing(), paint, 0);
       }
-      drawText(canvas, getLabel(series.getY(k / 2)), x, points[k + 1]
-          - renderer.getChartValuesSpacing(), paint, 0);
     }
   }
 
@@ -248,6 +252,15 @@ public class BarChart extends XYChart {
    */
   protected float getCoeficient() {
     return 1f;
+  }
+
+  /**
+   * Returns if the chart should display the null values.
+   * 
+   * @return if null values should be rendered
+   */
+  protected boolean isRenderNullValues() {
+    return true;
   }
 
   /**

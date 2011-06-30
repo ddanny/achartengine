@@ -19,6 +19,7 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.util.MathHelper;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -87,17 +88,23 @@ public class RangeBarChart extends BarChart {
       Paint paint, float[] points, int seriesIndex) {
     int seriesNr = mDataset.getSeriesCount();
     float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
-    for (int k = 0; k < points.length; k += 4) {
-      float x = points[k];
+    for (int i = 0; i < points.length; i += 4) {
+      int index = i / 2;
+      float x = points[i];
       if (mType == Type.DEFAULT) {
         x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
       }
-      // draw the maximum value
-      drawText(canvas, getLabel(series.getY(k / 2 + 1)), x, points[k + 3]
-          - renderer.getChartValuesSpacing(), paint, 0);
-      // draw the minimum value
-      drawText(canvas, getLabel(series.getY(k / 2)), x, points[k + 1]
-          + renderer.getChartValuesTextSize() + renderer.getChartValuesSpacing() - 3, paint, 0);
+
+      if (series.getY(index + 1) != MathHelper.NULL_VALUE) {
+        // draw the maximum value
+        drawText(canvas, getLabel(series.getY(index + 1)), x, points[i + 3]
+            - renderer.getChartValuesSpacing(), paint, 0);
+      }
+      if (series.getY(index) != MathHelper.NULL_VALUE) {
+        // draw the minimum value
+        drawText(canvas, getLabel(series.getY(index)), x, points[i + 1]
+            + renderer.getChartValuesTextSize() + renderer.getChartValuesSpacing() - 3, paint, 0);
+      }
     }
   }
 
