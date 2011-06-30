@@ -25,7 +25,7 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 
 /**
- * A handler implementation for touch events for older platforms. 
+ * A handler implementation for touch events for older platforms.
  */
 public class TouchHandlerOld implements ITouchHandler {
   /** The chart renderer. */
@@ -40,7 +40,7 @@ public class TouchHandlerOld implements ITouchHandler {
   private Pan pan;
   /** The graphical view. */
   private GraphicalView graphicalView;
-  
+
   /**
    * Creates an implementation of the old version of the touch handler.
    * 
@@ -60,7 +60,7 @@ public class TouchHandlerOld implements ITouchHandler {
     }
   }
 
-  public void handleTouch(MotionEvent event) {
+  public boolean handleTouch(MotionEvent event) {
     int action = event.getAction();
     if (mRenderer != null && action == MotionEvent.ACTION_MOVE) {
       if (oldX >= 0 || oldY >= 0) {
@@ -72,6 +72,7 @@ public class TouchHandlerOld implements ITouchHandler {
         oldX = newX;
         oldY = newY;
         graphicalView.repaint();
+        return true;
       }
     } else if (action == MotionEvent.ACTION_DOWN) {
       oldX = event.getX();
@@ -84,11 +85,13 @@ public class TouchHandlerOld implements ITouchHandler {
         } else {
           graphicalView.zoomReset();
         }
+        return true;
       }
     } else if (action == MotionEvent.ACTION_UP) {
       oldX = 0;
       oldY = 0;
     }
+    return !mRenderer.isClickEnabled();
   }
 
 }

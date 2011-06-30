@@ -22,6 +22,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Paint.Style;
 
 /**
@@ -94,6 +95,18 @@ public class LineChart extends XYChart {
     paint.setStyle(Style.STROKE);
     drawPath(canvas, points, paint, false);
     paint.setStrokeWidth(lineWidth);
+  }
+
+  @Override
+  protected RectF[] clickableAreasForPoints(float[] points, float yAxisValue, int seriesIndex) {
+    int length = points.length;
+    RectF[] ret = new RectF[length / 2];
+    for (int i = 0; i < length; i += 2) {
+      ret[i / 2] = new RectF(points[i] - SELECTABLE_BUFFER_AROUND_POINT, points[i + 1]
+          - SELECTABLE_BUFFER_AROUND_POINT, points[i] + SELECTABLE_BUFFER_AROUND_POINT,
+          points[i + 1] + SELECTABLE_BUFFER_AROUND_POINT);
+    }
+    return ret;
   }
 
   /**

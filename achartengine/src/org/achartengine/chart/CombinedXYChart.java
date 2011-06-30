@@ -25,6 +25,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 
 /**
  * The combined XY chart rendering class.
@@ -107,15 +108,22 @@ public class CombinedXYChart extends XYChart {
   public void drawSeries(Canvas canvas, Paint paint, float[] points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex) {
     mCharts[seriesIndex].setScreenR(getScreenR());
-    mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex).getScaleNumber()), 0);
+    mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex)
+        .getScaleNumber()), 0);
     mCharts[seriesIndex].drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, 0);
+  }
+
+  @Override
+  protected RectF[] clickableAreasForPoints(float[] points, float yAxisValue, int seriesIndex) {
+    return mCharts[seriesIndex].clickableAreasForPoints(points, yAxisValue, 0);
   }
 
   @Override
   protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or) {
     mCharts[seriesIndex].setScreenR(getScreenR());
-    mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex).getScaleNumber()), 0);
+    mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex)
+        .getScaleNumber()), 0);
     mCharts[seriesIndex].drawSeries(series, canvas, paint, pointsList, seriesRenderer, yAxisValue,
         0, or);
   }

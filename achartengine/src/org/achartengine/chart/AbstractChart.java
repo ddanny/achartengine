@@ -18,6 +18,7 @@ package org.achartengine.chart;
 import java.io.Serializable;
 import java.util.List;
 
+import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -27,6 +28,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
@@ -35,6 +37,9 @@ import android.graphics.Paint.Style;
  * An abstract class to be implemented by the chart rendering classes.
  */
 public abstract class AbstractChart implements Serializable {
+  /** The selectable area around a point */
+  protected static final int SELECTABLE_BUFFER_AROUND_POINT = 10;
+
   /**
    * The graphical representation of the chart.
    * 
@@ -281,4 +286,15 @@ public abstract class AbstractChart implements Serializable {
     }
   }
 
+  /**
+   * Given screen coordinates, returns the series and point indexes of a chart
+   * element. If there is no chart element (line, point, bar, etc) at those
+   * coordinates, null is returned.
+   * 
+   * @param screenPoint
+   * @return
+   */
+  public SeriesSelection getSeriesAndPointForScreenCoordinate(PointF screenPoint) {
+    return null;
+  }
 }

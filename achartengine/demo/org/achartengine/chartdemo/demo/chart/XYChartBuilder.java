@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chartdemo.demo.R;
+import org.achartengine.model.SeriesSelection;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -36,6 +37,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class XYChartBuilder extends Activity {
   public static final String TYPE = "type";
@@ -90,7 +92,7 @@ public class XYChartBuilder extends Activity {
     mRenderer.setChartTitleTextSize(20);
     mRenderer.setLabelsTextSize(15);
     mRenderer.setLegendTextSize(15);
-    mRenderer.setMargins(new int[] {20, 30, 15, 0});
+    mRenderer.setMargins(new int[] { 20, 30, 15, 0 });
 
     mAdd = (Button) findViewById(R.id.add);
     mNewSeries = (Button) findViewById(R.id.new_series);
@@ -150,6 +152,41 @@ public class XYChartBuilder extends Activity {
     if (mChartView == null) {
       LinearLayout layout = (LinearLayout) findViewById(R.id.chart);
       mChartView = ChartFactory.getLineChartView(this, mDataset, mRenderer);
+      mRenderer.setClickEnabled(true);
+      mChartView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          SeriesSelection seriesSelection = mChartView.getCurrentSeriesAndPoint();
+          if (seriesSelection == null) {
+            Toast.makeText(XYChartBuilder.this, "No chart element was clicked", Toast.LENGTH_SHORT)
+                .show();
+          } else {
+            Toast.makeText(
+                XYChartBuilder.this,
+                "Chart element in series index " + seriesSelection.getSeriesIndex()
+                    + " data point index " + seriesSelection.getPointIndex() + " was clicked"
+                    + " point value " + seriesSelection.getValue(), Toast.LENGTH_SHORT).show();
+          }
+        }
+      });
+      mChartView.setOnLongClickListener(new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+          SeriesSelection seriesSelection = mChartView.getCurrentSeriesAndPoint();
+          if (seriesSelection == null) {
+            Toast.makeText(XYChartBuilder.this, "No chart element was long pressed",
+                Toast.LENGTH_SHORT);
+            return false; // no chart element was long pressed, so let something
+            // else handle the event
+          } else {
+            Toast.makeText(XYChartBuilder.this, "Chart element in series index "
+                + seriesSelection.getSeriesIndex() + " data point index "
+                + seriesSelection.getPointIndex() + " was long pressed", Toast.LENGTH_SHORT);
+            return true; // the element was long pressed - the event has been
+            // handled
+          }
+        }
+      });
       layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT,
           LayoutParams.FILL_PARENT));
       boolean enabled = mDataset.getSeriesCount() > 0;

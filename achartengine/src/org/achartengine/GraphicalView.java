@@ -18,6 +18,7 @@ package org.achartengine;
 import org.achartengine.chart.AbstractChart;
 import org.achartengine.chart.RoundChart;
 import org.achartengine.chart.XYChart;
+import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.tools.FitZoom;
@@ -29,6 +30,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
@@ -70,6 +72,10 @@ public class GraphicalView extends View {
   private Paint mPaint = new Paint();
   /** The touch handler. */
   private ITouchHandler touchHandler;
+  /** The old x coordinate. */
+  private float oldX;
+  /** The old y coordinate. */
+  private float oldY;
 
   /**
    * Creates a new graphical view.
@@ -113,6 +119,10 @@ public class GraphicalView extends View {
     } else {
       touchHandler = new TouchHandler(this, mChart);
     }
+  }
+
+  public SeriesSelection getCurrentSeriesAndPoint() {
+    return mChart.getSeriesAndPointForScreenCoordinate(new PointF(oldX, oldY));
   }
 
   @Override
@@ -185,13 +195,20 @@ public class GraphicalView extends View {
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
+    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+      // save the x and y so they can be used in the click and long press
+      // listeners
+      oldX = event.getX();
+      oldY = event.getY();
+    }
     if (mRenderer != null && (mRenderer.isPanEnabled() || mRenderer.isZoomEnabled())) {
-      touchHandler.handleTouch(event);
-      return true;
+      if (touchHandler.handleTouch(event)) {
+        return true;
+      }
     }
     return super.onTouchEvent(event);
   }
-
+  
   /**
    * Schedule a view content repaint.
    */

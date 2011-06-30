@@ -50,7 +50,7 @@ public class BasicStroke implements Serializable {
    * @param join the stroke join
    * @param miter the stroke miter
    * @param intervals the path effect intervals
-   * @param the path effect phase
+   * @param phase the path effect phase
    */
   public BasicStroke(Cap cap, Join join, float miter, float[] intervals, float phase) {
     mCap = cap;

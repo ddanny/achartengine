@@ -85,6 +85,8 @@ public class DefaultRenderer implements Serializable {
   private float mZoomRate = 1.5f;
   /** The original chart scale. */
   private float mOriginalScale = mScale;
+  /** A flag for enabling the click on elements. */
+  private boolean mClickEnabled = false;
 
   /**
    * Returns the chart title.
@@ -533,6 +535,24 @@ public class DefaultRenderer implements Serializable {
    */
   public void setZoomRate(float rate) {
     mZoomRate = rate;
+  }
+  
+  /**
+   * Returns the enabled state of the click.
+   * 
+   * @return if click is enabled
+   */
+  public boolean isClickEnabled() {
+    return mClickEnabled;
+  }
+
+  /**
+   * Sets the enabled state of the click.
+   * 
+   * @param enabled click enabled
+   */
+  public void setClickEnabled(boolean enabled) {
+    mClickEnabled = enabled;
   }
 
   /**
