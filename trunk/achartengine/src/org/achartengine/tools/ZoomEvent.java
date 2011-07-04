@@ -13,36 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.achartengine;
+package org.achartengine.tools;
 
-import org.achartengine.tools.ZoomListener;
-
-import android.view.MotionEvent;
 
 /**
- * The interface to be implemented by the touch handlers.
+ * A zoom event.
  */
-public interface ITouchHandler {
+public class ZoomEvent {
+  /** A flag to be used to know if this is a zoom in or out. */
+  private boolean mZoomIn;
+  /** The zoom rate. */
+  private float mZoomRate;
+
   /**
-   * Handles the touch event.
+   * Builds the zoom tool.
    * 
-   * @param event the touch event
-   * @return true if the event was handled
+   * @param in zoom in or out
+   * @param rate the zoom rate
    */
-  boolean handleTouch(MotionEvent event);
+  public ZoomEvent(boolean in, float rate) {
+    mZoomIn = in;
+    mZoomRate = rate;
+  }
+
+  /**
+   * Returns the zoom type.
+   * 
+   * @return true if zoom in, false otherwise
+   */
+  public boolean isZoomIn() {
+    return mZoomIn;
+  }
   
   /**
-   * Adds a new zoom listener.
+   * Returns the zoom rate.
    * 
-   * @param listener zoom listener
+   * @return the zoom rate
    */
-  void addZoomListener(ZoomListener listener);
-
-  /**
-   * Removes a zoom listener.
-   * 
-   * @param listener zoom listener
-   */
-  void removeZoomListener(ZoomListener listener);
-
+  public float getZoomRate() {
+    return mZoomRate;
+  }
 }

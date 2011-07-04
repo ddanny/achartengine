@@ -20,6 +20,7 @@ import org.achartengine.chart.RoundChart;
 import org.achartengine.chart.XYChart;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.tools.Pan;
+import org.achartengine.tools.ZoomListener;
 
 import android.graphics.RectF;
 import android.view.MotionEvent;
@@ -92,6 +93,22 @@ public class TouchHandlerOld implements ITouchHandler {
       oldY = 0;
     }
     return !mRenderer.isClickEnabled();
+  }
+
+  /**
+   * Adds a new zoom listener.
+   * 
+   * @param listener zoom listener
+   */
+  public void addZoomListener(ZoomListener listener) {
+  }
+
+  /**
+   * Removes a zoom listener.
+   * 
+   * @param listener zoom listener
+   */
+  public void removeZoomListener(ZoomListener listener) {
   }
 
 }

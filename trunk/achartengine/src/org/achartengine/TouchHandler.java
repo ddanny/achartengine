@@ -21,6 +21,7 @@ import org.achartengine.chart.XYChart;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.tools.Pan;
 import org.achartengine.tools.Zoom;
+import org.achartengine.tools.ZoomListener;
 
 import android.graphics.RectF;
 import android.view.MotionEvent;
@@ -44,7 +45,7 @@ public class TouchHandler implements ITouchHandler {
   /** The pan tool. */
   private Pan pan;
   /** The zoom for the pinch gesture. */
-  private Zoom pinchZoom;
+  private Zoom mPinchZoom;
   /** The graphical view. */
   private GraphicalView graphicalView;
 
@@ -66,7 +67,7 @@ public class TouchHandler implements ITouchHandler {
       pan = new Pan((XYChart) chart);
     }
     if (mRenderer.isZoomEnabled()) {
-      pinchZoom = new Zoom(chart, true, 1);
+      mPinchZoom = new Zoom(chart, true, 1);
     }
   }
 
@@ -95,8 +96,8 @@ public class TouchHandler implements ITouchHandler {
             zoomRate = newDeltaY / oldDeltaY;
           }
           if (zoomRate > 0.909 && zoomRate < 1.1) {
-            pinchZoom.setZoomRate(zoomRate);
-            pinchZoom.apply();
+            mPinchZoom.setZoomRate(zoomRate);
+            mPinchZoom.apply();
           }
           oldX2 = newX2;
           oldY2 = newY2;
@@ -135,5 +136,28 @@ public class TouchHandler implements ITouchHandler {
     }
     return !mRenderer.isClickEnabled();
   }
+  
+  /**
+   * Adds a new zoom listener.
+   * 
+   * @param listener zoom listener
+   */
+  public void addZoomListener(ZoomListener listener) {
+    if (mPinchZoom != null) {
+      mPinchZoom.addZoomListener(listener);
+    }
+  }
+
+  /**
+   * Removes a zoom listener.
+   * 
+   * @param listener zoom listener
+   */
+  public void removeZoomListener(ZoomListener listener) {
+    if (mPinchZoom != null) {
+      mPinchZoom.removeZoomListener(listener);
+    }
+  }
+
 
 }
