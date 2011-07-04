@@ -15,6 +15,9 @@
  */
 package org.achartengine.tools;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.achartengine.chart.AbstractChart;
 import org.achartengine.chart.RoundChart;
 import org.achartengine.chart.XYChart;
@@ -28,6 +31,8 @@ public class Zoom extends AbstractTool {
   private boolean mZoomIn;
   /** The zoom rate. */
   private float mZoomRate;
+  /** The zoom listeners. */
+  private List<ZoomListener> mZoomListeners = new ArrayList<ZoomListener>();
 
   /**
    * Builds the zoom tool.
@@ -106,6 +111,34 @@ public class Zoom extends AbstractTool {
         renderer.setScale(renderer.getScale() / mZoomRate);
       }
     }
+    notifyZoomListeners(new ZoomEvent(mZoomIn, mZoomRate));
+  }
+  
+  /**
+   * Notify the zoom listeners.
+   */
+  private synchronized void notifyZoomListeners(ZoomEvent e) {
+    for (ZoomListener listener : mZoomListeners) {
+      listener.zoomApplied(e);
+    }
+  }
+  
+  /**
+   * Adds a new zoom listener.
+   * 
+   * @param listener zoom listener
+   */
+  public synchronized void addZoomListener(ZoomListener listener) {
+    mZoomListeners.add(listener);
+  }
+
+  /**
+   * Removes a zoom listener.
+   * 
+   * @param listener zoom listener
+   */
+  public synchronized void removeZoomListener(ZoomListener listener) {
+    mZoomListeners.add(listener);
   }
 
 }

@@ -23,6 +23,7 @@ import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.tools.FitZoom;
 import org.achartengine.tools.Zoom;
+import org.achartengine.tools.ZoomListener;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -63,15 +64,15 @@ public class GraphicalView extends View {
   /** The zoom buttons background color. */
   private static final int ZOOM_BUTTONS_COLOR = Color.argb(175, 150, 150, 150);
   /** The zoom in tool. */
-  private Zoom zoomIn;
+  private Zoom mZoomIn;
   /** The zoom out tool. */
-  private Zoom zoomOut;
+  private Zoom mZoomOut;
   /** The fit zoom tool. */
-  private FitZoom fitZoom;
+  private FitZoom mFitZoom;
   /** The paint to be used when drawing the chart. */
   private Paint mPaint = new Paint();
   /** The touch handler. */
-  private ITouchHandler touchHandler;
+  private ITouchHandler mTouchHandler;
   /** The old x coordinate. */
   private float oldX;
   /** The old y coordinate. */
@@ -104,9 +105,9 @@ public class GraphicalView extends View {
       ((XYMultipleSeriesRenderer) mRenderer).setMarginsColor(mPaint.getColor());
     }
     if (mRenderer.isZoomEnabled() && mRenderer.isZoomButtonsVisible() || mRenderer.isExternalZoomEnabled()) {
-      zoomIn = new Zoom(mChart, true, mRenderer.getZoomRate());
-      zoomOut = new Zoom(mChart, false, mRenderer.getZoomRate());
-      fitZoom = new FitZoom(mChart);
+      mZoomIn = new Zoom(mChart, true, mRenderer.getZoomRate());
+      mZoomOut = new Zoom(mChart, false, mRenderer.getZoomRate());
+      mFitZoom = new FitZoom(mChart);
     }
     int version = 7;
     try {
@@ -115,9 +116,9 @@ public class GraphicalView extends View {
       // do nothing
     }
     if (version < 7) {
-      touchHandler = new TouchHandlerOld(this, mChart);
+      mTouchHandler = new TouchHandlerOld(this, mChart);
     } else {
-      touchHandler = new TouchHandler(this, mChart);
+      mTouchHandler = new TouchHandler(this, mChart);
     }
   }
 
@@ -153,9 +154,9 @@ public class GraphicalView extends View {
    * @param rate the zoom rate
    */
   public void setZoomRate(float rate) {
-    if (zoomIn != null && zoomOut != null) {
-      zoomIn.setZoomRate(rate);
-      zoomOut.setZoomRate(rate);
+    if (mZoomIn != null && mZoomOut != null) {
+      mZoomIn.setZoomRate(rate);
+      mZoomOut.setZoomRate(rate);
     }
   }
 
@@ -163,8 +164,8 @@ public class GraphicalView extends View {
    * Do a chart zoom in.
    */
   public void zoomIn() {
-    if (zoomIn != null) {
-      zoomIn.apply();
+    if (mZoomIn != null) {
+      mZoomIn.apply();
       repaint();
     }
   }
@@ -173,8 +174,8 @@ public class GraphicalView extends View {
    * Do a chart zoom out.
    */
   public void zoomOut() {
-    if (zoomOut != null) {
-      zoomOut.apply();
+    if (mZoomOut != null) {
+      mZoomOut.apply();
       repaint();
     }
   }
@@ -183,9 +184,38 @@ public class GraphicalView extends View {
    * Do a chart zoom reset / fit zoom.
    */
   public void zoomReset() {
-    if (fitZoom != null) {
-      fitZoom.apply();
+    if (mFitZoom != null) {
+      mFitZoom.apply();
       repaint();
+    }
+  }
+  
+  /**
+   * Adds a new zoom listener.
+   * 
+   * @param listener zoom listener
+   */
+  public void addZoomListener(ZoomListener listener, boolean onButtons, boolean onPinch) {
+    if (onButtons) {
+      if (mZoomIn != null) {
+        mZoomIn.addZoomListener(listener);
+        mZoomOut.addZoomListener(listener);
+      }
+      if (onPinch) {
+        mTouchHandler.addZoomListener(listener);
+      }
+    }
+  }
+
+  /**
+   * Removes a zoom listener.
+   * 
+   * @param listener zoom listener
+   */
+  public synchronized void removeZoomListener(ZoomListener listener) {
+    if (mZoomIn != null) {
+      mZoomIn.removeZoomListener(listener);
+      mZoomOut.removeZoomListener(listener);
     }
   }
 
@@ -202,7 +232,7 @@ public class GraphicalView extends View {
       oldY = event.getY();
     }
     if (mRenderer != null && (mRenderer.isPanEnabled() || mRenderer.isZoomEnabled())) {
-      if (touchHandler.handleTouch(event)) {
+      if (mTouchHandler.handleTouch(event)) {
         return true;
       }
     }
