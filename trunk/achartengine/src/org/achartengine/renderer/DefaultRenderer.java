@@ -470,9 +470,6 @@ public class DefaultRenderer implements Serializable {
    * @param scale the scale value
    */
   public void setScale(float scale) {
-    if (mOriginalScale == 1) {
-      mOriginalScale = scale;
-    }
     mScale = scale;
   }
 
