@@ -35,7 +35,7 @@ import android.graphics.Color;
 import android.graphics.Paint.Align;
 
 /**
- * Average temperature demo chart.
+ * Combined temperature demo chart.
  */
 public class CombinedTemperatureChart extends AbstractDemoChart {
   /**
