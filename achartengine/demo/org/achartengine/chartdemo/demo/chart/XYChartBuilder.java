@@ -15,9 +15,6 @@
  */
 package org.achartengine.chartdemo.demo.chart;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chartdemo.demo.R;
@@ -26,12 +23,11 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.tools.ZoomEvent;
+import org.achartengine.tools.ZoomListener;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -93,6 +89,7 @@ public class XYChartBuilder extends Activity {
     mRenderer.setLabelsTextSize(15);
     mRenderer.setLegendTextSize(15);
     mRenderer.setMargins(new int[] { 20, 30, 15, 0 });
+    mRenderer.setZoomButtonsVisible(true);
 
     mAdd = (Button) findViewById(R.id.add);
     mNewSeries = (Button) findViewById(R.id.new_series);
@@ -134,14 +131,14 @@ public class XYChartBuilder extends Activity {
         if (mChartView != null) {
           mChartView.repaint();
         }
-        Bitmap bitmap = mChartView.toBitmap();
-        try {
-          File file = new File(Environment.getExternalStorageDirectory(), "test.jpg");
-          FileOutputStream output = new FileOutputStream(file);
-          bitmap.compress(CompressFormat.JPEG, 100, output);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+//        Bitmap bitmap = mChartView.toBitmap();
+//        try {
+//          File file = new File(Environment.getExternalStorageDirectory(), "test.jpg");
+//          FileOutputStream output = new FileOutputStream(file);
+//          bitmap.compress(CompressFormat.JPEG, 100, output);
+//        } catch (Exception e) {
+//          e.printStackTrace();
+//        }
       }
     });
   }
@@ -187,6 +184,15 @@ public class XYChartBuilder extends Activity {
           }
         }
       });
+//      mChartView.addZoomListener(new ZoomListener() {
+//        public void zoomApplied(ZoomEvent e) {
+//          String type = "out";
+//          if (e.isZoomIn()) {
+//            type = "in";
+//          }
+//          System.out.println("Zoom " + type + " rate " + e.getZoomRate());
+//        }
+//      }, true, true);
       layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT,
           LayoutParams.FILL_PARENT));
       boolean enabled = mDataset.getSeriesCount() > 0;
