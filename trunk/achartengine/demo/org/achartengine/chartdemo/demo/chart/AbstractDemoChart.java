@@ -31,6 +31,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 /**
  * An abstract class for the demo charts to extend.
+ * It contains some methods for building datasets and renderers.
  */
 public abstract class AbstractDemoChart implements IDemoChart {
 
