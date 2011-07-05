@@ -40,9 +40,9 @@ public class DefaultRenderer implements Serializable {
   private static final Typeface REGULAR_TEXT_FONT = Typeface
       .create(Typeface.SERIF, Typeface.NORMAL);
   /** The typeface name for the texts. */
-  private String textTypefaceName = REGULAR_TEXT_FONT.toString();
+  private String mTextTypefaceName = REGULAR_TEXT_FONT.toString();
   /** The typeface style for the texts. */
-  private int textTypefaceStyle = Typeface.NORMAL;
+  private int mTextTypefaceStyle = Typeface.NORMAL;
   /** The chart background color. */
   private int mBackgroundColor;
   /** If the background color is applied. */
@@ -386,7 +386,7 @@ public class DefaultRenderer implements Serializable {
    * @return the text typeface name
    */
   public String getTextTypefaceName() {
-    return textTypefaceName;
+    return mTextTypefaceName;
   }
 
   /**
@@ -395,7 +395,7 @@ public class DefaultRenderer implements Serializable {
    * @return the text typeface style
    */
   public int getTextTypefaceStyle() {
-    return textTypefaceStyle;
+    return mTextTypefaceStyle;
   }
 
   /**
@@ -423,8 +423,8 @@ public class DefaultRenderer implements Serializable {
    * @param style the text typeface style
    */
   public void setTextTypeface(String typefaceName, int style) {
-    textTypefaceName = typefaceName;
-    textTypefaceStyle = style;
+    mTextTypefaceName = typefaceName;
+    mTextTypefaceStyle = style;
   }
 
   /**
