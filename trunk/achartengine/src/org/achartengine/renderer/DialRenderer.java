@@ -42,7 +42,7 @@ public class DialRenderer extends DefaultRenderer {
   /** The spacing for the major ticks. */
   private double mMajorTickSpacing = MathHelper.NULL_VALUE;
   /** An array of the renderers types (default is NEEDLE). */
-  private List<Type> visualTypes = new ArrayList<Type>();
+  private List<Type> mVisualTypes = new ArrayList<Type>();
 
   public enum Type {
     NEEDLE, ARROW;
@@ -217,8 +217,8 @@ public class DialRenderer extends DefaultRenderer {
    * @return the visual type
    */
   public Type getVisualTypeForIndex(int index) {
-    if (index < visualTypes.size()) {
-      return visualTypes.get(index);
+    if (index < mVisualTypes.size()) {
+      return mVisualTypes.get(index);
     }
     return Type.NEEDLE;
   }
@@ -229,8 +229,8 @@ public class DialRenderer extends DefaultRenderer {
    * @param types the visual types
    */
   public void setVisualTypes(Type[] types) {
-    visualTypes.clear();
-    visualTypes.addAll(Arrays.asList(types));
+    mVisualTypes.clear();
+    mVisualTypes.addAll(Arrays.asList(types));
   }
 
 }

@@ -70,7 +70,7 @@ public class DefaultRenderer implements Serializable {
   /** The simple renderers that are included in this multiple series renderer. */
   private List<SimpleSeriesRenderer> mRenderers = new ArrayList<SimpleSeriesRenderer>();
   /** The antialiasing flag. */
-  private boolean antialiasing = true;
+  private boolean mAntialiasing = true;
   /** The legend height. */
   private int mLegendHeight = 0;
   /** The margins size. */
@@ -433,7 +433,7 @@ public class DefaultRenderer implements Serializable {
    * @return the antialiasing value
    */
   public boolean isAntialiasing() {
-    return antialiasing;
+    return mAntialiasing;
   }
 
   /**
@@ -442,7 +442,7 @@ public class DefaultRenderer implements Serializable {
    * @param antialiasing the antialiasing
    */
   public void setAntialiasing(boolean antialiasing) {
-    this.antialiasing = antialiasing;
+    mAntialiasing = antialiasing;
   }
 
   /**
