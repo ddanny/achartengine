@@ -35,15 +35,15 @@ import org.achartengine.util.MathHelper;
 import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Paint.Cap;
+import android.graphics.Paint.Join;
+import android.graphics.Paint.Style;
 import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.graphics.Paint.Align;
-import android.graphics.Paint.Cap;
-import android.graphics.Paint.Join;
-import android.graphics.Paint.Style;
 
 /**
  * The XY chart rendering class.
@@ -101,14 +101,9 @@ public abstract class XYChart extends AbstractChart {
    * @param height the height of the view to draw to
    * @param paint the paint
    */
-  @Override
   public void draw(Canvas canvas, int x, int y, int width, int height, Paint paint) {
     paint.setAntiAlias(mRenderer.isAntialiasing());
-    int legendSize = mRenderer.getLegendHeight();
-
-    if (mRenderer.isShowLegend() && legendSize == 0) {
-      legendSize = height / 5;
-    }
+    int legendSize = getLegendSize(mRenderer, height / 5, mRenderer.getAxisTitleTextSize());
     int[] margins = mRenderer.getMargins();
     int left = x + margins[1];
     int top = y + margins[0];

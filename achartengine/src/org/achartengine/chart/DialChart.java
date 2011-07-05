@@ -61,19 +61,14 @@ public class DialChart extends RoundChart {
     paint.setAntiAlias(mRenderer.isAntialiasing());
     paint.setStyle(Style.FILL);
     paint.setTextSize(mRenderer.getLabelsTextSize());
-    int legendSize = mRenderer.getLegendHeight();
-    if (mRenderer.isShowLegend() && legendSize == 0) {
-      legendSize = height / 5;
-    }
+    int legendSize = getLegendSize(mRenderer, height / 5, 0);
     int left = x;
     int top = y;
     int right = x + width;
 
     int sLength = mDataset.getItemCount();
-    double total = 0;
     String[] titles = new String[sLength];
     for (int i = 0; i < sLength; i++) {
-      total += mDataset.getValue(i);
       titles[i] = mDataset.getCategory(i);
     }
 

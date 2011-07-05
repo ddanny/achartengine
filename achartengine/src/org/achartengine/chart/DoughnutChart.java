@@ -63,10 +63,7 @@ public class DoughnutChart extends RoundChart {
     paint.setAntiAlias(mRenderer.isAntialiasing());
     paint.setStyle(Style.FILL);
     paint.setTextSize(mRenderer.getLabelsTextSize());
-    int legendSize = mRenderer.getLegendHeight();
-    if (mRenderer.isShowLegend() && legendSize == 0) {
-      legendSize = height / 5;
-    }
+    int legendSize = getLegendSize(mRenderer, height / 5, 0);
     int left = x;
     int top = y;
     int right = x + width;
