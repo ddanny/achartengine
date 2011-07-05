@@ -26,7 +26,7 @@ import org.achartengine.ChartFactory;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.chart.TimeChart;
 import org.achartengine.chart.BarChart.Type;
-import org.achartengine.chartdemo.demo.chart.IChart;
+import org.achartengine.chartdemo.demo.chart.IDemoChart;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -61,7 +61,7 @@ public class GeneratedChartDemo extends ListActivity {
         "Scatter chart with randomly generated values",
         "Time chart with randomly generated values", "Bar chart with randomly generated values" };
     setListAdapter(new SimpleAdapter(this, getListValues(), android.R.layout.simple_list_item_2,
-        new String[] { IChart.NAME, IChart.DESC }, new int[] { android.R.id.text1, android.R.id.text2 }));
+        new String[] { IDemoChart.NAME, IDemoChart.DESC }, new int[] { android.R.id.text1, android.R.id.text2 }));
   }
 
   private List<Map<String, String>> getListValues() {
@@ -69,8 +69,8 @@ public class GeneratedChartDemo extends ListActivity {
     int length = mMenuText.length;
     for (int i = 0; i < length; i++) {
       Map<String, String> v = new HashMap<String, String>();
-      v.put(IChart.NAME, mMenuText[i]);
-      v.put(IChart.DESC, mMenuSummary[i]);
+      v.put(IDemoChart.NAME, mMenuText[i]);
+      v.put(IDemoChart.DESC, mMenuSummary[i]);
       values.add(v);
     }
     return values;

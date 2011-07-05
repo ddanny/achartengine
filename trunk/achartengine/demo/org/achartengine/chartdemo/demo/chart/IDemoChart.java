@@ -21,7 +21,7 @@ import android.content.Intent;
 /**
  * Defines the demo charts.
  */
-public interface IChart {
+public interface IDemoChart {
   /** A constant for the name field in a list activity. */
   String NAME = "name";
   /** A constant for the description field in a list activity. */
