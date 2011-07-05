@@ -235,6 +235,17 @@ public abstract class AbstractChart implements Serializable {
     }
     return newText;
   }
+  
+  protected int getLegendSize(DefaultRenderer renderer, int defaultHeight, float extraHeight) {
+    int legendSize = renderer.getLegendHeight();
+    if (renderer.isShowLegend() && legendSize == 0) {
+      legendSize = defaultHeight;
+    }
+    if (!renderer.isShowLegend() && renderer.isShowLabels()) {
+      legendSize = (int) (renderer.getLabelsTextSize() * 4 / 3 + extraHeight);
+    }
+    return legendSize;
+  }
 
   protected void drawLabel(Canvas canvas, String labelText, DefaultRenderer renderer,
       List<RectF> prevLabelsBounds, int centerX, int centerY, float shortRadius, float longRadius,
