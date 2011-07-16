@@ -89,6 +89,8 @@ public class DefaultRenderer implements Serializable {
   private float mOriginalScale = mScale;
   /** A flag for enabling the click on elements. */
   private boolean mClickEnabled = false;
+  /** The selectable radius around a clickable point. */
+  private int selectableBuffer = 15;
 
   /**
    * Returns the chart title.
@@ -571,6 +573,23 @@ public class DefaultRenderer implements Serializable {
   public void setClickEnabled(boolean enabled) {
     mClickEnabled = enabled;
   }
+  
+  /**
+   * Returns the selectable radius value around clickable points.
+   * @return the selectable radius
+   */
+  public int getSelectableBuffer() {
+    return selectableBuffer;
+  }
+  
+  /**
+   * Sets the selectable radius value around clickable points.
+   * @param buffer the selectable radius
+   */
+  public void setSelectableBuffer(int buffer) {
+    selectableBuffer = buffer;
+  }
+
 
   /**
    * Returns the legend height.
