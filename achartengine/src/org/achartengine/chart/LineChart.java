@@ -22,8 +22,8 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.graphics.Paint.Style;
+import android.graphics.RectF;
 
 /**
  * The line chart rendering class.
@@ -103,9 +103,8 @@ public class LineChart extends XYChart {
     RectF[] ret = new RectF[length / 2];
     for (int i = 0; i < length; i += 2) {
       int selectableBuffer = mRenderer.getSelectableBuffer();
-      ret[i / 2] = new RectF(points[i] - selectableBuffer, points[i + 1]
-          - selectableBuffer, points[i] + selectableBuffer,
-          points[i + 1] + selectableBuffer);
+      ret[i / 2] = new RectF(points[i] - selectableBuffer, points[i + 1] - selectableBuffer,
+          points[i] + selectableBuffer, points[i + 1] + selectableBuffer);
     }
     return ret;
   }
