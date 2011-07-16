@@ -104,7 +104,8 @@ public class GraphicalView extends View {
         && ((XYMultipleSeriesRenderer) mRenderer).getMarginsColor() == XYMultipleSeriesRenderer.NO_COLOR) {
       ((XYMultipleSeriesRenderer) mRenderer).setMarginsColor(mPaint.getColor());
     }
-    if (mRenderer.isZoomEnabled() && mRenderer.isZoomButtonsVisible() || mRenderer.isExternalZoomEnabled()) {
+    if (mRenderer.isZoomEnabled() && mRenderer.isZoomButtonsVisible()
+        || mRenderer.isExternalZoomEnabled()) {
       mZoomIn = new Zoom(mChart, true, mRenderer.getZoomRate());
       mZoomOut = new Zoom(mChart, false, mRenderer.getZoomRate());
       mFitZoom = new FitZoom(mChart);
@@ -190,7 +191,7 @@ public class GraphicalView extends View {
       repaint();
     }
   }
-  
+
   /**
    * Adds a new zoom listener.
    * 
@@ -239,7 +240,7 @@ public class GraphicalView extends View {
     }
     return super.onTouchEvent(event);
   }
-  
+
   /**
    * Schedule a view content repaint.
    */
@@ -276,6 +277,7 @@ public class GraphicalView extends View {
     if (!isDrawingCacheEnabled()) {
       setDrawingCacheEnabled(true);
     }
+    setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
     return getDrawingCache();
   }
 
