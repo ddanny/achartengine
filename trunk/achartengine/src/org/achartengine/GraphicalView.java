@@ -186,6 +186,7 @@ public class GraphicalView extends View {
   public void zoomReset() {
     if (mFitZoom != null) {
       mFitZoom.apply();
+      mZoomIn.notifyZoomResetListeners();
       repaint();
     }
   }

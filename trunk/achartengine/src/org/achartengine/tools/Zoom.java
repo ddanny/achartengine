@@ -113,16 +113,26 @@ public class Zoom extends AbstractTool {
     }
     notifyZoomListeners(new ZoomEvent(mZoomIn, mZoomRate));
   }
-  
+
   /**
-   * Notify the zoom listeners.
+   * Notify the zoom listeners about a zoom change.
+   * @param e the zoom event
    */
   private synchronized void notifyZoomListeners(ZoomEvent e) {
     for (ZoomListener listener : mZoomListeners) {
       listener.zoomApplied(e);
     }
   }
-  
+
+  /**
+   * Notify the zoom listeners about a zoom reset.
+   */
+  public synchronized void notifyZoomResetListeners() {
+    for (ZoomListener listener : mZoomListeners) {
+      listener.zoomReset();
+    }
+  }
+
   /**
    * Adds a new zoom listener.
    * 
