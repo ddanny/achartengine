@@ -23,6 +23,8 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.tools.ZoomEvent;
+import org.achartengine.tools.ZoomListener;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -148,6 +150,7 @@ public class XYChartBuilder extends Activity {
       LinearLayout layout = (LinearLayout) findViewById(R.id.chart);
       mChartView = ChartFactory.getLineChartView(this, mDataset, mRenderer);
       mRenderer.setClickEnabled(true);
+      mRenderer.setSelectableBuffer(100);
       mChartView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -182,15 +185,19 @@ public class XYChartBuilder extends Activity {
           }
         }
       });
-//      mChartView.addZoomListener(new ZoomListener() {
-//        public void zoomApplied(ZoomEvent e) {
-//          String type = "out";
-//          if (e.isZoomIn()) {
-//            type = "in";
-//          }
-//          System.out.println("Zoom " + type + " rate " + e.getZoomRate());
-//        }
-//      }, true, true);
+      mChartView.addZoomListener(new ZoomListener() {
+        public void zoomApplied(ZoomEvent e) {
+          String type = "out";
+          if (e.isZoomIn()) {
+            type = "in";
+          }
+          System.out.println("Zoom " + type + " rate " + e.getZoomRate());
+        }
+        
+        public void zoomReset() {
+          System.out.println("Reset");
+        }
+      }, true, true);
       layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT,
           LayoutParams.FILL_PARENT));
       boolean enabled = mDataset.getSeriesCount() > 0;

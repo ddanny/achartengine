@@ -27,18 +27,16 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.graphics.Paint.Align;
-import android.graphics.Paint.Style;
 
 /**
  * An abstract class to be implemented by the chart rendering classes.
  */
 public abstract class AbstractChart implements Serializable {
-  /** The selectable area around a point */
-  protected static final int SELECTABLE_BUFFER_AROUND_POINT = 10;
 
   /**
    * The graphical representation of the chart.
