@@ -25,8 +25,8 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.graphics.Paint.Style;
+import android.graphics.RectF;
 
 /**
  * The doughnut chart rendering class.
