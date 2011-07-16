@@ -24,8 +24,8 @@ import org.achartengine.util.MathHelper;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.graphics.Paint.Style;
+import android.graphics.RectF;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
 
@@ -133,24 +133,24 @@ public class BarChart extends XYChart {
 
       if (yMin < minY) {
         paint.setColor(gradientMinColor);
-        canvas.drawRect(Math.round(xMin), Math.round(yMin), Math.round(xMax), Math
-            .round(gradientMinY), paint);
+        canvas.drawRect(Math.round(xMin), Math.round(yMin), Math.round(xMax),
+            Math.round(gradientMinY), paint);
       } else {
         gradientStopColor = getGradientPartialColor(gradientMinColor, gradientMaxColor,
             (maxY - gradientMinY) / (maxY - minY));
       }
       if (yMax > maxY) {
         paint.setColor(gradientMaxColor);
-        canvas.drawRect(Math.round(xMin), Math.round(gradientMaxY), Math.round(xMax), Math
-            .round(yMax), paint);
+        canvas.drawRect(Math.round(xMin), Math.round(gradientMaxY), Math.round(xMax),
+            Math.round(yMax), paint);
       } else {
         gradientStartColor = getGradientPartialColor(gradientMaxColor, gradientMinColor,
             (gradientMaxY - minY) / (maxY - minY));
       }
       GradientDrawable gradient = new GradientDrawable(Orientation.BOTTOM_TOP, new int[] {
           gradientStartColor, gradientStopColor });
-      gradient.setBounds(Math.round(xMin), Math.round(gradientMinY), Math.round(xMax), Math
-          .round(gradientMaxY));
+      gradient.setBounds(Math.round(xMin), Math.round(gradientMinY), Math.round(xMax),
+          Math.round(gradientMaxY));
       gradient.draw(canvas);
     } else {
       canvas
@@ -188,8 +188,8 @@ public class BarChart extends XYChart {
         if (mType == Type.DEFAULT) {
           x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
         }
-        drawText(canvas, getLabel(series.getY(index)), x, points[i + 1]
-            - renderer.getChartValuesSpacing(), paint, 0);
+        drawText(canvas, getLabel(series.getY(index)), x,
+            points[i + 1] - renderer.getChartValuesSpacing(), paint, 0);
       }
     }
   }
