@@ -63,7 +63,7 @@ public class XYSeries implements Serializable {
     mScaleNumber = scaleNumber;
     initRange();
   }
-  
+
   public int getScaleNumber() {
     return mScaleNumber;
   }
