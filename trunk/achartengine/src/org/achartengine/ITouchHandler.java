@@ -15,6 +15,7 @@
  */
 package org.achartengine;
 
+import org.achartengine.tools.PanListener;
 import org.achartengine.tools.ZoomListener;
 
 import android.view.MotionEvent;
@@ -44,5 +45,19 @@ public interface ITouchHandler {
    * @param listener zoom listener
    */
   void removeZoomListener(ZoomListener listener);
+  
+  /**
+   * Adds a new pan listener.
+   * 
+   * @param listener pan listener
+   */
+  void addPanListener(PanListener listener);
+
+  /**
+   * Removes a pan listener.
+   * 
+   * @param listener pan listener
+   */
+  void removePanListener(PanListener listener);
 
 }

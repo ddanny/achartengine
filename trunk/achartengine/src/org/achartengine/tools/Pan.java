@@ -15,12 +15,17 @@
  */
 package org.achartengine.tools;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.achartengine.chart.XYChart;
 
 /**
  * The pan tool.
  */
 public class Pan extends AbstractTool {
+  /** The pan listeners. */
+  private List<PanListener> mPanListeners = new ArrayList<PanListener>();
 
   /**
    * Builds and instance of the pan tool.
@@ -84,5 +89,34 @@ public class Pan extends AbstractTool {
         }
       }
     }
+    notifyPanListeners();
   }
+  
+  /**
+   * Notify the pan listeners about a pan.
+   */
+  private synchronized void notifyPanListeners() {
+    for (PanListener listener : mPanListeners) {
+      listener.panApplied();
+    }
+  }
+  
+  /**
+   * Adds a new pan listener.
+   * 
+   * @param listener pan listener
+   */
+  public synchronized void addPanListener(PanListener listener) {
+    mPanListeners.add(listener);
+  }
+
+  /**
+   * Removes a pan listener.
+   * 
+   * @param listener pan listener
+   */
+  public synchronized void removePanListener(PanListener listener) {
+    mPanListeners.add(listener);
+  }
+
 }
