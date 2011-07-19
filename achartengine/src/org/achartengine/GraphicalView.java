@@ -222,7 +222,7 @@ public class GraphicalView extends View {
     }
     mTouchHandler.removeZoomListener(listener);
   }
-  
+
   /**
    * Adds a new pan listener.
    * 
