@@ -85,8 +85,12 @@ public class DoughnutChart extends RoundChart {
     double rCoef = 0.35 * mRenderer.getScale();
     double decCoef = 0.2 / cLength;
     int radius = (int) (mRadius * rCoef);
-    int centerX = (left + right) / 2;
-    int centerY = (bottom + top) / 2;
+    if (mCenterX == NO_VALUE) {
+      mCenterX = (left + right) / 2;
+    }
+    if (mCenterY == NO_VALUE) {
+      mCenterY = (bottom + top) / 2;
+    }
     float shortRadius = radius * 0.9f;
     float longRadius = radius * 1.1f;
     List<RectF> prevLabelsBounds = new ArrayList<RectF>();
@@ -99,14 +103,14 @@ public class DoughnutChart extends RoundChart {
         titles[i] = mDataset.getTitles(category)[i];
       }
       float currentAngle = 0;
-      RectF oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
+      RectF oval = new RectF(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY + radius);
       for (int i = 0; i < sLength; i++) {
         paint.setColor(mRenderer.getSeriesRendererAt(i).getColor());
         float value = (float) mDataset.getValues(category)[i];
         float angle = (float) (value / total * 360);
         canvas.drawArc(oval, currentAngle, angle, true, paint);
-        drawLabel(canvas, mDataset.getTitles(category)[i], mRenderer, prevLabelsBounds, centerX,
-            centerY, shortRadius, longRadius, currentAngle, angle, left, right, paint);
+        drawLabel(canvas, mDataset.getTitles(category)[i], mRenderer, prevLabelsBounds, mCenterX,
+            mCenterY, shortRadius, longRadius, currentAngle, angle, left, right, paint);
         currentAngle += angle;
       }
       radius -= (int) mRadius * decCoef;
@@ -117,7 +121,7 @@ public class DoughnutChart extends RoundChart {
         paint.setColor(Color.WHITE);
       }
       paint.setStyle(Style.FILL);
-      oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
+      oval = new RectF(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY + radius);
       canvas.drawArc(oval, 0, 360, true, paint);
       radius -= 1;
     }

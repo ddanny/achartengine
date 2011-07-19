@@ -81,8 +81,12 @@ public class DialChart extends RoundChart {
 
     int mRadius = Math.min(Math.abs(right - left), Math.abs(bottom - top));
     int radius = (int) (mRadius * 0.35 * mRenderer.getScale());
-    int centerX = (left + right) / 2;
-    int centerY = (bottom + top) / 2;
+    if (mCenterX == NO_VALUE) {
+      mCenterX = (left + right) / 2;
+    }
+    if (mCenterY == NO_VALUE) {
+      mCenterY = (bottom + top) / 2;
+    }
     float shortRadius = radius * 0.9f;
     float longRadius = radius * 1.1f;
     double min = mRenderer.getMinValue();
@@ -115,9 +119,9 @@ public class DialChart extends RoundChart {
     if (majorTicks == MathHelper.NULL_VALUE) {
       majorTicks = (max - min) / 10;
     }
-    drawTicks(canvas, min, max, angleMin, angleMax, centerX, centerY, longRadius, radius,
+    drawTicks(canvas, min, max, angleMin, angleMax, mCenterX, mCenterY, longRadius, radius,
         minorTicks, paint, false);
-    drawTicks(canvas, min, max, angleMin, angleMax, centerX, centerY, longRadius, shortRadius,
+    drawTicks(canvas, min, max, angleMin, angleMax, mCenterX, mCenterY, longRadius, shortRadius,
         majorTicks, paint, true);
 
     int count = mRenderer.getSeriesRendererCount();
@@ -125,7 +129,7 @@ public class DialChart extends RoundChart {
       double angle = getAngleForValue(mDataset.getValue(i), angleMin, angleMax, min, max);
       paint.setColor(mRenderer.getSeriesRendererAt(i).getColor());
       boolean type = mRenderer.getVisualTypeForIndex(i) == Type.ARROW;
-      drawNeedle(canvas, angle, centerX, centerY, shortRadius, type, paint);
+      drawNeedle(canvas, angle, mCenterX, mCenterY, shortRadius, type, paint);
     }
     drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
     drawTitle(canvas, x, y, width, paint);

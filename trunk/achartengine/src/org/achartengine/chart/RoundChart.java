@@ -33,6 +33,12 @@ public abstract class RoundChart extends AbstractChart {
   protected CategorySeries mDataset;
   /** The series renderer. */
   protected DefaultRenderer mRenderer;
+  /** A no value constant. */
+  protected static final int NO_VALUE = Integer.MAX_VALUE;
+  /** The chart center X axis. */
+  protected int mCenterX = NO_VALUE;
+  /** The chart center y axis. */
+  protected int mCenterY = NO_VALUE;
 
   /**
    * Builds a new pie chart instance.
@@ -96,6 +102,42 @@ public abstract class RoundChart extends AbstractChart {
    */
   public DefaultRenderer getRenderer() {
     return mRenderer;
+  }
+  
+  /**
+   * Returns the center on X axis.
+   * 
+   * @return the center on X axis
+   */
+  public int getCenterX() {
+    return mCenterX;
+  }
+
+  /**
+   * Returns the center on Y axis.
+   * 
+   * @return the center on Y axis
+   */
+  public int getCenterY() {
+    return mCenterY;
+  }
+
+  /**
+   * Sets a new center on X axis.
+   * 
+   * @param centerX center on X axis
+   */
+  public void setCenterX(int centerX) {
+    mCenterX = centerX;
+  }
+  
+  /**
+   * Sets a new center on Y axis.
+   * 
+   * @param centerY center on Y axis
+   */
+  public void setCenterY(int centerY) {
+    mCenterY = centerY;
   }
 
 }
