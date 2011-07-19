@@ -77,6 +77,8 @@ public class DefaultRenderer implements Serializable {
   private int[] mMargins = new int[] { 20, 30, 10, 20 };
   /** A value to be used for scaling the chart. */
   private float mScale = 1;
+  /** A flag for enabling the pan. */
+  private boolean mPanEnabled = true;
   /** A flag for enabling the zoom. */
   private boolean mZoomEnabled = true;
   /** A flag for enabling the visibility of the zoom buttons. */
@@ -544,7 +546,16 @@ public class DefaultRenderer implements Serializable {
    * @return if pan is enabled
    */
   public boolean isPanEnabled() {
-    return false;
+    return mPanEnabled;
+  }
+  
+  /**
+   * Sets the enabled state of the pan.
+   * 
+   * @param enabled pan enabled
+   */
+  public void setPanEnabled(boolean enabled) {
+    mPanEnabled = enabled;
   }
 
   /**

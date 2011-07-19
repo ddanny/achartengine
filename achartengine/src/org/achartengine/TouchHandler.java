@@ -64,8 +64,8 @@ public class TouchHandler implements ITouchHandler {
     } else {
       mRenderer = ((RoundChart) chart).getRenderer();
     }
-    if (mRenderer.isPanEnabled() && chart instanceof XYChart) {
-      mPan = new Pan((XYChart) chart);
+    if (mRenderer.isPanEnabled()) {
+      mPan = new Pan(chart);
     }
     if (mRenderer.isZoomEnabled()) {
       mPinchZoom = new Zoom(chart, true, 1);

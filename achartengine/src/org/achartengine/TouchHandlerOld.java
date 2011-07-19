@@ -54,11 +54,11 @@ public class TouchHandlerOld implements ITouchHandler {
     zoomR = graphicalView.getZoomRectangle();
     if (chart instanceof XYChart) {
       mRenderer = ((XYChart) chart).getRenderer();
-      if (mRenderer.isPanEnabled()) {
-        mPan = new Pan((XYChart) chart);
-      }
     } else {
       mRenderer = ((RoundChart) chart).getRenderer();
+    }
+    if (mRenderer.isPanEnabled()) {
+      mPan = new Pan((XYChart) chart);
     }
   }
 

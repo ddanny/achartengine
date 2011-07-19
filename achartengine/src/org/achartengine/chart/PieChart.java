@@ -77,19 +77,23 @@ public class PieChart extends RoundChart {
     float currentAngle = 0;
     int mRadius = Math.min(Math.abs(right - left), Math.abs(bottom - top));
     int radius = (int) (mRadius * 0.35 * mRenderer.getScale());
-    int centerX = (left + right) / 2;
-    int centerY = (bottom + top) / 2;
+    if (mCenterX == NO_VALUE) {
+      mCenterX = (left + right) / 2;
+    }
+    if (mCenterY == NO_VALUE) {
+      mCenterY = (bottom + top) / 2;
+    }
     float shortRadius = radius * 0.9f;
     float longRadius = radius * 1.1f;
 
-    RectF oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
+    RectF oval = new RectF(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY + radius);
     List<RectF> prevLabelsBounds = new ArrayList<RectF>();
     for (int i = 0; i < sLength; i++) {
       paint.setColor(mRenderer.getSeriesRendererAt(i).getColor());
       float value = (float) mDataset.getValue(i);
       float angle = (float) (value / total * 360);
       canvas.drawArc(oval, currentAngle, angle, true, paint);
-      drawLabel(canvas, mDataset.getCategory(i), mRenderer, prevLabelsBounds, centerX, centerY,
+      drawLabel(canvas, mDataset.getCategory(i), mRenderer, prevLabelsBounds, mCenterX, mCenterY,
           shortRadius, longRadius, currentAngle, angle, left, right, paint);
       currentAngle += angle;
     }
