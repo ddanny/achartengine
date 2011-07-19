@@ -22,6 +22,7 @@ import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.tools.FitZoom;
+import org.achartengine.tools.PanListener;
 import org.achartengine.tools.Zoom;
 import org.achartengine.tools.ZoomListener;
 
@@ -219,6 +220,25 @@ public class GraphicalView extends View {
       mZoomIn.removeZoomListener(listener);
       mZoomOut.removeZoomListener(listener);
     }
+    mTouchHandler.removeZoomListener(listener);
+  }
+  
+  /**
+   * Adds a new pan listener.
+   * 
+   * @param listener pan listener
+   */
+  public void addPanListener(PanListener listener) {
+    mTouchHandler.addPanListener(listener);
+  }
+
+  /**
+   * Removes a pan listener.
+   * 
+   * @param listener pan listener
+   */
+  public void removePanListener(PanListener listener) {
+    mTouchHandler.removePanListener(listener);
   }
 
   protected RectF getZoomRectangle() {

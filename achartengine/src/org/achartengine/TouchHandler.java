@@ -20,6 +20,7 @@ import org.achartengine.chart.RoundChart;
 import org.achartengine.chart.XYChart;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.tools.Pan;
+import org.achartengine.tools.PanListener;
 import org.achartengine.tools.Zoom;
 import org.achartengine.tools.ZoomListener;
 
@@ -43,7 +44,7 @@ public class TouchHandler implements ITouchHandler {
   /** The zoom buttons rectangle. */
   private RectF zoomR = new RectF();
   /** The pan tool. */
-  private Pan pan;
+  private Pan mPan;
   /** The zoom for the pinch gesture. */
   private Zoom mPinchZoom;
   /** The graphical view. */
@@ -64,7 +65,7 @@ public class TouchHandler implements ITouchHandler {
       mRenderer = ((RoundChart) chart).getRenderer();
     }
     if (mRenderer.isPanEnabled() && chart instanceof XYChart) {
-      pan = new Pan((XYChart) chart);
+      mPan = new Pan((XYChart) chart);
     }
     if (mRenderer.isZoomEnabled()) {
       mPinchZoom = new Zoom(chart, true, 1);
@@ -102,7 +103,7 @@ public class TouchHandler implements ITouchHandler {
           oldX2 = newX2;
           oldY2 = newY2;
         } else if (mRenderer.isPanEnabled()) {
-          pan.apply(oldX, oldY, newX, newY);
+          mPan.apply(oldX, oldY, newX, newY);
           oldX2 = 0;
           oldY2 = 0;
         }
@@ -159,5 +160,25 @@ public class TouchHandler implements ITouchHandler {
     }
   }
 
+  /**
+   * Adds a new pan listener.
+   * 
+   * @param listener pan listener
+   */
+  public void addPanListener(PanListener listener) {
+    if (mPan != null) {
+      mPan.addPanListener(listener);
+    }
+  }
 
+  /**
+   * Removes a pan listener.
+   * 
+   * @param listener pan listener
+   */
+  public void removePanListener(PanListener listener) {
+    if (mPan != null) {
+      mPan.removePanListener(listener);
+    }
+  }
 }
