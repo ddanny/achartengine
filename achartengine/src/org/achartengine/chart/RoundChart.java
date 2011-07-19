@@ -65,8 +65,8 @@ public abstract class RoundChart extends AbstractChart {
       paint.setColor(mRenderer.getLabelsColor());
       paint.setTextAlign(Align.CENTER);
       paint.setTextSize(mRenderer.getChartTitleTextSize());
-      canvas.drawText(mRenderer.getChartTitle(), x + width / 2, y
-          + mRenderer.getChartTitleTextSize(), paint);
+      canvas.drawText(mRenderer.getChartTitle(), x + width / 2,
+          y + mRenderer.getChartTitleTextSize(), paint);
     }
   }
 
@@ -103,7 +103,7 @@ public abstract class RoundChart extends AbstractChart {
   public DefaultRenderer getRenderer() {
     return mRenderer;
   }
-  
+
   /**
    * Returns the center on X axis.
    * 
@@ -130,7 +130,7 @@ public abstract class RoundChart extends AbstractChart {
   public void setCenterX(int centerX) {
     mCenterX = centerX;
   }
-  
+
   /**
    * Sets a new center on Y axis.
    * 
