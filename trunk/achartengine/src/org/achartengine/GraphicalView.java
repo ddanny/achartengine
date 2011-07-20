@@ -294,11 +294,15 @@ public class GraphicalView extends View {
    * @return the bitmap
    */
   public Bitmap toBitmap() {
+    setDrawingCacheEnabled(false);
     if (!isDrawingCacheEnabled()) {
       setDrawingCacheEnabled(true);
     }
+    if (mRenderer.isApplyBackgroundColor()) {
+      setDrawingCacheBackgroundColor(mRenderer.getBackgroundColor());
+    }
     setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-    return getDrawingCache();
+    return getDrawingCache(true);
   }
 
 }
