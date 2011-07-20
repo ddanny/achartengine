@@ -53,7 +53,7 @@ public class GraphicalView extends View {
   /** The user interface thread handler. */
   private Handler mHandler;
   /** The zoom buttons rectangle. */
-  private RectF zoomR = new RectF();
+  private RectF mZoomR = new RectF();
   /** The zoom in icon. */
   private Bitmap zoomInImage;
   /** The zoom out icon. */
@@ -140,9 +140,9 @@ public class GraphicalView extends View {
     if (mRenderer != null && mRenderer.isZoomEnabled() && mRenderer.isZoomButtonsVisible()) {
       mPaint.setColor(ZOOM_BUTTONS_COLOR);
       zoomSize = Math.max(zoomSize, Math.min(width, height) / 7);
-      zoomR.set(left + width - zoomSize * 3, top + height - zoomSize * 0.775f, left + width, top
+      mZoomR.set(left + width - zoomSize * 3, top + height - zoomSize * 0.775f, left + width, top
           + height);
-      canvas.drawRoundRect(zoomR, zoomSize / 3, zoomSize / 3, mPaint);
+      canvas.drawRoundRect(mZoomR, zoomSize / 3, zoomSize / 3, mPaint);
       float buttonY = top + height - zoomSize * 0.625f;
       canvas.drawBitmap(zoomInImage, left + width - zoomSize * 2.75f, buttonY, null);
       canvas.drawBitmap(zoomOutImage, left + width - zoomSize * 1.75f, buttonY, null);
@@ -242,7 +242,7 @@ public class GraphicalView extends View {
   }
 
   protected RectF getZoomRectangle() {
-    return zoomR;
+    return mZoomR;
   }
 
   @Override
