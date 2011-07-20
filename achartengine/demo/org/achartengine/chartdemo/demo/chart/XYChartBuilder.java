@@ -15,8 +15,12 @@
  */
 package org.achartengine.chartdemo.demo.chart;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
+import org.achartengine.chart.PointStyle;
 import org.achartengine.chartdemo.demo.R;
 import org.achartengine.model.SeriesSelection;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -28,7 +32,11 @@ import org.achartengine.tools.ZoomEvent;
 import org.achartengine.tools.ZoomListener;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -58,6 +66,8 @@ public class XYChartBuilder extends Activity {
   private EditText mY;
 
   private GraphicalView mChartView;
+  
+  private int index = 0;
 
   @Override
   protected void onRestoreInstanceState(Bundle savedState) {
@@ -85,12 +95,15 @@ public class XYChartBuilder extends Activity {
     setContentView(R.layout.xy_chart);
     mX = (EditText) findViewById(R.id.xValue);
     mY = (EditText) findViewById(R.id.yValue);
+    mRenderer.setApplyBackgroundColor(true);
+    mRenderer.setBackgroundColor(Color.argb(100, 50, 50, 50));
     mRenderer.setAxisTitleTextSize(16);
     mRenderer.setChartTitleTextSize(20);
     mRenderer.setLabelsTextSize(15);
     mRenderer.setLegendTextSize(15);
     mRenderer.setMargins(new int[] { 20, 30, 15, 0 });
     mRenderer.setZoomButtonsVisible(true);
+    mRenderer.setPointSize(10);
 
     mAdd = (Button) findViewById(R.id.add);
     mNewSeries = (Button) findViewById(R.id.new_series);
@@ -102,6 +115,8 @@ public class XYChartBuilder extends Activity {
         mCurrentSeries = series;
         XYSeriesRenderer renderer = new XYSeriesRenderer();
         mRenderer.addSeriesRenderer(renderer);
+        renderer.setPointStyle(PointStyle.CIRCLE);
+        renderer.setFillPoints(true);
         mCurrentRenderer = renderer;
         setSeriesEnabled(true);
       }
@@ -132,14 +147,14 @@ public class XYChartBuilder extends Activity {
         if (mChartView != null) {
           mChartView.repaint();
         }
-//        Bitmap bitmap = mChartView.toBitmap();
-//        try {
-//          File file = new File(Environment.getExternalStorageDirectory(), "test.jpg");
-//          FileOutputStream output = new FileOutputStream(file);
-//          bitmap.compress(CompressFormat.JPEG, 100, output);
-//        } catch (Exception e) {
-//          e.printStackTrace();
-//        }
+        Bitmap bitmap = mChartView.toBitmap();
+        try {
+          File file = new File(Environment.getExternalStorageDirectory(), "test" + index++ + ".png");
+          FileOutputStream output = new FileOutputStream(file);
+          bitmap.compress(CompressFormat.PNG, 100, output);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       }
     });
   }
