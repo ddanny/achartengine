@@ -60,9 +60,9 @@ public class Pan extends AbstractTool {
           return;
         }
         checkRange(range, i);
-
-        double[] realPoint = chart.toRealPoint(oldX, oldY);
-        double[] realPoint2 = chart.toRealPoint(newX, newY);
+        
+        double[] realPoint = chart.toRealPoint(oldX, oldY, i);
+        double[] realPoint2 = chart.toRealPoint(newX, newY, i);
         double deltaX = realPoint[0] - realPoint2[0];
         double deltaY = realPoint[1] - realPoint2[1];
         if (mRenderer.isPanXEnabled()) {
