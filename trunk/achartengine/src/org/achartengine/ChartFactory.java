@@ -16,6 +16,7 @@
 package org.achartengine;
 
 import org.achartengine.chart.BarChart;
+import org.achartengine.chart.BarChart.Type;
 import org.achartengine.chart.BubbleChart;
 import org.achartengine.chart.CombinedXYChart;
 import org.achartengine.chart.CubicLineChart;
@@ -27,7 +28,6 @@ import org.achartengine.chart.RangeBarChart;
 import org.achartengine.chart.ScatterChart;
 import org.achartengine.chart.TimeChart;
 import org.achartengine.chart.XYChart;
-import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.MultipleCategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -69,7 +69,7 @@ public class ChartFactory {
     XYChart chart = new LineChart(dataset, renderer);
     return new GraphicalView(context, chart);
   }
-  
+
   /**
    * Creates a cubic line chart view.
    * 
@@ -86,7 +86,7 @@ public class ChartFactory {
     checkParameters(dataset, renderer);
     XYChart chart = new CubicLineChart(dataset, renderer, smoothness);
     return new GraphicalView(context, chart);
-  }  
+  }
 
   /**
    * Creates a scatter chart view.
@@ -191,13 +191,14 @@ public class ChartFactory {
    * @param renderer the multiple series renderer (cannot be null)
    * @param types the chart types (cannot be null)
    * @return a combined XY chart graphical view
-   * @throws IllegalArgumentException if dataset is null or renderer is null
-   *           or if a dataset number of items is different than the number of
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if a dataset number of items is different than the number of
    *           series renderers or number of chart types
    */
   public static final GraphicalView getCombinedXYChartView(Context context,
       XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, String[] types) {
-    if (dataset == null || renderer == null || types == null || dataset.getSeriesCount() != types.length) {
+    if (dataset == null || renderer == null || types == null
+        || dataset.getSeriesCount() != types.length) {
       throw new IllegalArgumentException(
           "Dataset, renderer and types should be not null and the datasets series count should be equal to the types length");
     }
@@ -280,11 +281,11 @@ public class ChartFactory {
       XYMultipleSeriesRenderer renderer) {
     return getLineChartIntent(context, dataset, renderer, "");
   }
-  
+
   /**
    * 
-   * Creates a cubic line chart intent that can be used to start the graphical view
-   * activity.
+   * Creates a cubic line chart intent that can be used to start the graphical
+   * view activity.
    * 
    * @param context the context
    * @param dataset the multiple series dataset (cannot be null)
@@ -294,10 +295,10 @@ public class ChartFactory {
    *           if the dataset and the renderer don't include the same number of
    *           series
    */
-  public static final Intent getCubicLineChartIntent(Context context, XYMultipleSeriesDataset dataset,
-      XYMultipleSeriesRenderer renderer, float smoothness) {
+  public static final Intent getCubicLineChartIntent(Context context,
+      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, float smoothness) {
     return getCubicLineChartIntent(context, dataset, renderer, smoothness, "");
-  }  
+  }
 
   /**
    * Creates a scatter chart intent that can be used to start the graphical view
@@ -395,7 +396,7 @@ public class ChartFactory {
     intent.putExtra(TITLE, activityTitle);
     return intent;
   }
-  
+
   /**
    * Creates a line chart intent that can be used to start the graphical view
    * activity.
@@ -412,15 +413,16 @@ public class ChartFactory {
    *           if the dataset and the renderer don't include the same number of
    *           series
    */
-  public static final Intent getCubicLineChartIntent(Context context, XYMultipleSeriesDataset dataset,
-      XYMultipleSeriesRenderer renderer, float smoothness, String activityTitle) {
+  public static final Intent getCubicLineChartIntent(Context context,
+      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, float smoothness,
+      String activityTitle) {
     checkParameters(dataset, renderer);
     Intent intent = new Intent(context, GraphicalActivity.class);
     XYChart chart = new CubicLineChart(dataset, renderer, smoothness);
     intent.putExtra(CHART, chart);
     intent.putExtra(TITLE, activityTitle);
     return intent;
-  }  
+  }
 
   /**
    * Creates a scatter chart intent that can be used to start the graphical view
@@ -553,15 +555,17 @@ public class ChartFactory {
    * @param types the chart types (cannot be null)
    * @param activityTitle the graphical chart activity title
    * @return a combined XY chart intent
-   * @throws IllegalArgumentException if dataset is null or renderer is null
-   *           or if a dataset number of items is different than the number of
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if a dataset number of items is different than the number of
    *           series renderers or number of chart types
    */
   public static final Intent getCombinedXYChartIntent(Context context,
-      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, String[] types, String activityTitle) {
-    if (dataset == null || renderer == null || types == null || dataset.getSeriesCount() != types.length) {
+      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, String[] types,
+      String activityTitle) {
+    if (dataset == null || renderer == null || types == null
+        || dataset.getSeriesCount() != types.length) {
       throw new IllegalArgumentException(
-      "Datasets, renderers and types should be not null and the datasets series count should be equal to the types length");
+          "Datasets, renderers and types should be not null and the datasets series count should be equal to the types length");
     }
     checkParameters(dataset, renderer);
     Intent intent = new Intent(context, GraphicalActivity.class);
