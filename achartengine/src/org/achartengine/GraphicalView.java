@@ -135,6 +135,11 @@ public class GraphicalView extends View {
     return mChart.getSeriesAndPointForScreenCoordinate(new Point(oldX, oldY));
   }
 
+  /**
+   * Transforms the currently selected screen point to a real point. 
+   * @param scale the scale
+   * @return the currently selected real point
+   */
   public double[] toRealPoint(int scale) {
     if (mChart instanceof XYChart) {
       XYChart chart = (XYChart) mChart;
