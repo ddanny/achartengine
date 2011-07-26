@@ -23,6 +23,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
+
 public class CubicLineChart extends LineChart {
   /** The chart type. */
   public static final String TYPE = "Cubic";
