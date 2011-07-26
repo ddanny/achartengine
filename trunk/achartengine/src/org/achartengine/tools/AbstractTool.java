@@ -39,7 +39,7 @@ public abstract class AbstractTool {
       mRenderer = ((XYChart) chart).getRenderer();
     }
   }
-  
+
   /**
    * Returns the current chart range.
    * 
@@ -98,6 +98,7 @@ public abstract class AbstractTool {
 
   /**
    * Sets a new range on the Y axis.
+   * 
    * @param min the minimum value
    * @param max the maximum value
    * @param scale the scale
