@@ -86,7 +86,8 @@ public class PieChart extends RoundChart {
     float shortRadius = radius * 0.9f;
     float longRadius = radius * 1.1f;
 
-    RectF oval = new RectF(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY + radius);
+    RectF oval = new RectF(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY
+        + radius);
     List<RectF> prevLabelsBounds = new ArrayList<RectF>();
     for (int i = 0; i < sLength; i++) {
       paint.setColor(mRenderer.getSeriesRendererAt(i).getColor());
