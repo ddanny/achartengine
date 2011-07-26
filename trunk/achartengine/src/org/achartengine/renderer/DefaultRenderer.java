@@ -548,7 +548,7 @@ public class DefaultRenderer implements Serializable {
   public boolean isPanEnabled() {
     return mPanEnabled;
   }
-  
+
   /**
    * Sets the enabled state of the pan.
    * 
@@ -566,7 +566,7 @@ public class DefaultRenderer implements Serializable {
   public void setZoomRate(float rate) {
     mZoomRate = rate;
   }
-  
+
   /**
    * Returns the enabled state of the click.
    * 
@@ -584,23 +584,24 @@ public class DefaultRenderer implements Serializable {
   public void setClickEnabled(boolean enabled) {
     mClickEnabled = enabled;
   }
-  
+
   /**
    * Returns the selectable radius value around clickable points.
+   * 
    * @return the selectable radius
    */
   public int getSelectableBuffer() {
     return selectableBuffer;
   }
-  
+
   /**
    * Sets the selectable radius value around clickable points.
+   * 
    * @param buffer the selectable radius
    */
   public void setSelectableBuffer(int buffer) {
     selectableBuffer = buffer;
   }
-
 
   /**
    * Returns the legend height.
