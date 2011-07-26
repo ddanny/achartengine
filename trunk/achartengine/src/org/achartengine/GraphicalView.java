@@ -127,6 +127,15 @@ public class GraphicalView extends View {
   public SeriesSelection getCurrentSeriesAndPoint() {
     return mChart.getSeriesAndPointForScreenCoordinate(new PointF(oldX, oldY));
   }
+  
+  
+  public double[] toRealPoint(int scale) {
+    if (mChart instanceof XYChart) {
+      XYChart chart = (XYChart) mChart;
+      return chart.toRealPoint(oldX, oldY, scale);
+    }
+    return null;
+  }
 
   @Override
   protected void onDraw(Canvas canvas) {
