@@ -24,7 +24,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 
 /**
- * The pie chart rendering class.
+ * An abstract class to be extended by round like chart rendering classes.
  */
 public abstract class RoundChart extends AbstractChart {
   /** The legend shape width. */
@@ -41,7 +41,7 @@ public abstract class RoundChart extends AbstractChart {
   protected int mCenterY = NO_VALUE;
 
   /**
-   * Builds a new pie chart instance.
+   * Round chart.
    * 
    * @param dataset the series dataset
    * @param renderer the series renderer
@@ -52,7 +52,7 @@ public abstract class RoundChart extends AbstractChart {
   }
 
   /**
-   * The graphical representation of the pie chart.
+   * The graphical representation of the round chart title.
    * 
    * @param canvas the canvas to paint to
    * @param x the top left x value of the view to draw to
