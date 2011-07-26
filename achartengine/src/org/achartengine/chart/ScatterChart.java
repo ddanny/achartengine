@@ -119,9 +119,8 @@ public class ScatterChart extends XYChart {
     RectF[] ret = new RectF[length / 2];
     for (int i = 0; i < length; i += 2) {
       int selectableBuffer = mRenderer.getSelectableBuffer();
-      ret[i / 2] = new RectF(points[i] - selectableBuffer, points[i + 1]
-          - selectableBuffer, points[i] + selectableBuffer,
-          points[i + 1] + selectableBuffer);
+      ret[i / 2] = new RectF(points[i] - selectableBuffer, points[i + 1] - selectableBuffer,
+          points[i] + selectableBuffer, points[i + 1] + selectableBuffer);
     }
     return ret;
   }
