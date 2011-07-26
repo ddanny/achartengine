@@ -40,6 +40,12 @@ public abstract class AbstractTool {
     }
   }
 
+  /**
+   * Returns the current chart range.
+   * 
+   * @param scale the scale
+   * @return the chart range
+   */
   public double[] getRange(int scale) {
     double minX = mRenderer.getXAxisMin(scale);
     double maxX = mRenderer.getXAxisMax(scale);
