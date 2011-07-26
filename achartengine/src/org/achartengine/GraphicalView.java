@@ -126,6 +126,11 @@ public class GraphicalView extends View {
     }
   }
 
+  /**
+   * Returns the current series selection object.
+   * 
+   * @return the series selection
+   */
   public SeriesSelection getCurrentSeriesAndPoint() {
     return mChart.getSeriesAndPointForScreenCoordinate(new Point(oldX, oldY));
   }
