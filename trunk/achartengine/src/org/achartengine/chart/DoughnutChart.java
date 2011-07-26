@@ -38,7 +38,7 @@ public class DoughnutChart extends RoundChart {
   private int mStep;
 
   /**
-   * Builds a new pie chart instance.
+   * Builds a new doughnut chart instance.
    * 
    * @param dataset the series dataset
    * @param renderer the series renderer
@@ -49,7 +49,7 @@ public class DoughnutChart extends RoundChart {
   }
 
   /**
-   * The graphical representation of the pie chart.
+   * The graphical representation of the doughnut chart.
    * 
    * @param canvas the canvas to paint to
    * @param x the top left x value of the view to draw to
@@ -103,7 +103,8 @@ public class DoughnutChart extends RoundChart {
         titles[i] = mDataset.getTitles(category)[i];
       }
       float currentAngle = 0;
-      RectF oval = new RectF(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY + radius);
+      RectF oval = new RectF(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY
+          + radius);
       for (int i = 0; i < sLength; i++) {
         paint.setColor(mRenderer.getSeriesRendererAt(i).getColor());
         float value = (float) mDataset.getValues(category)[i];
