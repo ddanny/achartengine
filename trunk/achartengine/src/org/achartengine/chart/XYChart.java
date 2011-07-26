@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.achartengine.model.Point;
 import org.achartengine.model.SeriesSelection;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
@@ -40,7 +41,6 @@ import android.graphics.Paint.Cap;
 import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
 import android.graphics.PathEffect;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
@@ -58,7 +58,7 @@ public abstract class XYChart extends AbstractChart {
   /** The current translate value. */
   private float mTranslate;
   /** The canvas center point. */
-  private PointF mCenter;
+  private Point mCenter;
   /** The visible chart area, in screen coordinates. */
   private Rect mScreenR;
   /** The calculated range. */
@@ -142,7 +142,7 @@ public abstract class XYChart extends AbstractChart {
     if (mScale < 1) {
       mTranslate *= -1;
     }
-    mCenter = new PointF((x + width) / 2, (y + height) / 2);
+    mCenter = new Point((x + width) / 2, (y + height) / 2);
     if (rotate) {
       transform(canvas, angle, false);
     }
@@ -557,9 +557,9 @@ public abstract class XYChart extends AbstractChart {
     if (inverse) {
       canvas.scale(1 / mScale, mScale);
       canvas.translate(mTranslate, -mTranslate);
-      canvas.rotate(-angle, mCenter.x, mCenter.y);
+      canvas.rotate(-angle, mCenter.getX(), mCenter.getY());
     } else {
-      canvas.rotate(angle, mCenter.x, mCenter.y);
+      canvas.rotate(angle, mCenter.getX(), mCenter.getY());
       canvas.translate(-mTranslate, mTranslate);
       canvas.scale(mScale, 1 / mScale);
     }
@@ -721,7 +721,7 @@ public abstract class XYChart extends AbstractChart {
   }
 
   @Override
-  public SeriesSelection getSeriesAndPointForScreenCoordinate(final PointF screenPoint) {
+  public SeriesSelection getSeriesAndPointForScreenCoordinate(final Point screenPoint) {
     if (clickableAreas != null)
       for (int seriesIndex = clickableAreas.size() - 1; seriesIndex >= 0; seriesIndex--) {
         // series 0 is drawn first. Then series 1 is drawn on top, and series 2
@@ -731,7 +731,7 @@ public abstract class XYChart extends AbstractChart {
         int pointIndex = 0;
         if (clickableAreas.get(seriesIndex) != null) {
           for (RectF rect : clickableAreas.get(seriesIndex)) {
-            if (rect != null && rect.contains(screenPoint.x, screenPoint.y)) {
+            if (rect != null && rect.contains(screenPoint.getX(), screenPoint.getY())) {
               XYSeries series = mDataset.getSeriesAt(seriesIndex);
               return new SeriesSelection(seriesIndex, pointIndex, series.getX(pointIndex), series.getY(pointIndex));
             }

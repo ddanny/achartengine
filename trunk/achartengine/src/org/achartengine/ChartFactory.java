@@ -18,6 +18,7 @@ package org.achartengine;
 import org.achartengine.chart.BarChart;
 import org.achartengine.chart.BubbleChart;
 import org.achartengine.chart.CombinedXYChart;
+import org.achartengine.chart.CubicLineChart;
 import org.achartengine.chart.DialChart;
 import org.achartengine.chart.DoughnutChart;
 import org.achartengine.chart.LineChart;
@@ -68,6 +69,24 @@ public class ChartFactory {
     XYChart chart = new LineChart(dataset, renderer);
     return new GraphicalView(context, chart);
   }
+  
+  /**
+   * Creates a cubic line chart view.
+   * 
+   * @param context the context
+   * @param dataset the multiple series dataset (cannot be null)
+   * @param renderer the multiple series renderer (cannot be null)
+   * @return a line chart graphical view
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if the dataset and the renderer don't include the same number of
+   *           series
+   */
+  public static final GraphicalView getCubeLineChartView(Context context,
+      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, float smoothness) {
+    checkParameters(dataset, renderer);
+    XYChart chart = new CubicLineChart(dataset, renderer, smoothness);
+    return new GraphicalView(context, chart);
+  }  
 
   /**
    * Creates a scatter chart view.
@@ -261,6 +280,24 @@ public class ChartFactory {
       XYMultipleSeriesRenderer renderer) {
     return getLineChartIntent(context, dataset, renderer, "");
   }
+  
+  /**
+   * 
+   * Creates a cubic line chart intent that can be used to start the graphical view
+   * activity.
+   * 
+   * @param context the context
+   * @param dataset the multiple series dataset (cannot be null)
+   * @param renderer the multiple series renderer (cannot be null)
+   * @return a line chart intent
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if the dataset and the renderer don't include the same number of
+   *           series
+   */
+  public static final Intent getCubicLineChartIntent(Context context, XYMultipleSeriesDataset dataset,
+      XYMultipleSeriesRenderer renderer, float smoothness) {
+    return getCubicLineChartIntent(context, dataset, renderer, smoothness, "");
+  }  
 
   /**
    * Creates a scatter chart intent that can be used to start the graphical view
@@ -358,6 +395,32 @@ public class ChartFactory {
     intent.putExtra(TITLE, activityTitle);
     return intent;
   }
+  
+  /**
+   * Creates a line chart intent that can be used to start the graphical view
+   * activity.
+   * 
+   * @param context the context
+   * @param dataset the multiple series dataset (cannot be null)
+   * @param renderer the multiple series renderer (cannot be null)
+   * @param activityTitle the graphical chart activity title. If this is null,
+   *          then the title bar will be hidden. If a blank title is passed in,
+   *          then the title bar will be the default. Pass in any other string
+   *          to set a custom title.
+   * @return a line chart intent
+   * @throws IllegalArgumentException if dataset is null or renderer is null or
+   *           if the dataset and the renderer don't include the same number of
+   *           series
+   */
+  public static final Intent getCubicLineChartIntent(Context context, XYMultipleSeriesDataset dataset,
+      XYMultipleSeriesRenderer renderer, float smoothness, String activityTitle) {
+    checkParameters(dataset, renderer);
+    Intent intent = new Intent(context, GraphicalActivity.class);
+    XYChart chart = new CubicLineChart(dataset, renderer, smoothness);
+    intent.putExtra(CHART, chart);
+    intent.putExtra(TITLE, activityTitle);
+    return intent;
+  }  
 
   /**
    * Creates a scatter chart intent that can be used to start the graphical view
