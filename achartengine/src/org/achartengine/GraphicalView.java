@@ -136,7 +136,8 @@ public class GraphicalView extends View {
   }
 
   /**
-   * Transforms the currently selected screen point to a real point. 
+   * Transforms the currently selected screen point to a real point.
+   * 
    * @param scale the scale
    * @return the currently selected real point
    */
