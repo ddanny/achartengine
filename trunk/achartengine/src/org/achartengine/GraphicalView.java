@@ -95,10 +95,12 @@ public class GraphicalView extends View {
       mRenderer = ((RoundChart) mChart).getRenderer();
     }
     if (mRenderer.isZoomButtonsVisible()) {
-      zoomInImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom_in.png"));
-      zoomOutImage = BitmapFactory.decodeStream(getClass()
+      zoomInImage = BitmapFactory.decodeStream(GraphicalView.class
+          .getResourceAsStream("image/zoom_in.png"));
+      zoomOutImage = BitmapFactory.decodeStream(GraphicalView.class
           .getResourceAsStream("image/zoom_out.png"));
-      fitZoomImage = BitmapFactory.decodeStream(getClass().getResourceAsStream("image/zoom-1.png"));
+      fitZoomImage = BitmapFactory.decodeStream(GraphicalView.class
+          .getResourceAsStream("image/zoom-1.png"));
     }
 
     if (mRenderer instanceof XYMultipleSeriesRenderer
@@ -127,8 +129,7 @@ public class GraphicalView extends View {
   public SeriesSelection getCurrentSeriesAndPoint() {
     return mChart.getSeriesAndPointForScreenCoordinate(new PointF(oldX, oldY));
   }
-  
-  
+
   public double[] toRealPoint(int scale) {
     if (mChart instanceof XYChart) {
       XYChart chart = (XYChart) mChart;
