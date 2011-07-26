@@ -36,7 +36,7 @@ public class DialChart extends RoundChart {
   private DialRenderer mRenderer;
 
   /**
-   * Builds a new pie chart instance.
+   * Builds a new dial chart instance.
    * 
    * @param dataset the series dataset
    * @param renderer the dial renderer
