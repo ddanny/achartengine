@@ -86,6 +86,7 @@ public abstract class AbstractTool {
 
   /**
    * Sets a new range on the X axis.
+   * 
    * @param min the minimum value
    * @param max the maximum value
    * @param scale the scale
