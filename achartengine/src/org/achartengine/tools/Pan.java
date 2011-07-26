@@ -60,18 +60,16 @@ public class Pan extends AbstractTool {
           return;
         }
         checkRange(range, i);
-        
+
         double[] realPoint = chart.toRealPoint(oldX, oldY, i);
         double[] realPoint2 = chart.toRealPoint(newX, newY, i);
         double deltaX = realPoint[0] - realPoint2[0];
         double deltaY = realPoint[1] - realPoint2[1];
         if (mRenderer.isPanXEnabled()) {
           if (limited) {
-            if (limits[0] > range[0] + deltaX) {
-              setXRange(limits[0], limits[0] + (range[1] - range[0]), i);
-            } else if (limits[1] < range[1] + deltaX) {
-              setXRange(limits[1] - (range[1] - range[0]), limits[1], i);
-            } else {
+            boolean notLimitedLeft = limits[0] <= range[0] + deltaX;
+            boolean notLimitedRight = limits[1] >= range[1] + deltaX;
+            if (notLimitedLeft && notLimitedRight) {
               setXRange(range[0] + deltaX, range[1] + deltaX, i);
             }
           } else {
@@ -80,11 +78,9 @@ public class Pan extends AbstractTool {
         }
         if (mRenderer.isPanYEnabled()) {
           if (limited) {
-            if (limits[2] > range[2] + deltaY) {
-              setYRange(limits[2], limits[2] + (range[3] - range[2]), i);
-            } else if (limits[3] < range[3] + deltaY) {
-              setYRange(limits[3] - (range[3] - range[2]), limits[3], i);
-            } else {
+            boolean notLimitedBottom = limits[2] <= range[2] + deltaY;
+            boolean notLimitedUp = limits[3] < range[3] + deltaY;
+            if (notLimitedBottom && !notLimitedUp) {
               setYRange(range[2] + deltaY, range[3] + deltaY, i);
             }
           } else {
