@@ -111,7 +111,7 @@ public class TouchHandlerOld implements ITouchHandler {
    */
   public void removeZoomListener(ZoomListener listener) {
   }
-  
+
   /**
    * Adds a new pan listener.
    * 
