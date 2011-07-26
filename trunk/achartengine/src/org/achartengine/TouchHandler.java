@@ -137,7 +137,7 @@ public class TouchHandler implements ITouchHandler {
     }
     return !mRenderer.isClickEnabled();
   }
-  
+
   /**
    * Adds a new zoom listener.
    * 
