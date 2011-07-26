@@ -47,7 +47,7 @@ public class SalesComparisonChart extends AbstractDemoChart {
    * @return the chart description
    */
   public String getDesc() {
-    return "Monthly sales advance for 2 years (line and area charts)";
+    return "Monthly sales advance for 2 years (interpolated line and area charts)";
   }
 
   /**
@@ -91,7 +91,7 @@ public class SalesComparisonChart extends AbstractDemoChart {
       seriesRenderer.setDisplayChartValues(true);
       seriesRenderer.setChartValuesTextSize(10f);
     }
-    return ChartFactory.getLineChartIntent(context, buildBarDataset(titles, values), renderer);
+    return ChartFactory.getCubicLineChartIntent(context, buildBarDataset(titles, values), renderer, 0.5f);
   }
 
 }
