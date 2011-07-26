@@ -233,7 +233,7 @@ public abstract class AbstractChart implements Serializable {
     }
     return newText;
   }
-  
+
   protected int getLegendSize(DefaultRenderer renderer, int defaultHeight, float extraHeight) {
     int legendSize = renderer.getLegendHeight();
     if (renderer.isShowLegend() && legendSize == 0) {
@@ -306,5 +306,5 @@ public abstract class AbstractChart implements Serializable {
   public SeriesSelection getSeriesAndPointForScreenCoordinate(Point screenPoint) {
     return null;
   }
-  
+
 }
