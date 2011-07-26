@@ -171,6 +171,7 @@ public class XYChartBuilder extends Activity {
         @Override
         public void onClick(View v) {
           SeriesSelection seriesSelection = mChartView.getCurrentSeriesAndPoint();
+          double[] xy = mChartView.toRealPoint(0);
           if (seriesSelection == null) {
             Toast.makeText(XYChartBuilder.this, "No chart element was clicked", Toast.LENGTH_SHORT)
                 .show();
@@ -179,7 +180,8 @@ public class XYChartBuilder extends Activity {
                 XYChartBuilder.this,
                 "Chart element in series index " + seriesSelection.getSeriesIndex()
                     + " data point index " + seriesSelection.getPointIndex() + " was clicked"
-                    + " point value " + seriesSelection.getValue(), Toast.LENGTH_SHORT).show();
+                    + " closest point value X=" + seriesSelection.getXValue() + ", Y=" + seriesSelection.getValue()
+                    + " clicked point value X=" + (float) xy[0] + ", Y=" + (float) xy[1], Toast.LENGTH_SHORT).show();
           }
         }
       });
