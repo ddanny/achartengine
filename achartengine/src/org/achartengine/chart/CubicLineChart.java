@@ -23,7 +23,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-
+/**
+ * The interpolated (cubic) line chart rendering class.
+ */
 public class CubicLineChart extends LineChart {
   /** The chart type. */
   public static final String TYPE = "Cubic";
