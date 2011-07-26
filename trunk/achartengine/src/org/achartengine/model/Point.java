@@ -17,9 +17,13 @@ package org.achartengine.model;
 
 import java.io.Serializable;
 
+/**
+ * A class to encapsulate the definition of a point.
+ */
 public final class Point implements Serializable {
+  /** The X axis coordinate value. */
   private float mX;
-
+  /** The Y axis coordinate value. */
   private float mY;
   
   public Point() {
