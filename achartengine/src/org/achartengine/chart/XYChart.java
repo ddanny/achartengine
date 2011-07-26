@@ -733,7 +733,7 @@ public abstract class XYChart extends AbstractChart {
           for (RectF rect : clickableAreas.get(seriesIndex)) {
             if (rect != null && rect.contains(screenPoint.x, screenPoint.y)) {
               XYSeries series = mDataset.getSeriesAt(seriesIndex);
-              return new SeriesSelection(seriesIndex, pointIndex, series.getY(pointIndex));
+              return new SeriesSelection(seriesIndex, pointIndex, series.getX(pointIndex), series.getY(pointIndex));
             }
             pointIndex++;
           }
