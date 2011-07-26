@@ -18,6 +18,7 @@ package org.achartengine;
 import org.achartengine.chart.AbstractChart;
 import org.achartengine.chart.RoundChart;
 import org.achartengine.chart.XYChart;
+import org.achartengine.model.Point;
 import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -32,7 +33,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
@@ -127,7 +127,7 @@ public class GraphicalView extends View {
   }
 
   public SeriesSelection getCurrentSeriesAndPoint() {
-    return mChart.getSeriesAndPointForScreenCoordinate(new PointF(oldX, oldY));
+    return mChart.getSeriesAndPointForScreenCoordinate(new Point(oldX, oldY));
   }
 
   public double[] toRealPoint(int scale) {

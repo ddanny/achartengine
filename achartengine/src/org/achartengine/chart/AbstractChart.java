@@ -18,6 +18,7 @@ package org.achartengine.chart;
 import java.io.Serializable;
 import java.util.List;
 
+import org.achartengine.model.Point;
 import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
@@ -30,7 +31,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
-import android.graphics.PointF;
 import android.graphics.RectF;
 
 /**
@@ -303,7 +303,8 @@ public abstract class AbstractChart implements Serializable {
    * @param screenPoint
    * @return
    */
-  public SeriesSelection getSeriesAndPointForScreenCoordinate(PointF screenPoint) {
+  public SeriesSelection getSeriesAndPointForScreenCoordinate(Point screenPoint) {
     return null;
   }
+  
 }
