@@ -54,6 +54,12 @@ public abstract class AbstractTool {
     return new double[] { minX, maxX, minY, maxY };
   }
 
+  /**
+   * Sets the range to the calculated one, if not already set.
+   * 
+   * @param range the range
+   * @param scale the scale
+   */
   public void checkRange(double[] range, int scale) {
     if (mChart instanceof XYChart) {
       double[] calcRange = ((XYChart) mChart).getCalcRange(scale);
