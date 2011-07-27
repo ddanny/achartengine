@@ -157,6 +157,12 @@ public class GraphicalView extends View {
     int left = mRect.left;
     int width = mRect.width();
     int height = mRect.height();
+    if (mRenderer.isInScroll()) {
+      top = 0;
+      left = 0;
+      width = getMeasuredWidth();
+      height = getMeasuredHeight();
+    }
     mChart.draw(canvas, left, top, width, height, mPaint);
     if (mRenderer != null && mRenderer.isZoomEnabled() && mRenderer.isZoomButtonsVisible()) {
       mPaint.setColor(ZOOM_BUTTONS_COLOR);
