@@ -93,7 +93,10 @@ public class DefaultRenderer implements Serializable {
   private boolean mClickEnabled = false;
   /** The selectable radius around a clickable point. */
   private int selectableBuffer = 15;
-  /** A flag to be set if the chart is inside a scroll and doesn't need to shrink when not enough space. */
+  /**
+   * A flag to be set if the chart is inside a scroll and doesn't need to shrink
+   * when not enough space.
+   */
   private boolean mInScroll;
 
   /**
@@ -642,17 +645,20 @@ public class DefaultRenderer implements Serializable {
   public void setMargins(int[] margins) {
     mMargins = margins;
   }
-  
+
   /**
    * Returns if the chart is inside a scroll view and doesn't need to shrink.
+   * 
    * @return if it is inside a scroll view
    */
   public boolean isInScroll() {
     return mInScroll;
   }
-  
+
   /**
-   * To be set if the chart is inside a scroll view and doesn't need to shrink when not enough space. 
+   * To be set if the chart is inside a scroll view and doesn't need to shrink
+   * when not enough space.
+   * 
    * @param inScroll if it is inside a scroll view
    */
   public void setInScroll(boolean inScroll) {
