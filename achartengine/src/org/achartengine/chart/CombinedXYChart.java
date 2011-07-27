@@ -83,6 +83,13 @@ public class CombinedXYChart extends XYChart {
     }
   }
 
+  /**
+   * Returns a chart instance based on the provided type. 
+   * @param type the chart type
+   * @return an instance of a chart implementation
+   * @throws IllegalAccessException
+   * @throws InstantiationException
+   */
   private XYChart getXYChart(String type) throws IllegalAccessException, InstantiationException {
     XYChart chart = null;
     int length = xyChartTypes.length;
