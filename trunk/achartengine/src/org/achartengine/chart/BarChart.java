@@ -106,6 +106,18 @@ public class BarChart extends XYChart {
     paint.setColor(seriesRenderer.getColor());
   }
 
+  /**
+   * Draws a bar.
+   * @param canvas the canvas
+   * @param xMin the X axis minimum
+   * @param yMin the Y axis minimum
+   * @param xMax the X axis maximum
+   * @param yMax the Y axis maximum
+   * @param halfDiffX half the size of a bar
+   * @param seriesNr the total number of series
+   * @param seriesIndex the current series index
+   * @param paint the paint
+   */
   protected void drawBar(Canvas canvas, float xMin, float yMin, float xMax, float yMax,
       float halfDiffX, int seriesNr, int seriesIndex, Paint paint) {
     int scale = mDataset.getSeriesAt(seriesIndex).getScaleNumber();
