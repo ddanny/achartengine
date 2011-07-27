@@ -236,6 +236,7 @@ public abstract class AbstractChart implements Serializable {
 
   /**
    * Calculates the current legend size.
+   * 
    * @param renderer the renderer
    * @param defaultHeight the default height
    * @param extraHeight the added extra height
@@ -254,6 +255,7 @@ public abstract class AbstractChart implements Serializable {
 
   /**
    * Draws a text label.
+   * 
    * @param canvas the canvas
    * @param labelText the label text
    * @param renderer the renderer
