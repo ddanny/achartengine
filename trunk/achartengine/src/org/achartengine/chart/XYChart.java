@@ -761,7 +761,7 @@ public abstract class XYChart extends AbstractChart {
    * @param points the array of points
    * @param yAxisValue the minimum value of the y axis
    * @param seriesIndex the index of the series to which the points belong
-   * @return
+   * @return an array of rectangles with the clickable area
    */
   protected abstract RectF[] clickableAreasForPoints(float[] points, float yAxisValue,
       int seriesIndex);
