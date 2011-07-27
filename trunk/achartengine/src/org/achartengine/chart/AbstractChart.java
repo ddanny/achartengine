@@ -234,6 +234,13 @@ public abstract class AbstractChart implements Serializable {
     return newText;
   }
 
+  /**
+   * Calculates the current legend size.
+   * @param renderer the renderer
+   * @param defaultHeight the default height
+   * @param extraHeight the added extra height
+   * @return the legend size
+   */
   protected int getLegendSize(DefaultRenderer renderer, int defaultHeight, float extraHeight) {
     int legendSize = renderer.getLegendHeight();
     if (renderer.isShowLegend() && legendSize == 0) {
@@ -245,6 +252,22 @@ public abstract class AbstractChart implements Serializable {
     return legendSize;
   }
 
+  /**
+   * Draws a text label.
+   * @param canvas the canvas
+   * @param labelText the label text
+   * @param renderer the renderer
+   * @param prevLabelsBounds the previous rendered label bounds
+   * @param centerX the round chart center on X axis
+   * @param centerY the round chart center on Y axis
+   * @param shortRadius the short radius for the round chart
+   * @param longRadius the long radius for the round chart
+   * @param currentAngle the current angle
+   * @param angle the label extra angle
+   * @param left the left side
+   * @param right the right side
+   * @param paint the paint
+   */
   protected void drawLabel(Canvas canvas, String labelText, DefaultRenderer renderer,
       List<RectF> prevLabelsBounds, int centerX, int centerY, float shortRadius, float longRadius,
       float currentAngle, float angle, int left, int right, Paint paint) {
