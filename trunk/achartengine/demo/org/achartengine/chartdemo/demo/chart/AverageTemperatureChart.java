@@ -76,7 +76,7 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     for (int i = 0; i < length; i++) {
       ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
     }
-    setChartSettings(renderer, "Average temperature", "Month", "Temperature", 0.5, 12.5, 0, 32,
+    setChartSettings(renderer, "Average temperature", "Month", "Temperature", 0.5, 12.5, -10, 40,
         Color.LTGRAY, Color.LTGRAY);
     renderer.setXLabels(12);
     renderer.setYLabels(10);
@@ -86,6 +86,7 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     renderer.setZoomButtonsVisible(true);
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
+
     Intent intent = ChartFactory.getLineChartIntent(context, buildDataset(titles, x, values),
         renderer, "Average temperature");
     return intent;
