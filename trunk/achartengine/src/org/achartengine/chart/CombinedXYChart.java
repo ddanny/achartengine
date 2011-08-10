@@ -34,8 +34,9 @@ public class CombinedXYChart extends XYChart {
   /** The embedded XY charts. */
   private XYChart[] mCharts;
   /** The supported charts for being combined. */
-  private Class[] xyChartTypes = new Class[] { TimeChart.class, LineChart.class, BarChart.class,
-      BubbleChart.class, LineChart.class, ScatterChart.class, RangeBarChart.class };
+  private Class[] xyChartTypes = new Class[] { TimeChart.class, LineChart.class,
+      CubicLineChart.class, BarChart.class, BubbleChart.class, ScatterChart.class,
+      RangeBarChart.class };
 
   /**
    * Builds a new combined XY chart instance.
@@ -84,7 +85,8 @@ public class CombinedXYChart extends XYChart {
   }
 
   /**
-   * Returns a chart instance based on the provided type. 
+   * Returns a chart instance based on the provided type.
+   * 
    * @param type the chart type
    * @return an instance of a chart implementation
    * @throws IllegalAccessException
