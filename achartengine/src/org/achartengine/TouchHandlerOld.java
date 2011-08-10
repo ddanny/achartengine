@@ -58,7 +58,7 @@ public class TouchHandlerOld implements ITouchHandler {
       mRenderer = ((RoundChart) chart).getRenderer();
     }
     if (mRenderer.isPanEnabled()) {
-      mPan = new Pan((XYChart) chart);
+      mPan = new Pan(chart);
     }
   }
 
