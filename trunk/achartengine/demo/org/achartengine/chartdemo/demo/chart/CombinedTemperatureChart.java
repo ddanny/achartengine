@@ -21,6 +21,7 @@ import java.util.List;
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.BarChart;
 import org.achartengine.chart.BubbleChart;
+import org.achartengine.chart.CubicLineChart;
 import org.achartengine.chart.LineChart;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -137,7 +138,7 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     waterRenderer.setChartValuesTextSize(10);
     
     String[] types = new String[] { BarChart.TYPE, BubbleChart.TYPE, LineChart.TYPE,
-        LineChart.TYPE };
+        CubicLineChart.TYPE };
     Intent intent = ChartFactory.getCombinedXYChartIntent(context, dataset, renderer, types,
         "Weather parameters");
     return intent;

@@ -81,11 +81,9 @@ public class TemperatureChart extends AbstractDemoChart {
     renderer.addXTextLabel(10, "Oct");
     renderer.addXTextLabel(12, "Dec");
     renderer.addYTextLabel(-25, "Very cold");
-    renderer.addYTextLabel(-15, "Cold");
-    renderer.addYTextLabel(-5, "Quite cold");
+    renderer.addYTextLabel(-10, "Cold");
     renderer.addYTextLabel(5, "OK");
-    renderer.addYTextLabel(15, "Decent");
-    renderer.addYTextLabel(25, "Warm");
+    renderer.addYTextLabel(20, "Nice");
     renderer.setMargins(new int[] {30, 70, 10, 0});
     renderer.setYLabelsAlign(Align.RIGHT);
     SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
