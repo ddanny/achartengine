@@ -102,7 +102,7 @@ public class DoughnutChart extends RoundChart {
         total += mDataset.getValues(category)[i];
         titles[i] = mDataset.getTitles(category)[i];
       }
-      float currentAngle = 0;
+      float currentAngle = mRenderer.getStartAngle();
       RectF oval = new RectF(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY
           + radius);
       for (int i = 0; i < sLength; i++) {

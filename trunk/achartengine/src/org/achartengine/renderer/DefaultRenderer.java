@@ -98,6 +98,8 @@ public class DefaultRenderer implements Serializable {
    * when not enough space.
    */
   private boolean mInScroll;
+  /** The start angle for circular charts such as pie, doughnut, etc. */
+  private float mStartAngle = 0;
 
   /**
    * Returns the chart title.
@@ -663,6 +665,28 @@ public class DefaultRenderer implements Serializable {
    */
   public void setInScroll(boolean inScroll) {
     mInScroll = inScroll;
+  }
+  
+  /**
+   * Returns the start angle for circular charts such as pie, doughnut. An
+   * angle of 0 degrees correspond to the geometric angle of 0 degrees (3
+   * o'clock on a watch.)
+   * 
+   * @return the start angle
+   */
+  public float getStartAngle() {
+    return mStartAngle;
+  }
+
+  /**
+   * Sets the start angle for circular charts such as pie, doughnut, etc. An
+   * angle of 0 degrees correspond to the geometric angle of 0 degrees (3
+   * o'clock on a watch.)
+   * 
+   * @param startAngle the start angle
+   */
+  public void setStartAngle(float startAngle) {
+    mStartAngle = startAngle;
   }
 
 }
