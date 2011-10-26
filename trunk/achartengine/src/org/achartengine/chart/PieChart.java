@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.achartengine.model.CategorySeries;
+import org.achartengine.model.Point;
+import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 
 import android.graphics.Canvas;
@@ -31,6 +33,9 @@ import android.graphics.RectF;
  */
 public class PieChart extends RoundChart {
 
+  /** Handles returning values when tapping on PieChart. */
+  private PieMapper mPieMapper;
+
   /**
    * Builds a new pie chart instance.
    * 
@@ -39,6 +44,7 @@ public class PieChart extends RoundChart {
    */
   public PieChart(CategorySeries dataset, DefaultRenderer renderer) {
     super(dataset, renderer);
+    mPieMapper = new PieMapper();
   }
 
   /**
@@ -74,21 +80,32 @@ public class PieChart extends RoundChart {
     int bottom = y + height - legendSize;
     drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
 
-    float currentAngle = mRenderer.getStartAngle();
+    float currentAngle = 0;
     int mRadius = Math.min(Math.abs(right - left), Math.abs(bottom - top));
+
     int radius = (int) (mRadius * 0.35 * mRenderer.getScale());
+
     if (mCenterX == NO_VALUE) {
       mCenterX = (left + right) / 2;
     }
     if (mCenterY == NO_VALUE) {
       mCenterY = (bottom + top) / 2;
     }
+
+    // Hook in clip detection after center has been calculated
+    mPieMapper.setDimensions(radius, mCenterX, mCenterY);
+    boolean loadPieCfg = !mPieMapper.areAllSegmentPresent(sLength);
+    if (loadPieCfg) {
+      mPieMapper.clearPieSegments();
+    }
+
     float shortRadius = radius * 0.9f;
     float longRadius = radius * 1.1f;
 
     RectF oval = new RectF(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY
         + radius);
     List<RectF> prevLabelsBounds = new ArrayList<RectF>();
+
     for (int i = 0; i < sLength; i++) {
       paint.setColor(mRenderer.getSeriesRendererAt(i).getColor());
       float value = (float) mDataset.getValue(i);
@@ -96,11 +113,20 @@ public class PieChart extends RoundChart {
       canvas.drawArc(oval, currentAngle, angle, true, paint);
       drawLabel(canvas, mDataset.getCategory(i), mRenderer, prevLabelsBounds, mCenterX, mCenterY,
           shortRadius, longRadius, currentAngle, angle, left, right, paint);
+
+      // Save details for getSeries functionality
+      if (loadPieCfg) {
+        mPieMapper.addPieSegment(i, value, currentAngle, angle);
+      }
       currentAngle += angle;
     }
     prevLabelsBounds.clear();
     drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize, paint, false);
     drawTitle(canvas, x, y, width, paint);
+  }
+
+  public SeriesSelection getSeriesAndPointForScreenCoordinate(Point screenPoint) {
+    return mPieMapper.getSeriesAndPointForScreenCoordinate(screenPoint);
   }
 
 }
