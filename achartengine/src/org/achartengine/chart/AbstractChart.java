@@ -171,6 +171,78 @@ public abstract class AbstractChart implements Serializable {
         && ((XYMultipleSeriesRenderer) renderer).getOrientation() == Orientation.VERTICAL;
   }
 
+  private static float[] calculateDrawPoints(float p1x, float p1y, float p2x, float p2y,
+      int screenHeight, int screenWidth) {
+    float drawP1x;
+    float drawP1y;
+    float drawP2x;
+    float drawP2y;
+    
+    if (p1y > screenHeight) {
+      // Intersection with the top of the screen
+      float m = (p2y - p1y) / (p2x - p1x);
+      drawP1x = (screenHeight - p1y + m * p1x) / m;
+      drawP1y = screenHeight;
+
+      if (drawP1x < 0) {
+        // If Intersection is left of the screen we calculate the intersection
+        // with the left border
+        drawP1x = 0;
+        drawP1y = p1y - m * p1x;
+      } else if (drawP1x > screenWidth) {
+        // If Intersection is right of the screen we calculate the intersection
+        // with the right border
+        drawP1x = screenWidth;
+        drawP1y = m * screenWidth + p1y - m * p1x;
+      }
+    } else if (p1y < 0) {
+      float m = (p2y - p1y) / (p2x - p1x);
+      drawP1x = (-p1y + m * p1x) / m;
+      drawP1y = 0;
+      if (drawP1x < 0) {
+        drawP1x = 0;
+        drawP1y = p1y - m * p1x;
+      } else if (drawP1x > screenWidth) {
+        drawP1x = screenWidth;
+        drawP1y = m * screenWidth + p1y - m * p1x;
+      }
+    } else {
+      // If the point is in the screen use it
+      drawP1x = p1x;
+      drawP1y = p1y;
+    }
+
+    if (p2y > screenHeight) {
+      float m = (p2y - p1y) / (p2x - p1x);
+      drawP2x = (screenHeight - p1y + m * p1x) / m;
+      drawP2y = screenHeight;
+      if (drawP2x < 0) {
+        drawP2x = 0;
+        drawP2y = p1y - m * p1x;
+      } else if (drawP2x > screenWidth) {
+        drawP2x = screenWidth;
+        drawP2y = m * screenWidth + p1y - m * p1x;
+      }
+    } else if (p2y < 0) {
+      float m = (p2y - p1y) / (p2x - p1x);
+      drawP2x = (-p1y + m * p1x) / m;
+      drawP2y = 0;
+      if (drawP2x < 0) {
+        drawP2x = 0;
+        drawP2y = p1y - m * p1x;
+      } else if (drawP2x > screenWidth) {
+        drawP2x = screenWidth;
+        drawP2y = m * screenWidth + p1y - m * p1x;
+      }
+    } else {
+      // If the point is in the screen use it
+      drawP2x = p2x;
+      drawP2y = p2y;
+    }
+
+    return new float[] { drawP1x, drawP1y, drawP2x, drawP2y };
+  }
+
   /**
    * The graphical representation of a path.
    * 
@@ -181,9 +253,26 @@ public abstract class AbstractChart implements Serializable {
    */
   protected void drawPath(Canvas canvas, float[] points, Paint paint, boolean circular) {
     Path path = new Path();
-    path.moveTo(points[0], points[1]);
-    for (int i = 2; i < points.length; i += 2) {
-      path.lineTo(points[i], points[i + 1]);
+    int height = canvas.getHeight();
+    int width = canvas.getWidth();
+
+    float[] tempDrawPoints;
+    if (points.length < 4) {
+      return;
+    }
+    tempDrawPoints = calculateDrawPoints(points[0], points[1], points[2], points[3], height, width);
+    path.moveTo(tempDrawPoints[0], tempDrawPoints[1]);
+    path.lineTo(tempDrawPoints[2], tempDrawPoints[3]);
+
+    for (int i = 4; i < points.length; i += 2) {
+      if ((points[i - 1] < 0 && points[i + 1] < 0)
+          || (points[i - 1] > height && points[i + 1] > height)) {
+        continue;
+      }
+      tempDrawPoints = calculateDrawPoints(points[i - 2], points[i - 1], points[i], points[i + 1],
+          height, width);
+      path.moveTo(tempDrawPoints[0], tempDrawPoints[1]);
+      path.lineTo(tempDrawPoints[2], tempDrawPoints[3]);
     }
     if (circular) {
       path.lineTo(points[0], points[1]);
