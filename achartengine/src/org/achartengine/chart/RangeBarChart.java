@@ -64,12 +64,14 @@ public class RangeBarChart extends BarChart {
     paint.setStyle(Style.FILL);
     float halfDiffX = getHalfDiffX(points, length, seriesNr);
     for (int i = 0; i < length; i += 4) {
-      float xMin = points[i];
-      float yMin = points[i + 1];
-      // xMin = xMax
-      float xMax = points[i + 2];
-      float yMax = points[i + 3];
-      drawBar(canvas, xMin, yMin, xMax, yMax, halfDiffX, seriesNr, seriesIndex, paint);
+      if (points.length > i + 3) {
+        float xMin = points[i];
+        float yMin = points[i + 1];
+        // xMin = xMax
+        float xMax = points[i + 2];
+        float yMax = points[i + 3];
+        drawBar(canvas, xMin, yMin, xMax, yMax, halfDiffX, seriesNr, seriesIndex, paint);
+      }
     }
     paint.setColor(seriesRenderer.getColor());
   }
@@ -95,12 +97,12 @@ public class RangeBarChart extends BarChart {
         x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
       }
 
-      if (series.getY(index + 1) != MathHelper.NULL_VALUE) {
+      if (series.getY(index + 1) != MathHelper.NULL_VALUE && points.length > i + 3) {
         // draw the maximum value
         drawText(canvas, getLabel(series.getY(index + 1)), x,
             points[i + 3] - renderer.getChartValuesSpacing(), paint, 0);
       }
-      if (series.getY(index) != MathHelper.NULL_VALUE) {
+      if (series.getY(index) != MathHelper.NULL_VALUE && points.length > i + 1) {
         // draw the minimum value
         drawText(canvas, getLabel(series.getY(index)), x,
             points[i + 1] + renderer.getChartValuesTextSize() + renderer.getChartValuesSpacing()
