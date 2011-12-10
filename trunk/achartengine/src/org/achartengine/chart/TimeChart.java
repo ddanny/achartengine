@@ -17,6 +17,7 @@ package org.achartengine.chart;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,10 @@ public class TimeChart extends LineChart {
   public static final long DAY = 24 * 60 * 60 * 1000;
   /** The date format pattern to be used in formatting the X axis labels. */
   private String mDateFormat;
+  /** If X axis value selection algorithm to be used. */
+  private boolean mXAxisSmart = true;
+  /** The starting point for labels. */
+  private Double mStartPoint;
 
   TimeChart() {
   }
@@ -71,6 +76,24 @@ public class TimeChart extends LineChart {
   }
 
   /**
+   * If X axis smart values to be used.
+   * 
+   * @return if smart values to be used
+   */
+  public boolean isXAxisSmart() {
+    return mXAxisSmart;
+  }
+
+  /**
+   * Sets if X axis smart values to be used.
+   * 
+   * @param smart smart values to be used
+   */
+  public void setXAxisSmart(boolean smart) {
+    mXAxisSmart = smart;
+  }
+
+  /**
    * The graphical representation of the labels on the X axis.
    * 
    * @param xLabels the X labels values
@@ -99,8 +122,8 @@ public class TimeChart extends LineChart {
           paint.setColor(mRenderer.getLabelsColor());
           canvas
               .drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
-          drawText(canvas, format.format(new Date(label)), xLabel, bottom
-              + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
+          drawText(canvas, format.format(new Date(label)), xLabel,
+              bottom + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
         }
         if (showGrid) {
           paint.setColor(mRenderer.getGridColor());
@@ -108,7 +131,8 @@ public class TimeChart extends LineChart {
         }
       }
     }
-    drawXTextLabels(xTextLabelLocations, canvas, paint, true, left, top, bottom, xPixelsPerUnit, minX, maxX);
+    drawXTextLabels(xTextLabelLocations, canvas, paint, true, left, top, bottom, xPixelsPerUnit,
+        minX, maxX);
   }
 
   /**
@@ -147,4 +171,38 @@ public class TimeChart extends LineChart {
     return TYPE;
   }
 
+  protected List<Double> getXLabels(double min, double max, int count) {
+    if (!mXAxisSmart) {
+      return super.getXLabels(min, max, count);
+    }
+    if (mStartPoint == null) {
+      mStartPoint = min - (min % DAY) + DAY + new Date(Math.round(min)).getTimezoneOffset() * 60
+          * 1000;
+    }
+    if (count > 25) {
+      count = 25;
+    }
+    final double cycleMath = (max - min) / count;
+    double cycle = DAY;
+
+    if (cycleMath <= DAY) {
+      while (cycleMath < cycle / 2) {
+        cycle = cycle / 2;
+      }
+    } else {
+      while (cycleMath > cycle) {
+        cycle = cycle * 2;
+      }
+    }
+
+    final List<Double> result = new ArrayList<Double>();
+    double val = mStartPoint - Math.floor((mStartPoint - min) / cycle) * cycle;
+    int i = 0;
+    while (val < max && i++ <= count) {
+      result.add(val);
+      val += cycle;
+    }
+
+    return result;
+  }
 }

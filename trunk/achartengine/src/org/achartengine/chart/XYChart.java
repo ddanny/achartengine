@@ -233,9 +233,9 @@ public abstract class XYChart extends AbstractChart {
       hasValues = true;
       SimpleSeriesRenderer seriesRenderer = mRenderer.getSeriesRendererAt(i);
 
-//      int originalValuesLength = series.getItemCount();
-//      int valuesLength = originalValuesLength;
-//      int length = valuesLength * 2;
+      // int originalValuesLength = series.getItemCount();
+      // int valuesLength = originalValuesLength;
+      // int length = valuesLength * 2;
 
       List<Float> points = new ArrayList<Float>();
 
@@ -303,8 +303,7 @@ public abstract class XYChart extends AbstractChart {
     boolean showGrid = mRenderer.isShowGrid();
     boolean showCustomTextGrid = mRenderer.isShowCustomTextGrid();
     if (showLabels || showGrid) {
-      List<Double> xLabels = getValidLabels(MathHelper.getLabels(minX[0], maxX[0],
-          mRenderer.getXLabels()));
+      List<Double> xLabels = getValidLabels(getXLabels(minX[0], maxX[0], mRenderer.getXLabels()));
       Map<Integer, List<Double>> allYLabels = new HashMap<Integer, List<Double>>();
       for (int i = 0; i < maxScaleNumber; i++) {
         allYLabels.put(i,
@@ -452,6 +451,10 @@ public abstract class XYChart extends AbstractChart {
     if (rotate) {
       transform(canvas, angle, true);
     }
+  }
+
+  protected List<Double> getXLabels(double min, double max, int count) {
+    return MathHelper.getLabels(min, max, count);
   }
 
   protected Rect getScreenR() {
