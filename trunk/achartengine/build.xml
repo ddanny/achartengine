@@ -4,7 +4,7 @@
     <description>Build for project achartengine. </description>
 
 	<property name="app_name" value="achartengine"/>
-	<property name="app_version" value="0.7.0.r240"/>	
+	<property name="app_version" value="0.7.0"/>	
     <property name="src_root.dir" location="${basedir}"/>
     <property name="achartengine.package" value="org/achartengine"/>
 	<property name="src.dir" location="${src_root.dir}/src/"/>
@@ -54,7 +54,7 @@
     		</fileset>
     	</copy>
         <javac srcdir="${src.dir}" includes="${achartengine.package}/**" destdir="${build.project.dir}"
-               failonerror="false" debug="true" debuglevel="lines,var,source"
+               failonerror="false" debug="true" debuglevel="lines,vars,source"
                excludes="**/*.gif **/*.html **/*.xml **/*.properties" source="1.6">
 
             <compilerarg value="-Xlint" />
@@ -71,7 +71,7 @@
     <target name="compile-tests" depends="compile"
             description="Compile the project unit test Java files.">
         <javac srcdir="${src_unit_test.dir}" destdir="${build.tests.dir}"
-               failonerror="yes" debug="true" debuglevel="lines,var,source" source="1.6" >
+               failonerror="yes" debug="true" debuglevel="lines,vars,source" source="1.6" >
 
             <compilerarg value="-Xlint" />
             <compilerarg value="-Xlint:-serial" />
