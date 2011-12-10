@@ -17,14 +17,12 @@ package org.achartengine.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * A series for the range category charts like the range bar.
  */
 public class RangeCategorySeries extends CategorySeries {
   /** The series values. */
   private List<Double> mMaxValues = new ArrayList<Double>();
-
   /**
    * Builds a new category series.
    * 
@@ -33,7 +31,6 @@ public class RangeCategorySeries extends CategorySeries {
   public RangeCategorySeries(String title) {
     super(title);
   }
-
   /**
    * Adds new values to the series
    * 
@@ -105,7 +102,9 @@ public class RangeCategorySeries extends CategorySeries {
     int length = getItemCount();
     for (int k = 0; k < length; k++) {
       xySeries.add(k + 1, getMinimumValue(k));
-      xySeries.add(k + 1, getMaximumValue(k));
+      // the new fast XYSeries implementation doesn't allow 2 values at the same X,
+      // so I had to do a hack until I find a better solution
+      xySeries.add(k + 1.000001, getMaximumValue(k));
     }
     return xySeries;
   }

@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2009, 2010 SC 4ViewSoft SRL
- *  
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,10 +16,12 @@
 package org.achartengine.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.SortedMap;
 
+import org.achartengine.util.IndexXYMap;
 import org.achartengine.util.MathHelper;
+import org.achartengine.util.XYEntry;
 
 /**
  * An XY series encapsulates values for XY charts like line, time, area,
@@ -28,10 +30,8 @@ import org.achartengine.util.MathHelper;
 public class XYSeries implements Serializable {
   /** The series title. */
   private String mTitle;
-  /** A list to contain the values for the X axis. */
-  private List<Double> mX = new ArrayList<Double>();
-  /** A list to contain the values for the Y axis. */
-  private List<Double> mY = new ArrayList<Double>();
+  /** A map to contain values for X and Y axes and index for each bundle */
+  private final IndexXYMap<Double, Double> mXY = new IndexXYMap<Double, Double>();
   /** The minimum value for the X axis. */
   private double mMinX = MathHelper.NULL_VALUE;
   /** The maximum value for the X axis. */
@@ -41,7 +41,7 @@ public class XYSeries implements Serializable {
   /** The maximum value for the Y axis. */
   private double mMaxY = -MathHelper.NULL_VALUE;
   /** The scale number for this series. */
-  private int mScaleNumber;
+  private final int mScaleNumber;
 
   /**
    * Builds a new XY series.
@@ -122,8 +122,7 @@ public class XYSeries implements Serializable {
    * @param y the value for the Y axis
    */
   public synchronized void add(double x, double y) {
-    mX.add(x);
-    mY.add(y);
+    mXY.put(x, y);
     updateRange(x, y);
   }
 
@@ -133,8 +132,9 @@ public class XYSeries implements Serializable {
    * @param index the index in the series of the value to remove
    */
   public synchronized void remove(int index) {
-    double removedX = mX.remove(index);
-    double removedY = mY.remove(index);
+    XYEntry<Double, Double> removedEntry = mXY.removeByIndex(index);
+    double removedX = removedEntry.getKey();
+    double removedY = removedEntry.getValue();
     if (removedX == mMinX || removedX == mMaxX || removedY == mMinY || removedY == mMaxY) {
       initRange();
     }
@@ -144,8 +144,7 @@ public class XYSeries implements Serializable {
    * Removes all the existing values from the series.
    */
   public synchronized void clear() {
-    mX.clear();
-    mY.clear();
+    mXY.clear();
     initRange();
   }
 
@@ -156,7 +155,7 @@ public class XYSeries implements Serializable {
    * @return the X value
    */
   public synchronized double getX(int index) {
-    return mX.get(index);
+    return mXY.getXByIndex(index);
   }
 
   /**
@@ -166,7 +165,42 @@ public class XYSeries implements Serializable {
    * @return the Y value
    */
   public synchronized double getY(int index) {
-    return mY.get(index);
+    return mXY.getYByIndex(index);
+  }
+
+  /**
+   * Returns submap of x and y values according to the given start and end
+   * 
+   * @param start start x value
+   * @param stop stop x value
+   * @return
+   */
+  public synchronized SortedMap<Double, Double> getRange(double start, double stop,
+      int beforeAfterPoints) {
+    // we need to add one point before the start and one point after the end (if
+    // there are any)
+    // to ensure that line doesn't end before the end of the screen
+
+    // this would be simply: start = mXY.lowerKey(start) but NavigableMap is
+    // available since API 9
+    SortedMap<Double, Double> headMap = mXY.headMap(start);
+    if (headMap.size() != 0) {
+      start = headMap.lastKey();
+    }
+
+    // this would be simply: end = mXY.higherKey(end) but NavigableMap is
+    // available since API 9
+    // so we have to do this hack in order to support older versions
+    SortedMap<Double, Double> tailMap = mXY.tailMap(stop);
+    if (tailMap.size() != 0) {
+      Collection<Double> tailCollection = tailMap.keySet();
+      if (tailMap.size() > 1) {
+        stop = (Double) tailCollection.toArray()[1];
+      } else {
+        stop += tailMap.firstKey();
+      }
+    }
+    return mXY.subMap(start, stop);
   }
 
   /**
@@ -175,7 +209,7 @@ public class XYSeries implements Serializable {
    * @return the series item count
    */
   public synchronized int getItemCount() {
-    return mX.size();
+    return mXY.size();
   }
 
   /**
