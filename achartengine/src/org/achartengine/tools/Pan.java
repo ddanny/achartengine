@@ -28,6 +28,14 @@ import org.achartengine.chart.XYChart;
 public class Pan extends AbstractTool {
   /** The pan listeners. */
   private List<PanListener> mPanListeners = new ArrayList<PanListener>();
+  /** Pan limits reached on the X axis. */
+  private boolean limitsReachedX = false;
+  /** Pan limits reached on the X axis. */
+  private boolean limitsReachedY = false;
+  /** Pan not limited up on the Y axis. */
+  boolean notLimitedUp = true;
+  /** Pan not limited bottom on the Y axis. */
+  boolean notLimitedBottom = true;
 
   /**
    * Builds and instance of the pan tool.
@@ -55,8 +63,9 @@ public class Pan extends AbstractTool {
       for (int i = 0; i < scales; i++) {
         double[] range = getRange(i);
         double[] calcRange = chart.getCalcRange(i);
-        if (range[0] == range[1] && calcRange[0] == calcRange[1] || range[2] == range[3]
-            && calcRange[2] == calcRange[3]) {
+        if ((limitsReachedX == true && limitsReachedY == true)
+            && (range[0] == range[1] && calcRange[0] == calcRange[1] || range[2] == range[3]
+                && calcRange[2] == calcRange[3])) {
           return;
         }
         checkRange(range, i);
@@ -65,26 +74,37 @@ public class Pan extends AbstractTool {
         double[] realPoint2 = chart.toRealPoint(newX, newY, i);
         double deltaX = realPoint[0] - realPoint2[0];
         double deltaY = realPoint[1] - realPoint2[1];
+
         if (mRenderer.isPanXEnabled()) {
-          if (limited) {
-            boolean notLimitedLeft = limits[0] <= range[0] + deltaX;
-            boolean notLimitedRight = limits[1] >= range[1] + deltaX;
-            if (notLimitedLeft && notLimitedRight) {
-              setXRange(range[0] + deltaX, range[1] + deltaX, i);
-            }
-          } else {
+          boolean notLimitedLeft = limits[0] <= range[0] + deltaX;
+          boolean notLimitedRight = limits[1] >= range[1] + deltaX;
+          if (!limited || (notLimitedLeft && notLimitedRight)) {
             setXRange(range[0] + deltaX, range[1] + deltaX, i);
+            limitsReachedX = false;
+          } else {
+            limitsReachedX = true;
           }
         }
         if (mRenderer.isPanYEnabled()) {
-          if (limited) {
-            boolean notLimitedBottom = limits[2] <= range[2] + deltaY;
-            boolean notLimitedUp = limits[3] < range[3] + deltaY;
-            if (notLimitedBottom && !notLimitedUp) {
+          if (notLimitedBottom) {
+            notLimitedBottom = limits[2] <= range[2] - deltaY;
+          }
+          if (notLimitedUp) {
+            notLimitedUp = limits[3] >= range[3] - deltaY;
+          }
+          if (limited && (!notLimitedBottom && !notLimitedUp)) {
+            limitsReachedY = true;
+          } else {
+            if (!notLimitedUp && deltaY < 0) {
+              setYRange(range[2] + deltaY, range[3] + deltaY, i);
+              notLimitedUp = true;
+            } else if (!notLimitedBottom && deltaY > 0) {
+              setYRange(range[2] + deltaY, range[3] + deltaY, i);
+              notLimitedBottom = true;
+            } else if (notLimitedBottom && notLimitedUp) {
               setYRange(range[2] + deltaY, range[3] + deltaY, i);
             }
-          } else {
-            setYRange(range[2] + deltaY, range[3] + deltaY, i);
+            limitsReachedY = false;
           }
         }
       }

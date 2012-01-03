@@ -33,6 +33,10 @@ public class Zoom extends AbstractTool {
   private float mZoomRate;
   /** The zoom listeners. */
   private List<ZoomListener> mZoomListeners = new ArrayList<ZoomListener>();
+  /** Zoom limits reached on the X axis. */
+  private boolean limitsReachedX = false;
+  /** Zoom limits reached on the Y axis. */
+  private boolean limitsReachedY = false;
 
   /**
    * Builds the zoom tool.
@@ -74,25 +78,32 @@ public class Zoom extends AbstractTool {
         double newHeight = range[3] - range[2];
         if (mZoomIn) {
           if (mRenderer.isZoomXEnabled()) {
+            limitsReachedX = false;
             newWidth /= mZoomRate;
           }
           if (mRenderer.isZoomYEnabled()) {
+            limitsReachedY = false;
             newHeight /= mZoomRate;
           }
         } else {
           if (mRenderer.isZoomXEnabled()) {
-            newWidth *= mZoomRate;
+            if (limitsReachedX) {
+              newWidth *= mZoomRate;
+            }
           }
           if (mRenderer.isZoomYEnabled()) {
-            newHeight *= mZoomRate;
+            if (limitsReachedY) {
+              newHeight *= mZoomRate;
+            }
           }
         }
-
         if (mRenderer.isZoomXEnabled()) {
           double newXMin = centerX - newWidth / 2;
           double newXMax = centerX + newWidth / 2;
           if (!limited || limits[0] <= newXMin && limits[1] >= newXMax) {
             setXRange(newXMin, newXMax, i);
+          } else {
+            limitsReachedX = true;
           }
         }
         if (mRenderer.isZoomYEnabled()) {
@@ -100,6 +111,8 @@ public class Zoom extends AbstractTool {
           double newYMax = centerY + newHeight / 2;
           if (!limited || limits[2] <= newYMin && limits[3] >= newYMax) {
             setYRange(newYMin, newYMax, i);
+          } else {
+            limitsReachedY = true;
           }
         }
       }
@@ -116,6 +129,7 @@ public class Zoom extends AbstractTool {
 
   /**
    * Notify the zoom listeners about a zoom change.
+   * 
    * @param e the zoom event
    */
   private synchronized void notifyZoomListeners(ZoomEvent e) {
