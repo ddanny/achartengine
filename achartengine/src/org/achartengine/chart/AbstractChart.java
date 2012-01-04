@@ -24,6 +24,7 @@ import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
+import org.achartengine.util.MathHelper;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -177,7 +178,7 @@ public abstract class AbstractChart implements Serializable {
     float drawP1y;
     float drawP2x;
     float drawP2y;
-    
+
     if (p1y > screenHeight) {
       // Intersection with the top of the screen
       float m = (p2y - p1y) / (p2x - p1x);
@@ -409,6 +410,10 @@ public abstract class AbstractChart implements Serializable {
       canvas.drawText(labelText, xLabel, yLabel, paint);
       prevLabelsBounds.add(new RectF(xLabel, yLabel, xLabel + widthLabel, yLabel + size));
     }
+  }
+
+  public boolean isNullValue(double value) {
+    return Double.isNaN(value) || Double.isInfinite(value) || value == MathHelper.NULL_VALUE;
   }
 
   /**

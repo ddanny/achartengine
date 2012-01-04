@@ -97,12 +97,12 @@ public class RangeBarChart extends BarChart {
         x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
       }
 
-      if (series.getY(index + 1) != MathHelper.NULL_VALUE && points.length > i + 3) {
+      if (!isNullValue(series.getY(index + 1)) && points.length > i + 3) {
         // draw the maximum value
         drawText(canvas, getLabel(series.getY(index + 1)), x,
             points[i + 3] - renderer.getChartValuesSpacing(), paint, 0);
       }
-      if (series.getY(index) != MathHelper.NULL_VALUE && points.length > i + 1) {
+      if (!isNullValue(series.getY(index)) && points.length > i + 1) {
         // draw the minimum value
         drawText(canvas, getLabel(series.getY(index)), x,
             points[i + 1] + renderer.getChartValuesTextSize() + renderer.getChartValuesSpacing()

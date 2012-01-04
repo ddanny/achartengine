@@ -195,7 +195,7 @@ public class BarChart extends XYChart {
     float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
     for (int i = 0; i < points.length; i += 2) {
       int index = i / 2;
-      if (series.getY(index) != MathHelper.NULL_VALUE) {
+      if (!isNullValue(series.getY(index))) {
         float x = points[i];
         if (mType == Type.DEFAULT) {
           x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
