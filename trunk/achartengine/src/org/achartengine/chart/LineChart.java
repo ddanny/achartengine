@@ -98,13 +98,13 @@ public class LineChart extends XYChart {
   }
 
   @Override
-  protected RectF[] clickableAreasForPoints(float[] points, float yAxisValue, int seriesIndex) {
+  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values, float yAxisValue, int seriesIndex) {
     int length = points.length;
-    RectF[] ret = new RectF[length / 2];
+    ClickableArea[] ret = new ClickableArea[length / 2];
     for (int i = 0; i < length; i += 2) {
       int selectableBuffer = mRenderer.getSelectableBuffer();
-      ret[i / 2] = new RectF(points[i] - selectableBuffer, points[i + 1] - selectableBuffer,
-          points[i] + selectableBuffer, points[i + 1] + selectableBuffer);
+      ret[i / 2] = new ClickableArea(new RectF(points[i] - selectableBuffer, points[i + 1] - selectableBuffer,
+          points[i] + selectableBuffer, points[i + 1] + selectableBuffer), values[i], values[i+1]);
     }
     return ret;
   }

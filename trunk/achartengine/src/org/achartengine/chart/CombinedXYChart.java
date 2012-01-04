@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009, 2010 SC 4ViewSoft SRL
+ * Copyright (C) 2009 - 2012 SC 4ViewSoft SRL
  *  
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,8 +123,8 @@ public class CombinedXYChart extends XYChart {
   }
 
   @Override
-  protected RectF[] clickableAreasForPoints(float[] points, float yAxisValue, int seriesIndex) {
-    return mCharts[seriesIndex].clickableAreasForPoints(points, yAxisValue, 0);
+  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values, float yAxisValue, int seriesIndex) {
+    return mCharts[seriesIndex].clickableAreasForPoints(points, values, yAxisValue, 0);
   }
 
   @Override

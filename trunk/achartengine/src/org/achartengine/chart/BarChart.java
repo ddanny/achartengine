@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009, 2010 SC 4ViewSoft SRL
+ * Copyright (C) 2009 - 2012 SC 4ViewSoft SRL
  *  
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,19 +63,19 @@ public class BarChart extends XYChart {
   }
 
   @Override
-  protected RectF[] clickableAreasForPoints(float[] points, float yAxisValue, int seriesIndex) {
+  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values, float yAxisValue, int seriesIndex) {
     int seriesNr = mDataset.getSeriesCount();
     int length = points.length;
-    RectF[] ret = new RectF[length / 2];
+    ClickableArea[] ret = new ClickableArea[length / 2];
     float halfDiffX = getHalfDiffX(points, length, seriesNr);
     for (int i = 0; i < length; i += 2) {
       float x = points[i];
       float y = points[i + 1];
       if (mType == Type.STACKED) {
-        ret[i / 2] = new RectF(x - halfDiffX, y, x + halfDiffX, yAxisValue);
+        ret[i / 2] = new ClickableArea(new RectF(x - halfDiffX, y, x + halfDiffX, yAxisValue), values[i], values[i+1]);
       } else {
         float startX = x - seriesNr * halfDiffX + seriesIndex * 2 * halfDiffX;
-        ret[i / 2] = new RectF(startX, y, startX + 2 * halfDiffX, yAxisValue);
+        ret[i / 2] = new ClickableArea(new RectF(startX, y, startX + 2 * halfDiffX, yAxisValue), values[i], values[i+1]);
       }
     }
     return ret;
