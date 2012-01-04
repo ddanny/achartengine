@@ -66,21 +66,32 @@ public class CubicLineChart extends LineChart {
   }
 
   @Override
-  protected void drawPath(Canvas canvas, float[] points, Paint paint, boolean notUsedArgument) {
+  protected void drawPath(Canvas canvas, float[] points, Paint paint, boolean circular) {
     Path p = new Path();
     float x = points[0];
     float y = points[1];
     p.moveTo(x, y);
 
-    for (int i = 0; i < points.length; i += 2) {
-      int nextIndex = i + 2 < points.length ? i + 2 : i;
-      int nextNextIndex = i + 4 < points.length ? i + 4 : nextIndex;
+    int length = points.length;
+    if (circular) {
+      length -= 4;
+    }
+    
+    for (int i = 0; i < length; i += 2) {
+      int nextIndex = i + 2 < length ? i + 2 : i;
+      int nextNextIndex = i + 4 < length ? i + 4 : nextIndex;
       calc(points, p1, i, nextIndex, secondMultiplier);
       p2.setX(points[nextIndex]);
       p2.setY(points[nextIndex + 1]);
       calc(points, p3, nextIndex, nextNextIndex, firstMultiplier);
       // From last point, approaching x1/y1 and x2/y2 and ends up at x3/y3
       p.cubicTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
+    }
+    if (circular) {
+      for (int i = length; i < length + 4; i += 2) {
+        p.lineTo(points[i], points[i + 1]);
+      }
+      p.lineTo(points[0], points[1]);
     }
     canvas.drawPath(p, paint);
   }
