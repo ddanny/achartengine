@@ -258,7 +258,7 @@ public abstract class XYChart extends AbstractChart {
         values.add(value.getKey());
         values.add(value.getValue());
 
-        if (yValue != MathHelper.NULL_VALUE) {
+        if (!isNullValue(yValue)) {
           points.add((float) (left + xPixelsPerUnit[scale] * (xValue - minX[scale])));
           points.add((float) (bottom - yPixelsPerUnit[scale] * (yValue - minY[scale])));
         } else if (isRenderNullValues()) {
