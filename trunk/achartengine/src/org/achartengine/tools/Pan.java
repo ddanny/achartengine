@@ -76,8 +76,12 @@ public class Pan extends AbstractTool {
         double deltaY = realPoint[1] - realPoint2[1];
 
         if (mRenderer.isPanXEnabled()) {
-          boolean notLimitedLeft = limits[0] <= range[0] + deltaX;
-          boolean notLimitedRight = limits[1] >= range[1] + deltaX;
+          boolean notLimitedLeft = false;
+          boolean notLimitedRight = false;
+          if (limits != null) {
+            notLimitedLeft = limits[0] <= range[0] + deltaX;
+            notLimitedRight = limits[1] >= range[1] + deltaX;
+          }
           if (!limited || (notLimitedLeft && notLimitedRight)) {
             setXRange(range[0] + deltaX, range[1] + deltaX, i);
             limitsReachedX = false;
@@ -86,10 +90,10 @@ public class Pan extends AbstractTool {
           }
         }
         if (mRenderer.isPanYEnabled()) {
-          if (notLimitedBottom) {
+          if (notLimitedBottom && limits != null) {
             notLimitedBottom = limits[2] <= range[2] - deltaY;
           }
-          if (notLimitedUp) {
+          if (notLimitedUp && limits != null) {
             notLimitedUp = limits[3] >= range[3] - deltaY;
           }
           if (limited && (!notLimitedBottom && !notLimitedUp)) {
