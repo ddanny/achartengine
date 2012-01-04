@@ -271,7 +271,9 @@ public abstract class AbstractChart implements Serializable {
       }
       tempDrawPoints = calculateDrawPoints(points[i - 2], points[i - 1], points[i], points[i + 1],
           height, width);
-      path.moveTo(tempDrawPoints[0], tempDrawPoints[1]);
+      if (!circular) {
+        path.moveTo(tempDrawPoints[0], tempDrawPoints[1]);
+      }
       path.lineTo(tempDrawPoints[2], tempDrawPoints[3]);
     }
     if (circular) {
