@@ -25,10 +25,6 @@ import org.achartengine.util.MathHelper;
  * Dial chart renderer.
  */
 public class DialRenderer extends DefaultRenderer {
-  /** The chart title. */
-  private String mChartTitle = "";
-  /** The chart title text size. */
-  private float mChartTitleTextSize = 15;
   /** The start angle in the dial range. */
   private double mAngleMin = 330;
   /** The end angle in the dial range. */
@@ -46,42 +42,6 @@ public class DialRenderer extends DefaultRenderer {
 
   public enum Type {
     NEEDLE, ARROW;
-  }
-
-  /**
-   * Returns the chart title.
-   * 
-   * @return the chart title
-   */
-  public String getChartTitle() {
-    return mChartTitle;
-  }
-
-  /**
-   * Sets the chart title.
-   * 
-   * @param title the chart title
-   */
-  public void setChartTitle(String title) {
-    mChartTitle = title;
-  }
-
-  /**
-   * Returns the chart title text size.
-   * 
-   * @return the chart title text size
-   */
-  public float getChartTitleTextSize() {
-    return mChartTitleTextSize;
-  }
-
-  /**
-   * Sets the chart title text size.
-   * 
-   * @param textSize the chart title text size
-   */
-  public void setChartTitleTextSize(float textSize) {
-    mChartTitleTextSize = textSize;
   }
 
   /**
