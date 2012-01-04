@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009, 2010 SC 4ViewSoft SRL
+ * Copyright (C) 2009 - 2012 SC 4ViewSoft SRL
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@ public abstract class XYChart extends AbstractChart {
    * The clickable areas for all points. The array index is the series index,
    * and the RectF list index is the point index in that series.
    */
-  private Map<Integer, List<RectF>> clickableAreas = new HashMap<Integer, List<RectF>>();
+  private Map<Integer, List<ClickableArea>> clickableAreas = new HashMap<Integer, List<ClickableArea>>();
 
   protected XYChart() {
   }
@@ -222,7 +222,7 @@ public abstract class XYChart extends AbstractChart {
     // 1) Avoid a large contiguous memory allocation
     // 2) We don't need random seeking, only sequential reading/writing, so
     // linked list makes sense
-    clickableAreas = new HashMap<Integer, List<RectF>>();
+    clickableAreas = new HashMap<Integer, List<ClickableArea>>();
     for (int i = 0; i < sLength; i++) {
       XYSeries series = mDataset.getSeriesAt(i);
       int scale = series.getScaleNumber();
@@ -238,9 +238,9 @@ public abstract class XYChart extends AbstractChart {
       // int length = valuesLength * 2;
 
       List<Float> points = new ArrayList<Float>();
-
+      List<Double> values = new ArrayList<Double>();
       float yAxisValue = Math.min(bottom, (float) (bottom + yPixelsPerUnit[scale] * minY[scale]));
-      LinkedList<RectF> clickableArea = new LinkedList<RectF>();
+      LinkedList<ClickableArea> clickableArea = new LinkedList<ClickableArea>();
 
       clickableAreas.put(i, clickableArea);
 
@@ -255,6 +255,8 @@ public abstract class XYChart extends AbstractChart {
         // * (value.getKey().floatValue() - minX[scale])));
         // points.add((float) (bottom - yPixelsPerUnit[scale]
         // * (value.getValue().floatValue() - minY[scale])));
+        values.add(value.getKey());
+        values.add(value.getValue());
 
         if (yValue != MathHelper.NULL_VALUE) {
           points.add((float) (left + xPixelsPerUnit[scale] * (xValue - minX[scale])));
@@ -265,10 +267,11 @@ public abstract class XYChart extends AbstractChart {
         } else {
           if (points.size() > 0) {
             drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or);
-            RectF[] clickableAreasForSubSeries = clickableAreasForPoints(
-                MathHelper.getFloats(points), yAxisValue, i);
+            ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(
+                MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i);
             clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
             points.clear();
+            values.clear();
           }
           clickableArea.add(null);
         }
@@ -276,8 +279,8 @@ public abstract class XYChart extends AbstractChart {
 
       if (points.size() > 0) {
         drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or);
-        RectF[] clickableAreasForSubSeries = clickableAreasForPoints(MathHelper.getFloats(points),
-            yAxisValue, i);
+        ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(
+            MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i);
         clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
       }
     }
@@ -753,11 +756,11 @@ public abstract class XYChart extends AbstractChart {
         // order they appear on the screen.
         int pointIndex = 0;
         if (clickableAreas.get(seriesIndex) != null) {
-          for (RectF rect : clickableAreas.get(seriesIndex)) {
-            if (rect != null && rect.contains(screenPoint.getX(), screenPoint.getY())) {
-              XYSeries series = mDataset.getSeriesAt(seriesIndex);
-              return new SeriesSelection(seriesIndex, pointIndex, series.getX(pointIndex),
-                  series.getY(pointIndex));
+          RectF rectangle;
+          for (ClickableArea area : clickableAreas.get(seriesIndex)) {
+            rectangle = area.getRect();
+            if (rectangle != null && rectangle.contains(screenPoint.getX(), screenPoint.getY())) {
+              return new SeriesSelection(seriesIndex, pointIndex, area.getX(), area.getY());
             }
             pointIndex++;
           }
@@ -783,12 +786,13 @@ public abstract class XYChart extends AbstractChart {
    * Returns the clickable areas for all passed points
    * 
    * @param points the array of points
+   * @param values the array of values of each point
    * @param yAxisValue the minimum value of the y axis
    * @param seriesIndex the index of the series to which the points belong
    * @return an array of rectangles with the clickable area
    */
-  protected abstract RectF[] clickableAreasForPoints(float[] points, float yAxisValue,
-      int seriesIndex);
+  protected abstract ClickableArea[] clickableAreasForPoints(float[] points, double[] values,
+      float yAxisValue, int seriesIndex);
 
   /**
    * Returns if the chart should display the null values.
@@ -832,4 +836,5 @@ public abstract class XYChart extends AbstractChart {
    * @return the chart type
    */
   public abstract String getChartType();
+
 }

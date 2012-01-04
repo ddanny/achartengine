@@ -156,4 +156,19 @@ public class MathHelper {
     return result;
   }
 
+  /**
+   * Transforms a list of Double values into an array of double.
+   * 
+   * @param values the list of Double
+   * @return the array of doubles
+   */
+  public static double[] getDoubles(List<Double> values) {
+    int length = values.size();
+    double[] result = new double[length];
+    for (int i = 0; i < length; i++) {
+      result[i] = values.get(i).doubleValue();
+    }
+    return result;
+  }
+
 }
