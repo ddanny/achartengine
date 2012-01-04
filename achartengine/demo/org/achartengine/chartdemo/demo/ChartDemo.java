@@ -27,6 +27,7 @@ import org.achartengine.chartdemo.demo.chart.BudgetPieChart;
 import org.achartengine.chartdemo.demo.chart.CombinedTemperatureChart;
 import org.achartengine.chartdemo.demo.chart.IDemoChart;
 import org.achartengine.chartdemo.demo.chart.MultipleTemperatureChart;
+import org.achartengine.chartdemo.demo.chart.PieChartBuilder;
 import org.achartengine.chartdemo.demo.chart.ProjectStatusBubbleChart;
 import org.achartengine.chartdemo.demo.chart.ProjectStatusChart;
 import org.achartengine.chartdemo.demo.chart.SalesBarChart;
@@ -65,16 +66,18 @@ public class ChartDemo extends ListActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     int length = mCharts.length;
-    mMenuText = new String[length + 2];
-    mMenuSummary = new String[length + 2];
-    mMenuText[0] = "Embedded chart demo";
-    mMenuSummary[0] = "A demo on how to include a chart into a graphical activity";
+    mMenuText = new String[length + 3];
+    mMenuSummary = new String[length + 3];
+    mMenuText[0] = "Embedded line chart demo";
+    mMenuSummary[0] = "A demo on how to include a clickable line chart into a graphical activity";
+    mMenuText[1] = "Embedded pie chart demo";
+    mMenuSummary[1] = "A demo on how to include a clickable pie chart into a graphical activity";
     for (int i = 0; i < length; i++) {
-      mMenuText[i + 1] = mCharts[i].getName();
-      mMenuSummary[i + 1] = mCharts[i].getDesc();
+      mMenuText[i + 2] = mCharts[i].getName();
+      mMenuSummary[i + 2] = mCharts[i].getDesc();
     }
-    mMenuText[length + 1] = "Random values charts";
-    mMenuSummary[length + 1] = "Chart demos using randomly generated values";
+    mMenuText[length + 2] = "Random values charts";
+    mMenuSummary[length + 2] = "Chart demos using randomly generated values";
     setListAdapter(new SimpleAdapter(this, getListValues(), android.R.layout.simple_list_item_2,
         new String[] { IDemoChart.NAME, IDemoChart.DESC }, new int[] { android.R.id.text1,
             android.R.id.text2 }));
@@ -98,8 +101,10 @@ public class ChartDemo extends ListActivity {
     Intent intent = null;
     if (position == 0) {
       intent = new Intent(this, XYChartBuilder.class);
-    } else if (position <= mCharts.length) {
-      intent = mCharts[position - 1].execute(this);
+    } else if (position == 1) {
+      intent = new Intent(this, PieChartBuilder.class);
+    } else if (position <= mCharts.length + 1) {
+      intent = mCharts[position - 2].execute(this);
     } else {
       intent = new Intent(this, GeneratedChartDemo.class);
     }
