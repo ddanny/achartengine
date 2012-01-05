@@ -115,13 +115,15 @@ public class ScatterChart extends XYChart {
   }
 
   @Override
-  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values, float yAxisValue, int seriesIndex, int startIndex) {
+  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values,
+      float yAxisValue, int seriesIndex, int startIndex) {
     int length = points.length;
     ClickableArea[] ret = new ClickableArea[length / 2];
     for (int i = 0; i < length; i += 2) {
       int selectableBuffer = mRenderer.getSelectableBuffer();
-      ret[i / 2] = new ClickableArea(new RectF(points[i] - selectableBuffer, points[i + 1] - selectableBuffer,
-          points[i] + selectableBuffer, points[i + 1] + selectableBuffer), values[i], values[i+1]);
+      ret[i / 2] = new ClickableArea(new RectF(points[i] - selectableBuffer, points[i + 1]
+          - selectableBuffer, points[i] + selectableBuffer, points[i + 1] + selectableBuffer),
+          values[i], values[i + 1]);
     }
     return ret;
   }
