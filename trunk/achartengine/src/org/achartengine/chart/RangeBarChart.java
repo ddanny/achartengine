@@ -54,15 +54,20 @@ public class RangeBarChart extends BarChart {
    * @param seriesRenderer the series renderer
    * @param yAxisValue the minimum value of the y axis
    * @param seriesIndex the index of the series currently being drawn
+   * @param startIndex the start index of the rendering points
    */
   public void drawSeries(Canvas canvas, Paint paint, float[] points,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex) {
+      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     int seriesNr = mDataset.getSeriesCount();
     int length = points.length;
     paint.setColor(seriesRenderer.getColor());
     paint.setStyle(Style.FILL);
     float halfDiffX = getHalfDiffX(points, length, seriesNr);
-    for (int i = 0; i < length; i += 4) {
+    int start = 0;
+    if (startIndex > 0) {
+      start = 2;
+    }
+    for (int i = start; i < length; i += 4) {
       if (points.length > i + 3) {
         float xMin = points[i];
         float yMin = points[i + 1];
@@ -84,13 +89,18 @@ public class RangeBarChart extends BarChart {
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
    * @param seriesIndex the index of the series currently being drawn
+   * @param startIndex the start index of the rendering points
    */
   protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer,
-      Paint paint, float[] points, int seriesIndex) {
+      Paint paint, float[] points, int seriesIndex, int startIndex) {
     int seriesNr = mDataset.getSeriesCount();
     float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
-    for (int i = 0; i < points.length; i += 4) {
-      int index = i / 2;
+    int start = 0;
+    if (startIndex > 0) {
+      start = 2;
+    }
+    for (int i = start; i < points.length; i += 4) {
+      int index = startIndex + i / 2;
       float x = points[i];
       if (mType == Type.DEFAULT) {
         x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;

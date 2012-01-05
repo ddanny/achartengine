@@ -203,6 +203,10 @@ public class XYSeries implements Serializable {
     return mXY.subMap(start, stop);
   }
 
+  public int getIndexForKey(double key) {
+    return mXY.getIndexForKey(key);
+  }
+  
   /**
    * Returns the series item count.
    * 
