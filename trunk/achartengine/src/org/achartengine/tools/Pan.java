@@ -16,11 +16,13 @@
 package org.achartengine.tools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.achartengine.chart.AbstractChart;
 import org.achartengine.chart.RoundChart;
 import org.achartengine.chart.XYChart;
+import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 /**
  * The pan tool.
@@ -74,7 +76,13 @@ public class Pan extends AbstractTool {
         double[] realPoint2 = chart.toRealPoint(newX, newY, i);
         double deltaX = realPoint[0] - realPoint2[0];
         double deltaY = realPoint[1] - realPoint2[1];
-
+        double ratio = getAxisRatio(range);
+        if (chart.isVertical(mRenderer)) {
+          double newDeltaX = -deltaY * ratio;
+          double newDeltaY = deltaX / ratio;
+          deltaX = newDeltaX;
+          deltaY = newDeltaY;
+        }
         if (mRenderer.isPanXEnabled()) {
           boolean notLimitedLeft = false;
           boolean notLimitedRight = false;
@@ -118,6 +126,16 @@ public class Pan extends AbstractTool {
       chart.setCenterY(chart.getCenterY() + (int) (newY - oldY));
     }
     notifyPanListeners();
+  }
+
+  /**
+   * Return the X / Y axis range ratio.
+   * 
+   * @param range the axis range
+   * @return the ratio
+   */
+  private double getAxisRatio(double[] range) {
+    return Math.abs(range[1] - range[0]) / Math.abs(range[3] - range[2]);
   }
 
   /**
