@@ -120,17 +120,20 @@ public class CombinedXYChart extends XYChart {
     mCharts[seriesIndex].setScreenR(getScreenR());
     mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex)
         .getScaleNumber()), 0);
-    mCharts[seriesIndex].drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, 0, startIndex);
+    mCharts[seriesIndex].drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, 0,
+        startIndex);
   }
 
   @Override
-  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values, float yAxisValue, int seriesIndex, int startIndex) {
+  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values,
+      float yAxisValue, int seriesIndex, int startIndex) {
     return mCharts[seriesIndex].clickableAreasForPoints(points, values, yAxisValue, 0, startIndex);
   }
 
   @Override
   protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or, int startIndex) {
+      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or,
+      int startIndex) {
     mCharts[seriesIndex].setScreenR(getScreenR());
     mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex)
         .getScaleNumber()), 0);
