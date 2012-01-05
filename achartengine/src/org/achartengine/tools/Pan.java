@@ -16,13 +16,11 @@
 package org.achartengine.tools;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.achartengine.chart.AbstractChart;
 import org.achartengine.chart.RoundChart;
 import org.achartengine.chart.XYChart;
-import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 /**
  * The pan tool.
