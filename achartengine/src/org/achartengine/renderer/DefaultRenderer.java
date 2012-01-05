@@ -93,6 +93,7 @@ public class DefaultRenderer implements Serializable {
   private boolean mClickEnabled = false;
   /** The selectable radius around a clickable point. */
   private int selectableBuffer = 15;
+
   /**
    * A flag to be set if the chart is inside a scroll and doesn't need to shrink
    * when not enough space.
@@ -666,11 +667,11 @@ public class DefaultRenderer implements Serializable {
   public void setInScroll(boolean inScroll) {
     mInScroll = inScroll;
   }
-  
+
   /**
-   * Returns the start angle for circular charts such as pie, doughnut. An
-   * angle of 0 degrees correspond to the geometric angle of 0 degrees (3
-   * o'clock on a watch.)
+   * Returns the start angle for circular charts such as pie, doughnut. An angle
+   * of 0 degrees correspond to the geometric angle of 0 degrees (3 o'clock on a
+   * watch.)
    * 
    * @return the start angle
    */
