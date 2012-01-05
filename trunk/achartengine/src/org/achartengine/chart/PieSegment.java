@@ -9,9 +9,9 @@ public class PieSegment implements Serializable {
   private float mStartAngle;
 
   private float mEndAngle;
-  
+
   private int mDataIndex;
-  
+
   private float mValue;
 
   public PieSegment(int dataIndex, float value, float startAngle, float angle) {
@@ -30,7 +30,7 @@ public class PieSegment implements Serializable {
   public boolean isInSegment(double angle) {
     return angle >= mStartAngle && angle <= mEndAngle;
   }
-  
+
   protected float getStartAngle() {
     return mStartAngle;
   }
