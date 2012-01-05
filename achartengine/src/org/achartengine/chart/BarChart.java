@@ -62,7 +62,8 @@ public class BarChart extends XYChart {
   }
 
   @Override
-  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values, float yAxisValue, int seriesIndex, int startIndex) {
+  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values,
+      float yAxisValue, int seriesIndex, int startIndex) {
     int seriesNr = mDataset.getSeriesCount();
     int length = points.length;
     ClickableArea[] ret = new ClickableArea[length / 2];
@@ -71,10 +72,12 @@ public class BarChart extends XYChart {
       float x = points[i];
       float y = points[i + 1];
       if (mType == Type.STACKED) {
-        ret[i / 2] = new ClickableArea(new RectF(x - halfDiffX, y, x + halfDiffX, yAxisValue), values[i], values[i+1]);
+        ret[i / 2] = new ClickableArea(new RectF(x - halfDiffX, y, x + halfDiffX, yAxisValue),
+            values[i], values[i + 1]);
       } else {
         float startX = x - seriesNr * halfDiffX + seriesIndex * 2 * halfDiffX;
-        ret[i / 2] = new ClickableArea(new RectF(startX, y, startX + 2 * halfDiffX, yAxisValue), values[i], values[i+1]);
+        ret[i / 2] = new ClickableArea(new RectF(startX, y, startX + 2 * halfDiffX, yAxisValue),
+            values[i], values[i + 1]);
       }
     }
     return ret;
@@ -108,6 +111,7 @@ public class BarChart extends XYChart {
 
   /**
    * Draws a bar.
+   * 
    * @param canvas the canvas
    * @param xMin the X axis minimum
    * @param yMin the Y axis minimum
