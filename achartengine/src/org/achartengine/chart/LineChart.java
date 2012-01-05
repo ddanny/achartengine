@@ -71,9 +71,10 @@ public class LineChart extends XYChart {
    * @param seriesRenderer the series renderer
    * @param yAxisValue the minimum value of the y axis
    * @param seriesIndex the index of the series currently being drawn
+   * @param startIndex the start index of the rendering points
    */
   public void drawSeries(Canvas canvas, Paint paint, float[] points,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex) {
+      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     int length = points.length;
     XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
     float lineWidth = paint.getStrokeWidth();
@@ -98,13 +99,15 @@ public class LineChart extends XYChart {
   }
 
   @Override
-  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values, float yAxisValue, int seriesIndex) {
+  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values,
+      float yAxisValue, int seriesIndex, int startIndex) {
     int length = points.length;
     ClickableArea[] ret = new ClickableArea[length / 2];
     for (int i = 0; i < length; i += 2) {
       int selectableBuffer = mRenderer.getSelectableBuffer();
-      ret[i / 2] = new ClickableArea(new RectF(points[i] - selectableBuffer, points[i + 1] - selectableBuffer,
-          points[i] + selectableBuffer, points[i + 1] + selectableBuffer), values[i], values[i+1]);
+      ret[i / 2] = new ClickableArea(new RectF(points[i] - selectableBuffer, points[i + 1]
+          - selectableBuffer, points[i] + selectableBuffer, points[i + 1] + selectableBuffer),
+          values[i], values[i + 1]);
     }
     return ret;
   }

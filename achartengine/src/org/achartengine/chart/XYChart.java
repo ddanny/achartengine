@@ -245,11 +245,15 @@ public abstract class XYChart extends AbstractChart {
       clickableAreas.put(i, clickableArea);
 
       SortedMap<Double, Double> range = series.getRange(minX[scale], maxX[scale], 1);
+      int startIndex = -1;
 
       for (Entry<Double, Double> value : range.entrySet()) {
 
         double xValue = value.getKey();
         double yValue = value.getValue();
+        if (startIndex < 0) {
+          startIndex = series.getIndexForKey(xValue);
+        }
 
         // points.add((float) (left + xPixelsPerUnit[scale]
         // * (value.getKey().floatValue() - minX[scale])));
@@ -266,9 +270,9 @@ public abstract class XYChart extends AbstractChart {
           points.add((float) (bottom - yPixelsPerUnit[scale] * (-minY[scale])));
         } else {
           if (points.size() > 0) {
-            drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or);
+            drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or, startIndex);
             ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(
-                MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i);
+                MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i, startIndex);
             clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
             points.clear();
             values.clear();
@@ -278,9 +282,9 @@ public abstract class XYChart extends AbstractChart {
       }
 
       if (points.size() > 0) {
-        drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or);
+        drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or, startIndex);
         ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(
-            MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i);
+            MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i, startIndex);
         clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
       }
     }
@@ -478,8 +482,20 @@ public abstract class XYChart extends AbstractChart {
     return result;
   }
 
-  protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or) {
+  /**
+   * Draws the series.
+   * @param series the series 
+   * @param canvas the canvas
+   * @param paint the paint object
+   * @param pointsList the points to be rendered
+   * @param seriesRenderer the series renderer
+   * @param yAxisValue the y axis value in pixels
+   * @param seriesIndex the series index
+   * @param or the orientation
+   * @param startIndex the start index of the rendering points
+   */
+  protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList, 
+      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or, int startIndex) {
     BasicStroke stroke = seriesRenderer.getStroke();
     Cap cap = paint.getStrokeCap();
     Join join = paint.getStrokeJoin();
@@ -495,11 +511,11 @@ public abstract class XYChart extends AbstractChart {
           effect, paint);
     }
     float[] points = MathHelper.getFloats(pointsList);
-    drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex);
+    drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex, startIndex);
     if (isRenderPoints(seriesRenderer)) {
       ScatterChart pointsChart = getPointsChart();
       if (pointsChart != null) {
-        pointsChart.drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex);
+        pointsChart.drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex, startIndex);
       }
     }
     paint.setTextSize(seriesRenderer.getChartValuesTextSize());
@@ -510,7 +526,7 @@ public abstract class XYChart extends AbstractChart {
     }
     if (seriesRenderer.isDisplayChartValues()) {
       paint.setTextAlign(seriesRenderer.getChartValuesTextAlign());
-      drawChartValuesText(canvas, series, seriesRenderer, paint, points, seriesIndex);
+      drawChartValuesText(canvas, series, seriesRenderer, paint, points, seriesIndex, startIndex);
     }
     if (stroke != null) {
       setStroke(cap, join, miter, style, pathEffect, paint);
@@ -535,11 +551,12 @@ public abstract class XYChart extends AbstractChart {
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
    * @param seriesIndex the index of the series currently being drawn
+   * @param startIndex the start index of the rendering points
    */
   protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer,
-      Paint paint, float[] points, int seriesIndex) {
+      Paint paint, float[] points, int seriesIndex, int startIndex) {
     for (int k = 0; k < points.length; k += 2) {
-      drawText(canvas, getLabel(series.getY(k / 2)), points[k],
+      drawText(canvas, getLabel(series.getY(startIndex + k / 2)), points[k],
           points[k + 1] - renderer.getChartValuesSpacing(), paint, 0);
     }
   }
@@ -778,9 +795,10 @@ public abstract class XYChart extends AbstractChart {
    * @param seriesRenderer the series renderer
    * @param yAxisValue the minimum value of the y axis
    * @param seriesIndex the index of the series currently being drawn
+   * @param startIndex the start index of the rendering points
    */
   public abstract void drawSeries(Canvas canvas, Paint paint, float[] points,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex);
+      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex);
 
   /**
    * Returns the clickable areas for all passed points
@@ -790,9 +808,10 @@ public abstract class XYChart extends AbstractChart {
    * @param yAxisValue the minimum value of the y axis
    * @param seriesIndex the index of the series to which the points belong
    * @return an array of rectangles with the clickable area
+   * @param startIndex the start index of the rendering points
    */
   protected abstract ClickableArea[] clickableAreasForPoints(float[] points, double[] values,
-      float yAxisValue, int seriesIndex);
+      float yAxisValue, int seriesIndex, int startIndex);
 
   /**
    * Returns if the chart should display the null values.

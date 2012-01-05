@@ -62,7 +62,7 @@ public class BarChart extends XYChart {
   }
 
   @Override
-  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values, float yAxisValue, int seriesIndex) {
+  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values, float yAxisValue, int seriesIndex, int startIndex) {
     int seriesNr = mDataset.getSeriesCount();
     int length = points.length;
     ClickableArea[] ret = new ClickableArea[length / 2];
@@ -89,9 +89,10 @@ public class BarChart extends XYChart {
    * @param seriesRenderer the series renderer
    * @param yAxisValue the minimum value of the y axis
    * @param seriesIndex the index of the series currently being drawn
+   * @param startIndex the start index of the rendering points
    */
   public void drawSeries(Canvas canvas, Paint paint, float[] points,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex) {
+      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     int seriesNr = mDataset.getSeriesCount();
     int length = points.length;
     paint.setColor(seriesRenderer.getColor());
@@ -187,13 +188,14 @@ public class BarChart extends XYChart {
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
    * @param seriesIndex the index of the series currently being drawn
+   * @param startIndex the start index of the rendering points
    */
   protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer,
-      Paint paint, float[] points, int seriesIndex) {
+      Paint paint, float[] points, int seriesIndex, int startIndex) {
     int seriesNr = mDataset.getSeriesCount();
     float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
     for (int i = 0; i < points.length; i += 2) {
-      int index = i / 2;
+      int index = startIndex + i / 2;
       if (!isNullValue(series.getY(index))) {
         float x = points[i];
         if (mType == Type.DEFAULT) {
