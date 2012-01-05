@@ -23,7 +23,6 @@ import java.util.TreeMap;
  * This class requires sorted x values
  */
 public class IndexXYMap<K, V> extends TreeMap<K, V> {
-
   private final List<K> indexList = new ArrayList<K>();
   
   private double maxXDifference = 0;
