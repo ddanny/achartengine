@@ -27,7 +27,6 @@ import android.graphics.Paint.Align;
  * An abstract class to be extended by round like chart rendering classes.
  */
 public abstract class RoundChart extends AbstractChart {
-  
   /** The legend shape width. */
   protected static final int SHAPE_WIDTH = 10;
   /** The series dataset. */
