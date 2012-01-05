@@ -32,7 +32,6 @@ import android.graphics.RectF;
  * The doughnut chart rendering class.
  */
 public class DoughnutChart extends RoundChart {
-  
   /** The series dataset. */
   private MultipleCategorySeries mDataset;
   /** A step variable to control the size of the legend shape. */
