@@ -76,7 +76,7 @@ public class CubicLineChart extends LineChart {
     if (circular) {
       length -= 4;
     }
-    
+
     for (int i = 0; i < length; i += 2) {
       int nextIndex = i + 2 < length ? i + 2 : i;
       int nextNextIndex = i + 4 < length ? i + 4 : nextIndex;
