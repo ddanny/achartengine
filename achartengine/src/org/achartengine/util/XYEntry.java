@@ -22,6 +22,7 @@ import java.util.Map.Entry;
  */
 public class XYEntry<K, V> implements Entry<K, V> {
   private final K key;
+  
   private V value;
 
   public XYEntry(K key, V value) {
