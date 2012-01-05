@@ -28,7 +28,6 @@ import android.graphics.Paint.Style;
  * The range bar chart rendering class.
  */
 public class RangeBarChart extends BarChart {
-  
   /** The chart type. */
   public static final String TYPE = "RangeBar";
 
