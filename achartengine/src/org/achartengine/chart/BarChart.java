@@ -133,6 +133,18 @@ public class BarChart extends XYChart {
     }
   }
 
+  /**
+   * Draws a bar.
+   * 
+   * @param canvas the canvas
+   * @param xMin the X axis minimum
+   * @param yMin the Y axis minimum
+   * @param xMax the X axis maximum
+   * @param yMax the Y axis maximum
+   * @param scale the scale index
+   * @param seriesIndex the current series index
+   * @param paint the paint
+   */
   private void drawBar(Canvas canvas, float xMin, float yMin, float xMax, float yMax, int scale,
       int seriesIndex, Paint paint) {
     SimpleSeriesRenderer renderer = mRenderer.getSeriesRendererAt(seriesIndex);
