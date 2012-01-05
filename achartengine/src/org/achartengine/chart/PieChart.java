@@ -82,7 +82,6 @@ public class PieChart extends RoundChart {
 
     float currentAngle = 0;
     int mRadius = Math.min(Math.abs(right - left), Math.abs(bottom - top));
-
     int radius = (int) (mRadius * 0.35 * mRenderer.getScale());
 
     if (mCenterX == NO_VALUE) {
