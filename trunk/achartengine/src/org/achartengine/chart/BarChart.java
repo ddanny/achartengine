@@ -32,6 +32,7 @@ import android.graphics.drawable.GradientDrawable.Orientation;
  * The bar chart rendering class.
  */
 public class BarChart extends XYChart {
+
   /** The constant to identify this chart type. */
   public static final String TYPE = "Bar";
   /** The legend shape width. */
