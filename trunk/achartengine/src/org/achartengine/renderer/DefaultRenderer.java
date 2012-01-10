@@ -63,8 +63,10 @@ public class DefaultRenderer implements Serializable {
   private float mLegendTextSize = 12;
   /** If the legend should size to fit. */
   private boolean mFitLegend = false;
-  /** If the grid should be displayed. */
-  private boolean mShowGrid = false;
+  /** If the X axis grid should be displayed. */
+  private boolean mShowGridX = false;
+  /** If the Y axis grid should be displayed. */
+  private boolean mShowGridY = false;
   /** If the custom text grid should be displayed. */
   private boolean mShowCustomTextGrid = false;
   /** The simple renderers that are included in this multiple series renderer. */
@@ -321,12 +323,39 @@ public class DefaultRenderer implements Serializable {
   }
 
   /**
-   * Returns if the grid should be visible.
+   * Returns if the X axis grid should be visible.
    * 
-   * @return the visibility flag for the grid
+   * @return the visibility flag for the X axis grid
    */
-  public boolean isShowGrid() {
-    return mShowGrid;
+  public boolean isShowGridX() {
+    return mShowGridX;
+  }
+
+  /**
+   * Returns if the Y axis grid should be visible.
+   * 
+   * @return the visibility flag for the Y axis grid
+   */
+  public boolean isShowGridY() {
+    return mShowGridY;
+  }
+
+  /**
+   * Sets if the X axis grid should be visible.
+   * 
+   * @param showGrid the visibility flag for the X axis grid
+   */
+  public void setShowGridX(boolean showGrid) {
+    mShowGridX = showGrid;
+  }
+
+  /**
+   * Sets if the Y axis grid should be visible.
+   * 
+   * @param showGrid the visibility flag for the Y axis grid
+   */
+  public void setShowGridY(boolean showGrid) {
+    mShowGridY = showGrid;
   }
 
   /**
@@ -335,7 +364,8 @@ public class DefaultRenderer implements Serializable {
    * @param showGrid the visibility flag for the grid
    */
   public void setShowGrid(boolean showGrid) {
-    mShowGrid = showGrid;
+    setShowGridX(showGrid);
+    setShowGridY(showGrid);
   }
 
   /**
