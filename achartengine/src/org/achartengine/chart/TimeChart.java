@@ -113,7 +113,7 @@ public class TimeChart extends LineChart {
     int length = xLabels.size();
     if (length > 0) {
       boolean showLabels = mRenderer.isShowLabels();
-      boolean showGrid = mRenderer.isShowGrid();
+      boolean showGridY = mRenderer.isShowGridY();
       DateFormat format = getDateFormat(xLabels.get(0), xLabels.get(length - 1));
       for (int i = 0; i < length; i++) {
         long label = Math.round(xLabels.get(i));
@@ -125,7 +125,7 @@ public class TimeChart extends LineChart {
           drawText(canvas, format.format(new Date(label)), xLabel,
               bottom + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
         }
-        if (showGrid) {
+        if (showGridY) {
           paint.setColor(mRenderer.getGridColor());
           canvas.drawLine(xLabel, bottom, xLabel, top, paint);
         }

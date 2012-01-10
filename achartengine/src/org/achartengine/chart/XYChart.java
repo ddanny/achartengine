@@ -307,9 +307,9 @@ public abstract class XYChart extends AbstractChart {
     }
 
     boolean showLabels = mRenderer.isShowLabels() && hasValues;
-    boolean showGrid = mRenderer.isShowGrid();
+    boolean showGridX = mRenderer.isShowGridX();
     boolean showCustomTextGrid = mRenderer.isShowCustomTextGrid();
-    if (showLabels || showGrid) {
+    if (showLabels || showGridX) {
       List<Double> xLabels = getValidLabels(getXLabels(minX[0], maxX[0], mRenderer.getXLabels()));
       Map<Integer, List<Double>> allYLabels = new HashMap<Integer, List<Double>>();
       for (int i = 0; i < maxScaleNumber; i++) {
@@ -350,7 +350,7 @@ public abstract class XYChart extends AbstractChart {
                     mRenderer.getYLabelsAngle());
               }
             }
-            if (showGrid) {
+            if (showGridX) {
               paint.setColor(mRenderer.getGridColor());
               canvas.drawLine(left, yLabel, right, yLabel, paint);
             }
@@ -361,7 +361,7 @@ public abstract class XYChart extends AbstractChart {
               drawText(canvas, getLabel(label), right + 10, yLabel - 2, paint,
                   mRenderer.getYLabelsAngle());
             }
-            if (showGrid) {
+            if (showGridX) {
               paint.setColor(mRenderer.getGridColor());
               canvas.drawLine(right, yLabel, left, yLabel, paint);
             }
@@ -640,7 +640,7 @@ public abstract class XYChart extends AbstractChart {
       Paint paint, int left, int top, int bottom, double xPixelsPerUnit, double minX, double maxX) {
     int length = xLabels.size();
     boolean showLabels = mRenderer.isShowLabels();
-    boolean showGrid = mRenderer.isShowGrid();
+    boolean showGridY = mRenderer.isShowGridY();
     for (int i = 0; i < length; i++) {
       double label = xLabels.get(i);
       float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
@@ -650,7 +650,7 @@ public abstract class XYChart extends AbstractChart {
         drawText(canvas, getLabel(label), xLabel, bottom + mRenderer.getLabelsTextSize() * 4 / 3,
             paint, mRenderer.getXLabelsAngle());
       }
-      if (showGrid) {
+      if (showGridY) {
         paint.setColor(mRenderer.getGridColor());
         canvas.drawLine(xLabel, bottom, xLabel, top, paint);
       }
