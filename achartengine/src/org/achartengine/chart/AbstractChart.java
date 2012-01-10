@@ -359,13 +359,14 @@ public abstract class AbstractChart implements Serializable {
    * @param angle the label extra angle
    * @param left the left side
    * @param right the right side
+   * @param color the label color
    * @param paint the paint
    */
   protected void drawLabel(Canvas canvas, String labelText, DefaultRenderer renderer,
       List<RectF> prevLabelsBounds, int centerX, int centerY, float shortRadius, float longRadius,
-      float currentAngle, float angle, int left, int right, Paint paint) {
+      float currentAngle, float angle, int left, int right, int color, Paint paint) {
     if (renderer.isShowLabels()) {
-      paint.setColor(renderer.getLabelsColor());
+      paint.setColor(color);
       double rAngle = Math.toRadians(90 - (currentAngle + angle / 2));
       double sinValue = Math.sin(rAngle);
       double cosValue = Math.cos(rAngle);

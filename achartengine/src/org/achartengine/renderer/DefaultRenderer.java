@@ -250,6 +250,7 @@ public class DefaultRenderer implements Serializable {
     mAxesColor = color;
   }
 
+
   /**
    * Returns the labels color.
    * 
@@ -258,7 +259,7 @@ public class DefaultRenderer implements Serializable {
   public int getLabelsColor() {
     return mLabelsColor;
   }
-
+  
   /**
    * Sets the labels color.
    * 

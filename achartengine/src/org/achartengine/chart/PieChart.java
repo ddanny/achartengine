@@ -111,7 +111,7 @@ public class PieChart extends RoundChart {
       float angle = (float) (value / total * 360);
       canvas.drawArc(oval, currentAngle, angle, true, paint);
       drawLabel(canvas, mDataset.getCategory(i), mRenderer, prevLabelsBounds, mCenterX, mCenterY,
-          shortRadius, longRadius, currentAngle, angle, left, right, paint);
+          shortRadius, longRadius, currentAngle, angle, left, right, mRenderer.getLabelsColor(), paint);
 
       // Save details for getSeries functionality
       if (loadPieCfg) {

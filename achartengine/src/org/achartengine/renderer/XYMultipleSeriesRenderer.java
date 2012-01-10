@@ -86,6 +86,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private Align[] yLabelsAlign;
   /** The Y axis alignment. */
   private Align[] yAxisAlign;
+  /** The X axis labels color. */
+  private int mXLabelsColor = TEXT_COLOR;
+  /** The Y axis labels color. */
+  private int[] mYLabelsColor = new int[] { TEXT_COLOR };
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -122,11 +126,13 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mYTitle = new String[scales];
     yLabelsAlign = new Align[scales];
     yAxisAlign = new Align[scales];
+    mYLabelsColor = new int[scales];
     mMinX = new double[scales];
     mMaxX = new double[scales];
     mMinY = new double[scales];
     mMaxY = new double[scales];
     for (int i = 0; i < scales; i++) {
+      mYLabelsColor[i] = TEXT_COLOR;
       initAxesRangeForScale(i);
     }
   }
@@ -968,6 +974,43 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setInitialRange(double[] range, int scale) {
     initialRange.put(scale, range);
+  }
+  
+  /**
+   * Returns the X axis labels color.
+   * 
+   * @return the X axis labels color
+   */
+  public int getXLabelsColor() {
+    return mXLabelsColor;
+  }
+
+  /**
+   * Returns the Y axis labels color.
+   * 
+   * @return the Y axis labels color
+   */
+  public int getYLabelsColor(int scale) {
+    return mYLabelsColor[scale];
+  }
+
+  /**
+   * Sets the X axis labels color.
+   * 
+   * @param color the X axis labels color
+   */
+  public void setXLabelsColor(int color) {
+    mXLabelsColor = color;
+  }
+
+  /**
+   * Sets the Y axis labels color.
+   *
+   * @param scale the renderer scale
+   * @param color the Y axis labels color
+   */
+  public void setYLabelsColor(int scale, int color) {
+    mYLabelsColor[scale] = color;
   }
 
   /**
