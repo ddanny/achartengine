@@ -119,7 +119,7 @@ public class TimeChart extends LineChart {
         long label = Math.round(xLabels.get(i));
         float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
         if (showLabels) {
-          paint.setColor(mRenderer.getLabelsColor());
+          paint.setColor(mRenderer.getXLabelsColor());
           canvas
               .drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
           drawText(canvas, format.format(new Date(label)), xLabel,
