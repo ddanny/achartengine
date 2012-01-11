@@ -181,6 +181,9 @@ public class BarChart extends XYChart {
           Math.round(gradientMaxY));
       gradient.draw(canvas);
     } else {
+      if (yMin == yMax) {
+        yMin = yMax - 1; 
+      }
       canvas
           .drawRect(Math.round(xMin), Math.round(yMin), Math.round(xMax), Math.round(yMax), paint);
     }
