@@ -32,6 +32,7 @@ import android.graphics.RectF;
  * The doughnut chart rendering class.
  */
 public class DoughnutChart extends RoundChart {
+  
   /** The series dataset. */
   private MultipleCategorySeries mDataset;
   /** A step variable to control the size of the legend shape. */
@@ -111,7 +112,8 @@ public class DoughnutChart extends RoundChart {
         float angle = (float) (value / total * 360);
         canvas.drawArc(oval, currentAngle, angle, true, paint);
         drawLabel(canvas, mDataset.getTitles(category)[i], mRenderer, prevLabelsBounds, mCenterX,
-            mCenterY, shortRadius, longRadius, currentAngle, angle, left, right, mRenderer.getLabelsColor(), paint);
+            mCenterY, shortRadius, longRadius, currentAngle, angle, left, right,
+            mRenderer.getLabelsColor(), paint);
         currentAngle += angle;
       }
       radius -= (int) mRadius * decCoef;
