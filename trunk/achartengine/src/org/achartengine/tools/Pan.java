@@ -32,10 +32,6 @@ public class Pan extends AbstractTool {
   private boolean limitsReachedX = false;
   /** Pan limits reached on the X axis. */
   private boolean limitsReachedY = false;
-  /** Pan not limited up on the Y axis. */
-  boolean notLimitedUp = true;
-  /** Pan not limited bottom on the Y axis. */
-  boolean notLimitedBottom = true;
 
   /**
    * Builds and instance of the pan tool.
@@ -55,6 +51,10 @@ public class Pan extends AbstractTool {
    * @param newY the current location on the Y axis
    */
   public void apply(float oldX, float oldY, float newX, float newY) {
+    boolean notLimitedUp = true;
+    boolean notLimitedBottom = true;
+    boolean notLimitedLeft = true;
+    boolean notLimitedRight = true;
     if (mChart instanceof XYChart) {
       int scales = mRenderer.getScalesCount();
       double[] limits = mRenderer.getPanLimits();
@@ -63,7 +63,8 @@ public class Pan extends AbstractTool {
       for (int i = 0; i < scales; i++) {
         double[] range = getRange(i);
         double[] calcRange = chart.getCalcRange(i);
-        if ((limitsReachedX == true && limitsReachedY == true)
+        if (limitsReachedX
+            && limitsReachedY
             && (range[0] == range[1] && calcRange[0] == calcRange[1] || range[2] == range[3]
                 && calcRange[2] == calcRange[3])) {
           return;
@@ -82,11 +83,13 @@ public class Pan extends AbstractTool {
           deltaY = newDeltaY;
         }
         if (mRenderer.isPanXEnabled()) {
-          boolean notLimitedLeft = false;
-          boolean notLimitedRight = false;
           if (limits != null) {
-            notLimitedLeft = limits[0] <= range[0] + deltaX;
-            notLimitedRight = limits[1] >= range[1] + deltaX;
+            if (notLimitedLeft) {
+              notLimitedLeft = limits[0] <= range[0] + deltaX;
+            }
+            if (notLimitedRight) {
+              notLimitedRight = limits[1] >= range[1] + deltaX;
+            }
           }
           if (!limited || (notLimitedLeft && notLimitedRight)) {
             setXRange(range[0] + deltaX, range[1] + deltaX, i);
