@@ -32,6 +32,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 /**
@@ -135,7 +136,7 @@ public abstract class AbstractChart implements Serializable {
         }
         if (!calculate) {
           drawLegendShape(canvas, renderer.getSeriesRendererAt(i), currentX, currentY, i, paint);
-          canvas.drawText(text, currentX + lineSize + 5, currentY + 5, paint);
+          drawString(canvas, text, currentX + lineSize + 5, currentY + 5, paint);
         }
         currentX += extraSize;
       }
@@ -143,6 +144,27 @@ public abstract class AbstractChart implements Serializable {
     return Math.round(size + renderer.getLegendTextSize());
   }
 
+  
+  /**
+   * Draw a multiple lines string.
+   * 
+   * @param canvas the canvas to paint to
+   * @param text the text to be painted
+   * @param x the x value of the area to draw to
+   * @param y the y value of the area to draw to
+   * @param paint the paint to be used for drawing
+   */
+  protected void drawString(Canvas canvas, String text, float x, float y, Paint paint) {
+    String[] lines = text.split("\n");
+    Rect rect = new Rect();
+    int yOff = 0;
+    for (int i = 0; i < lines.length; ++i) {
+      canvas.drawText(lines[i], x, y + yOff, paint);
+      paint.getTextBounds(lines[i], 0, lines[i].length(), rect);
+      yOff = yOff +  rect.height() + 5; // space between lines is 5      
+    }
+  }
+  
   /**
    * Calculates if the current width exceeds the total width.
    * 
