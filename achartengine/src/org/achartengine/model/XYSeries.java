@@ -17,6 +17,7 @@ package org.achartengine.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.SortedMap;
 
 import org.achartengine.util.IndexXYMap;
@@ -184,7 +185,7 @@ public class XYSeries implements Serializable {
     // this would be simply: start = mXY.lowerKey(start) but NavigableMap is
     // available since API 9
     SortedMap<Double, Double> headMap = mXY.headMap(start);
-    if (headMap.size() != 0) {
+    if (!headMap.isEmpty()) {
       start = headMap.lastKey();
     }
 
@@ -192,12 +193,13 @@ public class XYSeries implements Serializable {
     // available since API 9
     // so we have to do this hack in order to support older versions
     SortedMap<Double, Double> tailMap = mXY.tailMap(stop);
-    if (tailMap.size() != 0) {
-      Collection<Double> tailCollection = tailMap.keySet();
-      if (tailMap.size() > 1) {
-        stop = (Double) tailCollection.toArray()[1];
+    if (!tailMap.isEmpty()) {
+      Iterator<Double> tailIterator = tailMap.keySet().iterator();
+      Double next = tailIterator.next();
+      if (tailIterator.hasNext()) {
+        stop = tailIterator.next();
       } else {
-        stop += tailMap.firstKey();
+        stop += next;
       }
     }
     return mXY.subMap(start, stop);
@@ -206,7 +208,7 @@ public class XYSeries implements Serializable {
   public int getIndexForKey(double key) {
     return mXY.getIndexForKey(key);
   }
-  
+
   /**
    * Returns the series item count.
    * 
