@@ -16,6 +16,7 @@
 package org.achartengine.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -24,7 +25,7 @@ import java.util.TreeMap;
  */
 public class IndexXYMap<K, V> extends TreeMap<K, V> {
   private final List<K> indexList = new ArrayList<K>();
-  
+
   private double maxXDifference = 0;
 
   public IndexXYMap() {
@@ -100,8 +101,8 @@ public class IndexXYMap<K, V> extends TreeMap<K, V> {
     K key = indexList.remove(index);
     return new XYEntry<K, V>(key, this.remove(key));
   }
-  
+
   public int getIndexForKey(K key) {
-    return indexList.indexOf(key);
+    return Collections.binarySearch(indexList, key, null);
   }
 }
