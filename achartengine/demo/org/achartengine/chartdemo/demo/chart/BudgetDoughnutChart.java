@@ -65,8 +65,9 @@ public class BudgetDoughnutChart extends AbstractDemoChart {
     renderer.setApplyBackgroundColor(true);
     renderer.setBackgroundColor(Color.rgb(222, 222, 200));
     renderer.setLabelsColor(Color.GRAY);
-    return ChartFactory.getDoughnutChartIntent(context, buildMultipleCategoryDataset(
-        "Project budget", titles, values), renderer, "Doughnut chart demo");
+    return ChartFactory.getDoughnutChartIntent(context,
+        buildMultipleCategoryDataset("Project budget", titles, values), renderer,
+        "Doughnut chart demo");
   }
 
 }
