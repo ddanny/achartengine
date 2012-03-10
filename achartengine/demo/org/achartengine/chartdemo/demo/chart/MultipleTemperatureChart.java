@@ -87,9 +87,19 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomRate(1.05f);
     
+    renderer.setLabelsColor(Color.WHITE);
+    renderer.setXLabelsColor(Color.GREEN);
+    renderer.setYLabelsColor(0, colors[0]);
+    renderer.setYLabelsColor(1, colors[1]);
+    
     renderer.setYTitle("Hours", 1);
     renderer.setYAxisAlign(Align.RIGHT, 1);
     renderer.setYLabelsAlign(Align.LEFT, 1);
+    
+    renderer.addYTextLabel(20, "Test", 0);
+    renderer.addYTextLabel(10, "New Test", 1);
+    
+    
     XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);
     values.clear();
     values.add(new double[] { 4.3, 4.9, 5.9, 8.8, 10.8, 11.9, 13.6, 12.8, 11.4, 9.5, 7.5, 5.5 });
