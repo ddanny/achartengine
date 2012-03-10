@@ -91,7 +91,8 @@ public class SalesComparisonChart extends AbstractDemoChart {
       seriesRenderer.setDisplayChartValues(true);
       seriesRenderer.setChartValuesTextSize(10f);
     }
-    return ChartFactory.getCubicLineChartIntent(context, buildBarDataset(titles, values), renderer, 0.5f);
+    return ChartFactory.getCubicLineChartIntent(context, buildBarDataset(titles, values), renderer,
+        0.5f);
   }
 
 }
