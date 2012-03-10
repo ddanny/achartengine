@@ -144,7 +144,6 @@ public abstract class AbstractChart implements Serializable {
     return Math.round(size + renderer.getLegendTextSize());
   }
 
-  
   /**
    * Draw a multiple lines string.
    * 
@@ -161,10 +160,10 @@ public abstract class AbstractChart implements Serializable {
     for (int i = 0; i < lines.length; ++i) {
       canvas.drawText(lines[i], x, y + yOff, paint);
       paint.getTextBounds(lines[i], 0, lines[i].length(), rect);
-      yOff = yOff +  rect.height() + 5; // space between lines is 5      
+      yOff = yOff + rect.height() + 5; // space between lines is 5
     }
   }
-  
+
   /**
    * Calculates if the current width exceeds the total width.
    * 
