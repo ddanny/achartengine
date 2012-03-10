@@ -552,7 +552,7 @@ public abstract class XYChart extends AbstractChart {
       // canvas.scale(1 / mScale, mScale);
       canvas.rotate(angle, x, y);
     }
-    canvas.drawText(text, x, y, paint);
+    drawString(canvas, text, x, y, paint);
     if (angle != 0) {
       canvas.rotate(-angle, x, y);
       // canvas.scale(mScale, 1 / mScale);
