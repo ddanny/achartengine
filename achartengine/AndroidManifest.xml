@@ -12,10 +12,14 @@
             </intent-filter>
         </activity>
         
-		<activity android:name="org.achartengine.chartdemo.demo.chart.XYChartBuilder" />
+		<activity android:name="org.achartengine.chartdemo.demo.chart.XYChartBuilder"/>
+		<activity android:name="org.achartengine.chartdemo.demo.chart.PieChartBuilder"/>
 		<activity android:name="org.achartengine.chartdemo.demo.chart.PieChartBuilder" />
         <activity android:name="org.achartengine.GraphicalActivity" />
 		<activity android:name=".GeneratedChartDemo" />
     </application>
+
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="7"></uses-sdk>
 </manifest> 
