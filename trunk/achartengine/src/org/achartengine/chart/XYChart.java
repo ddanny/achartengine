@@ -528,9 +528,38 @@ public abstract class XYChart extends AbstractChart {
    */
   protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer,
       Paint paint, float[] points, int seriesIndex, int startIndex) {
-    for (int k = 0; k < points.length; k += 2) {
-      drawText(canvas, getLabel(series.getY(startIndex + k / 2)), points[k], points[k + 1]
-          - renderer.getChartValuesSpacing(), paint, 0);
+    if (points.length > 1) { // there are more than one point
+      // record the first point's position
+      float previousPointX = points[0];
+      float previousPointY = points[1];
+      for (int k = 0; k < points.length; k += 2) {
+        if (k == 2) { // decide whether to display first two points' values or not
+          if (Math.abs(points[2]- points[0]) > 100 || Math.abs(points[3] - points[1]) > 100) {
+            // first point
+            drawText(canvas, getLabel(series.getY(startIndex)), points[0], points[1]
+                - renderer.getChartValuesSpacing(), paint, 0);
+            // second point
+            drawText(canvas, getLabel(series.getY(startIndex + 1)), points[2], points[3]
+                - renderer.getChartValuesSpacing(), paint, 0);
+
+            previousPointX = points[2];
+            previousPointY = points[3];
+          }
+        } else if (k > 2) {
+          // compare current point's position with the previous point's, if they are not too close, display
+          if (Math.abs(points[k]- previousPointX) > 100 || Math.abs(points[k+1] - previousPointY) > 100) {
+            drawText(canvas, getLabel(series.getY(startIndex + k / 2)), points[k], points[k + 1]
+                - renderer.getChartValuesSpacing(), paint, 0);
+            previousPointX = points[k];
+            previousPointY = points[k+1];
+          }
+        }
+      }
+    } else { // if only one point, display it
+      for (int k = 0; k < points.length; k += 2) {
+        drawText(canvas, getLabel(series.getY(startIndex + k / 2)), points[k], points[k + 1]
+            - renderer.getChartValuesSpacing(), paint, 0);
+      }
     }
   }
 
@@ -717,7 +746,7 @@ public abstract class XYChart extends AbstractChart {
           float xLabel = (float) (left + xPixelsPerUnit * (location.doubleValue() - minX));
           paint.setColor(mRenderer.getXLabelsColor());
           canvas
-              .drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
+          .drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
           drawText(canvas, mRenderer.getXTextLabel(location), xLabel,
               bottom + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
           if (showCustomTextGrid) {
