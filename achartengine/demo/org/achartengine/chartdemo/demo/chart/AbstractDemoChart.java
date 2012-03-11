@@ -34,7 +34,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
  * building datasets and renderers.
  */
 public abstract class AbstractDemoChart implements IDemoChart {
-  
+
   /**
    * Builds an XY multiple dataset using the provided values.
    * 
