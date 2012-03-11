@@ -38,6 +38,14 @@ public class Zoom extends AbstractTool {
   /** Zoom limits reached on the Y axis. */
   private boolean limitsReachedY = false;
 
+  /** Zoom on X axis and Y axis */
+  public static final int ZOOM_AXIS_XY = 0;
+  /** Zoom on X axis independently */
+  public static final int ZOOM_AXIS_X = 1;
+  /** Zoom on Y axis independently */
+  public static final int ZOOM_AXIS_Y = 2;
+
+
   /**
    * Builds the zoom tool.
    * 
@@ -63,7 +71,7 @@ public class Zoom extends AbstractTool {
   /**
    * Apply the zoom.
    */
-  public void apply() {
+  public void apply(int zoom_axis) {
     if (mChart instanceof XYChart) {
       int scales = mRenderer.getScalesCount();
       for (int i = 0; i < scales; i++) {
@@ -79,31 +87,50 @@ public class Zoom extends AbstractTool {
         double newXMax = centerX + newWidth / 2;
         double newYMin = centerY - newHeight / 2;
         double newYMax = centerY + newHeight / 2;
+
+        // if already reached last zoom, then it will always set to reached
         if (i == 0) {
-          limitsReachedX = limits != null && (limits[0] >= newXMin || limits[1] <= newXMax);
-          limitsReachedY = limits != null && (limits[2] >= newYMin || limits[3] <= newYMax);
+          limitsReachedX = limits != null && (newXMin <= limits[0] || newXMax >= limits[1]);
+          limitsReachedY = limits != null && (newYMin <= limits[2] || newYMax >= limits[3]);
         }
+
         if (mZoomIn) {
-          if (mRenderer.isZoomXEnabled() && !limitsReachedX) {
-            newWidth /= mZoomRate;
+          if (mRenderer.isZoomXEnabled() &&	 // zoom in on X axis
+              (zoom_axis == ZOOM_AXIS_X || zoom_axis == ZOOM_AXIS_XY)) {
+            if (limitsReachedX && mZoomRate < 1) {	
+              // ignore pinch zoom out once reached X limit
+            } else {
+              newWidth /= mZoomRate;
+            }
           }
-          if (mRenderer.isZoomYEnabled() && !limitsReachedY) {
-            newHeight /= mZoomRate;
+
+          if (mRenderer.isZoomYEnabled() && // zoom in on Y axis
+              (zoom_axis == ZOOM_AXIS_Y || zoom_axis == ZOOM_AXIS_XY)) {
+            if (limitsReachedY && mZoomRate < 1) {
+            } else {
+              newHeight /= mZoomRate;
+            }
           }
         } else {
-          if (mRenderer.isZoomXEnabled() && !limitsReachedX) {
+          if (mRenderer.isZoomXEnabled() &&	 !limitsReachedX &&	    // zoom out on X axis
+              (zoom_axis == ZOOM_AXIS_X || zoom_axis == ZOOM_AXIS_XY)) {
             newWidth *= mZoomRate;
           }
-          if (mRenderer.isZoomYEnabled() && !limitsReachedY) {
+
+          if (mRenderer.isZoomYEnabled() &&	 !limitsReachedY &&     // zoom out on Y axis
+              (zoom_axis == ZOOM_AXIS_Y || zoom_axis == ZOOM_AXIS_XY)) {
             newHeight *= mZoomRate;
           }
         }
-        if (mRenderer.isZoomXEnabled()) {
+
+        if (mRenderer.isZoomXEnabled() && 
+            (zoom_axis == ZOOM_AXIS_X || zoom_axis == ZOOM_AXIS_XY)) {
           newXMin = centerX - newWidth / 2;
           newXMax = centerX + newWidth / 2;
           setXRange(newXMin, newXMax, i);
         }
-        if (mRenderer.isZoomYEnabled()) {
+        if (mRenderer.isZoomYEnabled() &&
+            (zoom_axis == ZOOM_AXIS_Y || zoom_axis == ZOOM_AXIS_XY)) {
           newYMin = centerY - newHeight / 2;
           newYMax = centerY + newHeight / 2;
           setYRange(newYMin, newYMax, i);
@@ -119,6 +146,7 @@ public class Zoom extends AbstractTool {
     }
     notifyZoomListeners(new ZoomEvent(mZoomIn, mZoomRate));
   }
+
 
   /**
    * Notify the zoom listeners about a zoom change.

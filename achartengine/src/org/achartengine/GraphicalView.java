@@ -194,7 +194,7 @@ public class GraphicalView extends View {
    */
   public void zoomIn() {
     if (mZoomIn != null) {
-      mZoomIn.apply();
+      mZoomIn.apply(Zoom.ZOOM_AXIS_XY);
       repaint();
     }
   }
@@ -204,10 +204,12 @@ public class GraphicalView extends View {
    */
   public void zoomOut() {
     if (mZoomOut != null) {
-      mZoomOut.apply();
+      mZoomOut.apply(Zoom.ZOOM_AXIS_XY);
       repaint();
     }
   }
+  
+
 
   /**
    * Do a chart zoom reset / fit zoom.
