@@ -223,13 +223,19 @@ public class BarChart extends XYChart {
     float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
     for (int i = 0; i < points.length; i += 2) {
       int index = startIndex + i / 2;
-      if (!isNullValue(series.getY(index))) {
+      double value = series.getY(index);
+      if (!isNullValue(value)) {
         float x = points[i];
         if (mType == Type.DEFAULT) {
           x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
         }
-        drawText(canvas, getLabel(series.getY(index)), x,
-            points[i + 1] - renderer.getChartValuesSpacing(), paint, 0);
+        if (value >= 0) {
+          drawText(canvas, getLabel(value), x, points[i + 1] - renderer.getChartValuesSpacing(),
+              paint, 0);
+        } else {
+          drawText(canvas, getLabel(value), x, points[i + 1] + renderer.getChartValuesTextSize()
+              + renderer.getChartValuesSpacing() - 3, paint, 0);
+        }
       }
     }
   }
