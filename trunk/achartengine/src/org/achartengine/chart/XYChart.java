@@ -664,16 +664,15 @@ public abstract class XYChart extends AbstractChart {
   /**
    * The graphical representation of the labels on the X axis.
    * 
-   * @param xLabels the X labels values
-   * @param xTextLabelLocations the X text label locations
+   * @param allYLabels the Y labels values
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
+   * @param maxScaleNumber the maximum scale number
    * @param left the left value of the labels area
-   * @param top the top value of the labels area
+   * @param right the right value of the labels area
    * @param bottom the bottom value of the labels area
-   * @param xPixelsPerUnit the amount of pixels per one unit in the chart labels
-   * @param minX the minimum value on the X axis in the chart
-   * @param maxX the maximum value on the X axis in the chart
+   * @param yPixelsPerUnit the amount of pixels per one unit in the chart labels
+   * @param minY the minimum value on the Y axis in the chart
    */
   protected void drawYLabels(Map<Integer, List<Double>> allYLabels, Canvas canvas, Paint paint,
       int maxScaleNumber, int left, int right, int bottom, double[] yPixelsPerUnit, double[] minY) {

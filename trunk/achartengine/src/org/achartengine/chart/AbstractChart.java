@@ -443,7 +443,7 @@ public abstract class AbstractChart implements Serializable {
    * coordinates, null is returned.
    * 
    * @param screenPoint
-   * @return
+   * @return the series and point indexes
    */
   public SeriesSelection getSeriesAndPointForScreenCoordinate(Point screenPoint) {
     return null;
