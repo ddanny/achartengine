@@ -174,7 +174,7 @@ public class XYSeries implements Serializable {
    * 
    * @param start start x value
    * @param stop stop x value
-   * @return
+   * @return a submap of x and y values
    */
   public synchronized SortedMap<Double, Double> getRange(double start, double stop,
       int beforeAfterPoints) {

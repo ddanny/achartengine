@@ -49,6 +49,10 @@ public class BarChart extends XYChart {
   BarChart() {
   }
 
+  BarChart(Type type) {
+    mType = type;
+  }
+
   /**
    * Builds a new bar chart instance.
    * 
