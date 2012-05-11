@@ -704,7 +704,7 @@ public class DefaultRenderer implements Serializable {
    * of 0 degrees correspond to the geometric angle of 0 degrees (3 o'clock on a
    * watch.)
    * 
-   * @return the start angle
+   * @return the start angle in degrees
    */
   public float getStartAngle() {
     return mStartAngle;
@@ -715,7 +715,7 @@ public class DefaultRenderer implements Serializable {
    * angle of 0 degrees correspond to the geometric angle of 0 degrees (3
    * o'clock on a watch.)
    * 
-   * @param startAngle the start angle
+   * @param startAngle the start angle in degrees
    */
   public void setStartAngle(float startAngle) {
     mStartAngle = startAngle;

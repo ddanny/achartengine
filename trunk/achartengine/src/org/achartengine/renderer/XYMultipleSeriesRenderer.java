@@ -621,7 +621,16 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * Clears the existing text labels on the Y axis.
    */
   public void clearYTextLabels() {
-    mYTextLabels.clear();
+    clearYTextLabels(0);
+  }
+
+  /**
+   * Clears the existing text labels on the Y axis.
+   * 
+   * @param scale the renderer scale
+   */
+  public void clearYTextLabels(int scale) {
+    mYTextLabels.get(scale).clear();
   }
 
   /**
@@ -975,7 +984,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setInitialRange(double[] range, int scale) {
     initialRange.put(scale, range);
   }
-  
+
   /**
    * Returns the X axis labels color.
    * 
@@ -1005,7 +1014,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
 
   /**
    * Sets the Y axis labels color.
-   *
+   * 
    * @param scale the renderer scale
    * @param color the Y axis labels color
    */
