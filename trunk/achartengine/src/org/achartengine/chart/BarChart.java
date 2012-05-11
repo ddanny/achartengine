@@ -156,8 +156,8 @@ public class BarChart extends XYChart {
       float minY = (float) toScreenPoint(new double[] { 0, renderer.getGradientStopValue() }, scale)[1];
       float maxY = (float) toScreenPoint(new double[] { 0, renderer.getGradientStartValue() },
           scale)[1];
-      float gradientMinY = Math.max(minY, yMin);
-      float gradientMaxY = Math.min(maxY, yMax);
+      float gradientMinY = Math.max(minY, Math.min(yMin, yMax));
+      float gradientMaxY = Math.min(maxY, Math.max(yMin, yMax));
       int gradientMinColor = renderer.getGradientStopColor();
       int gradientMaxColor = renderer.getGradientStartColor();
       int gradientStartColor = gradientMaxColor;
