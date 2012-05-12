@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009, 2010 SC 4ViewSoft SRL
+ * Copyright (C) 2009 - 2012 SC 4ViewSoft SRL
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,25 +99,19 @@ public class Pan extends AbstractTool {
           }
         }
         if (mRenderer.isPanYEnabled()) {
-          if (notLimitedBottom && limits != null) {
-            notLimitedBottom = limits[2] <= range[2] - deltaY;
-          }
-          if (notLimitedUp && limits != null) {
-            notLimitedUp = limits[3] >= range[3] - deltaY;
-          }
-          if (limited && (!notLimitedBottom && !notLimitedUp)) {
-            limitsReachedY = true;
-          } else {
-            if (!notLimitedUp && deltaY < 0) {
-              setYRange(range[2] + deltaY, range[3] + deltaY, i);
-              notLimitedUp = true;
-            } else if (!notLimitedBottom && deltaY > 0) {
-              setYRange(range[2] + deltaY, range[3] + deltaY, i);
-              notLimitedBottom = true;
-            } else if (notLimitedBottom && notLimitedUp) {
-              setYRange(range[2] + deltaY, range[3] + deltaY, i);
+          if (limits != null) {
+            if (notLimitedBottom) {
+              notLimitedBottom = limits[2] <= range[2] + deltaY;
             }
+            if (notLimitedUp) {
+              notLimitedUp = limits[3] >= range[3] + deltaY;
+            }
+          }
+          if (!limited || (notLimitedBottom && notLimitedUp)) {
+            setYRange(range[2] + deltaY, range[3] + deltaY, i);
             limitsReachedY = false;
+          } else {
+            limitsReachedY = true;
           }
         }
       }
