@@ -89,6 +89,11 @@ public class LineChart extends XYChart {
       fillPoints[length + 1] = yAxisValue;
       fillPoints[length + 2] = fillPoints[0];
       fillPoints[length + 3] = fillPoints[length + 1];
+      for (int i = 0; i < length + 4; i += 2) {
+        if (fillPoints[i + 1] < 0) {
+          fillPoints[i + 1] = 0;
+        }
+      }
       paint.setStyle(Style.FILL);
       drawPath(canvas, fillPoints, paint, true);
     }
