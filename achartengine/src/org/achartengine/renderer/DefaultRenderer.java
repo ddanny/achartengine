@@ -167,6 +167,13 @@ public class DefaultRenderer implements Serializable {
   public void removeSeriesRenderer(SimpleSeriesRenderer renderer) {
     mRenderers.remove(renderer);
   }
+  
+  /**
+   * Removes all renderers from the multiple renderer.
+   */
+  public void removeAllRenderers() {
+    mRenderers.clear();
+  }
 
   /**
    * Returns the simple renderer from the multiple renderer list.
@@ -177,7 +184,7 @@ public class DefaultRenderer implements Serializable {
   public SimpleSeriesRenderer getSeriesRendererAt(int index) {
     return mRenderers.get(index);
   }
-
+  
   /**
    * Returns the simple renderers count in the multiple renderer list.
    * 
