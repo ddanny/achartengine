@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import android.graphics.Canvas;
@@ -37,8 +38,6 @@ public class TimeChart extends LineChart {
   public static final long DAY = 24 * 60 * 60 * 1000;
   /** The date format pattern to be used in formatting the X axis labels. */
   private String mDateFormat;
-  /** If X axis value selection algorithm to be used. */
-  private boolean mXAxisSmart = true;
   /** The starting point for labels. */
   private Double mStartPoint;
 
@@ -73,24 +72,6 @@ public class TimeChart extends LineChart {
    */
   public void setDateFormat(String format) {
     mDateFormat = format;
-  }
-
-  /**
-   * If X axis smart values to be used.
-   * 
-   * @return if smart values to be used
-   */
-  public boolean isXAxisSmart() {
-    return mXAxisSmart;
-  }
-
-  /**
-   * Sets if X axis smart values to be used.
-   * 
-   * @param smart smart values to be used
-   */
-  public void setXAxisSmart(boolean smart) {
-    mXAxisSmart = smart;
   }
 
   /**
@@ -172,8 +153,41 @@ public class TimeChart extends LineChart {
   }
 
   protected List<Double> getXLabels(double min, double max, int count) {
-    if (!mXAxisSmart) {
-      return super.getXLabels(min, max, count);
+    final List<Double> result = new ArrayList<Double>();
+    if (!mRenderer.isXRoundedLabels()) {
+      if (mDataset.getSeriesCount() > 0) {
+        XYSeries series = mDataset.getSeriesAt(0);
+        int length = series.getItemCount();
+        int intervalLength = 0;
+        int startIndex = -1;
+        for (int i = 0; i < length; i++) {
+          double value = series.getX(i);
+          if (min <= value && value <= max) {
+            intervalLength++;
+            if (startIndex < 0) {
+              startIndex = i;
+            }
+          }
+        }
+        if (intervalLength < count) {
+          for (int i = startIndex; i < startIndex + intervalLength; i++) {
+            result.add(series.getX(i));
+          }
+        } else {
+          float step = (float) intervalLength / count;
+          int intervalCount = 0;
+          for (int i = 0; i < length && intervalCount < count; i++) {
+            double value = series.getX(Math.round(i * step));
+            if (min <= value && value <= max) {
+              result.add(value);
+              intervalCount++;
+            }
+          }
+        }
+        return result;
+      } else {
+        return super.getXLabels(min, max, count);
+      }
     }
     if (mStartPoint == null) {
       mStartPoint = min - (min % DAY) + DAY + new Date(Math.round(min)).getTimezoneOffset() * 60
@@ -182,7 +196,8 @@ public class TimeChart extends LineChart {
     if (count > 25) {
       count = 25;
     }
-    final List<Double> result = new ArrayList<Double>();
+
+    
     final double cycleMath = (max - min) / count;
     if (cycleMath <= 0) {
       return result;
