@@ -182,7 +182,11 @@ public class TimeChart extends LineChart {
     if (count > 25) {
       count = 25;
     }
+    final List<Double> result = new ArrayList<Double>();
     final double cycleMath = (max - min) / count;
+    if (cycleMath <= 0) {
+      return result;
+    }
     double cycle = DAY;
 
     if (cycleMath <= DAY) {
@@ -195,7 +199,6 @@ public class TimeChart extends LineChart {
       }
     }
 
-    final List<Double> result = new ArrayList<Double>();
     double val = mStartPoint - Math.floor((mStartPoint - min) / cycle) * cycle;
     int i = 0;
     while (val < max && i++ <= count) {
