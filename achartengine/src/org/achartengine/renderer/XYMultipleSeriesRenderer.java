@@ -90,6 +90,11 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private int mXLabelsColor = TEXT_COLOR;
   /** The Y axis labels color. */
   private int[] mYLabelsColor = new int[] { TEXT_COLOR };
+  /**
+   * If X axis value selection algorithm to be used. Only used by the time
+   * charts.
+   */
+  private boolean mXRoundedLabels = true;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -554,6 +559,24 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void clearXTextLabels() {
     mXTextLabels.clear();
+  }
+
+  /**
+   * If X axis labels should be rounded.
+   * 
+   * @return if rounded time values to be used
+   */
+  public boolean isXRoundedLabels() {
+    return mXRoundedLabels;
+  }
+
+  /**
+   * Sets if X axis rounded time values to be used.
+   * 
+   * @param rounded rounded values to be used
+   */
+  public void setXRoundedLabels(boolean rounded) {
+    mXRoundedLabels = rounded;
   }
 
   /**
