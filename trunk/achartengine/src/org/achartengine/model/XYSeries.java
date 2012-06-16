@@ -16,7 +16,6 @@
 package org.achartengine.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.SortedMap;
 
