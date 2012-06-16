@@ -76,6 +76,7 @@ public class SalesGrowthChart extends AbstractDemoChart {
     setChartSettings(renderer, "Sales growth", "Date", "%", dateValues[0].getTime(),
         dateValues[dateValues.length - 1].getTime(), -4, 11, Color.GRAY, Color.LTGRAY);
     renderer.setYLabels(10);
+    renderer.setXRoundedLabels(false);
     return ChartFactory.getTimeChartIntent(context, buildDateDataset(titles, dates, values),
         renderer, "MMM yyyy");
   }
