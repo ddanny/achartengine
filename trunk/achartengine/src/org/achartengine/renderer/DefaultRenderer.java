@@ -95,7 +95,9 @@ public class DefaultRenderer implements Serializable {
   private boolean mClickEnabled = false;
   /** The selectable radius around a clickable point. */
   private int selectableBuffer = 15;
-
+  /** If the chart should display the values (available for pie chart). */
+  private boolean mDisplayValues;
+  
   /**
    * A flag to be set if the chart is inside a scroll and doesn't need to shrink
    * when not enough space.
@@ -167,7 +169,7 @@ public class DefaultRenderer implements Serializable {
   public void removeSeriesRenderer(SimpleSeriesRenderer renderer) {
     mRenderers.remove(renderer);
   }
-  
+
   /**
    * Removes all renderers from the multiple renderer.
    */
@@ -184,7 +186,7 @@ public class DefaultRenderer implements Serializable {
   public SimpleSeriesRenderer getSeriesRendererAt(int index) {
     return mRenderers.get(index);
   }
-  
+
   /**
    * Returns the simple renderers count in the multiple renderer list.
    * 
@@ -257,7 +259,6 @@ public class DefaultRenderer implements Serializable {
     mAxesColor = color;
   }
 
-
   /**
    * Returns the labels color.
    * 
@@ -266,7 +267,7 @@ public class DefaultRenderer implements Serializable {
   public int getLabelsColor() {
     return mLabelsColor;
   }
-  
+
   /**
    * Sets the labels color.
    * 
@@ -726,6 +727,24 @@ public class DefaultRenderer implements Serializable {
    */
   public void setStartAngle(float startAngle) {
     mStartAngle = startAngle;
+  }
+
+  /**
+   * Returns if the values should be displayed as text.
+   * 
+   * @return if the values should be displayed as text
+   */
+  public boolean isDisplayValues() {
+    return mDisplayValues;
+  }
+
+  /**
+   * Sets if the values should be displayed as text (supported by pie chart).
+   * 
+   * @param display if the values should be displayed as text
+   */
+  public void setDisplayValues(boolean display) {
+    mDisplayValues = display;
   }
 
 }

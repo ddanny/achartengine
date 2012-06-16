@@ -32,7 +32,6 @@ import android.graphics.RectF;
  * The pie chart rendering class.
  */
 public class PieChart extends RoundChart {
-
   /** Handles returning values when tapping on PieChart. */
   private PieMapper mPieMapper;
 
@@ -111,7 +110,13 @@ public class PieChart extends RoundChart {
       float angle = (float) (value / total * 360);
       canvas.drawArc(oval, currentAngle, angle, true, paint);
       drawLabel(canvas, mDataset.getCategory(i), mRenderer, prevLabelsBounds, mCenterX, mCenterY,
-          shortRadius, longRadius, currentAngle, angle, left, right, mRenderer.getLabelsColor(), paint);
+          shortRadius, longRadius, currentAngle, angle, left, right, mRenderer.getLabelsColor(),
+          paint, true);
+      if (mRenderer.isDisplayValues()) {
+        drawLabel(canvas, getLabel(mDataset.getValue(i)), mRenderer, prevLabelsBounds, mCenterX,
+            mCenterY, shortRadius / 2, longRadius / 2, currentAngle, angle, left, right,
+            mRenderer.getLabelsColor(), paint, false);
+      }
 
       // Save details for getSeries functionality
       if (loadPieCfg) {

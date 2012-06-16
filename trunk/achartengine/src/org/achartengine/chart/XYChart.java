@@ -609,22 +609,6 @@ public abstract class XYChart extends AbstractChart {
   }
 
   /**
-   * Makes sure the fraction digit is not displayed, if not needed.
-   * 
-   * @param label the input label value
-   * @return the label without the useless fraction digit
-   */
-  protected String getLabel(double label) {
-    String text = "";
-    if (label == Math.round(label)) {
-      text = Math.round(label) + "";
-    } else {
-      text = label + "";
-    }
-    return text;
-  }
-
-  /**
    * The graphical representation of the labels on the X axis.
    * 
    * @param xLabels the X labels values
