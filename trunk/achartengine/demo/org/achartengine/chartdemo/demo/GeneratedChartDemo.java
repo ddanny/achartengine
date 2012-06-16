@@ -23,9 +23,9 @@ import java.util.Map;
 import java.util.Random;
 
 import org.achartengine.ChartFactory;
+import org.achartengine.chart.BarChart.Type;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.chart.TimeChart;
-import org.achartengine.chart.BarChart.Type;
 import org.achartengine.chartdemo.demo.chart.IDemoChart;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.TimeSeries;
