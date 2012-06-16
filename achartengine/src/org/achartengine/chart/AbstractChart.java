@@ -191,6 +191,22 @@ public abstract class AbstractChart implements Serializable {
     return renderer instanceof XYMultipleSeriesRenderer
         && ((XYMultipleSeriesRenderer) renderer).getOrientation() == Orientation.VERTICAL;
   }
+  
+  /**
+   * Makes sure the fraction digit is not displayed, if not needed.
+   * 
+   * @param label the input label value
+   * @return the label without the useless fraction digit
+   */
+  protected String getLabel(double label) {
+    String text = "";
+    if (label == Math.round(label)) {
+      text = Math.round(label) + "";
+    } else {
+      text = label + "";
+    }
+    return text;
+  }
 
   private static float[] calculateDrawPoints(float p1x, float p1y, float p2x, float p2y,
       int screenHeight, int screenWidth) {
@@ -382,10 +398,11 @@ public abstract class AbstractChart implements Serializable {
    * @param right the right side
    * @param color the label color
    * @param paint the paint
+   * @param line if a line to the label should be drawn
    */
   protected void drawLabel(Canvas canvas, String labelText, DefaultRenderer renderer,
       List<RectF> prevLabelsBounds, int centerX, int centerY, float shortRadius, float longRadius,
-      float currentAngle, float angle, int left, int right, int color, Paint paint) {
+      float currentAngle, float angle, int left, int right, int color, Paint paint, boolean line) {
     if (renderer.isShowLabels()) {
       paint.setColor(color);
       double rAngle = Math.toRadians(90 - (currentAngle + angle / 2));
@@ -412,7 +429,7 @@ public abstract class AbstractChart implements Serializable {
       labelText = getFitText(labelText, width, paint);
       float widthLabel = paint.measureText(labelText);
       boolean okBounds = false;
-      while (!okBounds) {
+      while (!okBounds && line) {
         boolean intersects = false;
         int length = prevLabelsBounds.size();
         for (int j = 0; j < length && !intersects; j++) {
@@ -425,11 +442,17 @@ public abstract class AbstractChart implements Serializable {
         okBounds = !intersects;
       }
 
-      y2 = (int) (yLabel - size / 2);
-      canvas.drawLine(x1, y1, x2, y2, paint);
-      canvas.drawLine(x2, y2, x2 + extra, y2, paint);
+      if (line) {
+        y2 = (int) (yLabel - size / 2);
+        canvas.drawLine(x1, y1, x2, y2, paint);
+        canvas.drawLine(x2, y2, x2 + extra, y2, paint);
+      } else {
+        paint.setTextAlign(Align.CENTER);
+      }
       canvas.drawText(labelText, xLabel, yLabel, paint);
-      prevLabelsBounds.add(new RectF(xLabel, yLabel, xLabel + widthLabel, yLabel + size));
+      if (line) {
+        prevLabelsBounds.add(new RectF(xLabel, yLabel, xLabel + widthLabel, yLabel + size));
+      }
     }
   }
 
