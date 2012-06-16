@@ -91,6 +91,7 @@ public class ProjectStatusChart extends AbstractDemoChart {
       SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
       seriesRenderer.setDisplayChartValues(true);
     }
+    renderer.setXRoundedLabels(false);
     return ChartFactory.getTimeChartIntent(context, buildDateDataset(titles, dates, values),
         renderer, "MM/dd/yyyy");
   }
