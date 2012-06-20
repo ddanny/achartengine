@@ -29,7 +29,6 @@ import android.graphics.RectF;
  * The line chart rendering class.
  */
 public class LineChart extends XYChart {
-
   /** The constant to identify this chart type. */
   public static final String TYPE = "Line";
   /** The legend shape width. */
