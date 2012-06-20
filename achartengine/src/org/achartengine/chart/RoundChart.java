@@ -65,7 +65,7 @@ public abstract class RoundChart extends AbstractChart {
       paint.setColor(mRenderer.getLabelsColor());
       paint.setTextAlign(Align.CENTER);
       paint.setTextSize(mRenderer.getChartTitleTextSize());
-      canvas.drawText(mRenderer.getChartTitle(), x + width / 2,
+      drawString(canvas, mRenderer.getChartTitle(), x + width / 2,
           y + mRenderer.getChartTitleTextSize(), paint);
     }
   }
