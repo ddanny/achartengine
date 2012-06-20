@@ -97,7 +97,7 @@ public class DefaultRenderer implements Serializable {
   private int selectableBuffer = 15;
   /** If the chart should display the values (available for pie chart). */
   private boolean mDisplayValues;
-  
+
   /**
    * A flag to be set if the chart is inside a scroll and doesn't need to shrink
    * when not enough space.
