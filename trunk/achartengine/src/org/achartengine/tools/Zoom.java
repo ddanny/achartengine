@@ -71,7 +71,6 @@ public class Zoom extends AbstractTool {
    * Apply the zoom.
    */
   public void apply(int zoom_axis) {
-//    long t = System.currentTimeMillis();
     if (mChart instanceof XYChart) {
       int scales = mRenderer.getScalesCount();
       for (int i = 0; i < scales; i++) {
@@ -139,9 +138,7 @@ public class Zoom extends AbstractTool {
         renderer.setScale(renderer.getScale() / mZoomRate);
       }
     }
-//    System.out.println("t0=" + (System.currentTimeMillis() - t));
     notifyZoomListeners(new ZoomEvent(mZoomIn, mZoomRate));
-//    System.out.println("t =" + (System.currentTimeMillis() - t));
   }
 
   /**
