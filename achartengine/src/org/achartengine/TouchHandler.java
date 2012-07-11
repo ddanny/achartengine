@@ -94,31 +94,24 @@ public class TouchHandler implements ITouchHandler {
 
           float tan1 = Math.abs(newY - oldY) / Math.abs(newX - oldX);
           float tan2 = Math.abs(newY2 - oldY2) / Math.abs(newX2 - oldX2);
-          if ( tan1 <= 0.577 && tan2 <= 0.577) {
-            // horizontal pinch zoom, |deltaY| / |deltaX| is [0 ~ 0.577], 0.577 is the approximate value of tan(Pi/6)
+          if (tan1 <= 0.25 && tan2 <= 0.25) {
+            // horizontal pinch zoom, |deltaY| / |deltaX| is [0 ~ 0.25], 0.25 is
+            // the approximate value of tan(PI / 12)
             zoomRate = newDeltaX / oldDeltaX;
-            if (zoomRate > 0.909 && zoomRate < 1.1) {
-              mPinchZoom.setZoomRate(zoomRate);
-              mPinchZoom.apply(Zoom.ZOOM_AXIS_X);
-            }
-          } else if ( tan1 >= 1.732 && tan2 >= 1.732 ) {
-            // pinch zoom vertically, |deltaY| / |deltaX| is [1.732 ~ infinity], 1.732 is the approximate value of tan(Pi/3)
+            applyZoom(zoomRate, Zoom.ZOOM_AXIS_X);
+          } else if (tan1 >= 3.73 && tan2 >= 3.73) {
+            // pinch zoom vertically, |deltaY| / |deltaX| is [3.73 ~ infinity],
+            // 3.732 is the approximate value of tan(PI / 2 - PI / 12)
             zoomRate = newDeltaY / oldDeltaY;
-            if (zoomRate > 0.909 && zoomRate < 1.1) {
-              mPinchZoom.setZoomRate(zoomRate);
-              mPinchZoom.apply(Zoom.ZOOM_AXIS_Y);
-            }
-          } else if ( (tan1 > 0.577 && tan1 < 1.732) && (tan2 > 0.577 && tan2 < 1.732) ){
+            applyZoom(zoomRate, Zoom.ZOOM_AXIS_Y);
+          } else {
             // pinch zoom diagonally
             if (Math.abs(newX - oldX) >= Math.abs(newY - oldY)) {
               zoomRate = newDeltaX / oldDeltaX;
             } else {
               zoomRate = newDeltaY / oldDeltaY;
             }
-            if (zoomRate > 0.909 && zoomRate < 1.1) {
-              mPinchZoom.setZoomRate(zoomRate);
-              mPinchZoom.apply(Zoom.ZOOM_AXIS_XY);
-            }
+            applyZoom(zoomRate, Zoom.ZOOM_AXIS_XY);
           }
           oldX2 = newX2;
           oldY2 = newY2;
@@ -156,6 +149,13 @@ public class TouchHandler implements ITouchHandler {
       }
     }
     return !mRenderer.isClickEnabled();
+  }
+
+  private void applyZoom(float zoomRate, int axis) {
+    if (zoomRate > 0.9 && zoomRate < 1.1) {
+      mPinchZoom.setZoomRate(zoomRate);
+      mPinchZoom.apply(axis);
+    }
   }
 
   /**
