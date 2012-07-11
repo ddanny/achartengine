@@ -28,6 +28,8 @@ public class SimpleSeriesRenderer implements Serializable {
   private int mColor = Color.BLUE;
   /** If the values should be displayed above the chart points. */
   private boolean mDisplayChartValues;
+  /** The minimum distance between displaying chart values. */
+  private int mDisplayChartValuesDistance = 100;
   /** The chart values text size. */
   private float mChartValuesTextSize = 10;
   /** The chart values text alignment. */
@@ -81,6 +83,24 @@ public class SimpleSeriesRenderer implements Serializable {
    */
   public void setDisplayChartValues(boolean display) {
     mDisplayChartValues = display;
+  }
+
+  /**
+   * Returns the chart values minimum distance.
+   * 
+   * @return the chart values minimum distance
+   */
+  public int getDisplayChartValuesDistance() {
+    return mDisplayChartValuesDistance;
+  }
+
+  /**
+   * Sets chart values minimum distance.
+   * 
+   * @param distance the chart values minimum distance
+   */
+  public void setDisplayChartValuesDistance(int distance) {
+    mDisplayChartValuesDistance = distance;
   }
 
   /**
