@@ -18,6 +18,7 @@ package org.achartengine.model;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.achartengine.util.IndexXYMap;
 import org.achartengine.util.MathHelper;
@@ -201,7 +202,7 @@ public class XYSeries implements Serializable {
         stop += next;
       }
     }
-    return mXY.subMap(start, stop);
+    return new TreeMap<Double, Double>(mXY.subMap(start, stop));
   }
 
   public int getIndexForKey(double key) {
