@@ -49,7 +49,7 @@ public class ChartFactory {
   public static final String TITLE = "title";
 
   private ChartFactory() {
-    // empty for now
+    // empty
   }
 
   /**
