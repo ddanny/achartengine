@@ -31,7 +31,7 @@ public interface ITouchHandler {
    * @return true if the event was handled
    */
   boolean handleTouch(MotionEvent event);
-  
+
   /**
    * Adds a new zoom listener.
    * 
@@ -45,7 +45,7 @@ public interface ITouchHandler {
    * @param listener zoom listener
    */
   void removeZoomListener(ZoomListener listener);
-  
+
   /**
    * Adds a new pan listener.
    * 
