@@ -86,7 +86,6 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomRate(1.05f);
-
     renderer.setLabelsColor(Color.WHITE);
     renderer.setXLabelsColor(Color.GREEN);
     renderer.setYLabelsColor(0, colors[0]);
