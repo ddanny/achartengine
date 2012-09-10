@@ -138,12 +138,14 @@ public class PieChartBuilder extends Activity {
           SeriesSelection seriesSelection = mChartView.getCurrentSeriesAndPoint();
           if (seriesSelection == null) {
             Toast.makeText(PieChartBuilder.this, "No chart element was long pressed",
-                Toast.LENGTH_SHORT);
+                Toast.LENGTH_SHORT).show();
             return false; // no chart element was long pressed, so let something
             // else handle the event
           } else {
-            Toast.makeText(PieChartBuilder.this, "Chart element data point index "
-                + seriesSelection.getPointIndex() + " was long pressed", Toast.LENGTH_SHORT);
+            Toast.makeText(
+                PieChartBuilder.this,
+                "Chart element data point index " + seriesSelection.getPointIndex()
+                    + " was long pressed", Toast.LENGTH_SHORT).show();
             return true; // the element was long pressed - the event has been
             // handled
           }
