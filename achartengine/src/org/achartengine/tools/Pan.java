@@ -157,7 +157,7 @@ public class Pan extends AbstractTool {
    * @param listener pan listener
    */
   public synchronized void removePanListener(PanListener listener) {
-    mPanListeners.add(listener);
+    mPanListeners.remove(listener);
   }
 
 }
