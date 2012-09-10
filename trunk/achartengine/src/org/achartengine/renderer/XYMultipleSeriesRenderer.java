@@ -527,6 +527,15 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
+   * Removes text label for the specified X axis value.
+   * 
+   * @param x the X axis value
+   */
+  public synchronized void removeXTextLabel(double x) {
+    mXTextLabels.remove(x);
+  }
+
+  /**
    * Returns the X axis text label at the specified X axis value.
    * 
    * @param x the X axis value
@@ -590,6 +599,15 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
+   * Removes text label for the specified Y axis value.
+   * 
+   * @param y the Y axis value
+   */
+  public void removeYTextLabel(double y) {
+    removeYTextLabel(y, 0);
+  }
+
+  /**
    * Adds a new text label for the specified Y axis value.
    * 
    * @param y the Y axis value
@@ -598,6 +616,16 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public synchronized void addYTextLabel(double y, String text, int scale) {
     mYTextLabels.get(scale).put(y, text);
+  }
+
+  /**
+   * Removes text label for the specified Y axis value.
+   * 
+   * @param y the Y axis value
+   * @param scale the renderer scale
+   */
+  public synchronized void removeYTextLabel(double y, int scale) {
+    mYTextLabels.get(scale).remove(y);
   }
 
   /**
@@ -736,6 +764,15 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setPanEnabled(boolean enabledX, boolean enabledY) {
     mPanXEnabled = enabledX;
     mPanYEnabled = enabledY;
+  }
+  
+  /**
+   * Override {@link DefaultRenderer#setPanEnabled(boolean)} so it can be
+   * delegated to {@link #setPanEnabled(boolean, boolean)}.
+   */
+  @Override
+  public void setPanEnabled(final boolean enabled) {
+    setPanEnabled(enabled, enabled);
   }
 
   /**
