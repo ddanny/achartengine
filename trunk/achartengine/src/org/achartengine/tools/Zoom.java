@@ -176,7 +176,7 @@ public class Zoom extends AbstractTool {
    * @param listener zoom listener
    */
   public synchronized void removeZoomListener(ZoomListener listener) {
-    mZoomListeners.add(listener);
+    mZoomListeners.remove(listener);
   }
 
 }
