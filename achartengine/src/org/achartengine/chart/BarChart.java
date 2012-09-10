@@ -38,7 +38,7 @@ public class BarChart extends XYChart {
   private static final int SHAPE_WIDTH = 12;
   /** The chart type. */
   protected Type mType = Type.DEFAULT;
-
+  
   /**
    * The bar chart type enum.
    */
