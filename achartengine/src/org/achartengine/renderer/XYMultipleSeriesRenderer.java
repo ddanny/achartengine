@@ -522,7 +522,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param x the X axis value
    * @param text the text label
    */
-  public void addXTextLabel(double x, String text) {
+  public synchronized void addXTextLabel(double x, String text) {
     mXTextLabels.put(x, text);
   }
 
@@ -532,7 +532,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param x the X axis value
    * @return the X axis text label
    */
-  public String getXTextLabel(Double x) {
+  public synchronized String getXTextLabel(Double x) {
     return mXTextLabels.get(x);
   }
 
@@ -541,7 +541,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * 
    * @return the X text label locations
    */
-  public Double[] getXTextLabelLocations() {
+  public synchronized Double[] getXTextLabelLocations() {
     return mXTextLabels.keySet().toArray(new Double[0]);
   }
 
@@ -557,7 +557,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /**
    * Clears the existing text labels on the X axis.
    */
-  public void clearXTextLabels() {
+  public synchronized void clearXTextLabels() {
     mXTextLabels.clear();
   }
 
@@ -596,7 +596,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param text the text label
    * @param scale the renderer scale
    */
-  public void addYTextLabel(double y, String text, int scale) {
+  public synchronized void addYTextLabel(double y, String text, int scale) {
     mYTextLabels.get(scale).put(y, text);
   }
 
@@ -617,7 +617,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param scale the renderer scale
    * @return the Y axis text label
    */
-  public String getYTextLabel(Double y, int scale) {
+  public synchronized String getYTextLabel(Double y, int scale) {
     return mYTextLabels.get(scale).get(y);
   }
 
@@ -636,7 +636,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param scale the renderer scale
    * @return the Y text label locations
    */
-  public Double[] getYTextLabelLocations(int scale) {
+  public synchronized Double[] getYTextLabelLocations(int scale) {
     return mYTextLabels.get(scale).keySet().toArray(new Double[0]);
   }
 
@@ -652,7 +652,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * 
    * @param scale the renderer scale
    */
-  public void clearYTextLabels(int scale) {
+  public synchronized void clearYTextLabels(int scale) {
     mYTextLabels.get(scale).clear();
   }
 

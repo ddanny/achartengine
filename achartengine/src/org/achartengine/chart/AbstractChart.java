@@ -154,13 +154,15 @@ public abstract class AbstractChart implements Serializable {
    * @param paint the paint to be used for drawing
    */
   protected void drawString(Canvas canvas, String text, float x, float y, Paint paint) {
-    String[] lines = text.split("\n");
-    Rect rect = new Rect();
-    int yOff = 0;
-    for (int i = 0; i < lines.length; ++i) {
-      canvas.drawText(lines[i], x, y + yOff, paint);
-      paint.getTextBounds(lines[i], 0, lines[i].length(), rect);
-      yOff = yOff + rect.height() + 5; // space between lines is 5
+    if (text != null) {
+      String[] lines = text.split("\n");
+      Rect rect = new Rect();
+      int yOff = 0;
+      for (int i = 0; i < lines.length; ++i) {
+        canvas.drawText(lines[i], x, y + yOff, paint);
+        paint.getTextBounds(lines[i], 0, lines[i].length(), rect);
+        yOff = yOff + rect.height() + 5; // space between lines is 5
+      }
     }
   }
 
@@ -191,7 +193,7 @@ public abstract class AbstractChart implements Serializable {
     return renderer instanceof XYMultipleSeriesRenderer
         && ((XYMultipleSeriesRenderer) renderer).getOrientation() == Orientation.VERTICAL;
   }
-  
+
   /**
    * Makes sure the fraction digit is not displayed, if not needed.
    * 
