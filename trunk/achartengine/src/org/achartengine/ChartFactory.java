@@ -208,7 +208,7 @@ public class ChartFactory {
   }
 
   /**
-   * Creates a pie chart intent that can be used to start the graphical view
+   * Creates a pie chart view that can be used to start the graphical view
    * activity.
    * 
    * @param context the context
@@ -227,7 +227,7 @@ public class ChartFactory {
   }
 
   /**
-   * Creates a dial chart intent that can be used to start the graphical view
+   * Creates a dial chart view that can be used to start the graphical view
    * activity.
    * 
    * @param context the context
@@ -246,7 +246,7 @@ public class ChartFactory {
   }
 
   /**
-   * Creates a doughnut chart intent that can be used to start the graphical
+   * Creates a doughnut chart view that can be used to start the graphical
    * view activity.
    * 
    * @param context the context
