@@ -84,6 +84,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private Align xLabelsAlign = Align.CENTER;
   /** The Y axis labels alignment. */
   private Align[] yLabelsAlign;
+  /** The X text label padding. */
+  private float mXLabelsPadding = 0;
+  /** The Y text label padding. */
+  private float mYLabelsPadding = 0;
   /** The Y axis alignment. */
   private Align[] yAxisAlign;
   /** The X axis labels color. */
@@ -1129,6 +1133,42 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setYLabelsAlign(Align align, int scale) {
     yLabelsAlign[scale] = align;
+  }
+
+  /**
+   * Returns the X labels padding.
+   *
+   * @return X labels padding
+   */
+  public float getXLabelsPadding() {
+    return mXLabelsPadding;
+  }
+
+  /**
+    * Sets the X labels padding
+    *
+    * @param padding the amount of padding between the axis and the label
+    */
+  public void setXLabelsPadding(float padding) {
+    mXLabelsPadding = padding;
+  }
+
+  /**
+   * Returns the Y labels padding.
+   *
+   * @return Y labels padding
+   */
+  public float getYLabelsPadding() {
+    return mYLabelsPadding;
+  }
+
+  /**
+    * Sets the Y labels padding
+    *
+    * @param padding the amount of padding between the axis and the label
+    */
+  public void setYLabelsPadding(float padding) {
+    mYLabelsPadding = padding;
   }
 
   public int getScalesCount() {
