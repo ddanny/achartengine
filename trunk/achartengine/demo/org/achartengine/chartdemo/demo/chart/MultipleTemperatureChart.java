@@ -92,7 +92,7 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     renderer.setYLabelsColor(1, colors[1]);
 
     renderer.setYTitle("Hours", 1);
-    renderer.setYAxisAlign(Align.RIGHT, 1);
+    renderer.setYAxisAlign(Align.LEFT, 1);
     renderer.setYLabelsAlign(Align.LEFT, 1);
 
     renderer.addYTextLabel(20, "Test", 0);
