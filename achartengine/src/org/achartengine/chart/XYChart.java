@@ -244,52 +244,54 @@ public abstract class XYChart extends AbstractChart {
 
       clickableAreas.put(i, clickableArea);
 
-      SortedMap<Double, Double> range = series.getRange(minX[scale], maxX[scale], 1);
-      int startIndex = -1;
+      synchronized (series) {
+        SortedMap<Double, Double> range = series.getRange(minX[scale], maxX[scale], 1);
+        int startIndex = -1;
 
-      for (Entry<Double, Double> value : range.entrySet()) {
-
-        double xValue = value.getKey();
-        double yValue = value.getValue();
-        if (startIndex < 0) {
-          startIndex = series.getIndexForKey(xValue);
-        }
-
-        // points.add((float) (left + xPixelsPerUnit[scale]
-        // * (value.getKey().floatValue() - minX[scale])));
-        // points.add((float) (bottom - yPixelsPerUnit[scale]
-        // * (value.getValue().floatValue() - minY[scale])));
-        values.add(value.getKey());
-        values.add(value.getValue());
-
-        if (!isNullValue(yValue)) {
-          points.add((float) (left + xPixelsPerUnit[scale] * (xValue - minX[scale])));
-          points.add((float) (bottom - yPixelsPerUnit[scale] * (yValue - minY[scale])));
-        } else if (isRenderNullValues()) {
-          points.add((float) (left + xPixelsPerUnit[scale] * (xValue - minX[scale])));
-          points.add((float) (bottom - yPixelsPerUnit[scale] * (-minY[scale])));
-        } else {
-          if (points.size() > 0) {
-            drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or, startIndex);
-            ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(
-                MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i,
-                startIndex);
-            clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
-            points.clear();
-            values.clear();
+        for (Entry<Double, Double> value : range.entrySet()) {
+          double xValue = value.getKey();
+          double yValue = value.getValue();
+          if (startIndex < 0) {
+            startIndex = series.getIndexForKey(xValue);
           }
-          clickableArea.add(null);
-        }
-      }
 
-      if (points.size() > 0) {
-        drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or, startIndex);
-        ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(
-            MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i, startIndex);
-        clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
+          // points.add((float) (left + xPixelsPerUnit[scale]
+          // * (value.getKey().floatValue() - minX[scale])));
+          // points.add((float) (bottom - yPixelsPerUnit[scale]
+          // * (value.getValue().floatValue() - minY[scale])));
+          values.add(value.getKey());
+          values.add(value.getValue());
+
+          if (!isNullValue(yValue)) {
+            points.add((float) (left + xPixelsPerUnit[scale] * (xValue - minX[scale])));
+            points.add((float) (bottom - yPixelsPerUnit[scale] * (yValue - minY[scale])));
+          } else if (isRenderNullValues()) {
+            points.add((float) (left + xPixelsPerUnit[scale] * (xValue - minX[scale])));
+            points.add((float) (bottom - yPixelsPerUnit[scale] * (-minY[scale])));
+          } else {
+            if (points.size() > 0) {
+              drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or,
+                  startIndex);
+              ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(
+                  MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i,
+                  startIndex);
+              clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
+              points.clear();
+              values.clear();
+            }
+            clickableArea.add(null);
+          }
+        }
+
+        if (points.size() > 0) {
+          drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or, startIndex);
+          ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(
+              MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i,
+              startIndex);
+          clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
+        }
       }
     }
-
     // draw stuff over the margins such as data doesn't render on these areas
     drawBackground(mRenderer, canvas, x, bottom, width, height - bottom, paint, true,
         mRenderer.getMarginsColor());
@@ -535,7 +537,8 @@ public abstract class XYChart extends AbstractChart {
       for (int k = 0; k < points.length; k += 2) {
         if (k == 2) { // decide whether to display first two points' values or
                       // not
-          if (Math.abs(points[2] - points[0]) > renderer.getDisplayChartValuesDistance() || Math.abs(points[3] - points[1]) > renderer.getDisplayChartValuesDistance()) {
+          if (Math.abs(points[2] - points[0]) > renderer.getDisplayChartValuesDistance()
+              || Math.abs(points[3] - points[1]) > renderer.getDisplayChartValuesDistance()) {
             // first point
             drawText(canvas, getLabel(series.getY(startIndex)), points[0],
                 points[1] - renderer.getChartValuesSpacing(), paint, 0);
@@ -550,7 +553,8 @@ public abstract class XYChart extends AbstractChart {
           // compare current point's position with the previous point's, if they
           // are not too close, display
           if (Math.abs(points[k] - previousPointX) > renderer.getDisplayChartValuesDistance()
-              || Math.abs(points[k + 1] - previousPointY) > renderer.getDisplayChartValuesDistance()) {
+              || Math.abs(points[k + 1] - previousPointY) > renderer
+                  .getDisplayChartValuesDistance()) {
             drawText(canvas, getLabel(series.getY(startIndex + k / 2)), points[k], points[k + 1]
                 - renderer.getChartValuesSpacing(), paint, 0);
             previousPointX = points[k];
