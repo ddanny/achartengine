@@ -112,7 +112,7 @@ public class DoughnutChart extends RoundChart {
         canvas.drawArc(oval, currentAngle, angle, true, paint);
         drawLabel(canvas, mDataset.getTitles(category)[i], mRenderer, prevLabelsBounds, mCenterX,
             mCenterY, shortRadius, longRadius, currentAngle, angle, left, right,
-            mRenderer.getLabelsColor(), paint, true);
+            mRenderer.getLabelsColor(), paint, true, false);
         currentAngle += angle;
       }
       radius -= (int) mRadius * decCoef;
