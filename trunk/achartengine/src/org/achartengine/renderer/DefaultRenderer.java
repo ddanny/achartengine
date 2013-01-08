@@ -43,6 +43,8 @@ public class DefaultRenderer implements Serializable {
   private String mTextTypefaceName = REGULAR_TEXT_FONT.toString();
   /** The typeface style for the texts. */
   private int mTextTypefaceStyle = Typeface.NORMAL;
+  /** The typeface for the texts */
+  private Typeface mTextTypeface;
   /** The chart background color. */
   private int mBackgroundColor;
   /** If the background color is applied. */
@@ -448,6 +450,15 @@ public class DefaultRenderer implements Serializable {
   public int getTextTypefaceStyle() {
     return mTextTypefaceStyle;
   }
+  
+  /**
+   * Returns the text typeface.
+   * 
+   * @return the text typeface
+   */
+  public Typeface getTextTypeface() {
+    return mTextTypeface;
+  }
 
   /**
    * Returns the legend text size.
@@ -476,6 +487,15 @@ public class DefaultRenderer implements Serializable {
   public void setTextTypeface(String typefaceName, int style) {
     mTextTypefaceName = typefaceName;
     mTextTypefaceStyle = style;
+  }
+  
+  /**
+   * Sets the text typeface.
+   * 
+   * @param typefacethe typeface
+   */
+  public void setTextTypeface(Typeface typeface) {
+    mTextTypeface = typeface;
   }
 
   /**
