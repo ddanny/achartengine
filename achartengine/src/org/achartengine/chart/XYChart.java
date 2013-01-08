@@ -127,10 +127,15 @@ public abstract class XYChart extends AbstractChart {
     drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
 
     if (paint.getTypeface() == null
+        || (mRenderer.getTextTypeface() != null && paint.getTypeface().equals(mRenderer.getTextTypeface()))
         || !paint.getTypeface().toString().equals(mRenderer.getTextTypefaceName())
         || paint.getTypeface().getStyle() != mRenderer.getTextTypefaceStyle()) {
-      paint.setTypeface(Typeface.create(mRenderer.getTextTypefaceName(),
-          mRenderer.getTextTypefaceStyle()));
+      if(mRenderer.getTextTypeface() != null) {
+        paint.setTypeface(mRenderer.getTextTypeface());
+      } else {
+        paint.setTypeface(Typeface.create(mRenderer.getTextTypefaceName(),
+            mRenderer.getTextTypefaceStyle()));
+      }
     }
     Orientation or = mRenderer.getOrientation();
     if (or == Orientation.VERTICAL) {
