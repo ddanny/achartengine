@@ -401,11 +401,12 @@ public abstract class AbstractChart implements Serializable {
    * @param color the label color
    * @param paint the paint
    * @param line if a line to the label should be drawn
+   * @param display display the label anyway
    */
   protected void drawLabel(Canvas canvas, String labelText, DefaultRenderer renderer,
       List<RectF> prevLabelsBounds, int centerX, int centerY, float shortRadius, float longRadius,
-      float currentAngle, float angle, int left, int right, int color, Paint paint, boolean line) {
-    if (renderer.isShowLabels()) {
+      float currentAngle, float angle, int left, int right, int color, Paint paint, boolean line, boolean display) {
+    if (renderer.isShowLabels() || display) {
       paint.setColor(color);
       double rAngle = Math.toRadians(90 - (currentAngle + angle / 2));
       double sinValue = Math.sin(rAngle);
