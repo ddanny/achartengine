@@ -37,6 +37,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -66,7 +67,7 @@ public class XYChartBuilder extends Activity {
   private EditText mY;
 
   private GraphicalView mChartView;
-  
+
   private int index = 0;
 
   @Override
@@ -165,8 +166,8 @@ public class XYChartBuilder extends Activity {
     if (mChartView == null) {
       LinearLayout layout = (LinearLayout) findViewById(R.id.chart);
       mChartView = ChartFactory.getLineChartView(this, mDataset, mRenderer);
-      mRenderer.setClickEnabled(true);
-      mRenderer.setSelectableBuffer(100);
+//      mRenderer.setClickEnabled(true);
+//      mRenderer.setSelectableBuffer(100);
       mChartView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -180,8 +181,9 @@ public class XYChartBuilder extends Activity {
                 XYChartBuilder.this,
                 "Chart element in series index " + seriesSelection.getSeriesIndex()
                     + " data point index " + seriesSelection.getPointIndex() + " was clicked"
-                    + " closest point value X=" + seriesSelection.getXValue() + ", Y=" + seriesSelection.getValue()
-                    + " clicked point value X=" + (float) xy[0] + ", Y=" + (float) xy[1], Toast.LENGTH_SHORT).show();
+                    + " closest point value X=" + seriesSelection.getXValue() + ", Y="
+                    + seriesSelection.getValue() + " clicked point value X=" + (float) xy[0]
+                    + ", Y=" + (float) xy[1], Toast.LENGTH_SHORT).show();
           }
         }
       });
@@ -191,13 +193,15 @@ public class XYChartBuilder extends Activity {
           SeriesSelection seriesSelection = mChartView.getCurrentSeriesAndPoint();
           if (seriesSelection == null) {
             Toast.makeText(XYChartBuilder.this, "No chart element was long pressed",
-                Toast.LENGTH_SHORT);
+                Toast.LENGTH_SHORT).show();
             return false; // no chart element was long pressed, so let something
             // else handle the event
           } else {
-            Toast.makeText(XYChartBuilder.this, "Chart element in series index "
-                + seriesSelection.getSeriesIndex() + " data point index "
-                + seriesSelection.getPointIndex() + " was long pressed", Toast.LENGTH_SHORT);
+            Toast.makeText(
+                XYChartBuilder.this,
+                "Chart element in series index " + seriesSelection.getSeriesIndex()
+                    + " data point index " + seriesSelection.getPointIndex() + " was long pressed",
+                Toast.LENGTH_SHORT).show();
             return true; // the element was long pressed - the event has been
             // handled
           }
@@ -209,17 +213,18 @@ public class XYChartBuilder extends Activity {
           if (e.isZoomIn()) {
             type = "in";
           }
-          System.out.println("Zoom " + type + " rate " + e.getZoomRate());
+          Log.i("Zoom", "Zoom " + type + " rate " + e.getZoomRate());
         }
-        
+
         public void zoomReset() {
-          System.out.println("Reset");
+          Log.i("Zoom", "Reset");
         }
       }, true, true);
       mChartView.addPanListener(new PanListener() {
         public void panApplied() {
-          System.out.println("New X range=[" + mRenderer.getXAxisMin() + ", " + mRenderer.getXAxisMax()
-              + "], Y range=[" + mRenderer.getYAxisMax() + ", " + mRenderer.getYAxisMax() + "]");
+          System.out.println("New X range=[" + mRenderer.getXAxisMin() + ", "
+              + mRenderer.getXAxisMax() + "], Y range=[" + mRenderer.getYAxisMax() + ", "
+              + mRenderer.getYAxisMax() + "]");
         }
       });
       layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT,
