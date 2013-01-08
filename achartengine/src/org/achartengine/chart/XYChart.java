@@ -127,10 +127,11 @@ public abstract class XYChart extends AbstractChart {
     drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
 
     if (paint.getTypeface() == null
-        || (mRenderer.getTextTypeface() != null && paint.getTypeface().equals(mRenderer.getTextTypeface()))
+        || (mRenderer.getTextTypeface() != null && paint.getTypeface().equals(
+            mRenderer.getTextTypeface()))
         || !paint.getTypeface().toString().equals(mRenderer.getTextTypefaceName())
         || paint.getTypeface().getStyle() != mRenderer.getTextTypefaceStyle()) {
-      if(mRenderer.getTextTypeface() != null) {
+      if (mRenderer.getTextTypeface() != null) {
         paint.setTypeface(mRenderer.getTextTypeface());
       } else {
         paint.setTypeface(Typeface.create(mRenderer.getTextTypefaceName(),
@@ -798,10 +799,14 @@ public abstract class XYChart extends AbstractChart {
     double realMaxX = mRenderer.getXAxisMax(scale);
     double realMinY = mRenderer.getYAxisMin(scale);
     double realMaxY = mRenderer.getYAxisMax(scale);
-    return new double[] {
-        (screenX - mScreenR.left) * (realMaxX - realMinX) / mScreenR.width() + realMinX,
-        (mScreenR.top + mScreenR.height() - screenY) * (realMaxY - realMinY) / mScreenR.height()
-            + realMinY };
+    if (mScreenR != null) {
+      return new double[] {
+          (screenX - mScreenR.left) * (realMaxX - realMinX) / mScreenR.width() + realMinX,
+          (mScreenR.top + mScreenR.height() - screenY) * (realMaxY - realMinY) / mScreenR.height()
+              + realMinY };
+    } else {
+      return new double[] { screenX, screenY };
+    }
   }
 
   public double[] toScreenPoint(double[] realPoint, int scale) {
@@ -817,9 +822,13 @@ public abstract class XYChart extends AbstractChart {
       realMinY = calcRange[2];
       realMaxY = calcRange[3];
     }
-    return new double[] {
-        (realPoint[0] - realMinX) * mScreenR.width() / (realMaxX - realMinX) + mScreenR.left,
-        (realMaxY - realPoint[1]) * mScreenR.height() / (realMaxY - realMinY) + mScreenR.top };
+    if (mScreenR != null) {
+      return new double[] {
+          (realPoint[0] - realMinX) * mScreenR.width() / (realMaxX - realMinX) + mScreenR.left,
+          (realMaxY - realPoint[1]) * mScreenR.height() / (realMaxY - realMinY) + mScreenR.top };
+    } else {
+      return realPoint;
+    }
   }
 
   public SeriesSelection getSeriesAndPointForScreenCoordinate(final Point screenPoint) {
