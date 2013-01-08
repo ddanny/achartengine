@@ -42,7 +42,9 @@ public class XYSeries implements Serializable {
   private double mMaxY = -MathHelper.NULL_VALUE;
   /** The scale number for this series. */
   private final int mScaleNumber;
-
+  /** A padding value that will be added when adding values with the same X. */
+  private static final double PADDING = 0.000000000001;
+  
   /**
    * Builds a new XY series.
    * 
@@ -122,6 +124,10 @@ public class XYSeries implements Serializable {
    * @param y the value for the Y axis
    */
   public synchronized void add(double x, double y) {
+    while (mXY.get(x) != null) {
+      // add a very small value to x such as data points sharing the same x will still be added
+      x += PADDING;
+    }
     mXY.put(x, y);
     updateRange(x, y);
   }
