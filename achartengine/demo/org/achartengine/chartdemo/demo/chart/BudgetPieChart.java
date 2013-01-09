@@ -17,6 +17,7 @@ package org.achartengine.chartdemo.demo.chart;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.renderer.DefaultRenderer;
+import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import android.content.Context;
 import android.content.Intent;
@@ -59,8 +60,14 @@ public class BudgetPieChart extends AbstractDemoChart {
     renderer.setChartTitleTextSize(20);
     renderer.setDisplayValues(true);
     renderer.setShowLabels(false);
-    Intent intent = ChartFactory.getPieChartIntent(context, buildCategoryDataset("Project budget", values),
-        renderer, "Budget");
+
+    SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
+    r.setGradientEnabled(true);
+    r.setGradientStart(0, Color.BLUE);
+    r.setGradientStop(0, Color.GREEN);
+
+    Intent intent = ChartFactory.getPieChartIntent(context,
+        buildCategoryDataset("Project budget", values), renderer, "Budget");
     return intent;
   }
 

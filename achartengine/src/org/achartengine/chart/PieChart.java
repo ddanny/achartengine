@@ -22,11 +22,14 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.model.Point;
 import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
+import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.RadialGradient;
 import android.graphics.RectF;
+import android.graphics.Shader.TileMode;
 
 /**
  * The pie chart rendering class.
@@ -99,16 +102,26 @@ public class PieChart extends RoundChart {
 
     float shortRadius = radius * 0.9f;
     float longRadius = radius * 1.1f;
-
     RectF oval = new RectF(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY
         + radius);
     List<RectF> prevLabelsBounds = new ArrayList<RectF>();
 
     for (int i = 0; i < sLength; i++) {
-      paint.setColor(mRenderer.getSeriesRendererAt(i).getColor());
+      SimpleSeriesRenderer seriesRenderer = mRenderer.getSeriesRendererAt(i);
+      if (seriesRenderer.isGradientEnabled()) {
+        RadialGradient grad = new RadialGradient(mCenterX, mCenterY, longRadius,
+            seriesRenderer.getGradientStartColor(), seriesRenderer.getGradientStopColor(),
+            TileMode.MIRROR);
+        paint.setShader(grad);
+      } else {
+        paint.setColor(seriesRenderer.getColor());
+      }
+
       float value = (float) mDataset.getValue(i);
       float angle = (float) (value / total * 360);
       canvas.drawArc(oval, currentAngle, angle, true, paint);
+      paint.setColor(seriesRenderer.getColor());
+      paint.setShader(null);
       drawLabel(canvas, mDataset.getCategory(i), mRenderer, prevLabelsBounds, mCenterX, mCenterY,
           shortRadius, longRadius, currentAngle, angle, left, right, mRenderer.getLabelsColor(),
           paint, true, false);
