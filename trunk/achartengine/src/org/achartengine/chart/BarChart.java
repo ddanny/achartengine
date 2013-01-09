@@ -76,11 +76,11 @@ public class BarChart extends XYChart {
       float x = points[i];
       float y = points[i + 1];
       if (mType == Type.STACKED) {
-        ret[i / 2] = new ClickableArea(new RectF(x - halfDiffX, y, x + halfDiffX, yAxisValue),
+        ret[i / 2] = new ClickableArea(new RectF(x - halfDiffX, Math.min(y, yAxisValue), x + halfDiffX, Math.max(y, yAxisValue)),
             values[i], values[i + 1]);
       } else {
         float startX = x - seriesNr * halfDiffX + seriesIndex * 2 * halfDiffX;
-        ret[i / 2] = new ClickableArea(new RectF(startX, y, startX + 2 * halfDiffX, yAxisValue),
+        ret[i / 2] = new ClickableArea(new RectF(startX, Math.min(y, yAxisValue), startX + 2 * halfDiffX, Math.max(y, yAxisValue)),
             values[i], values[i + 1]);
       }
     }
