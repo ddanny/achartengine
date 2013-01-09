@@ -15,6 +15,8 @@
  */
 package org.achartengine.chart;
 
+import java.util.List;
+
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -70,7 +72,7 @@ public class ScatterChart extends XYChart {
    * @param seriesIndex the index of the series currently being drawn
    * @param startIndex the start index of the rendering points
    */
-  public void drawSeries(Canvas canvas, Paint paint, float[] points,
+  public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
     paint.setColor(renderer.getColor());
@@ -79,51 +81,53 @@ public class ScatterChart extends XYChart {
     } else {
       paint.setStyle(Style.STROKE);
     }
-    int length = points.length;
+    int length = points.size();
     switch (renderer.getPointStyle()) {
     case X:
       for (int i = 0; i < length; i += 2) {
-        drawX(canvas, paint, points[i], points[i + 1]);
+        drawX(canvas, paint, points.get(i), points.get(i + 1));
       }
       break;
     case CIRCLE:
       for (int i = 0; i < length; i += 2) {
-        drawCircle(canvas, paint, points[i], points[i + 1]);
+        drawCircle(canvas, paint, points.get(i), points.get(i + 1));
       }
       break;
     case TRIANGLE:
       float[] path = new float[6];
       for (int i = 0; i < length; i += 2) {
-        drawTriangle(canvas, paint, path, points[i], points[i + 1]);
+        drawTriangle(canvas, paint, path, points.get(i), points.get(i + 1));
       }
       break;
     case SQUARE:
       for (int i = 0; i < length; i += 2) {
-        drawSquare(canvas, paint, points[i], points[i + 1]);
+        drawSquare(canvas, paint, points.get(i), points.get(i + 1));
       }
       break;
     case DIAMOND:
       path = new float[8];
       for (int i = 0; i < length; i += 2) {
-        drawDiamond(canvas, paint, path, points[i], points[i + 1]);
+        drawDiamond(canvas, paint, path, points.get(i), points.get(i + 1));
       }
       break;
     case POINT:
-      canvas.drawPoints(points, paint);
+      for (int i = 0; i < length; i += 2) {
+        canvas.drawPoint(points.get(i), points.get(i + 1), paint);
+      }
       break;
     }
   }
 
   @Override
-  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values,
+  protected ClickableArea[] clickableAreasForPoints(List<Float> points, List<Double> values,
       float yAxisValue, int seriesIndex, int startIndex) {
-    int length = points.length;
+    int length = points.size();
     ClickableArea[] ret = new ClickableArea[length / 2];
     for (int i = 0; i < length; i += 2) {
       int selectableBuffer = mRenderer.getSelectableBuffer();
-      ret[i / 2] = new ClickableArea(new RectF(points[i] - selectableBuffer, points[i + 1]
-          - selectableBuffer, points[i] + selectableBuffer, points[i + 1] + selectableBuffer),
-          values[i], values[i + 1]);
+      ret[i / 2] = new ClickableArea(new RectF(points.get(i) - selectableBuffer, points.get(i + 1)
+          - selectableBuffer, points.get(i) + selectableBuffer, points.get(i + 1)
+          + selectableBuffer), values.get(i), values.get(i + 1));
     }
     return ret;
   }
