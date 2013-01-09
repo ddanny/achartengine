@@ -78,6 +78,8 @@ public class GraphicalView extends View {
   private float oldX;
   /** The old y coordinate. */
   private float oldY;
+  /** If the graphical view is drawn. */
+  private boolean mDrawn;
 
   /**
    * Creates a new graphical view.
@@ -175,6 +177,7 @@ public class GraphicalView extends View {
       canvas.drawBitmap(zoomOutImage, left + width - zoomSize * 1.75f, buttonY, null);
       canvas.drawBitmap(fitZoomImage, left + width - zoomSize * 0.75f, buttonY, null);
     }
+    mDrawn = true;
   }
 
   /**
@@ -282,7 +285,7 @@ public class GraphicalView extends View {
       oldX = event.getX();
       oldY = event.getY();
     }
-    if (mRenderer != null && (mRenderer.isPanEnabled() || mRenderer.isZoomEnabled())) {
+    if (mRenderer != null && mDrawn && (mRenderer.isPanEnabled() || mRenderer.isZoomEnabled())) {
       if (mTouchHandler.handleTouch(event)) {
         return true;
       }
