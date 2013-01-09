@@ -15,6 +15,9 @@
  */
 package org.achartengine.chart;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -73,25 +76,27 @@ public class LineChart extends XYChart {
    * @param seriesIndex the index of the series currently being drawn
    * @param startIndex the start index of the rendering points
    */
-  public void drawSeries(Canvas canvas, Paint paint, float[] points,
+  public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
-    int length = points.length;
+    int length = points.size();
     XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
     float lineWidth = paint.getStrokeWidth();
     paint.setStrokeWidth(renderer.getLineWidth());
     if (renderer.isFillBelowLine()) {
       paint.setColor(renderer.getFillBelowLineColor());
-      int pLength = points.length;
-      float[] fillPoints = new float[pLength + 4];
-      System.arraycopy(points, 0, fillPoints, 0, length);
-      fillPoints[0] = points[0] + 1;
-      fillPoints[length] = fillPoints[length - 2];
-      fillPoints[length + 1] = yAxisValue;
-      fillPoints[length + 2] = fillPoints[0];
-      fillPoints[length + 3] = fillPoints[length + 1];
+      // TODO: find a way to do area charts without duplicating data
+      List<Float> fillPoints = new ArrayList<Float>();
+      for (Float p : points) {
+        fillPoints.add(p);
+      }
+      fillPoints.set(0, points.get(0) + 1);
+      fillPoints.add(fillPoints.get(length - 2));
+      fillPoints.add(yAxisValue);
+      fillPoints.add(fillPoints.get(0));
+      fillPoints.add(fillPoints.get(length + 1));
       for (int i = 0; i < length + 4; i += 2) {
-        if (fillPoints[i + 1] < 0) {
-          fillPoints[i + 1] = 0;
+        if (fillPoints.get(i + 1) < 0) {
+          fillPoints.set(i + 1, 0f);
         }
       }
       paint.setStyle(Style.FILL);
@@ -104,15 +109,15 @@ public class LineChart extends XYChart {
   }
 
   @Override
-  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values,
+  protected ClickableArea[] clickableAreasForPoints(List<Float> points, List<Double> values,
       float yAxisValue, int seriesIndex, int startIndex) {
-    int length = points.length;
+    int length = points.size();
     ClickableArea[] ret = new ClickableArea[length / 2];
     for (int i = 0; i < length; i += 2) {
       int selectableBuffer = mRenderer.getSelectableBuffer();
-      ret[i / 2] = new ClickableArea(new RectF(points[i] - selectableBuffer, points[i + 1]
-          - selectableBuffer, points[i] + selectableBuffer, points[i + 1] + selectableBuffer),
-          values[i], values[i + 1]);
+      ret[i / 2] = new ClickableArea(new RectF(points.get(i) - selectableBuffer, points.get(i + 1)
+          - selectableBuffer, points.get(i) + selectableBuffer, points.get(i + 1) + selectableBuffer),
+          values.get(i), values.get(i + 1));
     }
     return ret;
   }

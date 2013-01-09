@@ -15,6 +15,8 @@
  */
 package org.achartengine.chart;
 
+import java.util.List;
+
 import org.achartengine.model.Point;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -66,13 +68,13 @@ public class CubicLineChart extends LineChart {
   }
 
   @Override
-  protected void drawPath(Canvas canvas, float[] points, Paint paint, boolean circular) {
+  protected void drawPath(Canvas canvas, List<Float> points, Paint paint, boolean circular) {
     Path p = new Path();
-    float x = points[0];
-    float y = points[1];
+    float x = points.get(0);
+    float y = points.get(1);
     p.moveTo(x, y);
 
-    int length = points.length;
+    int length = points.size();
     if (circular) {
       length -= 4;
     }
@@ -81,26 +83,26 @@ public class CubicLineChart extends LineChart {
       int nextIndex = i + 2 < length ? i + 2 : i;
       int nextNextIndex = i + 4 < length ? i + 4 : nextIndex;
       calc(points, p1, i, nextIndex, secondMultiplier);
-      p2.setX(points[nextIndex]);
-      p2.setY(points[nextIndex + 1]);
+      p2.setX(points.get(nextIndex));
+      p2.setY(points.get(nextIndex + 1));
       calc(points, p3, nextIndex, nextNextIndex, firstMultiplier);
       // From last point, approaching x1/y1 and x2/y2 and ends up at x3/y3
       p.cubicTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
     }
     if (circular) {
       for (int i = length; i < length + 4; i += 2) {
-        p.lineTo(points[i], points[i + 1]);
+        p.lineTo(points.get(i), points.get(i + 1));
       }
-      p.lineTo(points[0], points[1]);
+      p.lineTo(points.get(0), points.get(1));
     }
     canvas.drawPath(p, paint);
   }
 
-  private void calc(float[] points, Point result, int index1, int index2, final float multiplier) {
-    float p1x = points[index1];
-    float p1y = points[index1 + 1];
-    float p2x = points[index2];
-    float p2y = points[index2 + 1];
+  private void calc(List<Float> points, Point result, int index1, int index2, final float multiplier) {
+    float p1x = points.get(index1);
+    float p1y = points.get(index1 + 1);
+    float p2x = points.get(index2);
+    float p2y = points.get(index2 + 1);
 
     float diffX = p2x - p1x; // p2.x - p1.x;
     float diffY = p2y - p1y; // p2.y - p1.y;

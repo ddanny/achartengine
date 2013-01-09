@@ -15,6 +15,8 @@
  */
 package org.achartengine.chart;
 
+import java.util.List;
+
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.SimpleSeriesRenderer;
@@ -66,22 +68,22 @@ public class BarChart extends XYChart {
   }
 
   @Override
-  protected ClickableArea[] clickableAreasForPoints(float[] points, double[] values,
+  protected ClickableArea[] clickableAreasForPoints(List<Float> points, List<Double> values,
       float yAxisValue, int seriesIndex, int startIndex) {
     int seriesNr = mDataset.getSeriesCount();
-    int length = points.length;
+    int length = points.size();
     ClickableArea[] ret = new ClickableArea[length / 2];
     float halfDiffX = getHalfDiffX(points, length, seriesNr);
     for (int i = 0; i < length; i += 2) {
-      float x = points[i];
-      float y = points[i + 1];
+      float x = points.get(i);
+      float y = points.get(i + 1);
       if (mType == Type.STACKED) {
         ret[i / 2] = new ClickableArea(new RectF(x - halfDiffX, Math.min(y, yAxisValue), x + halfDiffX, Math.max(y, yAxisValue)),
-            values[i], values[i + 1]);
+            values.get(i), values.get(i + 1));
       } else {
         float startX = x - seriesNr * halfDiffX + seriesIndex * 2 * halfDiffX;
         ret[i / 2] = new ClickableArea(new RectF(startX, Math.min(y, yAxisValue), startX + 2 * halfDiffX, Math.max(y, yAxisValue)),
-            values[i], values[i + 1]);
+            values.get(i), values.get(i + 1));
       }
     }
     return ret;
@@ -98,16 +100,16 @@ public class BarChart extends XYChart {
    * @param seriesIndex the index of the series currently being drawn
    * @param startIndex the start index of the rendering points
    */
-  public void drawSeries(Canvas canvas, Paint paint, float[] points,
+  public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     int seriesNr = mDataset.getSeriesCount();
-    int length = points.length;
+    int length = points.size();
     paint.setColor(seriesRenderer.getColor());
     paint.setStyle(Style.FILL);
     float halfDiffX = getHalfDiffX(points, length, seriesNr);
     for (int i = 0; i < length; i += 2) {
-      float x = points[i];
-      float y = points[i + 1];
+      float x = points.get(i);
+      float y = points.get(i + 1);
       drawBar(canvas, x, yAxisValue, x, y, halfDiffX, seriesNr, seriesIndex, paint);
     }
     paint.setColor(seriesRenderer.getColor());
@@ -218,22 +220,23 @@ public class BarChart extends XYChart {
    * @param startIndex the start index of the rendering points
    */
   protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer,
-      Paint paint, float[] points, int seriesIndex, int startIndex) {
+      Paint paint, List<Float> points, int seriesIndex, int startIndex) {
     int seriesNr = mDataset.getSeriesCount();
-    float halfDiffX = getHalfDiffX(points, points.length, seriesNr);
-    for (int i = 0; i < points.length; i += 2) {
+    int length = points.size();
+    float halfDiffX = getHalfDiffX(points, length, seriesNr);
+    for (int i = 0; i < length; i += 2) {
       int index = startIndex + i / 2;
       double value = series.getY(index);
       if (!isNullValue(value)) {
-        float x = points[i];
+        float x = points.get(i);
         if (mType == Type.DEFAULT) {
           x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
         }
         if (value >= 0) {
-          drawText(canvas, getLabel(value), x, points[i + 1] - renderer.getChartValuesSpacing(),
+          drawText(canvas, getLabel(value), x, points.get(i + 1) - renderer.getChartValuesSpacing(),
               paint, 0);
         } else {
-          drawText(canvas, getLabel(value), x, points[i + 1] + renderer.getChartValuesTextSize()
+          drawText(canvas, getLabel(value), x, points.get(i + 1) + renderer.getChartValuesTextSize()
               + renderer.getChartValuesSpacing() - 3, paint, 0);
         }
       }
@@ -275,12 +278,12 @@ public class BarChart extends XYChart {
    * @param seriesNr the series number
    * @return the calculated half-distance value
    */
-  protected float getHalfDiffX(float[] points, int length, int seriesNr) {
+  protected float getHalfDiffX(List<Float> points, int length, int seriesNr) {
     int div = length;
     if (length > 2) {
       div = length - 2;
     }
-    float halfDiffX = (points[length - 2] - points[0]) / div;
+    float halfDiffX = (points.get(length - 2) - points.get(0)) / div;
     if (halfDiffX == 0) {
       halfDiffX = 10;
     }

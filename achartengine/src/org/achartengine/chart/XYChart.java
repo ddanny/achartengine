@@ -278,9 +278,8 @@ public abstract class XYChart extends AbstractChart {
             if (points.size() > 0) {
               drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or,
                   startIndex);
-              ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(
-                  MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i,
-                  startIndex);
+              ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(points, values,
+                  yAxisValue, i, startIndex);
               clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
               points.clear();
               values.clear();
@@ -291,9 +290,8 @@ public abstract class XYChart extends AbstractChart {
 
         if (points.size() > 0) {
           drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or, startIndex);
-          ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(
-              MathHelper.getFloats(points), MathHelper.getDoubles(values), yAxisValue, i,
-              startIndex);
+          ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(points, values,
+              yAxisValue, i, startIndex);
           clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
         }
       }
@@ -363,7 +361,8 @@ public abstract class XYChart extends AbstractChart {
                 }
               } else {
                 canvas.drawLine(right - getLabelLinePos(axisAlign), yLabel, right, yLabel, paint);
-                drawText(canvas, label, right + 10, yLabel - 2 - mRenderer.getYLabelsPadding(), paint, mRenderer.getYLabelsAngle());
+                drawText(canvas, label, right + 10, yLabel - 2 - mRenderer.getYLabelsPadding(),
+                    paint, mRenderer.getYLabelsAngle());
                 if (showCustomTextGrid) {
                   paint.setColor(mRenderer.getGridColor());
                   canvas.drawLine(right, yLabel, left, yLabel, paint);
@@ -490,12 +489,12 @@ public abstract class XYChart extends AbstractChart {
       setStroke(stroke.getCap(), stroke.getJoin(), stroke.getMiter(), Style.FILL_AND_STROKE,
           effect, paint);
     }
-    float[] points = MathHelper.getFloats(pointsList);
-    drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex, startIndex);
+    // float[] points = MathHelper.getFloats(pointsList);
+    drawSeries(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex, startIndex);
     if (isRenderPoints(seriesRenderer)) {
       ScatterChart pointsChart = getPointsChart();
       if (pointsChart != null) {
-        pointsChart.drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, seriesIndex,
+        pointsChart.drawSeries(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex,
             startIndex);
       }
     }
@@ -507,7 +506,8 @@ public abstract class XYChart extends AbstractChart {
     }
     if (seriesRenderer.isDisplayChartValues()) {
       paint.setTextAlign(seriesRenderer.getChartValuesTextAlign());
-      drawChartValuesText(canvas, series, seriesRenderer, paint, points, seriesIndex, startIndex);
+      drawChartValuesText(canvas, series, seriesRenderer, paint, pointsList, seriesIndex,
+          startIndex);
     }
     if (stroke != null) {
       setStroke(cap, join, miter, style, pathEffect, paint);
@@ -535,43 +535,43 @@ public abstract class XYChart extends AbstractChart {
    * @param startIndex the start index of the rendering points
    */
   protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer,
-      Paint paint, float[] points, int seriesIndex, int startIndex) {
-    if (points.length > 1) { // there are more than one point
+      Paint paint, List<Float> points, int seriesIndex, int startIndex) {
+    if (points.size() > 1) { // there are more than one point
       // record the first point's position
-      float previousPointX = points[0];
-      float previousPointY = points[1];
-      for (int k = 0; k < points.length; k += 2) {
+      float previousPointX = points.get(0);
+      float previousPointY = points.get(1);
+      for (int k = 0; k < points.size(); k += 2) {
         if (k == 2) { // decide whether to display first two points' values or
                       // not
-          if (Math.abs(points[2] - points[0]) > renderer.getDisplayChartValuesDistance()
-              || Math.abs(points[3] - points[1]) > renderer.getDisplayChartValuesDistance()) {
+          if (Math.abs(points.get(2) - points.get(0)) > renderer.getDisplayChartValuesDistance()
+              || Math.abs(points.get(3) - points.get(1)) > renderer.getDisplayChartValuesDistance()) {
             // first point
-            drawText(canvas, getLabel(series.getY(startIndex)), points[0],
-                points[1] - renderer.getChartValuesSpacing(), paint, 0);
+            drawText(canvas, getLabel(series.getY(startIndex)), points.get(0), points.get(1)
+                - renderer.getChartValuesSpacing(), paint, 0);
             // second point
-            drawText(canvas, getLabel(series.getY(startIndex + 1)), points[2],
-                points[3] - renderer.getChartValuesSpacing(), paint, 0);
+            drawText(canvas, getLabel(series.getY(startIndex + 1)), points.get(2), points.get(3)
+                - renderer.getChartValuesSpacing(), paint, 0);
 
-            previousPointX = points[2];
-            previousPointY = points[3];
+            previousPointX = points.get(2);
+            previousPointY = points.get(3);
           }
         } else if (k > 2) {
           // compare current point's position with the previous point's, if they
           // are not too close, display
-          if (Math.abs(points[k] - previousPointX) > renderer.getDisplayChartValuesDistance()
-              || Math.abs(points[k + 1] - previousPointY) > renderer
+          if (Math.abs(points.get(k) - previousPointX) > renderer.getDisplayChartValuesDistance()
+              || Math.abs(points.get(k + 1) - previousPointY) > renderer
                   .getDisplayChartValuesDistance()) {
-            drawText(canvas, getLabel(series.getY(startIndex + k / 2)), points[k], points[k + 1]
-                - renderer.getChartValuesSpacing(), paint, 0);
-            previousPointX = points[k];
-            previousPointY = points[k + 1];
+            drawText(canvas, getLabel(series.getY(startIndex + k / 2)), points.get(k),
+                points.get(k + 1) - renderer.getChartValuesSpacing(), paint, 0);
+            previousPointX = points.get(k);
+            previousPointY = points.get(k + 1);
           }
         }
       }
     } else { // if only one point, display it
-      for (int k = 0; k < points.length; k += 2) {
-        drawText(canvas, getLabel(series.getY(startIndex + k / 2)), points[k], points[k + 1]
-            - renderer.getChartValuesSpacing(), paint, 0);
+      for (int k = 0; k < points.size(); k += 2) {
+        drawText(canvas, getLabel(series.getY(startIndex + k / 2)), points.get(k),
+            points.get(k + 1) - renderer.getChartValuesSpacing(), paint, 0);
       }
     }
   }
@@ -646,8 +646,8 @@ public abstract class XYChart extends AbstractChart {
       if (showLabels) {
         paint.setColor(mRenderer.getXLabelsColor());
         canvas.drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
-        drawText(canvas, getLabel(label), xLabel, bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(),
-            paint, mRenderer.getXLabelsAngle());
+        drawText(canvas, getLabel(label), xLabel, bottom + mRenderer.getLabelsTextSize() * 4 / 3
+            + mRenderer.getXLabelsPadding(), paint, mRenderer.getXLabelsAngle());
       }
       if (showGridY) {
         paint.setColor(mRenderer.getGridColor());
@@ -690,12 +690,12 @@ public abstract class XYChart extends AbstractChart {
             paint.setColor(mRenderer.getYLabelsColor(i));
             if (axisAlign == Align.LEFT) {
               canvas.drawLine(left + getLabelLinePos(axisAlign), yLabel, left, yLabel, paint);
-              drawText(canvas, getLabel(label), left - mRenderer.getYLabelsPadding(), yLabel - 2, paint,
-                  mRenderer.getYLabelsAngle());
+              drawText(canvas, getLabel(label), left - mRenderer.getYLabelsPadding(), yLabel - 2,
+                  paint, mRenderer.getYLabelsAngle());
             } else {
               canvas.drawLine(right, yLabel, right + getLabelLinePos(axisAlign), yLabel, paint);
-              drawText(canvas, getLabel(label), right + mRenderer.getYLabelsPadding(), yLabel - 2, paint,
-                  mRenderer.getYLabelsAngle());
+              drawText(canvas, getLabel(label), right + mRenderer.getYLabelsPadding(), yLabel - 2,
+                  paint, mRenderer.getYLabelsAngle());
             }
           }
           if (showGridX) {
@@ -706,8 +706,8 @@ public abstract class XYChart extends AbstractChart {
           if (showLabels && !textLabel) {
             paint.setColor(mRenderer.getYLabelsColor(i));
             canvas.drawLine(right - getLabelLinePos(axisAlign), yLabel, right, yLabel, paint);
-            drawText(canvas, getLabel(label), right + 10 + mRenderer.getYLabelsPadding(), yLabel - 2, paint,
-                mRenderer.getYLabelsAngle());
+            drawText(canvas, getLabel(label), right + 10 + mRenderer.getYLabelsPadding(),
+                yLabel - 2, paint, mRenderer.getYLabelsAngle());
           }
           if (showGridX) {
             paint.setColor(mRenderer.getGridColor());
@@ -864,7 +864,7 @@ public abstract class XYChart extends AbstractChart {
    * @param seriesIndex the index of the series currently being drawn
    * @param startIndex the start index of the rendering points
    */
-  public abstract void drawSeries(Canvas canvas, Paint paint, float[] points,
+  public abstract void drawSeries(Canvas canvas, Paint paint, List<Float> points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex);
 
   /**
@@ -877,8 +877,8 @@ public abstract class XYChart extends AbstractChart {
    * @return an array of rectangles with the clickable area
    * @param startIndex the start index of the rendering points
    */
-  protected abstract ClickableArea[] clickableAreasForPoints(float[] points, double[] values,
-      float yAxisValue, int seriesIndex, int startIndex);
+  protected abstract ClickableArea[] clickableAreasForPoints(List<Float> points,
+      List<Double> values, float yAxisValue, int seriesIndex, int startIndex);
 
   /**
    * Returns if the chart should display the null values.

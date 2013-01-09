@@ -290,6 +290,47 @@ public abstract class AbstractChart implements Serializable {
    * @param paint the paint to be used for painting
    * @param circular if the path ends with the start point
    */
+  protected void drawPath(Canvas canvas, List<Float> points, Paint paint, boolean circular) {
+    Path path = new Path();
+    int height = canvas.getHeight();
+    int width = canvas.getWidth();
+
+    float[] tempDrawPoints;
+    if (points.size() < 4) {
+      return;
+    }
+    tempDrawPoints = calculateDrawPoints(points.get(0), points.get(1), points.get(2),
+        points.get(3), height, width);
+    path.moveTo(tempDrawPoints[0], tempDrawPoints[1]);
+    path.lineTo(tempDrawPoints[2], tempDrawPoints[3]);
+
+    int length = points.size();
+    for (int i = 4; i < length; i += 2) {
+      if ((points.get(i - 1) < 0 && points.get(i + 1) < 0)
+          || (points.get(i - 1) > height && points.get(i + 1) > height)) {
+        continue;
+      }
+      tempDrawPoints = calculateDrawPoints(points.get(i - 2), points.get(i - 1), points.get(i),
+          points.get(i + 1), height, width);
+      if (!circular) {
+        path.moveTo(tempDrawPoints[0], tempDrawPoints[1]);
+      }
+      path.lineTo(tempDrawPoints[2], tempDrawPoints[3]);
+    }
+    if (circular) {
+      path.lineTo(points.get(0), points.get(1));
+    }
+    canvas.drawPath(path, paint);
+  }
+
+  /**
+   * The graphical representation of a path.
+   * 
+   * @param canvas the canvas to paint to
+   * @param points the points that are contained in the path to paint
+   * @param paint the paint to be used for painting
+   * @param circular if the path ends with the start point
+   */
   protected void drawPath(Canvas canvas, float[] points, Paint paint, boolean circular) {
     Path path = new Path();
     int height = canvas.getHeight();
@@ -303,7 +344,8 @@ public abstract class AbstractChart implements Serializable {
     path.moveTo(tempDrawPoints[0], tempDrawPoints[1]);
     path.lineTo(tempDrawPoints[2], tempDrawPoints[3]);
 
-    for (int i = 4; i < points.length; i += 2) {
+    int length = points.length;
+    for (int i = 4; i < length; i += 2) {
       if ((points[i - 1] < 0 && points[i + 1] < 0)
           || (points[i - 1] > height && points[i + 1] > height)) {
         continue;
@@ -405,7 +447,8 @@ public abstract class AbstractChart implements Serializable {
    */
   protected void drawLabel(Canvas canvas, String labelText, DefaultRenderer renderer,
       List<RectF> prevLabelsBounds, int centerX, int centerY, float shortRadius, float longRadius,
-      float currentAngle, float angle, int left, int right, int color, Paint paint, boolean line, boolean display) {
+      float currentAngle, float angle, int left, int right, int color, Paint paint, boolean line,
+      boolean display) {
     if (renderer.isShowLabels() || display) {
       paint.setColor(color);
       double rAngle = Math.toRadians(90 - (currentAngle + angle / 2));
