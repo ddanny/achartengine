@@ -16,7 +16,9 @@
 package org.achartengine.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.SortedMap;
 
 import org.achartengine.util.IndexXYMap;
@@ -44,7 +46,13 @@ public class XYSeries implements Serializable {
   private final int mScaleNumber;
   /** A padding value that will be added when adding values with the same X. */
   private static final double PADDING = 0.000000000001;
-  
+  /** Contains the annotations. */
+  private List<String> mAnnotations = new ArrayList<String>();
+  /** A map contain a (x,y) value for each String annotation. */
+  private final IndexXYMap<Double, Double> mStringXY = new IndexXYMap<Double, Double>();
+  /** A map contain a (x,y) value for each Rectangle annotation. */
+  private final IndexXYMap<Double, Double> mRecXY = new IndexXYMap<Double, Double>();
+
   /**
    * Builds a new XY series.
    * 
@@ -125,7 +133,8 @@ public class XYSeries implements Serializable {
    */
   public synchronized void add(double x, double y) {
     while (mXY.get(x) != null) {
-      // add a very small value to x such as data points sharing the same x will still be added
+      // add a very small value to x such as data points sharing the same x will
+      // still be added
       x += PADDING;
     }
     mXY.put(x, y);
@@ -151,6 +160,8 @@ public class XYSeries implements Serializable {
    */
   public synchronized void clear() {
     mXY.clear();
+    mStringXY.clear();
+    mRecXY.clear();
     initRange();
   }
 
@@ -172,6 +183,120 @@ public class XYSeries implements Serializable {
    */
   public synchronized double getY(int index) {
     return mXY.getYByIndex(index);
+  }
+
+  /**
+   * Get rectangle annotations count.
+   * 
+   * @return rectangle annotations count.
+   */
+  public int getRectangleAnnotationsCount() {
+    return mRecXY.size();
+  }
+
+  /**
+   * Get rectangle X coordinate at index. Each rectangle is determined by two
+   * (x,y) coordinates, they would be index and (index+1)
+   * 
+   * @param index
+   */
+  public double getRectangleAnnotationX(int index) {
+    return mRecXY.getXByIndex(index);
+  }
+
+  /**
+   * Get rectangle Y coordinate at index. Each rectangle is determined by two
+   * (x,y) coordinates, they would be index and (index+1)
+   * 
+   * @param index
+   */
+  public double getRectangleAnnotationY(int index) {
+    return mRecXY.getYByIndex(index);
+  }
+
+  /**
+   * Remove a rectangle at index
+   * 
+   * @param index
+   */
+  public void removeRectangleAnnotationAt(int index) {
+    mRecXY.remove(index++);
+    mRecXY.remove(index);
+  }
+
+  /**
+   * Add a rectangle with the up left point in (x1,y1) and down right point at
+   * (x2,y2)
+   * 
+   * @param x1
+   * @param y1
+   * @param x2
+   * @param y2
+   */
+  public void addRectangleAnnotation(double x1, double y1, double x2, double y2) {
+    mRecXY.put(x1, y1);
+    mRecXY.put(x2, y2);
+  }
+
+  /**
+   * Add an String at (x,y) coordinates
+   * 
+   * @param annotation String text
+   * @param x
+   * @param y
+   */
+  public void addAnnotation(String annotation, double x, double y) {
+    mAnnotations.add(annotation);
+    mStringXY.put(x, y);
+  }
+
+  /**
+   * Remove an String at index
+   * 
+   * @param index
+   */
+  public void removeAnnotation(int index) {
+    mAnnotations.remove(index);
+    mStringXY.removeByIndex(index);
+  }
+
+  /**
+   * Get X coordinate of the String at index
+   * 
+   * @param index
+   * @return
+   */
+  public double getAnnotationX(int index) {
+    return mStringXY.getXByIndex(index);
+  }
+
+  /**
+   * Get Y coordinate of the String at index
+   * 
+   * @param index
+   * @return
+   */
+  public double getAnnotationY(int index) {
+    return mStringXY.getYByIndex(index);
+  }
+
+  /**
+   * Get String count
+   * 
+   * @return
+   */
+  public int getAnnotationCount() {
+    return mAnnotations.size();
+  }
+
+  /**
+   * Get the String at index
+   * 
+   * @param index
+   * @return String
+   */
+  public String getAnnotationAt(int index) {
+    return mAnnotations.get(index);
   }
 
   /**
