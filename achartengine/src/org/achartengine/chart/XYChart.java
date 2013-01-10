@@ -288,6 +288,42 @@ public abstract class XYChart extends AbstractChart {
           }
         }
 
+        int count = series.getAnnotationCount();
+        if (count > 0) {
+          paint.setColor(mRenderer.getLabelsColor());
+          Rect bound = new Rect();
+          for (int j = 0; j < count; j++) {
+            float xS = (float) (left + xPixelsPerUnit[scale] * series.getAnnotationX(j) - minX[scale]);
+            float yS = (float) (bottom - yPixelsPerUnit[scale]
+                * (series.getAnnotationY(j) - minY[scale]));
+            paint.getTextBounds(series.getAnnotationAt(j), 0, series.getAnnotationAt(j).length(),
+                bound);
+            if (xS < (xS + bound.width()) && yS < canvas.getHeight()) {
+              drawString(canvas, series.getAnnotationAt(j), xS, yS, paint);
+            }
+          }
+        }
+
+        // Draw rectangle annotations
+        count = series.getRectangleAnnotationsCount();
+        if (count > 0) {
+          paint.setColor(mRenderer.getLabelsColor());
+          paint.setTextSize(mRenderer.getLabelsTextSize());
+          for (int j = 0; j < count; j += 2) {
+            float xR = (float) (left + xPixelsPerUnit[scale]
+                * (series.getRectangleAnnotationX(j) - minX[scale]));
+            float yR = (float) (bottom - yPixelsPerUnit[scale]
+                * (series.getRectangleAnnotationY(j) - minY[scale]));
+
+            float xR2 = (float) (left + xPixelsPerUnit[scale]
+                * (series.getRectangleAnnotationX(j + 1) - minX[scale]));
+            float yR2 = (float) (bottom - yPixelsPerUnit[scale]
+                * (series.getRectangleAnnotationY(j + 1) - minY[scale]));
+
+            canvas.drawRect(xR, yR, xR2, yR2, paint);
+          }
+        }
+
         if (points.size() > 0) {
           drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or, startIndex);
           ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(points, values,

@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.PointStyle;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
@@ -87,7 +89,11 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
 
-    Intent intent = ChartFactory.getLineChartIntent(context, buildDataset(titles, x, values),
+    XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);
+    XYSeries series = dataset.getSeriesAt(0);
+    series.addAnnotation("Vacation", 6, 30);
+    
+    Intent intent = ChartFactory.getLineChartIntent(context, dataset,
         renderer, "Average temperature");
     return intent;
   }

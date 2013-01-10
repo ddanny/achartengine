@@ -492,7 +492,7 @@ public class DefaultRenderer implements Serializable {
   /**
    * Sets the text typeface.
    * 
-   * @param typefacethe typeface
+   * @param typeface the typeface
    */
   public void setTextTypeface(Typeface typeface) {
     mTextTypeface = typeface;

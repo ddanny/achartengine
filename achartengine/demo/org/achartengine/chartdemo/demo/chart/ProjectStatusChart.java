@@ -84,8 +84,9 @@ public class ProjectStatusChart extends AbstractDemoChart {
     XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
     setChartSettings(renderer, "Project work status", "Date", "Tickets", dates.get(0)[0].getTime(),
         dates.get(0)[11].getTime(), 50, 190, Color.GRAY, Color.LTGRAY);
-    renderer.setXLabels(5);
+    renderer.setXLabels(0);
     renderer.setYLabels(10);
+    renderer.addYTextLabel(100, "test");
     length = renderer.getSeriesRendererCount();
     for (int i = 0; i < length; i++) {
       SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
