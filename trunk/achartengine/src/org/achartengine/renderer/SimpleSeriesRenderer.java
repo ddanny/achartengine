@@ -48,6 +48,8 @@ public class SimpleSeriesRenderer implements Serializable {
   private double mGradientStopValue;
   /** The gradient stop color. */
   private int mGradientStopColor;
+  /** If the legend item for this renderer is visible. */
+  private boolean mShowLegendItem = true;
 
   /**
    * Returns the series color.
@@ -250,6 +252,24 @@ public class SimpleSeriesRenderer implements Serializable {
   public void setGradientStop(double start, int color) {
     mGradientStopValue = start;
     mGradientStopColor = color;
+  }
+
+  /**
+   * Returns if the legend item for this renderer should be visible.
+   * 
+   * @return the visibility flag for the legend item for this renderer
+   */
+  public boolean isShowLegendItem() {
+    return mShowLegendItem;
+  }
+
+  /**
+   * Sets if the legend item for this renderer should be visible.
+   * 
+   * @param showLegend the visibility flag for the legend item for this renderer
+   */
+  public void setShowLegendItem(boolean showLegend) {
+    mShowLegendItem = showLegend;
   }
 
 }

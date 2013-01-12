@@ -104,41 +104,44 @@ public abstract class AbstractChart implements Serializable {
       paint.setTextSize(renderer.getLegendTextSize());
       int sLength = Math.min(titles.length, renderer.getSeriesRendererCount());
       for (int i = 0; i < sLength; i++) {
+        SimpleSeriesRenderer r = renderer.getSeriesRendererAt(i);
         final float lineSize = getLegendShapeWidth(i);
-        String text = titles[i];
-        if (titles.length == renderer.getSeriesRendererCount()) {
-          paint.setColor(renderer.getSeriesRendererAt(i).getColor());
-        } else {
-          paint.setColor(Color.LTGRAY);
-        }
-        float[] widths = new float[text.length()];
-        paint.getTextWidths(text, widths);
-        float sum = 0;
-        for (float value : widths) {
-          sum += value;
-        }
-        float extraSize = lineSize + 10 + sum;
-        float currentWidth = currentX + extraSize;
-
-        if (i > 0 && getExceed(currentWidth, renderer, right, width)) {
-          currentX = left;
-          currentY += renderer.getLegendTextSize();
-          size += renderer.getLegendTextSize();
-          currentWidth = currentX + extraSize;
-        }
-        if (getExceed(currentWidth, renderer, right, width)) {
-          float maxWidth = right - currentX - lineSize - 10;
-          if (isVertical(renderer)) {
-            maxWidth = width - currentX - lineSize - 10;
+        if (r.isShowLegendItem()) {
+          String text = titles[i];
+          if (titles.length == renderer.getSeriesRendererCount()) {
+            paint.setColor(r.getColor());
+          } else {
+            paint.setColor(Color.LTGRAY);
           }
-          int nr = paint.breakText(text, true, maxWidth, widths);
-          text = text.substring(0, nr) + "...";
+          float[] widths = new float[text.length()];
+          paint.getTextWidths(text, widths);
+          float sum = 0;
+          for (float value : widths) {
+            sum += value;
+          }
+          float extraSize = lineSize + 10 + sum;
+          float currentWidth = currentX + extraSize;
+
+          if (i > 0 && getExceed(currentWidth, renderer, right, width)) {
+            currentX = left;
+            currentY += renderer.getLegendTextSize();
+            size += renderer.getLegendTextSize();
+            currentWidth = currentX + extraSize;
+          }
+          if (getExceed(currentWidth, renderer, right, width)) {
+            float maxWidth = right - currentX - lineSize - 10;
+            if (isVertical(renderer)) {
+              maxWidth = width - currentX - lineSize - 10;
+            }
+            int nr = paint.breakText(text, true, maxWidth, widths);
+            text = text.substring(0, nr) + "...";
+          }
+          if (!calculate) {
+            drawLegendShape(canvas, r, currentX, currentY, i, paint);
+            drawString(canvas, text, currentX + lineSize + 5, currentY + 5, paint);
+          }
+          currentX += extraSize;
         }
-        if (!calculate) {
-          drawLegendShape(canvas, renderer.getSeriesRendererAt(i), currentX, currentY, i, paint);
-          drawString(canvas, text, currentX + lineSize + 5, currentY + 5, paint);
-        }
-        currentX += extraSize;
       }
     }
     return Math.round(size + renderer.getLegendTextSize());
