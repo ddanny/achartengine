@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.achartengine.chartdemo.demo"
     android:versionCode="1"
-    android:versionName="1.0.0" >
+    android:versionName="1.0.0" android:installLocation="auto" android:allowBackup="true" >
 
     <uses-sdk
-        android:minSdkVersion="3"
+        android:minSdkVersion="4"
         android:targetSdkVersion="7" >
     </uses-sdk>
 
