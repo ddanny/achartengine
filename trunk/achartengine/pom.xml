@@ -22,6 +22,14 @@
 
 	<build>
 		<sourceDirectory>${project.basedir}/src</sourceDirectory>
+		<resources>
+		    <resource>
+				<directory>src</directory>
+				<includes>
+				    <include>**/*.png</include>
+				</includes>
+		    </resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
@@ -39,4 +47,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 </project>

@@ -4,7 +4,7 @@
     <description>Build for project achartengine. </description>
 
 	<property name="app_name" value="achartengine"/>
-	<property name="app_version" value="1.1.0-rc1"/>	
+	<property name="app_version" value="1.1.0-rc2"/>	
     <property name="src_root.dir" location="${basedir}"/>
     <property name="achartengine.package" value="org/achartengine"/>
 	<property name="src.dir" location="${src_root.dir}/src/"/>
@@ -20,7 +20,7 @@
 	<property name="report.tests.unit.dir" location="${build.dir}/reports/test/unit"/>
 	<property name="report.lint.dir" location="${build.dir}/reports/lint"/>
     <property name="doc.dir" location="${build.dir}/docs"/>
-    <property name="jar.dest.dir" location="${build.dir}/lib"/>	
+    <property name="jar.dest.dir" location="${build.dir}/libs"/>	
 	<property name="dist.dir" location="${name.build.dir}/dist" />
 
     <!--===========================================================================
@@ -182,9 +182,12 @@
 				<include name=".project" />
 				<include name="LICENSE-2.0.txt" />
 			</fileset>
+			<fileset dir="${src_root.dir}">
+				<include name="project.properties" />
+			</fileset>
 			<fileset dir="${build.dir}">
 				<include name="src/**/*" />
-				<include name="lib/${app_name}-${app_version}.jar" />
+				<include name="libs/${app_name}-${app_version}.jar" />
 			</fileset>			
 		</zip>
 	</target>
