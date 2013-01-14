@@ -66,7 +66,7 @@ public abstract class AbstractChart implements Serializable {
    */
   protected void drawBackground(DefaultRenderer renderer, Canvas canvas, int x, int y, int width,
       int height, Paint paint, boolean newColor, int color) {
-    if (renderer.isApplyBackgroundColor() && newColor) {
+    if (renderer.isApplyBackgroundColor() || newColor) {
       if (newColor) {
         paint.setColor(color);
       } else {
