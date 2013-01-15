@@ -88,6 +88,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private float mXLabelsPadding = 0;
   /** The Y text label padding. */
   private float mYLabelsPadding = 0;
+  /** The Y axis labels vertical padding. */
+  private float mYLabelsVerticalPadding = 2;
   /** The Y axis alignment. */
   private Align[] yAxisAlign;
   /** The X axis labels color. */
@@ -1160,6 +1162,24 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public float getYLabelsPadding() {
     return mYLabelsPadding;
+  }
+
+  /**
+    * Sets the Y labels vertical padding
+    *
+    * @param padding the amount of vertical padding
+    */
+  public void setYLabelsVerticalPadding(float padding) {
+    mYLabelsVerticalPadding = padding;
+  }
+
+  /**
+   * Returns the Y labels vertical padding.
+   *
+   * @return Y labels vertical padding
+   */
+  public float getYLabelsVerticalPadding() {
+    return mYLabelsVerticalPadding;
   }
 
   /**
