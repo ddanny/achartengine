@@ -60,12 +60,10 @@ public class BudgetPieChart extends AbstractDemoChart {
     renderer.setChartTitleTextSize(20);
     renderer.setDisplayValues(true);
     renderer.setShowLabels(false);
-
     SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
     r.setGradientEnabled(true);
     r.setGradientStart(0, Color.BLUE);
     r.setGradientStop(0, Color.GREEN);
-
     Intent intent = ChartFactory.getPieChartIntent(context,
         buildCategoryDataset("Project budget", values), renderer, "Budget");
     return intent;
