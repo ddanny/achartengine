@@ -102,6 +102,7 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     values.clear();
     values.add(new double[] { 4.3, 4.9, 5.9, 8.8, 10.8, 11.9, 13.6, 12.8, 11.4, 9.5, 7.5, 5.5 });
     addXYSeries(dataset, new String[] { "Sunshine hours" }, x, values, 1);
+
     Intent intent = ChartFactory.getCubicLineChartIntent(context, dataset, renderer, 0.3f,
         "Average temperature");
     return intent;
