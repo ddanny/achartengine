@@ -85,6 +85,7 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     renderer.setShowGrid(true);
     renderer.setXLabelsAlign(Align.RIGHT);
     renderer.setYLabelsAlign(Align.RIGHT);
+    renderer.setYLabelsPadding(10);
     renderer.setZoomButtonsVisible(true);
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
@@ -92,9 +93,9 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);
     XYSeries series = dataset.getSeriesAt(0);
     series.addAnnotation("Vacation", 6, 30);
-    
-    Intent intent = ChartFactory.getLineChartIntent(context, dataset,
-        renderer, "Average temperature");
+
+    Intent intent = ChartFactory.getLineChartIntent(context, dataset, renderer,
+        "Average temperature");
     return intent;
   }
 
