@@ -16,6 +16,7 @@
 package org.achartengine.chart;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.List;
 
 import org.achartengine.model.Point;
@@ -200,12 +201,16 @@ public abstract class AbstractChart implements Serializable {
   /**
    * Makes sure the fraction digit is not displayed, if not needed.
    * 
+   * 
+   * @param format the number format for the label
    * @param label the input label value
    * @return the label without the useless fraction digit
    */
-  protected String getLabel(double label) {
+  protected String getLabel(NumberFormat format, double label) {
     String text = "";
-    if (label == Math.round(label)) {
+    if (format != null) {
+      text = format.format(label);
+    } else if (label == Math.round(label)) {
       text = Math.round(label) + "";
     } else {
       text = label + "";

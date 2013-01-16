@@ -16,6 +16,7 @@
 package org.achartengine.renderer;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 
 import android.graphics.Color;
 import android.graphics.Paint.Align;
@@ -50,6 +51,8 @@ public class SimpleSeriesRenderer implements Serializable {
   private int mGradientStopColor;
   /** If the legend item for this renderer is visible. */
   private boolean mShowLegendItem = true;
+  /** The chart values format. */
+  private NumberFormat mChartValuesFormat;
 
   /**
    * Returns the series color.
@@ -270,6 +273,24 @@ public class SimpleSeriesRenderer implements Serializable {
    */
   public void setShowLegendItem(boolean showLegend) {
     mShowLegendItem = showLegend;
+  }
+
+  /**
+   * Returns the number format for displaying chart values.
+   * 
+   * @return the number format for chart values
+   */
+  public NumberFormat getChartValuesFormat() {
+    return mChartValuesFormat;
+  }
+
+  /**
+   * Sets the number format for displaying chart values.
+   * 
+   * @param format the number format for chart values
+   */
+  public void setChartValuesFormat(NumberFormat format) {
+    mChartValuesFormat = format;
   }
 
 }
