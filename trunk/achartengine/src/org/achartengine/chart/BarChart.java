@@ -78,12 +78,12 @@ public class BarChart extends XYChart {
       float x = points.get(i);
       float y = points.get(i + 1);
       if (mType == Type.STACKED) {
-        ret[i / 2] = new ClickableArea(new RectF(x - halfDiffX, Math.min(y, yAxisValue), x + halfDiffX, Math.max(y, yAxisValue)),
-            values.get(i), values.get(i + 1));
+        ret[i / 2] = new ClickableArea(new RectF(x - halfDiffX, Math.min(y, yAxisValue), x
+            + halfDiffX, Math.max(y, yAxisValue)), values.get(i), values.get(i + 1));
       } else {
         float startX = x - seriesNr * halfDiffX + seriesIndex * 2 * halfDiffX;
-        ret[i / 2] = new ClickableArea(new RectF(startX, Math.min(y, yAxisValue), startX + 2 * halfDiffX, Math.max(y, yAxisValue)),
-            values.get(i), values.get(i + 1));
+        ret[i / 2] = new ClickableArea(new RectF(startX, Math.min(y, yAxisValue), startX + 2
+            * halfDiffX, Math.max(y, yAxisValue)), values.get(i), values.get(i + 1));
       }
     }
     return ret;
@@ -233,11 +233,11 @@ public class BarChart extends XYChart {
           x += seriesIndex * 2 * halfDiffX - (seriesNr - 1.5f) * halfDiffX;
         }
         if (value >= 0) {
-          drawText(canvas, getLabel(value), x, points.get(i + 1) - renderer.getChartValuesSpacing(),
-              paint, 0);
+          drawText(canvas, getLabel(renderer.getChartValuesFormat(), value), x, points.get(i + 1)
+              - renderer.getChartValuesSpacing(), paint, 0);
         } else {
-          drawText(canvas, getLabel(value), x, points.get(i + 1) + renderer.getChartValuesTextSize()
-              + renderer.getChartValuesSpacing() - 3, paint, 0);
+          drawText(canvas, getLabel(renderer.getChartValuesFormat(), value), x, points.get(i + 1)
+              + renderer.getChartValuesTextSize() + renderer.getChartValuesSpacing() - 3, paint, 0);
         }
       }
     }

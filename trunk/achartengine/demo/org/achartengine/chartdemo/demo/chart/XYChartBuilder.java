@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
+import org.achartengine.chart.BarChart.Type;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.chartdemo.demo.R;
 import org.achartengine.model.SeriesSelection;
@@ -120,6 +121,13 @@ public class XYChartBuilder extends Activity {
         renderer.setFillPoints(true);
         mCurrentRenderer = renderer;
         setSeriesEnabled(true);
+        
+        mCurrentSeries.add(1, 2);
+        mCurrentSeries.add(2, 3);
+        mCurrentSeries.add(3, 0.5);
+        mCurrentSeries.add(4, -1);
+        mCurrentSeries.add(5, 2.5);
+        mChartView.repaint();
       }
     });
 
@@ -165,9 +173,9 @@ public class XYChartBuilder extends Activity {
     super.onResume();
     if (mChartView == null) {
       LinearLayout layout = (LinearLayout) findViewById(R.id.chart);
-      mChartView = ChartFactory.getLineChartView(this, mDataset, mRenderer);
-//      mRenderer.setClickEnabled(true);
-//      mRenderer.setSelectableBuffer(100);
+      mChartView = ChartFactory.getBarChartView(this, mDataset, mRenderer, Type.DEFAULT);
+      mRenderer.setClickEnabled(true);
+      mRenderer.setSelectableBuffer(100);
       mChartView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {

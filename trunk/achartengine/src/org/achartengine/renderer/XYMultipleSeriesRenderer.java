@@ -15,6 +15,7 @@
  */
 package org.achartengine.renderer;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -101,6 +102,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * charts.
    */
   private boolean mXRoundedLabels = true;
+  /** The label format. */
+  private NumberFormat mLabelFormat;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -1189,6 +1192,24 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     */
   public void setYLabelsPadding(float padding) {
     mYLabelsPadding = padding;
+  }
+
+  /**
+   * Returns the number format for displaying labels.
+   * 
+   * @return the number format for labels
+   */
+  public NumberFormat getLabelFormat() {
+    return mLabelFormat;
+  }
+
+  /**
+   * Sets the number format for displaying labels.
+   * 
+   * @param format the number format for labels
+   */
+  public void setLabelFormat(NumberFormat format) {
+    mLabelFormat = format;
   }
 
   public int getScalesCount() {
