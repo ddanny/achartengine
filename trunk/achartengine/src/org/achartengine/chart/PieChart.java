@@ -30,6 +30,7 @@ import android.graphics.Paint.Style;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
+import android.util.Log;
 
 /**
  * The pie chart rendering class.
@@ -119,16 +120,27 @@ public class PieChart extends RoundChart {
 
       float value = (float) mDataset.getValue(i);
       float angle = (float) (value / total * 360);
-      canvas.drawArc(oval, currentAngle, angle, true, paint);
+      if (seriesRenderer.isHighlighted()) {
+        double rAngle = Math.toRadians(90 - (currentAngle + angle / 2));
+        float translateX = (float) (radius * 0.1 * Math.sin(rAngle));
+        float translateY = (float) (radius * 0.1 * Math.cos(rAngle));
+        oval.offset(translateX, translateY);
+        canvas.drawArc(oval, currentAngle, angle, true, paint);
+        oval.offset(-translateX, -translateY);
+      } else {
+        canvas.drawArc(oval, currentAngle, angle, true, paint);
+      }
       paint.setColor(seriesRenderer.getColor());
       paint.setShader(null);
       drawLabel(canvas, mDataset.getCategory(i), mRenderer, prevLabelsBounds, mCenterX, mCenterY,
           shortRadius, longRadius, currentAngle, angle, left, right, mRenderer.getLabelsColor(),
           paint, true, false);
       if (mRenderer.isDisplayValues()) {
-        drawLabel(canvas, getLabel(mRenderer.getSeriesRendererAt(i).getChartValuesFormat(), mDataset.getValue(i)), mRenderer, prevLabelsBounds, mCenterX,
-            mCenterY, shortRadius / 2, longRadius / 2, currentAngle, angle, left, right,
-            mRenderer.getLabelsColor(), paint, false, true);
+        drawLabel(
+            canvas,
+            getLabel(mRenderer.getSeriesRendererAt(i).getChartValuesFormat(), mDataset.getValue(i)),
+            mRenderer, prevLabelsBounds, mCenterX, mCenterY, shortRadius / 2, longRadius / 2,
+            currentAngle, angle, left, right, mRenderer.getLabelsColor(), paint, false, true);
       }
 
       // Save details for getSeries functionality
