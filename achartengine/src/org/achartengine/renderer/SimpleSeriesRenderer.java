@@ -53,6 +53,8 @@ public class SimpleSeriesRenderer implements Serializable {
   private boolean mShowLegendItem = true;
   /** The chart values format. */
   private NumberFormat mChartValuesFormat;
+  /** If this is a highlighted slice (pie chart displays slice as exploded). */
+  private boolean mHighlighted;
 
   /**
    * Returns the series color.
@@ -273,6 +275,24 @@ public class SimpleSeriesRenderer implements Serializable {
    */
   public void setShowLegendItem(boolean showLegend) {
     mShowLegendItem = showLegend;
+  }
+
+  /**
+   * Returns if the item is displayed highlighted.
+   * 
+   * @return the highlighted flag for the item for this renderer
+   */
+  public boolean isHighlighted() {
+    return mHighlighted;
+  }
+
+  /**
+   * Sets if the item for this renderer should be highlighted. Pie chart is supported for now.
+   * 
+   * @param highlighted the highlighted flag for the item for this renderer
+   */
+  public void setHighlighted(boolean highlighted) {
+    mHighlighted = highlighted;
   }
 
   /**
