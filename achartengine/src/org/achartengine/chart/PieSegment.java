@@ -49,7 +49,7 @@ public class PieSegment implements Serializable {
     double cAngle = angle % 360;
     double startAngle = mStartAngle;
     double stopAngle = mEndAngle;
-    while (startAngle > 360) {
+    while (stopAngle > 360) {
       startAngle -= 360;
       stopAngle -= 360;
     }
