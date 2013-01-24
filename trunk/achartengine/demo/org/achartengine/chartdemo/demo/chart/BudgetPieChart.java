@@ -64,6 +64,7 @@ public class BudgetPieChart extends AbstractDemoChart {
     r.setGradientEnabled(true);
     r.setGradientStart(0, Color.BLUE);
     r.setGradientStop(0, Color.GREEN);
+    r.setHighlighted(true);
     Intent intent = ChartFactory.getPieChartIntent(context,
         buildCategoryDataset("Project budget", values), renderer, "Budget");
     return intent;
