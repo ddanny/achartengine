@@ -116,8 +116,8 @@ public class LineChart extends XYChart {
     for (int i = 0; i < length; i += 2) {
       int selectableBuffer = mRenderer.getSelectableBuffer();
       ret[i / 2] = new ClickableArea(new RectF(points.get(i) - selectableBuffer, points.get(i + 1)
-          - selectableBuffer, points.get(i) + selectableBuffer, points.get(i + 1) + selectableBuffer),
-          values.get(i), values.get(i + 1));
+          - selectableBuffer, points.get(i) + selectableBuffer, points.get(i + 1)
+          + selectableBuffer), values.get(i), values.get(i + 1));
     }
     return ret;
   }
