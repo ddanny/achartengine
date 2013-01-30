@@ -91,8 +91,8 @@ public class BubbleChart extends XYChart {
     for (int i = 0; i < length; i += 2) {
       double size = series.getValue(startIndex + i / 2) * coef + MIN_BUBBLE_SIZE;
       ret[i / 2] = new ClickableArea(new RectF(points.get(i) - (float) size, points.get(i + 1)
-          - (float) size, points.get(i) + (float) size, points.get(i + 1) + (float) size), values.get(i),
-          values.get(i + 1));
+          - (float) size, points.get(i) + (float) size, points.get(i + 1) + (float) size),
+          values.get(i), values.get(i + 1));
     }
     return ret;
   }
