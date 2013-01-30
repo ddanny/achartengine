@@ -90,7 +90,6 @@ public class SensorValuesChart extends AbstractDemoChart {
     for (int i = 0; i < length; i++) {
       ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
     }
-
     setChartSettings(renderer, "Sensor temperature", "Hour", "Celsius degrees",
         x.get(0)[0].getTime(), x.get(0)[HOURS - 1].getTime(), -5, 30, Color.LTGRAY, Color.LTGRAY);
     renderer.setXLabels(10);
