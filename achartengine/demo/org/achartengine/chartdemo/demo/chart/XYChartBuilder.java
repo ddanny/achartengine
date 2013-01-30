@@ -15,12 +15,8 @@
  */
 package org.achartengine.chartdemo.demo.chart;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.BarChart.Type;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.chartdemo.demo.R;
 import org.achartengine.model.SeriesSelection;
@@ -28,17 +24,10 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
-import org.achartengine.tools.PanListener;
-import org.achartengine.tools.ZoomEvent;
-import org.achartengine.tools.ZoomListener;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -47,56 +36,56 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class XYChartBuilder extends Activity {
-  public static final String TYPE = "type";
-
+  /** The main dataset that includes all the series that go into a chart. */
   private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
-
+  /** The main renderer that includes all the renderers customizing a chart. */
   private XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
-
+  /** The most recently added series. */
   private XYSeries mCurrentSeries;
-
+  /** The most recently created renderer, customizing the current series. */
   private XYSeriesRenderer mCurrentRenderer;
-
-  private String mDateFormat;
-
+  /** Button for creating a new series of data. */
   private Button mNewSeries;
-
+  /** Button for adding entered data to the current series. */
   private Button mAdd;
-
+  /** Edit text field for entering the X value of the data to be added. */
   private EditText mX;
-
+  /** Edit text field for entering the Y value of the data to be added. */
   private EditText mY;
-
+  /** The chart view that displays the data. */
   private GraphicalView mChartView;
-
-  private int index = 0;
-
-  @Override
-  protected void onRestoreInstanceState(Bundle savedState) {
-    super.onRestoreInstanceState(savedState);
-    mDataset = (XYMultipleSeriesDataset) savedState.getSerializable("dataset");
-    mRenderer = (XYMultipleSeriesRenderer) savedState.getSerializable("renderer");
-    mCurrentSeries = (XYSeries) savedState.getSerializable("current_series");
-    mCurrentRenderer = (XYSeriesRenderer) savedState.getSerializable("current_renderer");
-    mDateFormat = savedState.getString("date_format");
-  }
 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
+    // save the current data, for instance when changing screen orientation
     outState.putSerializable("dataset", mDataset);
     outState.putSerializable("renderer", mRenderer);
     outState.putSerializable("current_series", mCurrentSeries);
     outState.putSerializable("current_renderer", mCurrentRenderer);
-    outState.putString("date_format", mDateFormat);
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Bundle savedState) {
+    super.onRestoreInstanceState(savedState);
+    // restore the current data, for instance when changing the screen orientation
+    mDataset = (XYMultipleSeriesDataset) savedState.getSerializable("dataset");
+    mRenderer = (XYMultipleSeriesRenderer) savedState.getSerializable("renderer");
+    mCurrentSeries = (XYSeries) savedState.getSerializable("current_series");
+    mCurrentRenderer = (XYSeriesRenderer) savedState.getSerializable("current_renderer");
   }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.xy_chart);
+
+    // the top part of the UI components for adding new data points
     mX = (EditText) findViewById(R.id.xValue);
     mY = (EditText) findViewById(R.id.yValue);
+    mAdd = (Button) findViewById(R.id.add);
+
+    // set some properties on the main renderer
     mRenderer.setApplyBackgroundColor(true);
     mRenderer.setBackgroundColor(Color.argb(100, 50, 50, 50));
     mRenderer.setAxisTitleTextSize(16);
@@ -105,28 +94,27 @@ public class XYChartBuilder extends Activity {
     mRenderer.setLegendTextSize(15);
     mRenderer.setMargins(new int[] { 20, 30, 15, 0 });
     mRenderer.setZoomButtonsVisible(true);
-    mRenderer.setPointSize(10);
+    mRenderer.setPointSize(5);
 
-    mAdd = (Button) findViewById(R.id.add);
+    // the button that handles the new series of data creation
     mNewSeries = (Button) findViewById(R.id.new_series);
     mNewSeries.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         String seriesTitle = "Series " + (mDataset.getSeriesCount() + 1);
+        // create a new series of data
         XYSeries series = new XYSeries(seriesTitle);
         mDataset.addSeries(series);
         mCurrentSeries = series;
+        // create a new renderer for the new series
         XYSeriesRenderer renderer = new XYSeriesRenderer();
         mRenderer.addSeriesRenderer(renderer);
+        // set some renderer properties
         renderer.setPointStyle(PointStyle.CIRCLE);
         renderer.setFillPoints(true);
+        renderer.setDisplayChartValues(true);
+        renderer.setDisplayChartValuesDistance(10);
         mCurrentRenderer = renderer;
-        setSeriesEnabled(true);
-        
-        mCurrentSeries.add(1, 2);
-        mCurrentSeries.add(2, 3);
-        mCurrentSeries.add(3, 0.5);
-        mCurrentSeries.add(4, -1);
-        mCurrentSeries.add(5, 2.5);
+        setSeriesWidgetsEnabled(true);
         mChartView.repaint();
       }
     });
@@ -138,32 +126,22 @@ public class XYChartBuilder extends Activity {
         try {
           x = Double.parseDouble(mX.getText().toString());
         } catch (NumberFormatException e) {
-          // TODO
           mX.requestFocus();
           return;
         }
         try {
           y = Double.parseDouble(mY.getText().toString());
         } catch (NumberFormatException e) {
-          // TODO
           mY.requestFocus();
           return;
         }
+        // add a new data point to the current series
         mCurrentSeries.add(x, y);
         mX.setText("");
         mY.setText("");
         mX.requestFocus();
-        if (mChartView != null) {
-          mChartView.repaint();
-        }
-        Bitmap bitmap = mChartView.toBitmap();
-        try {
-          File file = new File(Environment.getExternalStorageDirectory(), "test" + index++ + ".png");
-          FileOutputStream output = new FileOutputStream(file);
-          bitmap.compress(CompressFormat.PNG, 100, output);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+        // repaint the chart such as the newly added point to be visible
+        mChartView.repaint();
       }
     });
   }
@@ -173,78 +151,42 @@ public class XYChartBuilder extends Activity {
     super.onResume();
     if (mChartView == null) {
       LinearLayout layout = (LinearLayout) findViewById(R.id.chart);
-      mChartView = ChartFactory.getBarChartView(this, mDataset, mRenderer, Type.DEFAULT);
+      mChartView = ChartFactory.getLineChartView(this, mDataset, mRenderer);
+      // enable the chart click events
       mRenderer.setClickEnabled(true);
-      mRenderer.setSelectableBuffer(100);
+      mRenderer.setSelectableBuffer(10);
       mChartView.setOnClickListener(new View.OnClickListener() {
-        @Override
         public void onClick(View v) {
+          // handle the click event on the chart
           SeriesSelection seriesSelection = mChartView.getCurrentSeriesAndPoint();
-          double[] xy = mChartView.toRealPoint(0);
           if (seriesSelection == null) {
-            Toast.makeText(XYChartBuilder.this, "No chart element was clicked", Toast.LENGTH_SHORT)
-                .show();
+            Toast.makeText(XYChartBuilder.this, "No chart element", Toast.LENGTH_SHORT).show();
           } else {
+            // display information of the clicked point
             Toast.makeText(
                 XYChartBuilder.this,
                 "Chart element in series index " + seriesSelection.getSeriesIndex()
                     + " data point index " + seriesSelection.getPointIndex() + " was clicked"
                     + " closest point value X=" + seriesSelection.getXValue() + ", Y="
-                    + seriesSelection.getValue() + " clicked point value X=" + (float) xy[0]
-                    + ", Y=" + (float) xy[1], Toast.LENGTH_SHORT).show();
+                    + seriesSelection.getValue(), Toast.LENGTH_SHORT).show();
           }
-        }
-      });
-      mChartView.setOnLongClickListener(new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-          SeriesSelection seriesSelection = mChartView.getCurrentSeriesAndPoint();
-          if (seriesSelection == null) {
-            Toast.makeText(XYChartBuilder.this, "No chart element was long pressed",
-                Toast.LENGTH_SHORT).show();
-            return false; // no chart element was long pressed, so let something
-            // else handle the event
-          } else {
-            Toast.makeText(
-                XYChartBuilder.this,
-                "Chart element in series index " + seriesSelection.getSeriesIndex()
-                    + " data point index " + seriesSelection.getPointIndex() + " was long pressed",
-                Toast.LENGTH_SHORT).show();
-            return true; // the element was long pressed - the event has been
-            // handled
-          }
-        }
-      });
-      mChartView.addZoomListener(new ZoomListener() {
-        public void zoomApplied(ZoomEvent e) {
-          String type = "out";
-          if (e.isZoomIn()) {
-            type = "in";
-          }
-          Log.i("Zoom", "Zoom " + type + " rate " + e.getZoomRate());
-        }
-
-        public void zoomReset() {
-          Log.i("Zoom", "Reset");
-        }
-      }, true, true);
-      mChartView.addPanListener(new PanListener() {
-        public void panApplied() {
-          System.out.println("New X range=[" + mRenderer.getXAxisMin() + ", "
-              + mRenderer.getXAxisMax() + "], Y range=[" + mRenderer.getYAxisMax() + ", "
-              + mRenderer.getYAxisMax() + "]");
         }
       });
       layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT,
           LayoutParams.FILL_PARENT));
       boolean enabled = mDataset.getSeriesCount() > 0;
-      setSeriesEnabled(enabled);
+      setSeriesWidgetsEnabled(enabled);
     } else {
       mChartView.repaint();
     }
   }
 
-  private void setSeriesEnabled(boolean enabled) {
+  /**
+   * Enable or disable the add data to series widgets
+   * 
+   * @param enabled the enabled state
+   */
+  private void setSeriesWidgetsEnabled(boolean enabled) {
     mX.setEnabled(enabled);
     mY.setEnabled(enabled);
     mAdd.setEnabled(enabled);
