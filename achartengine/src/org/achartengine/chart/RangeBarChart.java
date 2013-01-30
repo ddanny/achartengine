@@ -119,9 +119,12 @@ public class RangeBarChart extends BarChart {
       }
       if (!isNullValue(series.getY(index)) && points.size() > i + 1) {
         // draw the minimum value
-        drawText(canvas, getLabel(renderer.getChartValuesFormat(), series.getY(index)), x,
-            points.get(i + 1) + renderer.getChartValuesTextSize() + renderer.getChartValuesSpacing()
-                - 3, paint, 0);
+        drawText(
+            canvas,
+            getLabel(renderer.getChartValuesFormat(), series.getY(index)),
+            x,
+            points.get(i + 1) + renderer.getChartValuesTextSize()
+                + renderer.getChartValuesSpacing() - 3, paint, 0);
       }
     }
   }
