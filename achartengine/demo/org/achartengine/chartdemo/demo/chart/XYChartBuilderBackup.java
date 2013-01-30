@@ -24,10 +24,14 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.tools.PanListener;
+import org.achartengine.tools.ZoomEvent;
+import org.achartengine.tools.ZoomListener;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -35,7 +39,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class XYChartBuilder extends Activity {
+public class XYChartBuilderBackup extends Activity {
   /** The main dataset that includes all the series that go into a chart. */
   private XYMultipleSeriesDataset mDataset = new XYMultipleSeriesDataset();
   /** The main renderer that includes all the renderers customizing a chart. */
@@ -54,6 +58,8 @@ public class XYChartBuilder extends Activity {
   private EditText mY;
   /** The chart view that displays the data. */
   private GraphicalView mChartView;
+
+  // private int index = 0;
 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
@@ -116,6 +122,18 @@ public class XYChartBuilder extends Activity {
         renderer.setDisplayChartValuesDistance(10);
         mCurrentRenderer = renderer;
         setSeriesWidgetsEnabled(true);
+
+        mCurrentSeries.add(1, 2);
+        mCurrentSeries.add(2, 3);
+        mCurrentSeries.add(3, 0.5);
+        mCurrentSeries.add(4, -1);
+        mCurrentSeries.add(5, 2.5);
+        mCurrentSeries.add(6, 3.5);
+        mCurrentSeries.add(7, 2.85);
+        mCurrentSeries.add(8, 3.25);
+        mCurrentSeries.add(9, 4.25);
+        mCurrentSeries.add(10, 3.75);
+        mRenderer.setRange(new double[] { 0.5, 10.5, -1.5, 4.75 });
         mChartView.repaint();
       }
     });
@@ -143,6 +161,15 @@ public class XYChartBuilder extends Activity {
         mX.requestFocus();
         // repaint the chart such as the newly added point to be visible
         mChartView.repaint();
+        // Bitmap bitmap = mChartView.toBitmap();
+        // try {
+        // File file = new File(Environment.getExternalStorageDirectory(),
+        // "test" + index++ + ".png");
+        // FileOutputStream output = new FileOutputStream(file);
+        // bitmap.compress(CompressFormat.PNG, 100, output);
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
       }
     });
   }
@@ -152,25 +179,53 @@ public class XYChartBuilder extends Activity {
     super.onResume();
     if (mChartView == null) {
       LinearLayout layout = (LinearLayout) findViewById(R.id.chart);
-      mChartView = ChartFactory.getLineChartView(this, mDataset, mRenderer);
+      // mChartView = ChartFactory.getLineChartView(this, mDataset, mRenderer);
+      // mChartView = ChartFactory.getBarChartView(this, mDataset, mRenderer,
+      // Type.DEFAULT);
+      mChartView = ChartFactory.getScatterChartView(this, mDataset, mRenderer);
+
       // enable the chart click events
       mRenderer.setClickEnabled(true);
-      mRenderer.setSelectableBuffer(10);
+      mRenderer.setSelectableBuffer(100);
       mChartView.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
           // handle the click event on the chart
           SeriesSelection seriesSelection = mChartView.getCurrentSeriesAndPoint();
           if (seriesSelection == null) {
-            Toast.makeText(XYChartBuilder.this, "No chart element", Toast.LENGTH_SHORT).show();
+            Toast.makeText(XYChartBuilderBackup.this, "No chart element was clicked",
+                Toast.LENGTH_SHORT).show();
           } else {
             // display information of the clicked point
+            double[] xy = mChartView.toRealPoint(0);
             Toast.makeText(
-                XYChartBuilder.this,
+                XYChartBuilderBackup.this,
                 "Chart element in series index " + seriesSelection.getSeriesIndex()
                     + " data point index " + seriesSelection.getPointIndex() + " was clicked"
                     + " closest point value X=" + seriesSelection.getXValue() + ", Y="
-                    + seriesSelection.getValue(), Toast.LENGTH_SHORT).show();
+                    + seriesSelection.getValue() + " clicked point value X=" + (float) xy[0]
+                    + ", Y=" + (float) xy[1], Toast.LENGTH_SHORT).show();
           }
+        }
+      });
+      // an example of handling the zoom events on the chart
+      mChartView.addZoomListener(new ZoomListener() {
+        public void zoomApplied(ZoomEvent e) {
+          String type = "out";
+          if (e.isZoomIn()) {
+            type = "in";
+          }
+          Log.i("Zoom", "Zoom " + type + " rate " + e.getZoomRate());
+        }
+
+        public void zoomReset() {
+          Log.i("Zoom", "Reset");
+        }
+      }, true, true);
+      // an example of handling the pan events on the chart
+      mChartView.addPanListener(new PanListener() {
+        public void panApplied() {
+          Log.i("Pan", "New X range=[" + mRenderer.getXAxisMin() + ", " + mRenderer.getXAxisMax()
+              + "], Y range=[" + mRenderer.getYAxisMax() + ", " + mRenderer.getYAxisMax() + "]");
         }
       });
       layout.addView(mChartView, new LayoutParams(LayoutParams.FILL_PARENT,
