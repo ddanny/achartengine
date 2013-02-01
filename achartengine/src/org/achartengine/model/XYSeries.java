@@ -50,8 +50,6 @@ public class XYSeries implements Serializable {
   private List<String> mAnnotations = new ArrayList<String>();
   /** A map contain a (x,y) value for each String annotation. */
   private final IndexXYMap<Double, Double> mStringXY = new IndexXYMap<Double, Double>();
-  /** A map contain a (x,y) value for each Rectangle annotation. */
-  private final IndexXYMap<Double, Double> mRecXY = new IndexXYMap<Double, Double>();
 
   /**
    * Builds a new XY series.
@@ -161,7 +159,6 @@ public class XYSeries implements Serializable {
   public synchronized void clear() {
     mXY.clear();
     mStringXY.clear();
-    mRecXY.clear();
     initRange();
   }
 
@@ -183,59 +180,6 @@ public class XYSeries implements Serializable {
    */
   public synchronized double getY(int index) {
     return mXY.getYByIndex(index);
-  }
-
-  /**
-   * Get rectangle annotations count.
-   * 
-   * @return rectangle annotations count.
-   */
-  public int getRectangleAnnotationsCount() {
-    return mRecXY.size();
-  }
-
-  /**
-   * Get rectangle X coordinate at index. Each rectangle is determined by two
-   * (x,y) coordinates, they would be index and (index+1)
-   * 
-   * @param index
-   */
-  public double getRectangleAnnotationX(int index) {
-    return mRecXY.getXByIndex(index);
-  }
-
-  /**
-   * Get rectangle Y coordinate at index. Each rectangle is determined by two
-   * (x,y) coordinates, they would be index and (index+1)
-   * 
-   * @param index
-   */
-  public double getRectangleAnnotationY(int index) {
-    return mRecXY.getYByIndex(index);
-  }
-
-  /**
-   * Remove a rectangle at index
-   * 
-   * @param index
-   */
-  public void removeRectangleAnnotationAt(int index) {
-    mRecXY.remove(index++);
-    mRecXY.remove(index);
-  }
-
-  /**
-   * Add a rectangle with the up left point in (x1,y1) and down right point at
-   * (x2,y2)
-   * 
-   * @param x1
-   * @param y1
-   * @param x2
-   * @param y2
-   */
-  public void addRectangleAnnotation(double x1, double y1, double x2, double y2) {
-    mRecXY.put(x1, y1);
-    mRecXY.put(x2, y2);
   }
 
   /**
