@@ -305,26 +305,6 @@ public abstract class XYChart extends AbstractChart {
           }
         }
 
-        // Draw rectangle annotations
-        count = series.getRectangleAnnotationsCount();
-        if (count > 0) {
-          paint.setColor(mRenderer.getLabelsColor());
-          paint.setTextSize(mRenderer.getLabelsTextSize());
-          for (int j = 0; j < count; j += 2) {
-            float xR = (float) (left + xPixelsPerUnit[scale]
-                * (series.getRectangleAnnotationX(j) - minX[scale]));
-            float yR = (float) (bottom - yPixelsPerUnit[scale]
-                * (series.getRectangleAnnotationY(j) - minY[scale]));
-
-            float xR2 = (float) (left + xPixelsPerUnit[scale]
-                * (series.getRectangleAnnotationX(j + 1) - minX[scale]));
-            float yR2 = (float) (bottom - yPixelsPerUnit[scale]
-                * (series.getRectangleAnnotationY(j + 1) - minY[scale]));
-
-            canvas.drawRect(xR, yR, xR2, yR2, paint);
-          }
-        }
-
         if (points.size() > 0) {
           drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or, startIndex);
           ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(points, values,

@@ -152,6 +152,8 @@ public class TouchHandler implements ITouchHandler {
   }
 
   private void applyZoom(float zoomRate, int axis) {
+    zoomRate = Math.max(zoomRate, 0.9f);
+    zoomRate = Math.min(zoomRate, 1.1f);
     if (zoomRate > 0.9 && zoomRate < 1.1) {
       mPinchZoom.setZoomRate(zoomRate);
       mPinchZoom.apply(axis);
