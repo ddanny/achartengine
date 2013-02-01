@@ -46,7 +46,6 @@ import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.util.Log;
 
 /**
  * The XY chart rendering class.
@@ -543,7 +542,6 @@ public abstract class XYChart extends AbstractChart {
     }
     if (seriesRenderer.isDisplayChartValues()) {
       paint.setTextAlign(seriesRenderer.getChartValuesTextAlign());
-      Log.i("chart", startIndex + "");
       drawChartValuesText(canvas, series, seriesRenderer, paint, pointsList, seriesIndex,
           startIndex);
     }
