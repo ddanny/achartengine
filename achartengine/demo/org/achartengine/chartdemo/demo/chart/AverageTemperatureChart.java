@@ -71,8 +71,7 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     values.add(new double[] { 5, 5.3, 8, 12, 17, 22, 24.2, 24, 19, 15, 9, 6 });
     values.add(new double[] { 9, 10, 11, 15, 19, 23, 26, 25, 22, 18, 13, 10 });
     int[] colors = new int[] { Color.BLUE, Color.GREEN, Color.CYAN, Color.YELLOW };
-    PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND,
-        PointStyle.TRIANGLE, PointStyle.SQUARE };
+    PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE, PointStyle.DIAMOND, PointStyle.TRIANGLE, PointStyle.SQUARE };
     XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
     int length = renderer.getSeriesRendererCount();
     for (int i = 0; i < length; i++) {
