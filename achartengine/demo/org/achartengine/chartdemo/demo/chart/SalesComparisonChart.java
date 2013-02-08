@@ -99,5 +99,4 @@ public class SalesComparisonChart extends AbstractDemoChart {
     return ChartFactory.getCubicLineChartIntent(context, buildBarDataset(titles, values), renderer,
         0.5f);
   }
-
 }
