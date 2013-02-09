@@ -279,6 +279,10 @@ public class BarChart extends XYChart {
    * @return the calculated half-distance value
    */
   protected float getHalfDiffX(List<Float> points, int length, int seriesNr) {
+    float barWidth = mRenderer.getBarWidth();
+    if (barWidth > 0) {
+      return barWidth / 2;
+    }
     int div = length;
     if (length > 2) {
       div = length - 2;
