@@ -104,6 +104,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private boolean mXRoundedLabels = true;
   /** The label format. */
   private NumberFormat mLabelFormat;
+  /** A constant value for the bar chart items width. */
+  private float mBarWidth = -1;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -737,6 +739,25 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     }
   }
 
+  /**
+   * Returns the constant bar chart item width in pixels.
+   * 
+   * @return the bar width
+   */
+  public float getBarWidth() {
+    return mBarWidth;
+  }
+  
+  /** 
+   * Sets the bar chart item constant width in pixels.
+   * 
+   * @param width width in pixels
+   */
+  public void setBarWidth(float width) {
+    mBarWidth = width;
+  }
+  
+  
   /**
    * Returns the enabled state of the pan on at least one axis.
    * 
