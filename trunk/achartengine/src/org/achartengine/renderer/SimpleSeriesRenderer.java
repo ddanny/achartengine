@@ -55,6 +55,8 @@ public class SimpleSeriesRenderer implements Serializable {
   private NumberFormat mChartValuesFormat;
   /** If this is a highlighted slice (pie chart displays slice as exploded). */
   private boolean mHighlighted;
+  /** If the bounding points to the first and last visible ones should be displayed. */
+  private boolean mDisplayBoundingPoints = true;
 
   /**
    * Returns the series color.
@@ -293,6 +295,24 @@ public class SimpleSeriesRenderer implements Serializable {
    */
   public void setHighlighted(boolean highlighted) {
     mHighlighted = highlighted;
+  }
+
+  /**
+   * Returns if the bounding points of the first and last visible ones should be displayed.
+   * 
+   * @return the bounding points display
+   */
+  public boolean isDisplayBoundingPoints() {
+    return mDisplayBoundingPoints;
+  }
+
+  /**
+   * Sets if the bounding points of the first and last visible ones should be displayed.
+   * 
+   * @param display the bounding points display
+   */
+  public void setDisplayBoundingPoints(boolean display) {
+    mDisplayBoundingPoints = display;
   }
 
   /**

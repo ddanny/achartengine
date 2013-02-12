@@ -251,7 +251,8 @@ public abstract class XYChart extends AbstractChart {
       clickableAreas.put(i, clickableArea);
 
       synchronized (series) {
-        SortedMap<Double, Double> range = series.getRange(minX[scale], maxX[scale], 1);
+        SortedMap<Double, Double> range = series.getRange(minX[scale], maxX[scale],
+            seriesRenderer.isDisplayBoundingPoints());
         int startIndex = -1;
 
         for (Entry<Double, Double> value : range.entrySet()) {
@@ -395,8 +396,12 @@ public abstract class XYChart extends AbstractChart {
         paint.setTextSize(size);
         paint.setTextAlign(Align.CENTER);
         if (or == Orientation.HORIZONTAL) {
-          drawText(canvas, mRenderer.getXTitle(), x + width / 2,
-              bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding() + size, paint, 0);
+          drawText(
+              canvas,
+              mRenderer.getXTitle(),
+              x + width / 2,
+              bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding() + size,
+              paint, 0);
           for (int i = 0; i < maxScaleNumber; i++) {
             Align axisAlign = mRenderer.getYAxisAlign(i);
             if (axisAlign == Align.LEFT) {
@@ -409,7 +414,8 @@ public abstract class XYChart extends AbstractChart {
           drawText(canvas, mRenderer.getChartTitle(), x + width / 2,
               y + mRenderer.getChartTitleTextSize(), paint, 0);
         } else if (or == Orientation.VERTICAL) {
-          drawText(canvas, mRenderer.getXTitle(), x + width / 2, y + height - size + mRenderer.getXLabelsPadding(), paint, -90);
+          drawText(canvas, mRenderer.getXTitle(), x + width / 2,
+              y + height - size + mRenderer.getXLabelsPadding(), paint, -90);
           drawText(canvas, mRenderer.getYTitle(), right + 20, y + height / 2, paint, 0);
           paint.setTextSize(mRenderer.getChartTitleTextSize());
           drawText(canvas, mRenderer.getChartTitle(), x + size, top + height / 2, paint, 0);
@@ -417,10 +423,12 @@ public abstract class XYChart extends AbstractChart {
       }
     }
     if (or == Orientation.HORIZONTAL) {
-      drawLegend(canvas, mRenderer, titles, left, right, y + (int) mRenderer.getXLabelsPadding(), width, height, legendSize, paint, false);
+      drawLegend(canvas, mRenderer, titles, left, right, y + (int) mRenderer.getXLabelsPadding(),
+          width, height, legendSize, paint, false);
     } else if (or == Orientation.VERTICAL) {
       transform(canvas, angle, true);
-      drawLegend(canvas, mRenderer, titles, left, right, y + (int) mRenderer.getXLabelsPadding(), width, height, legendSize, paint, false);
+      drawLegend(canvas, mRenderer, titles, left, right, y + (int) mRenderer.getXLabelsPadding(),
+          width, height, legendSize, paint, false);
       transform(canvas, angle, false);
     }
     if (mRenderer.isShowAxes()) {
