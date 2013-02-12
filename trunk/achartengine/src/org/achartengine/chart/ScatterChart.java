@@ -72,18 +72,22 @@ public class ScatterChart extends XYChart {
    * @param seriesIndex the index of the series currently being drawn
    * @param startIndex the start index of the rendering points
    */
+  @Override
   public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
     paint.setColor(renderer.getColor());
+    final float stroke = paint.getStrokeWidth();
     if (renderer.isFillPoints()) {
       paint.setStyle(Style.FILL);
     } else {
+      paint.setStrokeWidth(renderer.getPointStrokeWidth());
       paint.setStyle(Style.STROKE);
     }
     int length = points.size();
     switch (renderer.getPointStyle()) {
     case X:
+      paint.setStrokeWidth(renderer.getPointStrokeWidth());
       for (int i = 0; i < length; i += 2) {
         drawX(canvas, paint, points.get(i), points.get(i + 1));
       }
@@ -116,6 +120,7 @@ public class ScatterChart extends XYChart {
       }
       break;
     }
+    paint.setStrokeWidth(stroke);
   }
 
   @Override

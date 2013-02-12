@@ -152,6 +152,7 @@ public class TimeChart extends LineChart {
     return TYPE;
   }
 
+  @Override
   protected List<Double> getXLabels(double min, double max, int count) {
     final List<Double> result = new ArrayList<Double>();
     if (!mRenderer.isXRoundedLabels()) {

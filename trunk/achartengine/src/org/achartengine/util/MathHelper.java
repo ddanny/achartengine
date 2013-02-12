@@ -64,7 +64,7 @@ public class MathHelper {
    * @param start start value
    * @param end final value
    * @param approxNumLabels desired number of labels
-   * @return collection containing {start value, end value, increment}
+   * @return collection containing the label values
    */
   public static List<Double> getLabels(final double start, final double end,
       final int approxNumLabels) {
@@ -124,8 +124,9 @@ public class MathHelper {
   }
 
   /**
-   * Given a number, round up to the nearest power of ten times 1, 2, or 5. The
-   * argument must be strictly positive.
+   * Given a number, round up to the nearest power of ten times 1, 2, or 5.
+   * 
+   * @param val the number, it must be strictly positive
    */
   private static double roundUp(final double val) {
     int exponent = (int) Math.floor(Math.log10(val));
