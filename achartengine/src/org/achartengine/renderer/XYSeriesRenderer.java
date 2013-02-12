@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.achartengine.chart.PointStyle;
-import org.achartengine.renderer.XYSeriesRenderer.FillOutsideLine;
 
 import android.graphics.Color;
 
@@ -33,6 +32,8 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   private List<FillOutsideLine> mFillBelowLine = new ArrayList<FillOutsideLine>();
   /** The point style. */
   private PointStyle mPointStyle = PointStyle.POINT;
+  /** The point stroke width */
+  private float mPointStrokeWidth = 1;
   /** The chart line width. */
   private float mLineWidth = 1;
 
@@ -122,8 +123,10 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
    * Sets the fill below the line color.
    * 
    * @param color the fill below line color
+   * 
    * @deprecated Use FillOutsideLine.setColor instead
    */
+  @Deprecated
   public void setFillBelowLineColor(int color) {
     if (mFillBelowLine.size() > 0) {
       mFillBelowLine.get(0).setColor(color);
@@ -146,6 +149,24 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
    */
   public void setPointStyle(PointStyle style) {
     mPointStyle = style;
+  }
+
+  /**
+   * Returns the point stroke width in pixels.
+   * 
+   * @return the point stroke width in pixels
+   */
+  public float getPointStrokeWidth() {
+    return mPointStrokeWidth;
+  }
+
+  /**
+   * Sets the point stroke width in pixels.
+   * 
+   * @param strokeWidth the point stroke width in pixels
+   */
+  public void setPointStrokeWidth(float strokeWidth) {
+    mPointStrokeWidth = strokeWidth;
   }
 
   /**

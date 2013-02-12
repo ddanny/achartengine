@@ -747,8 +747,8 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public float getBarWidth() {
     return mBarWidth;
   }
-  
-  /** 
+
+  /**
    * Sets the bar chart item constant width in pixels.
    * 
    * @param width width in pixels
@@ -756,8 +756,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public void setBarWidth(float width) {
     mBarWidth = width;
   }
-  
-  
+
   /**
    * Returns the enabled state of the pan on at least one axis.
    * 
@@ -795,7 +794,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mPanXEnabled = enabledX;
     mPanYEnabled = enabledY;
   }
-  
+
   /**
    * Override {@link DefaultRenderer#setPanEnabled(boolean)} so it can be
    * delegated to {@link #setPanEnabled(boolean, boolean)}.
@@ -1163,7 +1162,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
 
   /**
    * Returns the X labels padding.
-   *
+   * 
    * @return X labels padding
    */
   public float getXLabelsPadding() {
@@ -1171,17 +1170,17 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-    * Sets the X labels padding
-    *
-    * @param padding the amount of padding between the axis and the label
-    */
+   * Sets the X labels padding
+   * 
+   * @param padding the amount of padding between the axis and the label
+   */
   public void setXLabelsPadding(float padding) {
     mXLabelsPadding = padding;
   }
 
   /**
    * Returns the Y labels padding.
-   *
+   * 
    * @return Y labels padding
    */
   public float getYLabelsPadding() {
@@ -1189,17 +1188,17 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-    * Sets the Y labels vertical padding
-    *
-    * @param padding the amount of vertical padding
-    */
+   * Sets the Y labels vertical padding
+   * 
+   * @param padding the amount of vertical padding
+   */
   public void setYLabelsVerticalPadding(float padding) {
     mYLabelsVerticalPadding = padding;
   }
 
   /**
    * Returns the Y labels vertical padding.
-   *
+   * 
    * @return Y labels vertical padding
    */
   public float getYLabelsVerticalPadding() {
@@ -1207,10 +1206,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-    * Sets the Y labels padding
-    *
-    * @param padding the amount of padding between the axis and the label
-    */
+   * Sets the Y labels padding
+   * 
+   * @param padding the amount of padding between the axis and the label
+   */
   public void setYLabelsPadding(float padding) {
     mYLabelsPadding = padding;
   }
@@ -1236,5 +1235,4 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   public int getScalesCount() {
     return scalesCount;
   }
-
 }

@@ -679,7 +679,7 @@ public abstract class XYChart extends AbstractChart {
   }
 
   /**
-   * The graphical representation of the labels on the X axis.
+   * The graphical representation of the labels on the Y axis.
    * 
    * @param allYLabels the Y labels values
    * @param canvas the canvas to paint to
