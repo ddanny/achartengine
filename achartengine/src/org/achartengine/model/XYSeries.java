@@ -25,6 +25,8 @@ import org.achartengine.util.IndexXYMap;
 import org.achartengine.util.MathHelper;
 import org.achartengine.util.XYEntry;
 
+import android.util.Log;
+
 /**
  * An XY series encapsulates values for XY charts like line, time, area,
  * scatter... charts.
@@ -248,32 +250,37 @@ public class XYSeries implements Serializable {
    * 
    * @param start start x value
    * @param stop stop x value
+   * @param beforeAfterPoints if the points before and after the first and last
+   *          visible ones must be displayed
    * @return a submap of x and y values
    */
   public synchronized SortedMap<Double, Double> getRange(double start, double stop,
-      int beforeAfterPoints) {
-    // we need to add one point before the start and one point after the end (if
-    // there are any)
-    // to ensure that line doesn't end before the end of the screen
+      boolean beforeAfterPoints) {
+    if (beforeAfterPoints) {
+      // we need to add one point before the start and one point after the end
+      // (if
+      // there are any)
+      // to ensure that line doesn't end before the end of the screen
 
-    // this would be simply: start = mXY.lowerKey(start) but NavigableMap is
-    // available since API 9
-    SortedMap<Double, Double> headMap = mXY.headMap(start);
-    if (!headMap.isEmpty()) {
-      start = headMap.lastKey();
-    }
+      // this would be simply: start = mXY.lowerKey(start) but NavigableMap is
+      // available since API 9
+      SortedMap<Double, Double> headMap = mXY.headMap(start);
+      if (!headMap.isEmpty()) {
+        start = headMap.lastKey();
+      }
 
-    // this would be simply: end = mXY.higherKey(end) but NavigableMap is
-    // available since API 9
-    // so we have to do this hack in order to support older versions
-    SortedMap<Double, Double> tailMap = mXY.tailMap(stop);
-    if (!tailMap.isEmpty()) {
-      Iterator<Double> tailIterator = tailMap.keySet().iterator();
-      Double next = tailIterator.next();
-      if (tailIterator.hasNext()) {
-        stop = tailIterator.next();
-      } else {
-        stop += next;
+      // this would be simply: end = mXY.higherKey(end) but NavigableMap is
+      // available since API 9
+      // so we have to do this hack in order to support older versions
+      SortedMap<Double, Double> tailMap = mXY.tailMap(stop);
+      if (!tailMap.isEmpty()) {
+        Iterator<Double> tailIterator = tailMap.keySet().iterator();
+        Double next = tailIterator.next();
+        if (tailIterator.hasNext()) {
+          stop = tailIterator.next();
+        } else {
+          stop += next;
+        }
       }
     }
     return mXY.subMap(start, stop);
