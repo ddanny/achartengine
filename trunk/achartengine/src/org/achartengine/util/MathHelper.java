@@ -68,8 +68,11 @@ public class MathHelper {
    */
   public static List<Double> getLabels(final double start, final double end,
       final int approxNumLabels) {
-    FORMAT.setMaximumFractionDigits(5);
     List<Double> labels = new ArrayList<Double>();
+    if (approxNumLabels <= 0) {
+      return labels;
+    }
+    FORMAT.setMaximumFractionDigits(5);
     double[] labelParams = computeLabels(start, end, approxNumLabels);
     // when the start > end the inc will be negative so it will still work
     int numLabels = 1 + (int) ((labelParams[1] - labelParams[0]) / labelParams[2]);
