@@ -30,7 +30,6 @@ import android.graphics.Paint.Style;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
-import android.util.Log;
 
 /**
  * The pie chart rendering class.

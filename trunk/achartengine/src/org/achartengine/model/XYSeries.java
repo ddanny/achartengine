@@ -25,8 +25,6 @@ import org.achartengine.util.IndexXYMap;
 import org.achartengine.util.MathHelper;
 import org.achartengine.util.XYEntry;
 
-import android.util.Log;
-
 /**
  * An XY series encapsulates values for XY charts like line, time, area,
  * scatter... charts.
