@@ -65,6 +65,8 @@ public class ScatterChart extends XYChart {
    * The graphical representation of a series.
    * 
    * @param canvas the canvas to paint to
+   * @param top the highest pixel to draw series.
+   * @param bottom the lowest pixel to draw series.
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
    * @param seriesRenderer the series renderer
@@ -73,7 +75,7 @@ public class ScatterChart extends XYChart {
    * @param startIndex the start index of the rendering points
    */
   @Override
-  public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
+  public void drawSeries(Canvas canvas, int top, int bottom, Paint paint, List<Float> points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
     paint.setColor(renderer.getColor());
