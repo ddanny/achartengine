@@ -514,11 +514,11 @@ public abstract class XYChart extends AbstractChart {
           effect, paint);
     }
     // float[] points = MathHelper.getFloats(pointsList);
-    drawSeries(canvas, mScreenR.top, mScreenR.bottom, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex, startIndex);
+    drawSeries(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex, startIndex);
     if (isRenderPoints(seriesRenderer)) {
       ScatterChart pointsChart = getPointsChart();
       if (pointsChart != null) {
-        pointsChart.drawSeries(canvas, mScreenR.top, mScreenR.bottom, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex,
+        pointsChart.drawSeries(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex,
             startIndex);
       }
     }
@@ -890,8 +890,6 @@ public abstract class XYChart extends AbstractChart {
    * The graphical representation of a series.
    * 
    * @param canvas the canvas to paint to
-   * @param top the highest pixel to draw series.
-   * @param bottom the lowest pixel to draw series.
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
    * @param seriesRenderer the series renderer
@@ -899,7 +897,7 @@ public abstract class XYChart extends AbstractChart {
    * @param seriesIndex the index of the series currently being drawn
    * @param startIndex the start index of the rendering points
    */
-  public abstract void drawSeries(Canvas canvas, int top, int bottom, Paint paint, List<Float> points,
+  public abstract void drawSeries(Canvas canvas, Paint paint, List<Float> points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex);
 
   /**

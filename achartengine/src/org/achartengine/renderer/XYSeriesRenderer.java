@@ -40,74 +40,14 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   public enum FillOutsideLine {
     NONE, BOUNDS_ALL, BOUNDS_BELOW, BOUNDS_ABOVE, BELOW, ABOVE;
 
-    /** If the outside of the line should be filled with a gradient or not. */
-    private boolean mGradient = false;
-    /**
-     * If gradient is false is the solid color to fill the outside of the line.
-     * Otherwise It's the top color of the gradient to fill the outside of the
-     * line.
-     */
     private int mColor = Color.argb(125, 0, 0, 200);
-    /** The bottom color of the gradient to fill the outside of the line. */
-    private int mColor2 = Color.argb(255, 0, 0, 255);
 
-    /**
-     * Returns if the chart should be filled with a gradient
-     * 
-     * @return if the outside of the line should be filled with a gradient or
-     *         not
-     */
-    public boolean isGradient() {
-      return mGradient;
-    }
-
-    /**
-     * Sets if the line chart should be filled outside its line with a gradient.
-     * 
-     * @param if the outside of the line should be filled with a gradient or not
-     */
-    public void setGradient(boolean gradient) {
-      mGradient = gradient;
-    }
-
-    /**
-     * If {@link #isFillOutsideLineGradient()} is false it's the solid color to
-     * fill the outside of the line. Otherwise it's the top color of the
-     * gradient to fill the outside of the line.
-     * 
-     * @return the color
-     */
     public int getColor() {
       return mColor;
     }
 
-    /**
-     * If {@link #isFillOutsideLineGradient()} is false it sets the solid color
-     * to fill the outside of the line. Otherwise it sets the top color of the
-     * gradient to fill the outside of the line.
-     * 
-     * @param color the fill below line color
-     */
     public void setColor(int color) {
       mColor = color;
-    }
-
-    /**
-     * The bottom color of the gradient to fill the outside of the line.
-     * 
-     * @return the color
-     */
-    public int getColor2() {
-      return mColor2;
-    }
-
-    /**
-     * It sets the bottom color of the gradient to fill the outside of the line.
-     * 
-     * @param color the fill below line color
-     */
-    public void setColor2(int color) {
-      mColor2 = color;
     }
   }
 

@@ -62,7 +62,7 @@ public class RangeBarChart extends BarChart {
    * @param seriesIndex the index of the series currently being drawn
    * @param startIndex the start index of the rendering points
    */
-  public void drawSeries(Canvas canvas, int top, int bottom, Paint paint, List<Float> points,
+  public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
       SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     int seriesNr = mDataset.getSeriesCount();
     int length = points.size();
