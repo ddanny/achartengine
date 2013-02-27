@@ -295,7 +295,7 @@ public abstract class XYChart extends AbstractChart {
           paint.setColor(mRenderer.getLabelsColor());
           Rect bound = new Rect();
           for (int j = 0; j < count; j++) {
-            float xS = (float) (left + xPixelsPerUnit[scale] * series.getAnnotationX(j) - minX[scale]);
+            float xS = (float) (left + xPixelsPerUnit[scale] * (series.getAnnotationX(j) - minX[scale]));
             float yS = (float) (bottom - yPixelsPerUnit[scale]
                 * (series.getAnnotationY(j) - minY[scale]));
             paint.getTextBounds(series.getAnnotationAt(j), 0, series.getAnnotationAt(j).length(),
