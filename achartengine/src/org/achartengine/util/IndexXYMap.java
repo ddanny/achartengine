@@ -38,6 +38,12 @@ public class IndexXYMap<K, V> extends TreeMap<K, V> {
     return super.put(key, value);
   }
 
+  public V put(int index, K key, V value) {
+    indexList.add(index, key);
+    updateMaxXDifference();
+    return super.put(key, value);
+  }
+
   private void updateMaxXDifference() {
     if (indexList.size() < 2) {
       maxXDifference = 0;

@@ -140,6 +140,23 @@ public class XYSeries implements Serializable {
   }
 
   /**
+   * Adds a new value to the series.
+   * 
+   * @param index the index to be added the data to
+   * @param x the value for the X axis
+   * @param y the value for the Y axis
+   */
+  public synchronized void add(int index, double x, double y) {
+    while (mXY.get(x) != null) {
+      // add a very small value to x such as data points sharing the same x will
+      // still be added
+      x += PADDING;
+    }
+    mXY.put(index, x, y);
+    updateRange(x, y);
+  }
+
+  /**
    * Removes an existing value from the series.
    * 
    * @param index the index in the series of the value to remove
