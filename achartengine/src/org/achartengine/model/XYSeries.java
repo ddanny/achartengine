@@ -140,7 +140,7 @@ public class XYSeries implements Serializable {
   }
 
   /**
-   * Adds a new value to the series.
+   * Adds a new value to the series at the specified index.
    * 
    * @param index the index to be added the data to
    * @param x the value for the X axis
