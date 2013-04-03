@@ -133,7 +133,7 @@ public class XYSeries implements Serializable {
     while (mXY.get(x) != null) {
       // add a very small value to x such as data points sharing the same x will
       // still be added
-      x += PADDING;
+      x += getPadding();
     }
     mXY.put(x, y);
     updateRange(x, y);
@@ -150,10 +150,14 @@ public class XYSeries implements Serializable {
     while (mXY.get(x) != null) {
       // add a very small value to x such as data points sharing the same x will
       // still be added
-      x += PADDING;
+      x += getPadding();
     }
     mXY.put(index, x, y);
     updateRange(x, y);
+  }
+  
+  protected double getPadding() {
+    return PADDING;
   }
 
   /**
