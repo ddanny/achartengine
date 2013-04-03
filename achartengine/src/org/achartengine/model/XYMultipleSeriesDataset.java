@@ -29,7 +29,7 @@ public class XYMultipleSeriesDataset implements Serializable {
   /**
    * Adds a new XY series to the list.
    * 
-   * @param series the XY series to ass
+   * @param series the XY series to add
    */
   public synchronized void addSeries(XYSeries series) {
     mSeries.add(series);
@@ -39,10 +39,19 @@ public class XYMultipleSeriesDataset implements Serializable {
    * Adds a new XY series to the list.
    * 
    * @param index the index in the series list
-   * @param series the XY series to ass
+   * @param series the XY series to add
    */
   public synchronized void addSeries(int index, XYSeries series) {
     mSeries.add(index, series);
+  }
+
+  /**
+   * Adds all the provided XY series to the list.
+   * 
+   * @param series the XY series to add
+   */
+  public synchronized void addAllSeries(List<XYSeries> series) {
+    mSeries.addAll(series);
   }
 
   /**
@@ -61,6 +70,13 @@ public class XYMultipleSeriesDataset implements Serializable {
    */
   public synchronized void removeSeries(XYSeries series) {
     mSeries.remove(series);
+  }
+
+  /**
+   * Removes all the XY series from the list.
+   */
+  public synchronized void clear() {
+    mSeries.clear();
   }
 
   /**
