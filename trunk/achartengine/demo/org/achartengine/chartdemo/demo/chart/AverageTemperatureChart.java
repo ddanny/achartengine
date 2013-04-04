@@ -88,6 +88,7 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     renderer.setZoomButtonsVisible(true);
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
+    renderer.setXLabelsPadding(-30);
     
     XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);
     XYSeries series = dataset.getSeriesAt(0);
