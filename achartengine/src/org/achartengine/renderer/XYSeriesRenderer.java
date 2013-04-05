@@ -15,10 +15,12 @@
  */
 package org.achartengine.renderer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.achartengine.chart.PointStyle;
+import org.achartengine.renderer.XYSeriesRenderer.FillOutsideLine.Type;
 
 import android.graphics.Color;
 
@@ -37,8 +39,16 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   /** The chart line width. */
   private float mLineWidth = 1;
 
-  public enum FillOutsideLine {
-    NONE, BOUNDS_ALL, BOUNDS_BELOW, BOUNDS_ABOVE, BELOW, ABOVE;
+  public static class FillOutsideLine implements Serializable {
+    public enum Type {
+      NONE, BOUNDS_ALL, BOUNDS_BELOW, BOUNDS_ABOVE, BELOW, ABOVE
+    };
+    
+    private final Type type;
+    
+    public FillOutsideLine(Type type) {
+      this.type = type;
+    }
 
     private int mColor = Color.argb(125, 0, 0, 200);
 
@@ -48,6 +58,10 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
 
     public void setColor(int color) {
       mColor = color;
+    }
+
+    public Type getType() {
+      return type;
     }
   }
 
@@ -75,9 +89,9 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   public void setFillBelowLine(boolean fill) {
     mFillBelowLine.clear();
     if (fill) {
-      mFillBelowLine.add(FillOutsideLine.BOUNDS_ALL);
+      mFillBelowLine.add(new FillOutsideLine(Type.BOUNDS_ALL));
     } else {
-      mFillBelowLine.add(FillOutsideLine.NONE);
+      mFillBelowLine.add(new FillOutsideLine(Type.NONE));
     }
   }
 

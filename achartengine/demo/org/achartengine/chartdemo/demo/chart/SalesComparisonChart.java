@@ -88,7 +88,7 @@ public class SalesComparisonChart extends AbstractDemoChart {
     for (int i = 0; i < length; i++) {
       XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(i);
       if (i == length - 1) {
-        FillOutsideLine fill = FillOutsideLine.BOUNDS_ALL;
+        FillOutsideLine fill = new FillOutsideLine(FillOutsideLine.Type.BOUNDS_ALL);
         fill.setColor(Color.GREEN);
         seriesRenderer.addFillOutsideLine(fill);
       }
