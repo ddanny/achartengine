@@ -106,6 +106,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   private NumberFormat mLabelFormat;
   /** A constant value for the bar chart items width. */
   private float mBarWidth = -1;
+  /** The zoom in limit permitted in the axis X */
+  private double mZoomInLimitX = 0;
+  /** The zoom in limit permitted in the axis Y */
+  private double mZoomInLimitY = 0;
 
   /**
    * An enum for the XY chart orientation of the X axis.
@@ -1230,6 +1234,56 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    */
   public void setLabelFormat(NumberFormat format) {
     mLabelFormat = format;
+  }
+
+  /**
+   * Returns the zoom in limit permitted in the axis X.
+   *
+   * @return the maximum zoom in permitted in the axis X
+   *
+   * @see #setZoomInLimitX(double)
+   */
+  public double getZoomInLimitX() {
+    return mZoomInLimitX;
+  }
+
+  /**
+   * Sets the zoom in limit permitted in the axis X.
+   *
+   * This function prevent that the distance between {@link #getXAxisMin()} and
+   * {@link #getXAxisMax()} can't be greater or equal than
+   * {@link #getZoomInLimitX()}
+   *
+   * @param zoomInLimitX the maximum distance permitted between
+   * {@link #getXAxisMin()} and {@link #getXAxisMax()}.
+   */
+  public void setZoomInLimitX(double zoomInLimitX) {
+    this.mZoomInLimitX = zoomInLimitX;
+  }
+
+  /**
+   * Returns the zoom in limit permitted in the axis Y.
+   *
+   * @return the maximum in zoom permitted in the axis Y
+   *
+   * @see #setZoomInLimitY(double)
+   */
+  public double getZoomInLimitY() {
+    return mZoomInLimitY;
+  }
+
+  /**
+   * Sets zoom in limit permitted in the axis Y.
+   *
+   * This function prevent that the distance between {@link #getYAxisMin()} and
+   * {@link #getYAxisMax()} can't be greater or equal than
+   * {@link #getZoomInLimitY()}
+   *
+   * @param zoomInLimitY the maximum distance permitted between
+   * {@link #getYAxisMin()} and {@link #getYAxisMax()}
+   */
+  public void setZoomInLimitY(double zoomInLimitY) {
+    this.mZoomInLimitY = zoomInLimitY;
   }
 
   public int getScalesCount() {
