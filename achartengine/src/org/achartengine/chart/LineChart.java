@@ -16,6 +16,7 @@
 package org.achartengine.chart;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -89,7 +90,14 @@ public class LineChart extends XYChart {
       if (fill.getType() != FillOutsideLine.Type.NONE) {
         paint.setColor(fill.getColor());
         // TODO: find a way to do area charts without duplicating data
-        List<Float> fillPoints = new ArrayList<Float>(points);
+        List<Float> fillPoints = new ArrayList<Float>();
+        int[] range = fill.getFillRange();
+        if (range == null) {
+          fillPoints.addAll(points);
+        } else {
+          fillPoints.addAll(points.subList(range[0] * 2, range[1] * 2));
+        }
+
         final float referencePoint;
         switch (fill.getType()) {
         case BOUNDS_ALL:
@@ -111,11 +119,14 @@ public class LineChart extends XYChart {
           throw new RuntimeException(
               "You have added a new type of filling but have not implemented.");
         }
-        if (fill.getType() == FillOutsideLine.Type.BOUNDS_ABOVE || fill.getType() == FillOutsideLine.Type.BOUNDS_BELOW) {
+        if (fill.getType() == FillOutsideLine.Type.BOUNDS_ABOVE
+            || fill.getType() == FillOutsideLine.Type.BOUNDS_BELOW) {
           List<Float> boundsPoints = new ArrayList<Float>();
           boolean add = false;
-          if (fill.getType() == FillOutsideLine.Type.BOUNDS_ABOVE && fillPoints.get(1) < referencePoint
-              || fill.getType() == FillOutsideLine.Type.BOUNDS_BELOW && fillPoints.get(1) > referencePoint) {
+          if (fill.getType() == FillOutsideLine.Type.BOUNDS_ABOVE
+              && fillPoints.get(1) < referencePoint
+              || fill.getType() == FillOutsideLine.Type.BOUNDS_BELOW
+              && fillPoints.get(1) > referencePoint) {
             boundsPoints.add(fillPoints.get(0));
             boundsPoints.add(fillPoints.get(1));
             add = true;
@@ -142,8 +153,9 @@ public class LineChart extends XYChart {
                 add = true;
               }
             } else {
-              if (add || fill.getType() == FillOutsideLine.Type.BOUNDS_ABOVE && value < referencePoint
-                  || fill.getType() == FillOutsideLine.Type.BOUNDS_BELOW && value > referencePoint) {
+              if (add || fill.getType() == FillOutsideLine.Type.BOUNDS_ABOVE
+                  && value < referencePoint || fill.getType() == FillOutsideLine.Type.BOUNDS_BELOW
+                  && value > referencePoint) {
                 boundsPoints.add(fillPoints.get(i - 1));
                 boundsPoints.add(value);
               }

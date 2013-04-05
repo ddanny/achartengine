@@ -39,29 +39,75 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   /** The chart line width. */
   private float mLineWidth = 1;
 
+  /**
+   * A descriptor for the line fill behavior.
+   */
   public static class FillOutsideLine implements Serializable {
     public enum Type {
       NONE, BOUNDS_ALL, BOUNDS_BELOW, BOUNDS_ABOVE, BELOW, ABOVE
     };
-    
-    private final Type type;
-    
+
+    /** The fill type. */
+    private final Type mType;
+    /** The fill color. */
+    private int mColor = Color.argb(125, 0, 0, 200);
+    /** The fill points index range. */
+    private int[] mFillRange;
+
+    /**
+     * The line fill behavior.
+     * 
+     * @param type the fill type
+     */
     public FillOutsideLine(Type type) {
-      this.type = type;
+      this.mType = type;
     }
 
-    private int mColor = Color.argb(125, 0, 0, 200);
-
+    /**
+     * Returns the fill color.
+     * 
+     * @return the fill color
+     */
     public int getColor() {
       return mColor;
     }
 
+    /**
+     * Sets the fill color
+     * 
+     * @param color the fill color
+     */
     public void setColor(int color) {
       mColor = color;
     }
 
+    /**
+     * Returns the fill type.
+     * 
+     * @return the fill type
+     */
     public Type getType() {
-      return type;
+      return mType;
+    }
+
+    /**
+     * Returns the fill range which is the minimum and maximum data index values
+     * for the fill.
+     * 
+     * @return the fill range
+     */
+    public int[] getFillRange() {
+      return mFillRange;
+    }
+
+    /**
+     * Sets the fill range which is the minimum and maximum data index values
+     * for the fill.
+     * 
+     * @param range the fill range
+     */
+    public void setFillRange(int[] range) {
+      mFillRange = range;
     }
   }
 

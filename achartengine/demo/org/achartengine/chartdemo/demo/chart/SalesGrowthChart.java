@@ -80,11 +80,15 @@ public class SalesGrowthChart extends AbstractDemoChart {
     renderer.setYLabels(10);
     renderer.setXRoundedLabels(false);
     XYSeriesRenderer xyRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(0);
-    FillOutsideLine fill = new FillOutsideLine(FillOutsideLine.Type.BOUNDS_BELOW);
+    FillOutsideLine fill = new FillOutsideLine(FillOutsideLine.Type.BOUNDS_ABOVE);
+    fill.setColor(Color.GREEN);
+    xyRenderer.addFillOutsideLine(fill);
+    fill = new FillOutsideLine(FillOutsideLine.Type.BOUNDS_BELOW);
     fill.setColor(Color.MAGENTA);
     xyRenderer.addFillOutsideLine(fill);
     fill = new FillOutsideLine(FillOutsideLine.Type.BOUNDS_ABOVE);
-    fill.setColor(Color.GREEN);
+    fill.setColor(Color.argb(255, 0, 200, 100));
+    fill.setFillRange(new int[] {10, 19});
     xyRenderer.addFillOutsideLine(fill);
 
     return ChartFactory.getTimeChartIntent(context, buildDateDataset(titles, dates, values),
