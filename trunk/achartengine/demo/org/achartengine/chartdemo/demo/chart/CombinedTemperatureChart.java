@@ -78,7 +78,6 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
     renderer.setPointSize(5.5f);
     int length = renderer.getSeriesRendererCount();
-
     for (int i = 0; i < length; i++) {
       XYSeriesRenderer r = (XYSeriesRenderer) renderer.getSeriesRendererAt(i);
       r.setLineWidth(5);
@@ -97,18 +96,18 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
 
     XYValueSeries sunSeries = new XYValueSeries("Sunshine hours");
-    sunSeries.add(1, 35, 4.3);
-    sunSeries.add(2, 35, 4.9);
-    sunSeries.add(3, 35, 5.9);
-    sunSeries.add(4, 35, 8.8);
-    sunSeries.add(5, 35, 10.8);
-    sunSeries.add(6, 35, 11.9);
-    sunSeries.add(7, 35, 13.6);
-    sunSeries.add(8, 35, 12.8);
-    sunSeries.add(9, 35, 11.4);
-    sunSeries.add(10, 35, 9.5);
-    sunSeries.add(11, 35, 7.5);
-    sunSeries.add(12, 35, 5.5);
+    sunSeries.add(1f, 35, 4.3);
+    sunSeries.add(2f, 35, 4.9);
+    sunSeries.add(3f, 35, 5.9);
+    sunSeries.add(4f, 35, 8.8);
+    sunSeries.add(5f, 35, 10.8);
+    sunSeries.add(6f, 35, 11.9);
+    sunSeries.add(7f, 35, 13.6);
+    sunSeries.add(8f, 35, 12.8);
+    sunSeries.add(9f, 35, 11.4);
+    sunSeries.add(10f, 35, 9.5);
+    sunSeries.add(11f, 35, 7.5);
+    sunSeries.add(12f, 35, 5.5);
     XYSeriesRenderer lightRenderer = new XYSeriesRenderer();
     lightRenderer.setColor(Color.YELLOW);
 
