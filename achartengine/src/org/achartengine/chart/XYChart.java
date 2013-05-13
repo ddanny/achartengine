@@ -368,10 +368,10 @@ public abstract class XYChart extends AbstractChart {
               if (or == Orientation.HORIZONTAL) {
                 if (axisAlign == Align.LEFT) {
                   canvas.drawLine(left + getLabelLinePos(axisAlign), yLabel, left, yLabel, paint);
-                  drawText(canvas, label, left, yLabel - 2, paint, mRenderer.getYLabelsAngle());
+                  drawText(canvas, label, left, yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
                 } else {
                   canvas.drawLine(right, yLabel, right + getLabelLinePos(axisAlign), yLabel, paint);
-                  drawText(canvas, label, right, yLabel - 2, paint, mRenderer.getYLabelsAngle());
+                  drawText(canvas, label, right, yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
                 }
 
                 if (showCustomTextGrid) {
@@ -380,7 +380,7 @@ public abstract class XYChart extends AbstractChart {
                 }
               } else {
                 canvas.drawLine(right - getLabelLinePos(axisAlign), yLabel, right, yLabel, paint);
-                drawText(canvas, label, right + 10, yLabel - 2, paint, mRenderer.getYLabelsAngle());
+                drawText(canvas, label, right + 10, yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
                 if (showCustomTextGrid) {
                   paint.setColor(mRenderer.getGridColor());
                   canvas.drawLine(right, yLabel, left, yLabel, paint);
@@ -740,7 +740,7 @@ public abstract class XYChart extends AbstractChart {
             paint.setColor(mRenderer.getYLabelsColor(i));
             canvas.drawLine(right - getLabelLinePos(axisAlign), yLabel, right, yLabel, paint);
             drawText(canvas, getLabel(mRenderer.getLabelFormat(), label),
-                right + 10 + mRenderer.getYLabelsPadding(), yLabel - 2, paint,
+                right + 10 + mRenderer.getYLabelsPadding(), yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
                 mRenderer.getYLabelsAngle());
           }
           if (showGridX) {
