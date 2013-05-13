@@ -344,9 +344,9 @@ public abstract class XYChart extends AbstractChart {
         paint.setColor(mRenderer.getXLabelsColor());
         paint.setTextSize(mRenderer.getLabelsTextSize());
         paint.setTextAlign(mRenderer.getXLabelsAlign());
-        if (mRenderer.getXLabelsAlign() == Align.LEFT) {
-          xLabelsLeft += mRenderer.getLabelsTextSize() / 4;
-        }
+//        if (mRenderer.getXLabelsAlign() == Align.LEFT) {
+//          xLabelsLeft += mRenderer.getLabelsTextSize() / 4;
+//        }
       }
       drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
           bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
