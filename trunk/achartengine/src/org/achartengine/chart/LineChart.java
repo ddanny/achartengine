@@ -16,7 +16,6 @@
 package org.achartengine.chart;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.achartengine.model.XYMultipleSeriesDataset;
