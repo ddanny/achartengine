@@ -226,29 +226,29 @@ public class XYSeries implements Serializable {
   }
 
   /**
-   * Get X coordinate of the String at index
+   * Get X coordinate of the annotation at index
    * 
-   * @param index
-   * @return
+   * @param index the index in the annotations list
+   * @return the corresponding annotation X value
    */
   public double getAnnotationX(int index) {
     return mStringXY.getXByIndex(index);
   }
 
   /**
-   * Get Y coordinate of the String at index
+   * Get Y coordinate of the annotation at index
    * 
-   * @param index
-   * @return
+   * @param index the index in the annotations list
+   * @return the corresponding annotation Y value
    */
   public double getAnnotationY(int index) {
     return mStringXY.getYByIndex(index);
   }
 
   /**
-   * Get String count
+   * Get the annotations count
    * 
-   * @return
+   * @return the annotations count
    */
   public int getAnnotationCount() {
     return mAnnotations.size();

@@ -56,18 +56,18 @@ public class ProjectStatusBubbleChart extends AbstractDemoChart {
   public Intent execute(Context context) {
     XYMultipleSeriesDataset series = new XYMultipleSeriesDataset();
     XYValueSeries newTicketSeries = new XYValueSeries("New Tickets");
-    newTicketSeries.add(1, 2, 14);
-    newTicketSeries.add(2, 2, 12);
-    newTicketSeries.add(3, 2, 18);
-    newTicketSeries.add(4, 2, 5);
-    newTicketSeries.add(5, 2, 1);
+    newTicketSeries.add(1f, 2, 14);
+    newTicketSeries.add(2f, 2, 12);
+    newTicketSeries.add(3f, 2, 18);
+    newTicketSeries.add(4f, 2, 5);
+    newTicketSeries.add(5f, 2, 1);
     series.addSeries(newTicketSeries);
     XYValueSeries fixedTicketSeries = new XYValueSeries("Fixed Tickets");
-    fixedTicketSeries.add(1, 1, 7);
-    fixedTicketSeries.add(2, 1, 4);
-    fixedTicketSeries.add(3, 1, 18);
-    fixedTicketSeries.add(4, 1, 3);
-    fixedTicketSeries.add(5, 1, 1);
+    fixedTicketSeries.add(1f, 1, 7);
+    fixedTicketSeries.add(2f, 1, 4);
+    fixedTicketSeries.add(3f, 1, 18);
+    fixedTicketSeries.add(4f, 1, 3);
+    fixedTicketSeries.add(5f, 1, 1);
     series.addSeries(fixedTicketSeries);
 
     XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
