@@ -129,7 +129,7 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
    * 
    * @param fill the fill below line flag value
    * 
-   * @deprecated Use {@link #setFillOutsideLine(FillOutsideLine)} instead.
+   * @deprecated Use {@link #addFillOutsideLine(FillOutsideLine)} instead.
    */
   @Deprecated
   public void setFillBelowLine(boolean fill) {
@@ -155,7 +155,7 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
    * with FillOutsideLine.INTEGRAL the line transforms a line chart into an area
    * chart.
    * 
-   * @param the type of the filling
+   * @param fill the type of the filling
    */
   public void addFillOutsideLine(FillOutsideLine fill) {
     mFillBelowLine.add(fill);
