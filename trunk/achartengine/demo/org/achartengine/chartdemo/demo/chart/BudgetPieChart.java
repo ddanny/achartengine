@@ -59,7 +59,7 @@ public class BudgetPieChart extends AbstractDemoChart {
     renderer.setZoomEnabled(true);
     renderer.setChartTitleTextSize(20);
     renderer.setDisplayValues(true);
-    renderer.setShowLabels(false);
+    renderer.setShowLabels(true);
     SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
     r.setGradientEnabled(true);
     r.setGradientStart(0, Color.BLUE);
