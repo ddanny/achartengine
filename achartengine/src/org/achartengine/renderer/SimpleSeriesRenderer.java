@@ -27,16 +27,6 @@ import android.graphics.Paint.Align;
 public class SimpleSeriesRenderer implements Serializable {
   /** The series color. */
   private int mColor = Color.BLUE;
-  /** If the values should be displayed above the chart points. */
-  private boolean mDisplayChartValues;
-  /** The minimum distance between displaying chart values. */
-  private int mDisplayChartValuesDistance = 100;
-  /** The chart values text size. */
-  private float mChartValuesTextSize = 10;
-  /** The chart values text alignment. */
-  private Align mChartValuesTextAlign = Align.CENTER;
-  /** The chart values spacing from the data point. */
-  private float mChartValuesSpacing = 5f;
   /** The stroke style. */
   private BasicStroke mStroke;
   /** If gradient is enabled. */
@@ -51,12 +41,12 @@ public class SimpleSeriesRenderer implements Serializable {
   private int mGradientStopColor;
   /** If the legend item for this renderer is visible. */
   private boolean mShowLegendItem = true;
-  /** The chart values format. */
-  private NumberFormat mChartValuesFormat;
   /** If this is a highlighted slice (pie chart displays slice as exploded). */
   private boolean mHighlighted;
   /** If the bounding points to the first and last visible ones should be displayed. */
   private boolean mDisplayBoundingPoints = true;
+  /** The chart values format. */
+  private NumberFormat mChartValuesFormat;
 
   /**
    * Returns the series color.
@@ -74,97 +64,6 @@ public class SimpleSeriesRenderer implements Serializable {
    */
   public void setColor(int color) {
     mColor = color;
-  }
-
-  /**
-   * Returns if the chart point values should be displayed as text.
-   * 
-   * @return if the chart point values should be displayed as text
-   */
-  public boolean isDisplayChartValues() {
-    return mDisplayChartValues;
-  }
-
-  /**
-   * Sets if the chart point values should be displayed as text.
-   * 
-   * @param display if the chart point values should be displayed as text
-   */
-  public void setDisplayChartValues(boolean display) {
-    mDisplayChartValues = display;
-  }
-
-  /**
-   * Returns the chart values minimum distance.
-   * 
-   * @return the chart values minimum distance
-   */
-  public int getDisplayChartValuesDistance() {
-    return mDisplayChartValuesDistance;
-  }
-
-  /**
-   * Sets chart values minimum distance.
-   * 
-   * @param distance the chart values minimum distance
-   */
-  public void setDisplayChartValuesDistance(int distance) {
-    mDisplayChartValuesDistance = distance;
-  }
-
-  /**
-   * Returns the chart values text size.
-   * 
-   * @return the chart values text size
-   */
-  public float getChartValuesTextSize() {
-    return mChartValuesTextSize;
-  }
-
-  /**
-   * Sets the chart values text size.
-   * 
-   * @param textSize the chart values text size
-   */
-  public void setChartValuesTextSize(float textSize) {
-    mChartValuesTextSize = textSize;
-  }
-
-  /**
-   * Returns the chart values text align.
-   * 
-   * @return the chart values text align
-   */
-  public Align getChartValuesTextAlign() {
-    return mChartValuesTextAlign;
-  }
-
-  /**
-   * Sets the chart values text align.
-   * 
-   * @param align the chart values text align
-   */
-  public void setChartValuesTextAlign(Align align) {
-    mChartValuesTextAlign = align;
-  }
-
-  /**
-   * Returns the chart values spacing from the data point.
-   * 
-   * @return the chart values spacing
-   */
-  public float getChartValuesSpacing() {
-    return mChartValuesSpacing;
-  }
-
-  /**
-   * Sets the chart values spacing from the data point.
-   * 
-   * @param spacing the chart values spacing (in pixels) from the chart data
-   *          point
-   */
-  public void setChartValuesSpacing(float spacing) {
-    mChartValuesSpacing = spacing;
   }
 
   /**

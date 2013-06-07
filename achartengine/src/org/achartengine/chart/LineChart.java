@@ -79,8 +79,7 @@ public class LineChart extends XYChart {
    */
   @Override
   public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
-    XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
+      XYSeriesRenderer renderer, float yAxisValue, int seriesIndex, int startIndex) {
     float lineWidth = paint.getStrokeWidth();
     paint.setStrokeWidth(renderer.getLineWidth());
     final FillOutsideLine[] fillOutsideLine = renderer.getFillOutsideLine();
@@ -180,7 +179,7 @@ public class LineChart extends XYChart {
         drawPath(canvas, fillPoints, paint, true);
       }
     }
-    paint.setColor(seriesRenderer.getColor());
+    paint.setColor(renderer.getColor());
     paint.setStyle(Style.STROKE);
     drawPath(canvas, points, paint, false);
     paint.setStrokeWidth(lineWidth);

@@ -21,6 +21,7 @@ import java.util.List;
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.content.Context;
 import android.content.Intent;
@@ -66,8 +67,8 @@ public class SalesStackedBarChart extends AbstractDemoChart {
     XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
     setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.5,
         12.5, 0, 24000, Color.GRAY, Color.LTGRAY);
-    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
-    renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
+    ((XYSeriesRenderer) renderer.getSeriesRendererAt(0)).setDisplayChartValues(true);
+    ((XYSeriesRenderer) renderer.getSeriesRendererAt(1)).setDisplayChartValues(true);
     renderer.setXLabels(12);
     renderer.setYLabels(10);
     renderer.setXLabelsAlign(Align.LEFT);

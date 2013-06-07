@@ -74,8 +74,7 @@ public class ScatterChart extends XYChart {
    */
   @Override
   public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
-    XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
+      XYSeriesRenderer renderer, float yAxisValue, int seriesIndex, int startIndex) {
     paint.setColor(renderer.getColor());
     final float stroke = paint.getStrokeWidth();
     if (renderer.isFillPoints()) {

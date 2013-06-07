@@ -718,32 +718,6 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   }
 
   /**
-   * Sets if the chart point values should be displayed as text.
-   * 
-   * @param display if the chart point values should be displayed as text
-   * @deprecated use SimpleSeriesRenderer.setDisplayChartValues() instead
-   */
-  public void setDisplayChartValues(boolean display) {
-    SimpleSeriesRenderer[] renderers = getSeriesRenderers();
-    for (SimpleSeriesRenderer renderer : renderers) {
-      renderer.setDisplayChartValues(display);
-    }
-  }
-
-  /**
-   * Sets the chart values text size.
-   * 
-   * @param textSize the chart values text size
-   * @deprecated use SimpleSeriesRenderer.setChartValuesTextSize() instead
-   */
-  public void setChartValuesTextSize(float textSize) {
-    SimpleSeriesRenderer[] renderers = getSeriesRenderers();
-    for (SimpleSeriesRenderer renderer : renderers) {
-      renderer.setChartValuesTextSize(textSize);
-    }
-  }
-
-  /**
    * Returns the constant bar chart item width in pixels.
    * 
    * @return the bar width

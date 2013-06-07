@@ -33,6 +33,7 @@ import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
+import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.util.MathHelper;
 
 import android.graphics.Canvas;
@@ -237,7 +238,7 @@ public abstract class XYChart extends AbstractChart {
       }
 
       hasValues = true;
-      SimpleSeriesRenderer seriesRenderer = mRenderer.getSeriesRendererAt(i);
+      XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) mRenderer.getSeriesRendererAt(i);
 
       // int originalValuesLength = series.getItemCount();
       // int valuesLength = originalValuesLength;
@@ -302,6 +303,8 @@ public abstract class XYChart extends AbstractChart {
             paint.getTextBounds(series.getAnnotationAt(j), 0, series.getAnnotationAt(j).length(),
                 bound);
             if (xS < (xS + bound.width()) && yS < canvas.getHeight()) {
+              
+              
               drawString(canvas, series.getAnnotationAt(j), xS, yS, paint);
             }
           }
@@ -498,7 +501,7 @@ public abstract class XYChart extends AbstractChart {
    * @param startIndex the start index of the rendering points
    */
   protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or,
+      XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or,
       int startIndex) {
     BasicStroke stroke = seriesRenderer.getStroke();
     Cap cap = paint.getStrokeCap();
@@ -559,7 +562,7 @@ public abstract class XYChart extends AbstractChart {
    * @param seriesIndex the index of the series currently being drawn
    * @param startIndex the start index of the rendering points
    */
-  protected void drawChartValuesText(Canvas canvas, XYSeries series, SimpleSeriesRenderer renderer,
+  protected void drawChartValuesText(Canvas canvas, XYSeries series, XYSeriesRenderer renderer,
       Paint paint, List<Float> points, int seriesIndex, int startIndex) {
     if (points.size() > 1) { // there are more than one point
       // record the first point's position
@@ -901,7 +904,7 @@ public abstract class XYChart extends AbstractChart {
    * @param startIndex the start index of the rendering points
    */
   public abstract void drawSeries(Canvas canvas, Paint paint, List<Float> points,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex);
+      XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex);
 
   /**
    * Returns the clickable areas for all passed points
