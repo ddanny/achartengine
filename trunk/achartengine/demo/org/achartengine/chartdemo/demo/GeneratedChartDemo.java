@@ -31,7 +31,6 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
@@ -151,10 +150,10 @@ public class GeneratedChartDemo extends ListActivity {
     renderer.setLabelsTextSize(15);
     renderer.setLegendTextSize(15);
     renderer.setMargins(new int[] {20, 30, 15, 0});
-    SimpleSeriesRenderer r = new SimpleSeriesRenderer();
+    XYSeriesRenderer r = new XYSeriesRenderer();
     r.setColor(Color.BLUE);
     renderer.addSeriesRenderer(r);
-    r = new SimpleSeriesRenderer();
+    r = new XYSeriesRenderer();
     r.setColor(Color.GREEN);
     renderer.addSeriesRenderer(r);
     return renderer;

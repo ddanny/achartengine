@@ -67,8 +67,7 @@ public class BubbleChart extends XYChart {
    */
   @Override
   public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
-    XYSeriesRenderer renderer = (XYSeriesRenderer) seriesRenderer;
+      XYSeriesRenderer renderer, float yAxisValue, int seriesIndex, int startIndex) {
     paint.setColor(renderer.getColor());
     paint.setStyle(Style.FILL);
     int length = points.size();

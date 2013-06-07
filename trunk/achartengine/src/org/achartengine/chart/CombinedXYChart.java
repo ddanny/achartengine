@@ -22,6 +22,7 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -116,7 +117,7 @@ public class CombinedXYChart extends XYChart {
    */
   @Override
   public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
+      XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     mCharts[seriesIndex].setScreenR(getScreenR());
     mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex)
         .getScaleNumber()), 0);
@@ -132,7 +133,7 @@ public class CombinedXYChart extends XYChart {
 
   @Override
   protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
-      SimpleSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or,
+      XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or,
       int startIndex) {
     mCharts[seriesIndex].setScreenR(getScreenR());
     mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex)

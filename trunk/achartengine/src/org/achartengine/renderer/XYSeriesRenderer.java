@@ -16,6 +16,7 @@
 package org.achartengine.renderer;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import org.achartengine.chart.PointStyle;
 import org.achartengine.renderer.XYSeriesRenderer.FillOutsideLine.Type;
 
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 
 /**
  * A renderer for the XY type series.
@@ -38,6 +40,16 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   private float mPointStrokeWidth = 1;
   /** The chart line width. */
   private float mLineWidth = 1;
+  /** If the values should be displayed above the chart points. */
+  private boolean mDisplayChartValues;
+  /** The minimum distance between displaying chart values. */
+  private int mDisplayChartValuesDistance = 100;
+  /** The chart values text size. */
+  private float mChartValuesTextSize = 10;
+  /** The chart values text alignment. */
+  private Align mChartValuesTextAlign = Align.CENTER;
+  /** The chart values spacing from the data point. */
+  private float mChartValuesSpacing = 5f;
 
   /**
    * A descriptor for the line fill behavior.
@@ -246,5 +258,97 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   public void setLineWidth(float lineWidth) {
     mLineWidth = lineWidth;
   }
+
+  /**
+   * Returns if the chart point values should be displayed as text.
+   * 
+   * @return if the chart point values should be displayed as text
+   */
+  public boolean isDisplayChartValues() {
+    return mDisplayChartValues;
+  }
+
+  /**
+   * Sets if the chart point values should be displayed as text.
+   * 
+   * @param display if the chart point values should be displayed as text
+   */
+  public void setDisplayChartValues(boolean display) {
+    mDisplayChartValues = display;
+  }
+
+  /**
+   * Returns the chart values minimum distance.
+   * 
+   * @return the chart values minimum distance
+   */
+  public int getDisplayChartValuesDistance() {
+    return mDisplayChartValuesDistance;
+  }
+
+  /**
+   * Sets chart values minimum distance.
+   * 
+   * @param distance the chart values minimum distance
+   */
+  public void setDisplayChartValuesDistance(int distance) {
+    mDisplayChartValuesDistance = distance;
+  }
+
+  /**
+   * Returns the chart values text size.
+   * 
+   * @return the chart values text size
+   */
+  public float getChartValuesTextSize() {
+    return mChartValuesTextSize;
+  }
+
+  /**
+   * Sets the chart values text size.
+   * 
+   * @param textSize the chart values text size
+   */
+  public void setChartValuesTextSize(float textSize) {
+    mChartValuesTextSize = textSize;
+  }
+
+  /**
+   * Returns the chart values text align.
+   * 
+   * @return the chart values text align
+   */
+  public Align getChartValuesTextAlign() {
+    return mChartValuesTextAlign;
+  }
+
+  /**
+   * Sets the chart values text align.
+   * 
+   * @param align the chart values text align
+   */
+  public void setChartValuesTextAlign(Align align) {
+    mChartValuesTextAlign = align;
+  }
+
+  /**
+   * Returns the chart values spacing from the data point.
+   * 
+   * @return the chart values spacing
+   */
+  public float getChartValuesSpacing() {
+    return mChartValuesSpacing;
+  }
+
+  /**
+   * Sets the chart values spacing from the data point.
+   * 
+   * @param spacing the chart values spacing (in pixels) from the chart data
+   *          point
+   */
+  public void setChartValuesSpacing(float spacing) {
+    mChartValuesSpacing = spacing;
+  }
+
 
 }

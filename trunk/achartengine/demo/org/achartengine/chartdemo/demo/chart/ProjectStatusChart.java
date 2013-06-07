@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.PointStyle;
-import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.content.Context;
 import android.content.Intent;
@@ -89,7 +89,7 @@ public class ProjectStatusChart extends AbstractDemoChart {
     renderer.addYTextLabel(100, "test");
     length = renderer.getSeriesRendererCount();
     for (int i = 0; i < length; i++) {
-      SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
+      XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(i);
       seriesRenderer.setDisplayChartValues(true);
     }
     renderer.setXRoundedLabels(false);
