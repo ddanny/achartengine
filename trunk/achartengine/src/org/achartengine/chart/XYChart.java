@@ -380,7 +380,7 @@ public abstract class XYChart extends AbstractChart {
                 }
 
                 if (showCustomTextGrid) {
-                  paint.setColor(mRenderer.getGridColor());
+                  paint.setColor(mRenderer.getGridColor(i));
                   canvas.drawLine(left, yLabel, right, yLabel, paint);
                 }
               } else {
@@ -388,7 +388,7 @@ public abstract class XYChart extends AbstractChart {
                 drawText(canvas, label, right + 10, yLabel - mRenderer.getYLabelsVerticalPadding(),
                     paint, mRenderer.getYLabelsAngle());
                 if (showCustomTextGrid) {
-                  paint.setColor(mRenderer.getGridColor());
+                  paint.setColor(mRenderer.getGridColor(i));
                   canvas.drawLine(right, yLabel, left, yLabel, paint);
                 }
               }
@@ -685,7 +685,7 @@ public abstract class XYChart extends AbstractChart {
             mRenderer.getXLabelsAngle());
       }
       if (showGridY) {
-        paint.setColor(mRenderer.getGridColor());
+        paint.setColor(mRenderer.getGridColor(0));
         canvas.drawLine(xLabel, bottom, xLabel, top, paint);
       }
     }
@@ -738,7 +738,7 @@ public abstract class XYChart extends AbstractChart {
             }
           }
           if (showGridX) {
-            paint.setColor(mRenderer.getGridColor());
+            paint.setColor(mRenderer.getGridColor(i));
             canvas.drawLine(left, yLabel, right, yLabel, paint);
           }
         } else if (or == Orientation.VERTICAL) {
@@ -750,7 +750,7 @@ public abstract class XYChart extends AbstractChart {
                 yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
           }
           if (showGridX) {
-            paint.setColor(mRenderer.getGridColor());
+            paint.setColor(mRenderer.getGridColor(i));
             canvas.drawLine(right, yLabel, left, yLabel, paint);
           }
         }
@@ -786,7 +786,7 @@ public abstract class XYChart extends AbstractChart {
           drawText(canvas, mRenderer.getXTextLabel(location), xLabel,
               bottom + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
           if (showCustomTextGrid) {
-            paint.setColor(mRenderer.getGridColor());
+            paint.setColor(mRenderer.getGridColor(0));
             canvas.drawLine(xLabel, bottom, xLabel, top, paint);
           }
         }

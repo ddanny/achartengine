@@ -107,7 +107,7 @@ public class TimeChart extends LineChart {
               bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(), paint, mRenderer.getXLabelsAngle());
         }
         if (showGridY) {
-          paint.setColor(mRenderer.getGridColor());
+          paint.setColor(mRenderer.getGridColor(0));
           canvas.drawLine(xLabel, bottom, xLabel, top, paint);
         }
       }
