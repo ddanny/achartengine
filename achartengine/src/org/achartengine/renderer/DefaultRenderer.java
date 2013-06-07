@@ -450,7 +450,7 @@ public class DefaultRenderer implements Serializable {
   public int getTextTypefaceStyle() {
     return mTextTypefaceStyle;
   }
-  
+
   /**
    * Returns the text typeface.
    * 
@@ -488,7 +488,7 @@ public class DefaultRenderer implements Serializable {
     mTextTypefaceName = typefaceName;
     mTextTypefaceStyle = style;
   }
-  
+
   /**
    * Sets the text typeface.
    * 
