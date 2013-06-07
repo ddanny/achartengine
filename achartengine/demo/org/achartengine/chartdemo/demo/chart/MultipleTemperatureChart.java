@@ -94,6 +94,8 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     renderer.setYTitle("Hours", 1);
     renderer.setYAxisAlign(Align.RIGHT, 1);
     renderer.setYLabelsAlign(Align.LEFT, 1);
+    renderer.setGridColor(colors[0], 0);
+    renderer.setGridColor(colors[1], 1);
 
     XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);
     values.clear();

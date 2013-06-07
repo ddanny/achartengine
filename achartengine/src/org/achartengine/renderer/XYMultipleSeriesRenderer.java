@@ -78,7 +78,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
   /** The point size for charts displaying points. */
   private float mPointSize = 3;
   /** The grid color. */
-  private int mGridColor = Color.argb(75, 200, 200, 200);
+  private int[] mGridColors;
   /** The number of scales. */
   private int scalesCount;
   /** The X axis labels alignment. */
@@ -151,8 +151,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mMaxX = new double[scales];
     mMinY = new double[scales];
     mMaxY = new double[scales];
+    mGridColors = new int[scales];
     for (int i = 0; i < scales; i++) {
       mYLabelsColor[i] = TEXT_COLOR;
+      mGridColors[i] = Color.argb(75, 200, 200, 200);
       initAxesRangeForScale(i);
     }
   }
@@ -870,11 +872,12 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
 
   /**
    * Returns the grid color.
+   * @param scale the renderer index
    * 
    * @return the grid color
    */
-  public int getGridColor() {
-    return mGridColor;
+  public int getGridColor(int scale) {
+    return mGridColors[scale];
   }
 
   /**
@@ -883,7 +886,17 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * @param color the grid color
    */
   public void setGridColor(int color) {
-    mGridColor = color;
+    setGridColor(color, 0);
+  }
+
+  /**
+   * Sets the color of the grid.
+   * 
+   * @param color the grid color
+   * @param scale the renderer scale
+   */
+  public void setGridColor(int color, int scale) {
+    mGridColors[scale] = color;
   }
 
   /**

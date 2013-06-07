@@ -19,7 +19,6 @@ import java.io.Serializable;
 import java.text.NumberFormat;
 
 import android.graphics.Color;
-import android.graphics.Paint.Align;
 
 /**
  * A simple series renderer.
