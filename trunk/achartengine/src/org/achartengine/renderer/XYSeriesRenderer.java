@@ -16,7 +16,6 @@
 package org.achartengine.renderer;
 
 import java.io.Serializable;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +49,12 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
   private Align mChartValuesTextAlign = Align.CENTER;
   /** The chart values spacing from the data point. */
   private float mChartValuesSpacing = 5f;
+  /** The annotations text size. */
+  private float mAnnotationsTextSize = 10;
+  /** The annotations text alignment. */
+  private Align mAnnotationsTextAlign = Align.CENTER;
+  /** The annotations color. */
+  private int mAnnotationsColor = DefaultRenderer.TEXT_COLOR;
 
   /**
    * A descriptor for the line fill behavior.
@@ -350,5 +355,58 @@ public class XYSeriesRenderer extends SimpleSeriesRenderer {
     mChartValuesSpacing = spacing;
   }
 
+  /**
+   * Returns the annotations text size.
+   * 
+   * @return the annotations text size
+   */
+  public float getAnnotationsTextSize() {
+    return mAnnotationsTextSize;
+  }
+
+  /**
+   * Sets the annotations text size.
+   * 
+   * @param textSize the annotations text size
+   */
+  public void setAnnotationsTextSize(float textSize) {
+    mAnnotationsTextSize = textSize;
+  }
+
+  /**
+   * Returns the annotations text align.
+   * 
+   * @return the annotations text align
+   */
+  public Align getAnnotationsTextAlign() {
+    return mAnnotationsTextAlign;
+  }
+
+  /**
+   * Sets the annotations text align.
+   * 
+   * @param align the chart values text align
+   */
+  public void setAnnotationsTextAlign(Align align) {
+    mAnnotationsTextAlign = align;
+  }
+
+  /**
+   * Returns the annotations color.
+   * 
+   * @return the annotations color
+   */
+  public int getAnnotationsColor() {
+    return mAnnotationsColor;
+  }
+
+  /**
+   * Sets the annotations color.
+   * 
+   * @param color the annotations color
+   */
+  public void setAnnotationsColor(int color) {
+    mAnnotationsColor = color;
+  }
 
 }

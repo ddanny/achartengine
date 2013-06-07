@@ -293,7 +293,9 @@ public abstract class XYChart extends AbstractChart {
 
         int count = series.getAnnotationCount();
         if (count > 0) {
-          paint.setColor(mRenderer.getLabelsColor());
+          paint.setColor(seriesRenderer.getAnnotationsColor());
+          paint.setTextSize(seriesRenderer.getAnnotationsTextSize());
+          paint.setTextAlign(seriesRenderer.getAnnotationsTextAlign());
           Rect bound = new Rect();
           for (int j = 0; j < count; j++) {
             float xS = (float) (left + xPixelsPerUnit[scale]
@@ -303,8 +305,6 @@ public abstract class XYChart extends AbstractChart {
             paint.getTextBounds(series.getAnnotationAt(j), 0, series.getAnnotationAt(j).length(),
                 bound);
             if (xS < (xS + bound.width()) && yS < canvas.getHeight()) {
-              
-              
               drawString(canvas, series.getAnnotationAt(j), xS, yS, paint);
             }
           }
@@ -347,9 +347,9 @@ public abstract class XYChart extends AbstractChart {
         paint.setColor(mRenderer.getXLabelsColor());
         paint.setTextSize(mRenderer.getLabelsTextSize());
         paint.setTextAlign(mRenderer.getXLabelsAlign());
-//        if (mRenderer.getXLabelsAlign() == Align.LEFT) {
-//          xLabelsLeft += mRenderer.getLabelsTextSize() / 4;
-//        }
+        // if (mRenderer.getXLabelsAlign() == Align.LEFT) {
+        // xLabelsLeft += mRenderer.getLabelsTextSize() / 4;
+        // }
       }
       drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
           bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
@@ -371,10 +371,12 @@ public abstract class XYChart extends AbstractChart {
               if (or == Orientation.HORIZONTAL) {
                 if (axisAlign == Align.LEFT) {
                   canvas.drawLine(left + getLabelLinePos(axisAlign), yLabel, left, yLabel, paint);
-                  drawText(canvas, label, left, yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
+                  drawText(canvas, label, left, yLabel - mRenderer.getYLabelsVerticalPadding(),
+                      paint, mRenderer.getYLabelsAngle());
                 } else {
                   canvas.drawLine(right, yLabel, right + getLabelLinePos(axisAlign), yLabel, paint);
-                  drawText(canvas, label, right, yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
+                  drawText(canvas, label, right, yLabel - mRenderer.getYLabelsVerticalPadding(),
+                      paint, mRenderer.getYLabelsAngle());
                 }
 
                 if (showCustomTextGrid) {
@@ -383,7 +385,8 @@ public abstract class XYChart extends AbstractChart {
                 }
               } else {
                 canvas.drawLine(right - getLabelLinePos(axisAlign), yLabel, right, yLabel, paint);
-                drawText(canvas, label, right + 10, yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
+                drawText(canvas, label, right + 10, yLabel - mRenderer.getYLabelsVerticalPadding(),
+                    paint, mRenderer.getYLabelsAngle());
                 if (showCustomTextGrid) {
                   paint.setColor(mRenderer.getGridColor());
                   canvas.drawLine(right, yLabel, left, yLabel, paint);
@@ -743,8 +746,8 @@ public abstract class XYChart extends AbstractChart {
             paint.setColor(mRenderer.getYLabelsColor(i));
             canvas.drawLine(right - getLabelLinePos(axisAlign), yLabel, right, yLabel, paint);
             drawText(canvas, getLabel(mRenderer.getLabelFormat(), label),
-                right + 10 + mRenderer.getYLabelsPadding(), yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
-                mRenderer.getYLabelsAngle());
+                right + 10 + mRenderer.getYLabelsPadding(),
+                yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
           }
           if (showGridX) {
             paint.setColor(mRenderer.getGridColor());

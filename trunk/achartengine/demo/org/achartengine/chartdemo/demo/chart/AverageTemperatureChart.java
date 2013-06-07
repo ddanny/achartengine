@@ -92,6 +92,11 @@ public class AverageTemperatureChart extends AbstractDemoChart {
     XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);
     XYSeries series = dataset.getSeriesAt(0);
     series.addAnnotation("Vacation", 6, 28);
+
+    XYSeriesRenderer r = (XYSeriesRenderer) renderer.getSeriesRendererAt(0);
+    r.setAnnotationsColor(Color.GREEN);
+    r.setAnnotationsTextSize(15);
+    r.setAnnotationsTextAlign(Align.CENTER);
     Intent intent = ChartFactory.getLineChartIntent(context, dataset, renderer,
         "Average temperature");
     return intent;
