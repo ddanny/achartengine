@@ -154,6 +154,19 @@ public class BarChart extends XYChart {
    */
   private void drawBar(Canvas canvas, float xMin, float yMin, float xMax, float yMax, int scale,
       int seriesIndex, Paint paint) {
+    // Fix negative bars issue in Android 4.2
+    float temp;
+    if (xMin > xMax) {
+      temp = xMin;
+      xMin = xMax;
+      xMax = temp;
+    }
+    if (yMin > yMax) {
+      temp = yMin;
+      yMin = yMax;
+      yMax = temp;
+    }
+
     SimpleSeriesRenderer renderer = mRenderer.getSeriesRendererAt(seriesIndex);
     if (renderer.isGradientEnabled()) {
       float minY = (float) toScreenPoint(new double[] { 0, renderer.getGradientStopValue() }, scale)[1];
