@@ -69,8 +69,10 @@ public class DefaultRenderer implements Serializable {
   private boolean mShowGridX = false;
   /** If the Y axis grid should be displayed. */
   private boolean mShowGridY = false;
-  /** If the custom text grid should be displayed. */
-  private boolean mShowCustomTextGrid = false;
+  /** If the custom text grid should be displayed on the X axis. */
+  private boolean mShowCustomTextGridX = false;
+  /** If the custom text grid should be displayed on the Y axis. */
+  private boolean mShowCustomTextGridY = false;
   /** The simple renderers that are included in this multiple series renderer. */
   private List<SimpleSeriesRenderer> mRenderers = new ArrayList<SimpleSeriesRenderer>();
   /** The antialiasing flag. */
@@ -369,6 +371,7 @@ public class DefaultRenderer implements Serializable {
     mShowGridY = showGrid;
   }
 
+
   /**
    * Sets if the grid should be visible.
    * 
@@ -380,12 +383,39 @@ public class DefaultRenderer implements Serializable {
   }
 
   /**
-   * Returns if the grid should be visible for custom X or Y labels.
+   * Returns if the X axis custom text grid should be visible.
    * 
-   * @return the visibility flag for the custom text grid
+   * @return the visibility flag for the X axis custom text grid
    */
-  public boolean isShowCustomTextGrid() {
-    return mShowCustomTextGrid;
+  public boolean isShowCustomTextGridX() {
+    return mShowCustomTextGridX;
+  }
+
+  /**
+   * Returns if the Y axis custom text grid should be visible.
+   * 
+   * @return the visibility flag for the custom text Y axis grid
+   */
+  public boolean isShowCustomTextGridY() {
+    return mShowCustomTextGridY;
+  }
+
+  /**
+   * Sets if the X axis custom text grid should be visible.
+   * 
+   * @param showGrid the visibility flag for the X axis custom text grid
+   */
+  public void setShowCustomTextGridX(boolean showGrid) {
+    mShowCustomTextGridX = showGrid;
+  }
+
+  /**
+   * Sets if the Y axis custom text grid should be visible.
+   * 
+   * @param showGrid the visibility flag for the Y axis custom text grid
+   */
+  public void setShowCustomTextGridY(boolean showGrid) {
+    mShowCustomTextGridY = showGrid;
   }
 
   /**
@@ -394,7 +424,8 @@ public class DefaultRenderer implements Serializable {
    * @param showGrid the visibility flag for the custom text grid
    */
   public void setShowCustomTextGrid(boolean showGrid) {
-    mShowCustomTextGrid = showGrid;
+    setShowCustomTextGridX(showGrid);
+    setShowCustomTextGridY(showGrid);
   }
 
   /**
