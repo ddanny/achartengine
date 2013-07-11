@@ -60,9 +60,7 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
   public Intent execute(Context context) {
     String[] titles = new String[] { "Air temperature" };
     List<double[]> x = new ArrayList<double[]>();
-    for (int i = 0; i < titles.length; i++) {
-      x.add(new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 });
-    }
+    x.add(new double[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 });
     List<double[]> values = new ArrayList<double[]>();
     values.add(new double[] { 12.3, 12.5, 13.8, 16.8, 20.4, 24.4, 26.4, 26.1, 23.6, 20.3, 17.2,
         13.9 });
@@ -98,6 +96,8 @@ public class MultipleTemperatureChart extends AbstractDemoChart {
     renderer.setGridColor(colors[1], 1);
 
     XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);
+    x.clear();
+    x.add(new double[] { -1, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 });
     values.clear();
     values.add(new double[] { 4.3, 4.9, 5.9, 8.8, 10.8, 11.9, 13.6, 12.8, 11.4, 9.5, 7.5, 5.5 });
     addXYSeries(dataset, new String[] { "Sunshine hours" }, x, values, 1);
