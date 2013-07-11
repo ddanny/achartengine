@@ -222,6 +222,12 @@ public abstract class XYChart extends AbstractChart {
       if (maxY[i] - minY[i] != 0) {
         yPixelsPerUnit[i] = (float) ((bottom - top) / (maxY[i] - minY[i]));
       }
+      // the X axis on multiple scales was wrong without this fix
+      if (i > 0) {
+        xPixelsPerUnit[i] = xPixelsPerUnit[0];
+        minX[i] = minX[0];
+        maxX[i] = maxX[0];
+      }
     }
 
     boolean hasValues = false;
