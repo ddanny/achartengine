@@ -138,6 +138,15 @@ public class GraphicalView extends View {
   }
 
   /**
+   * Returns the drawn state of the chart.
+   * 
+   * @return the drawn state of the chart
+   */
+  public boolean isChartDrawn() {
+    return mDrawn;
+  }
+
+  /**
    * Transforms the currently selected screen point to a real point.
    * 
    * @param scale the scale
@@ -211,8 +220,6 @@ public class GraphicalView extends View {
       repaint();
     }
   }
-  
-
 
   /**
    * Do a chart zoom reset / fit zoom.
