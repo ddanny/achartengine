@@ -159,6 +159,10 @@ public class GraphicalView extends View {
     }
     return null;
   }
+  
+  public AbstractChart getChart() {
+    return mChart;
+  }
 
   @Override
   protected void onDraw(Canvas canvas) {
