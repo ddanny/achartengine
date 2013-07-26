@@ -846,6 +846,14 @@ public abstract class XYChart extends AbstractChart {
     double realMaxX = mRenderer.getXAxisMax(scale);
     double realMinY = mRenderer.getYAxisMin(scale);
     double realMaxY = mRenderer.getYAxisMax(scale);
+    if (!mRenderer.isMinXSet(scale) || !mRenderer.isMaxXSet(scale) || !mRenderer.isMinXSet(scale)
+        || !mRenderer.isMaxYSet(scale)) {
+      double[] calcRange = getCalcRange(scale);
+      realMinX = calcRange[0];
+      realMaxX = calcRange[1];
+      realMinY = calcRange[2];
+      realMaxY = calcRange[3];
+    }
     if (mScreenR != null) {
       return new double[] {
           (screenX - mScreenR.left) * (realMaxX - realMinX) / mScreenR.width() + realMinX,
