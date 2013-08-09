@@ -95,16 +95,20 @@ public class TimeChart extends LineChart {
     if (length > 0) {
       boolean showLabels = mRenderer.isShowLabels();
       boolean showGridY = mRenderer.isShowGridY();
+      boolean showTickMarks = mRenderer.isShowTickMarks();
       DateFormat format = getDateFormat(xLabels.get(0), xLabels.get(length - 1));
       for (int i = 0; i < length; i++) {
         long label = Math.round(xLabels.get(i));
         float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
         if (showLabels) {
           paint.setColor(mRenderer.getXLabelsColor());
-          canvas
-              .drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
+          if (showTickMarks) {
+            canvas.drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3,
+                paint);
+          }
           drawText(canvas, format.format(new Date(label)), xLabel,
-              bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(), paint, mRenderer.getXLabelsAngle());
+              bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(),
+              paint, mRenderer.getXLabelsAngle());
         }
         if (showGridY) {
           paint.setColor(mRenderer.getGridColor(0));
@@ -198,7 +202,6 @@ public class TimeChart extends LineChart {
       count = 25;
     }
 
-    
     final double cycleMath = (max - min) / count;
     if (cycleMath <= 0) {
       return result;
