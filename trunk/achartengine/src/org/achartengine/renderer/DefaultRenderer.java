@@ -55,6 +55,8 @@ public class DefaultRenderer implements Serializable {
   private int mAxesColor = TEXT_COLOR;
   /** If the labels are visible. */
   private boolean mShowLabels = true;
+  /** If the tick marks are visible. */
+  private boolean mShowTickMarks = true;
   /** The labels color. */
   private int mLabelsColor = TEXT_COLOR;
   /** The labels text size. */
@@ -336,6 +338,24 @@ public class DefaultRenderer implements Serializable {
   }
 
   /**
+   * Returns if the tick marks should be visible.
+   * 
+   * @return
+   */
+  public boolean isShowTickMarks() {
+    return mShowTickMarks;
+  }
+
+  /**
+   * Sets if the tick marks should be visible.
+   * 
+   * @param showTickMarks the visibility flag for the tick marks
+   */
+  public void setShowTickMarks(boolean mShowTickMarks) {
+    this.mShowTickMarks = mShowTickMarks;
+  }
+
+  /**
    * Returns if the X axis grid should be visible.
    * 
    * @return the visibility flag for the X axis grid
@@ -370,7 +390,6 @@ public class DefaultRenderer implements Serializable {
   public void setShowGridY(boolean showGrid) {
     mShowGridY = showGrid;
   }
-
 
   /**
    * Sets if the grid should be visible.
