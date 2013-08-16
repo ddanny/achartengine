@@ -51,8 +51,10 @@ public class DefaultRenderer implements Serializable {
   private boolean mApplyBackgroundColor;
   /** If the axes are visible. */
   private boolean mShowAxes = true;
-  /** The axes color. */
-  private int mAxesColor = TEXT_COLOR;
+  /** The Y axis color. */
+  private int mYAxisColor = TEXT_COLOR;
+  /** The X axis color. */
+  private int mXAxisColor = TEXT_COLOR;
   /** If the labels are visible. */
   private boolean mShowLabels = true;
   /** If the tick marks are visible. */
@@ -253,7 +255,11 @@ public class DefaultRenderer implements Serializable {
    * @return the axes color
    */
   public int getAxesColor() {
-    return mAxesColor;
+    if (mXAxisColor != TEXT_COLOR) {
+      return mXAxisColor;
+    } else {
+      return mYAxisColor;
+    }
   }
 
   /**
@@ -262,7 +268,44 @@ public class DefaultRenderer implements Serializable {
    * @param color the axes color
    */
   public void setAxesColor(int color) {
-    mAxesColor = color;
+    this.setXAxisColor(color);
+    this.setYAxisColor(color);
+  }
+
+  /**
+   * Returns the color of the Y axis
+   * 
+   * @return the Y axis color
+   */
+  public int getYAxisColor() {
+    return mYAxisColor;
+  }
+
+  /**
+   * Sets the Y axis color.
+   * 
+   * @param color the Y axis color
+   */
+  public void setYAxisColor(int color) {
+    mYAxisColor = color;
+  }
+
+  /**
+   * Returns the color of the X axis
+   * 
+   * @return the X axis color
+   */
+  public int getXAxisColor() {
+    return mXAxisColor;
+  }
+
+  /**
+   * Sets the X axis color.
+   * 
+   * @param color the X axis color
+   */
+  public void setXAxisColor(int color) {
+    mXAxisColor = color;
   }
 
   /**
