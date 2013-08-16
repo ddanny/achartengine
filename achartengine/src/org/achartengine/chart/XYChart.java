@@ -454,8 +454,9 @@ public abstract class XYChart extends AbstractChart {
       transform(canvas, angle, false);
     }
     if (mRenderer.isShowAxes()) {
-      paint.setColor(mRenderer.getAxesColor());
+      paint.setColor(mRenderer.getXAxisColor());
       canvas.drawLine(left, bottom, right, bottom, paint);
+      paint.setColor(mRenderer.getYAxisColor());
       boolean rightAxis = false;
       for (int i = 0; i < maxScaleNumber && !rightAxis; i++) {
         rightAxis = mRenderer.getYAxisAlign(i) == Align.RIGHT;
