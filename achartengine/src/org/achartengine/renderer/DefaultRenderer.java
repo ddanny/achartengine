@@ -839,6 +839,9 @@ public class DefaultRenderer implements Serializable {
    * @param startAngle the start angle in degrees
    */
   public void setStartAngle(float startAngle) {
+    while (startAngle < 0) {
+      startAngle += 360;
+    }
     mStartAngle = startAngle;
   }
 
