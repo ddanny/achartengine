@@ -153,7 +153,7 @@ public class BarChart extends XYChart {
    * @param seriesIndex the current series index
    * @param paint the paint
    */
-  private void drawBar(Canvas canvas, float xMin, float yMin, float xMax, float yMax, int scale,
+  protected void drawBar(Canvas canvas, float xMin, float yMin, float xMax, float yMax, int scale,
       int seriesIndex, Paint paint) {
     // Fix negative bars issue in Android 4.2
     float temp;
@@ -214,7 +214,7 @@ public class BarChart extends XYChart {
     }
   }
 
-  private int getGradientPartialColor(int minColor, int maxColor, float fraction) {
+  protected int getGradientPartialColor(int minColor, int maxColor, float fraction) {
     int alpha = Math.round(fraction * Color.alpha(minColor) + (1 - fraction)
         * Color.alpha(maxColor));
     int r = Math.round(fraction * Color.red(minColor) + (1 - fraction) * Color.red(maxColor));
