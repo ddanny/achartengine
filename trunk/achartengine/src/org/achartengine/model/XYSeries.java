@@ -45,8 +45,6 @@ public class XYSeries implements Serializable {
   private double mMaxY = -MathHelper.NULL_VALUE;
   /** The scale number for this series. */
   private final int mScaleNumber;
-  /** A padding value that will be added when adding values with the same X. */
-  private static final double PADDING = 0.000000000001;
   /** Contains the annotations. */
   private List<String> mAnnotations = new ArrayList<String>();
   /** A map contain a (x,y) value for each String annotation. */
@@ -134,7 +132,7 @@ public class XYSeries implements Serializable {
     while (mXY.get(x) != null) {
       // add a very small value to x such as data points sharing the same x will
       // still be added
-      x += getPadding();
+      x += getPadding(x);
     }
     mXY.put(x, y);
     updateRange(x, y);
@@ -151,14 +149,14 @@ public class XYSeries implements Serializable {
     while (mXY.get(x) != null) {
       // add a very small value to x such as data points sharing the same x will
       // still be added
-      x += getPadding();
+      x += getPadding(x);
     }
     mXY.put(index, x, y);
     updateRange(x, y);
   }
 
-  protected double getPadding() {
-    return PADDING;
+  protected double getPadding(double x) {
+    return Math.ulp(x);
   }
 
   /**
