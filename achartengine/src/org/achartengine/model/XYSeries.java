@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.achartengine.util.IndexXYMap;
 import org.achartengine.util.MathHelper;
@@ -155,7 +156,7 @@ public class XYSeries implements Serializable {
     mXY.put(index, x, y);
     updateRange(x, y);
   }
-  
+
   protected double getPadding() {
     return PADDING;
   }
@@ -277,8 +278,7 @@ public class XYSeries implements Serializable {
       boolean beforeAfterPoints) {
     if (beforeAfterPoints) {
       // we need to add one point before the start and one point after the end
-      // (if
-      // there are any)
+      // (if there are any)
       // to ensure that line doesn't end before the end of the screen
 
       // this would be simply: start = mXY.lowerKey(start) but NavigableMap is
@@ -302,7 +302,11 @@ public class XYSeries implements Serializable {
         }
       }
     }
-    return mXY.subMap(start, stop);
+    if (start <= stop) {
+      return mXY.subMap(start, stop);
+    } else {
+      return new TreeMap<Double, Double>();
+    }
   }
 
   public int getIndexForKey(double key) {
