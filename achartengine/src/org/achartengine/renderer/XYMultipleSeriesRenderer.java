@@ -102,8 +102,10 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * charts.
    */
   private boolean mXRoundedLabels = true;
-  /** The label format. */
-  private NumberFormat mLabelFormat;
+  /** The X label format. */
+  private NumberFormat mXLabelFormat;
+  /** The Y label format. */
+  private NumberFormat[] mYLabelFormat;
   /** A constant value for the bar chart items width. */
   private float mBarWidth = -1;
   /** The zoom in limit permitted in the axis X */
@@ -147,6 +149,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     yLabelsAlign = new Align[scales];
     yAxisAlign = new Align[scales];
     mYLabelsColor = new int[scales];
+    mYLabelFormat = new NumberFormat[scales];
     mMinX = new double[scales];
     mMaxX = new double[scales];
     mMinY = new double[scales];
@@ -154,6 +157,7 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
     mGridColors = new int[scales];
     for (int i = 0; i < scales; i++) {
       mYLabelsColor[i] = TEXT_COLOR;
+      mYLabelFormat[i] = NumberFormat.getNumberInstance();
       mGridColors[i] = Color.argb(75, 200, 200, 200);
       initAxesRangeForScale(i);
     }
@@ -1209,18 +1213,58 @@ public class XYMultipleSeriesRenderer extends DefaultRenderer {
    * Returns the number format for displaying labels.
    * 
    * @return the number format for labels
+   * @deprecated use getXLabelFormat and getYLabelFormat instead
    */
   public NumberFormat getLabelFormat() {
-    return mLabelFormat;
+    return getXLabelFormat();
   }
 
   /**
    * Sets the number format for displaying labels.
    * 
    * @param format the number format for labels
+   * @deprecated use setXLabelFormat and setYLabelFormat instead
    */
   public void setLabelFormat(NumberFormat format) {
-    mLabelFormat = format;
+    setXLabelFormat(format);
+  }
+
+  /**
+   * Returns the number format for displaying X axis labels.
+   * 
+   * @return the number format for X axis labels
+   */
+  public NumberFormat getXLabelFormat() {
+    return mXLabelFormat;
+  }
+
+  /**
+   * Sets the number format for X axis displaying labels.
+   * 
+   * @param format the number format for X axis labels
+   */
+  public void setXLabelFormat(NumberFormat format) {
+    mXLabelFormat = format;
+  }
+
+  /**
+   * Returns the number format for Y axis displaying labels.
+   * 
+   * @param scale the renderer scale 
+   * @return the number format for Y axis labels
+   */
+  public NumberFormat getYLabelFormat(int scale) {
+    return mYLabelFormat[scale];
+  }
+
+  /**
+   * Sets the number format for Y axis displaying labels.
+   * 
+   * @param format the number format for labels
+   * @param scale the renderer scale
+   */
+  public void setYLabelFormat(NumberFormat format, int scale) {
+    mYLabelFormat[scale] = format;
   }
 
   /**
