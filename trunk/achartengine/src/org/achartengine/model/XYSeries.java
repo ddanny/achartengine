@@ -234,6 +234,9 @@ public class XYSeries implements Serializable {
    */
   public void addAnnotation(String annotation, double x, double y) {
     mAnnotations.add(annotation);
+    while (mStringXY.get(x) != null) {
+      x += getPadding(x);
+    }
     mStringXY.put(x, y);
   }
 
