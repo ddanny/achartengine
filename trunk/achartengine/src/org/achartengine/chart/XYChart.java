@@ -700,7 +700,7 @@ public abstract class XYChart extends AbstractChart {
           canvas
               .drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
         }
-        drawText(canvas, getLabel(mRenderer.getLabelFormat(), label), xLabel,
+        drawText(canvas, getLabel(mRenderer.getXLabelFormat(), label), xLabel,
             bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(), paint,
             mRenderer.getXLabelsAngle());
       }
@@ -748,7 +748,7 @@ public abstract class XYChart extends AbstractChart {
               if (showTickMarks) {
                 canvas.drawLine(left + getLabelLinePos(axisAlign), yLabel, left, yLabel, paint);
               }
-              drawText(canvas, getLabel(mRenderer.getLabelFormat(), label),
+              drawText(canvas, getLabel(mRenderer.getYLabelFormat(i), label),
                   left - mRenderer.getYLabelsPadding(),
                   yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
                   mRenderer.getYLabelsAngle());
@@ -756,7 +756,7 @@ public abstract class XYChart extends AbstractChart {
               if (showTickMarks) {
                 canvas.drawLine(right, yLabel, right + getLabelLinePos(axisAlign), yLabel, paint);
               }
-              drawText(canvas, getLabel(mRenderer.getLabelFormat(), label),
+              drawText(canvas, getLabel(mRenderer.getYLabelFormat(i), label),
                   right + mRenderer.getYLabelsPadding(),
                   yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
                   mRenderer.getYLabelsAngle());
