@@ -174,12 +174,35 @@ public class XYSeries implements Serializable {
   }
 
   /**
-   * Removes all the existing values from the series.
+   * Removes all the existing values and annotations from the series.
    */
   public synchronized void clear() {
+    clearAnnotations();
+    clearSeriesValues();
+  }
+
+  /**
+   * Removes all the existing values from the series but annotations.
+   */
+  public synchronized void clearSeriesValues() {
     mXY.clear();
-    mStringXY.clear();
     initRange();
+  }
+
+  /**
+   * Removes all the existing annotations from the series.
+   */
+  public synchronized void clearAnnotations() {
+    mStringXY.clear();
+  }
+
+  /**
+   * Returns the current values that are used for drawing the series.
+   * 
+   * @return the XY map
+   */
+  public synchronized IndexXYMap<Double, Double> getXYMap() {
+    return mXY;
   }
 
   /**
