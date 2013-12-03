@@ -78,8 +78,8 @@ public class LineChart extends XYChart {
    * @param startIndex the start index of the rendering points
    */
   @Override
-  public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
-      XYSeriesRenderer renderer, float yAxisValue, int seriesIndex, int startIndex) {
+  public void drawSeries(Canvas canvas, Paint paint, List<Float> points, XYSeriesRenderer renderer,
+      float yAxisValue, int seriesIndex, int startIndex) {
     float lineWidth = paint.getStrokeWidth();
     paint.setStrokeWidth(renderer.getLineWidth());
     final FillOutsideLine[] fillOutsideLine = renderer.getFillOutsideLine();
@@ -93,7 +93,9 @@ public class LineChart extends XYChart {
         if (range == null) {
           fillPoints.addAll(points);
         } else {
-          fillPoints.addAll(points.subList(range[0] * 2, range[1] * 2));
+          if (points.size() > range[0] * 2 && points.size() > range[1] * 2) {
+            fillPoints.addAll(points.subList(range[0] * 2, range[1] * 2));
+          }
         }
 
         final float referencePoint;
@@ -121,7 +123,8 @@ public class LineChart extends XYChart {
             || fill.getType() == FillOutsideLine.Type.BOUNDS_BELOW) {
           List<Float> boundsPoints = new ArrayList<Float>();
           boolean add = false;
-          if (fill.getType() == FillOutsideLine.Type.BOUNDS_ABOVE
+          int length = fillPoints.size();
+          if (length > 0 && fill.getType() == FillOutsideLine.Type.BOUNDS_ABOVE
               && fillPoints.get(1) < referencePoint
               || fill.getType() == FillOutsideLine.Type.BOUNDS_BELOW
               && fillPoints.get(1) > referencePoint) {
@@ -130,7 +133,7 @@ public class LineChart extends XYChart {
             add = true;
           }
 
-          for (int i = 3; i < fillPoints.size(); i += 2) {
+          for (int i = 3; i < length; i += 2) {
             float prevValue = fillPoints.get(i - 2);
             float value = fillPoints.get(i);
 
@@ -164,19 +167,21 @@ public class LineChart extends XYChart {
           fillPoints.addAll(boundsPoints);
         }
         int length = fillPoints.size();
-        fillPoints.set(0, fillPoints.get(0) + 1);
-        fillPoints.add(fillPoints.get(length - 2));
-        fillPoints.add(referencePoint);
-        fillPoints.add(fillPoints.get(0));
-        fillPoints.add(fillPoints.get(length + 1));
-        for (int i = 0; i < length + 4; i += 2) {
-          if (fillPoints.get(i + 1) < 0) {
-            fillPoints.set(i + 1, 0f);
+        if (length > 0) {
+          fillPoints.set(0, fillPoints.get(0) + 1);
+          fillPoints.add(fillPoints.get(length - 2));
+          fillPoints.add(referencePoint);
+          fillPoints.add(fillPoints.get(0));
+          fillPoints.add(fillPoints.get(length + 1));
+          for (int i = 0; i < length + 4; i += 2) {
+            if (fillPoints.get(i + 1) < 0) {
+              fillPoints.set(i + 1, 0f);
+            }
           }
-        }
 
-        paint.setStyle(Style.FILL);
-        drawPath(canvas, fillPoints, paint, true);
+          paint.setStyle(Style.FILL);
+          drawPath(canvas, fillPoints, paint, true);
+        }
       }
     }
     paint.setColor(renderer.getColor());
