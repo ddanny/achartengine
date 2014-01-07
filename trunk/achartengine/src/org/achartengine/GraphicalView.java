@@ -159,7 +159,7 @@ public class GraphicalView extends View {
     }
     return null;
   }
-  
+
   public AbstractChart getChart() {
     return mChart;
   }
@@ -247,9 +247,9 @@ public class GraphicalView extends View {
         mZoomIn.addZoomListener(listener);
         mZoomOut.addZoomListener(listener);
       }
-      if (onPinch) {
-        mTouchHandler.addZoomListener(listener);
-      }
+    }
+    if (onPinch) {
+      mTouchHandler.addZoomListener(listener);
     }
   }
 
