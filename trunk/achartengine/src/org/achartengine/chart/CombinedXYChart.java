@@ -15,6 +15,7 @@
  */
 package org.achartengine.chart;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -31,8 +32,12 @@ import android.graphics.Paint;
  * The combined XY chart rendering class.
  */
 public class CombinedXYChart extends XYChart {
+
+  private XYCombinedChartDef[] chartDefinitions;
+
   /** The embedded XY charts. */
   private XYChart[] mCharts;
+
   /** The supported charts for being combined. */
   private Class<?>[] xyChartTypes = new Class<?>[] { TimeChart.class, LineChart.class,
       CubicLineChart.class, BarChart.class, BubbleChart.class, ScatterChart.class,
@@ -43,42 +48,32 @@ public class CombinedXYChart extends XYChart {
    * 
    * @param dataset the multiple series dataset
    * @param renderer the multiple series renderer
-   * @param types the XY chart types
+   * @param chartDefinitions the XY chart definitions
    */
   public CombinedXYChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer,
-      String[] types) {
+      XYCombinedChartDef[] chartDefinitions) {
     super(dataset, renderer);
-    int length = types.length;
+    this.chartDefinitions = chartDefinitions;
+    int length = chartDefinitions.length;
     mCharts = new XYChart[length];
     for (int i = 0; i < length; i++) {
       try {
-        mCharts[i] = getXYChart(types[i]);
+        mCharts[i] = getXYChart(chartDefinitions[i].getType());
       } catch (Exception e) {
         // ignore
       }
       if (mCharts[i] == null) {
-        throw new IllegalArgumentException("Unknown chart type " + types[i]);
+        throw new IllegalArgumentException("Unknown chart type " + chartDefinitions[i].getType());
       } else {
         XYMultipleSeriesDataset newDataset = new XYMultipleSeriesDataset();
-        newDataset.addSeries(dataset.getSeriesAt(i));
         XYMultipleSeriesRenderer newRenderer = new XYMultipleSeriesRenderer();
-        // TODO: copy other parameters here
+        for (int seriesIndex : chartDefinitions[i].getSeriesIndex()) {
+          newDataset.addSeries(dataset.getSeriesAt(seriesIndex));
+          newRenderer.addSeriesRenderer(renderer.getSeriesRendererAt(seriesIndex));
+        }
         newRenderer.setBarSpacing(renderer.getBarSpacing());
         newRenderer.setPointSize(renderer.getPointSize());
-        int scale = dataset.getSeriesAt(i).getScaleNumber();
-        if (renderer.isMinXSet(scale)) {
-          newRenderer.setXAxisMin(renderer.getXAxisMin(scale));
-        }
-        if (renderer.isMaxXSet(scale)) {
-          newRenderer.setXAxisMax(renderer.getXAxisMax(scale));
-        }
-        if (renderer.isMinYSet(scale)) {
-          newRenderer.setYAxisMin(renderer.getYAxisMin(scale));
-        }
-        if (renderer.isMaxYSet(scale)) {
-          newRenderer.setYAxisMax(renderer.getYAxisMax(scale));
-        }
-        newRenderer.addSeriesRenderer(renderer.getSeriesRendererAt(i));
+
         mCharts[i].setDatasetRenderer(newDataset, newRenderer);
       }
     }
@@ -118,28 +113,30 @@ public class CombinedXYChart extends XYChart {
   @Override
   public void drawSeries(Canvas canvas, Paint paint, List<Float> points,
       XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
-    mCharts[seriesIndex].setScreenR(getScreenR());
-    mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex)
-        .getScaleNumber()), 0);
-    mCharts[seriesIndex].drawSeries(canvas, paint, points, seriesRenderer, yAxisValue, 0,
-        startIndex);
+    XYChart chart = getXYChart(seriesIndex);
+    chart.setScreenR(getScreenR());
+    chart.setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex).getScaleNumber()), 0);
+    chart.drawSeries(canvas, paint, points, seriesRenderer, yAxisValue,
+        getChartSeriesIndex(seriesIndex), startIndex);
   }
 
   @Override
   protected ClickableArea[] clickableAreasForPoints(List<Float> points, List<Double> values,
       float yAxisValue, int seriesIndex, int startIndex) {
-    return mCharts[seriesIndex].clickableAreasForPoints(points, values, yAxisValue, 0, startIndex);
+    XYChart chart = getXYChart(seriesIndex);
+    return chart.clickableAreasForPoints(points, values, yAxisValue,
+        getChartSeriesIndex(seriesIndex), startIndex);
   }
 
   @Override
   protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
       XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or,
       int startIndex) {
-    mCharts[seriesIndex].setScreenR(getScreenR());
-    mCharts[seriesIndex].setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex)
-        .getScaleNumber()), 0);
-    mCharts[seriesIndex].drawSeries(series, canvas, paint, pointsList, seriesRenderer, yAxisValue,
-        0, or, startIndex);
+    XYChart chart = getXYChart(seriesIndex);
+    chart.setScreenR(getScreenR());
+    chart.setCalcRange(getCalcRange(mDataset.getSeriesAt(seriesIndex).getScaleNumber()), 0);
+    chart.drawSeries(series, canvas, paint, pointsList, seriesRenderer, yAxisValue,
+        getChartSeriesIndex(seriesIndex), or, startIndex);
   }
 
   /**
@@ -149,7 +146,8 @@ public class CombinedXYChart extends XYChart {
    * @return the legend shape width
    */
   public int getLegendShapeWidth(int seriesIndex) {
-    return mCharts[seriesIndex].getLegendShapeWidth(0);
+    XYChart chart = getXYChart(seriesIndex);
+    return chart.getLegendShapeWidth(getChartSeriesIndex(seriesIndex));
   }
 
   /**
@@ -164,7 +162,8 @@ public class CombinedXYChart extends XYChart {
    */
   public void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x, float y,
       int seriesIndex, Paint paint) {
-    mCharts[seriesIndex].drawLegendShape(canvas, renderer, x, y, 0, paint);
+    XYChart chart = getXYChart(seriesIndex);
+    chart.drawLegendShape(canvas, renderer, x, y, getChartSeriesIndex(seriesIndex), paint);
   }
 
   /**
@@ -174,6 +173,66 @@ public class CombinedXYChart extends XYChart {
    */
   public String getChartType() {
     return "Combined";
+  }
+
+  private XYChart getXYChart(int seriesIndex) {
+    for (int i = 0; i < chartDefinitions.length; i++) {
+      if (chartDefinitions[i].containsSeries(seriesIndex)) {
+        return mCharts[i];
+      }
+    }
+    throw new IllegalArgumentException("Unknown series with index " + seriesIndex);
+  }
+
+  private int getChartSeriesIndex(int seriesIndex) {
+    for (int i = 0; i < chartDefinitions.length; i++) {
+      if (chartDefinitions[i].containsSeries(seriesIndex)) {
+        return chartDefinitions[i].getChartSeriesIndex(seriesIndex);
+      }
+    }
+    throw new IllegalArgumentException("Unknown series with index " + seriesIndex);
+  }
+
+  /**
+   * Definition of a chart inside a combined XY chart.
+   */
+  public static class XYCombinedChartDef implements Serializable {
+    /** The chart type. */
+    private String type;
+    /** The series index. */
+    private int[] seriesIndex;
+
+    /**
+     * Constructs a chart definition.
+     * 
+     * @param type XY chart type
+     * @param seriesIndex corresponding data series indexes
+     */
+    public XYCombinedChartDef(String type, int... seriesIndex) {
+      this.type = type;
+      this.seriesIndex = seriesIndex;
+    }
+
+    public boolean containsSeries(int seriesIndex) {
+      return getChartSeriesIndex(seriesIndex) >= 0;
+    }
+
+    public int getChartSeriesIndex(int seriesIndex) {
+      for (int i = 0; i < getSeriesIndex().length; i++) {
+        if (this.seriesIndex[i] == seriesIndex) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    public String getType() {
+      return type;
+    }
+
+    public int[] getSeriesIndex() {
+      return seriesIndex;
+    }
   }
 
 }
