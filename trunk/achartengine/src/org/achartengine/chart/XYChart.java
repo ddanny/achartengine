@@ -381,14 +381,14 @@ public abstract class XYChart extends AbstractChart {
                   if (showTickMarks) {
                     canvas.drawLine(left + getLabelLinePos(axisAlign), yLabel, left, yLabel, paint);
                   }
-                  drawText(canvas, label, left, yLabel - mRenderer.getYLabelsVerticalPadding(),
+                  drawText(canvas, label, left - mRenderer.getYLabelsPadding(), yLabel - mRenderer.getYLabelsVerticalPadding(),
                       paint, mRenderer.getYLabelsAngle());
                 } else {
                   if (showTickMarks) {
                     canvas.drawLine(right, yLabel, right + getLabelLinePos(axisAlign), yLabel,
                         paint);
                   }
-                  drawText(canvas, label, right, yLabel - mRenderer.getYLabelsVerticalPadding(),
+                  drawText(canvas, label, right - mRenderer.getYLabelsPadding(), yLabel - mRenderer.getYLabelsVerticalPadding(),
                       paint, mRenderer.getYLabelsAngle());
                 }
 
@@ -816,7 +816,7 @@ public abstract class XYChart extends AbstractChart {
                 paint);
           }
           drawText(canvas, mRenderer.getXTextLabel(location), xLabel,
-              bottom + mRenderer.getLabelsTextSize() * 4 / 3, paint, mRenderer.getXLabelsAngle());
+              bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(), paint, mRenderer.getXLabelsAngle());
           if (showCustomTextGridX) {
             paint.setColor(mRenderer.getGridColor(0));
             canvas.drawLine(xLabel, bottom, xLabel, top, paint);
