@@ -21,6 +21,7 @@ import java.util.List;
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.BarChart;
 import org.achartengine.chart.BubbleChart;
+import org.achartengine.chart.CombinedXYChart.XYCombinedChartDef;
 import org.achartengine.chart.CubicLineChart;
 import org.achartengine.chart.LineChart;
 import org.achartengine.chart.PointStyle;
@@ -111,7 +112,7 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     XYSeriesRenderer lightRenderer = new XYSeriesRenderer();
     lightRenderer.setColor(Color.YELLOW);
 
-    XYSeries waterSeries = new XYSeries("Water Temperature");
+    XYSeries waterSeries = new XYSeries("Crete Water Temperature");
     waterSeries.add(1, 16);
     waterSeries.add(2, 15);
     waterSeries.add(3, 16);
@@ -124,20 +125,42 @@ public class CombinedTemperatureChart extends AbstractDemoChart {
     waterSeries.add(10, 24);
     waterSeries.add(11, 22);
     waterSeries.add(12, 18);
-    renderer.setBarSpacing(0.5);
-    XYSeriesRenderer waterRenderer = new XYSeriesRenderer();
-    waterRenderer.setColor(Color.argb(250, 0, 210, 250));
+    XYSeries waterSeries2 = new XYSeries("Skiathos Water Temperature");
+    waterSeries2.add(1, 15);
+    waterSeries2.add(2, 14);
+    waterSeries2.add(3, 14);
+    waterSeries2.add(4, 15);
+    waterSeries2.add(5, 18);
+    waterSeries2.add(6, 22);
+    waterSeries2.add(7, 24);
+    waterSeries2.add(8, 25);
+    waterSeries2.add(9, 24);
+    waterSeries2.add(10, 21);
+    waterSeries2.add(11, 18);
+    waterSeries2.add(12, 16);
+    renderer.setBarSpacing(0.3);
+    XYSeriesRenderer waterRenderer1 = new XYSeriesRenderer();
+    waterRenderer1.setColor(0xff0099cc);
+    waterRenderer1.setChartValuesTextAlign(Align.CENTER);
+    XYSeriesRenderer waterRenderer2 = new XYSeriesRenderer();
+    waterRenderer2.setColor(0xff9933cc);
+    waterRenderer2.setChartValuesTextAlign(Align.RIGHT);
 
     XYMultipleSeriesDataset dataset = buildDataset(titles, x, values);
     dataset.addSeries(0, sunSeries);
     dataset.addSeries(0, waterSeries);
+    dataset.addSeries(0, waterSeries2);
     renderer.addSeriesRenderer(0, lightRenderer);
-    renderer.addSeriesRenderer(0, waterRenderer);
-    waterRenderer.setDisplayChartValues(true);
-    waterRenderer.setChartValuesTextSize(10);
+    renderer.addSeriesRenderer(0, waterRenderer1);
+    renderer.addSeriesRenderer(0, waterRenderer2);
+    waterRenderer1.setDisplayChartValues(true);
+    waterRenderer1.setChartValuesTextSize(10);
+    waterRenderer2.setDisplayChartValues(true);
+    waterRenderer2.setChartValuesTextSize(10);
 
-    String[] types = new String[] { BarChart.TYPE, BubbleChart.TYPE, LineChart.TYPE,
-        CubicLineChart.TYPE };
+    XYCombinedChartDef[] types = new XYCombinedChartDef[] {
+        new XYCombinedChartDef(BarChart.TYPE, 0, 1), new XYCombinedChartDef(BubbleChart.TYPE, 2),
+        new XYCombinedChartDef(LineChart.TYPE, 3), new XYCombinedChartDef(CubicLineChart.TYPE, 4) };
     Intent intent = ChartFactory.getCombinedXYChartIntent(context, dataset, renderer, types,
         "Weather parameters");
     return intent;

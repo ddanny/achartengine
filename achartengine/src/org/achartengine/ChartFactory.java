@@ -19,6 +19,7 @@ import org.achartengine.chart.BarChart;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.chart.BubbleChart;
 import org.achartengine.chart.CombinedXYChart;
+import org.achartengine.chart.CombinedXYChart.XYCombinedChartDef;
 import org.achartengine.chart.CubicLineChart;
 import org.achartengine.chart.DialChart;
 import org.achartengine.chart.DoughnutChart;
@@ -196,12 +197,7 @@ public class ChartFactory {
    *           series renderers or number of chart types
    */
   public static final GraphicalView getCombinedXYChartView(Context context,
-      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, String[] types) {
-    if (dataset == null || renderer == null || types == null
-        || dataset.getSeriesCount() != types.length) {
-      throw new IllegalArgumentException(
-          "Dataset, renderer and types should be not null and the datasets series count should be equal to the types length");
-    }
+      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, XYCombinedChartDef[] types) {
     checkParameters(dataset, renderer);
     CombinedXYChart chart = new CombinedXYChart(dataset, renderer, types);
     return new GraphicalView(context, chart);
@@ -246,8 +242,8 @@ public class ChartFactory {
   }
 
   /**
-   * Creates a doughnut chart view that can be used to start the graphical
-   * view activity.
+   * Creates a doughnut chart view that can be used to start the graphical view
+   * activity.
    * 
    * @param context the context
    * @param dataset the multiple category series dataset (cannot be null)
@@ -560,13 +556,8 @@ public class ChartFactory {
    *           series renderers or number of chart types
    */
   public static final Intent getCombinedXYChartIntent(Context context,
-      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, String[] types,
+      XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, XYCombinedChartDef[] types,
       String activityTitle) {
-    if (dataset == null || renderer == null || types == null
-        || dataset.getSeriesCount() != types.length) {
-      throw new IllegalArgumentException(
-          "Datasets, renderers and types should be not null and the datasets series count should be equal to the types length");
-    }
     checkParameters(dataset, renderer);
     Intent intent = new Intent(context, GraphicalActivity.class);
     CombinedXYChart chart = new CombinedXYChart(dataset, renderer, types);
