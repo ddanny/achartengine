@@ -41,12 +41,14 @@ public class BarChart extends XYChart {
   private static final int SHAPE_WIDTH = 12;
   /** The chart type. */
   protected Type mType = Type.DEFAULT;
+  /** The previous series Y axis point limits to be used for HEAP type bar charts. */
+  private List<Float> mPreviousSeriesPoints;
 
   /**
    * The bar chart type enum.
    */
   public enum Type {
-    DEFAULT, STACKED;
+    DEFAULT, STACKED, HEAPED;
   }
 
   BarChart() {
@@ -78,7 +80,7 @@ public class BarChart extends XYChart {
     for (int i = 0; i < length; i += 2) {
       float x = points.get(i);
       float y = points.get(i + 1);
-      if (mType == Type.STACKED) {
+      if (mType == Type.STACKED || mType == Type.HEAPED) {
         ret[i / 2] = new ClickableArea(new RectF(x - halfDiffX, Math.min(y, yAxisValue), x
             + halfDiffX, Math.max(y, yAxisValue)), values.get(i), values.get(i + 1));
       } else {
@@ -112,9 +114,18 @@ public class BarChart extends XYChart {
     for (int i = 0; i < length; i += 2) {
       float x = points.get(i);
       float y = points.get(i + 1);
-      drawBar(canvas, x, yAxisValue, x, y, halfDiffX, seriesNr, seriesIndex, paint);
+
+      if (mType == Type.HEAPED && seriesIndex > 0) {
+        float lastY = mPreviousSeriesPoints.get(i + 1);
+        y = y + (lastY - yAxisValue);
+        points.set(i + 1, y);
+        drawBar(canvas, x, lastY, x, y, halfDiffX, seriesNr, seriesIndex, paint);
+      } else {
+        drawBar(canvas, x, yAxisValue, x, y, halfDiffX, seriesNr, seriesIndex, paint);
+      }
     }
     paint.setColor(seriesRenderer.getColor());
+    mPreviousSeriesPoints = points;
   }
 
   /**
@@ -133,7 +144,7 @@ public class BarChart extends XYChart {
   protected void drawBar(Canvas canvas, float xMin, float yMin, float xMax, float yMax,
       float halfDiffX, int seriesNr, int seriesIndex, Paint paint) {
     int scale = mDataset.getSeriesAt(seriesIndex).getScaleNumber();
-    if (mType == Type.STACKED) {
+    if (mType == Type.STACKED || mType == Type.HEAPED) {
       drawBar(canvas, xMin - halfDiffX, yMax, xMax + halfDiffX, yMin, scale, seriesIndex, paint);
     } else {
       float startX = xMin - seriesNr * halfDiffX + seriesIndex * 2 * halfDiffX;
@@ -307,7 +318,7 @@ public class BarChart extends XYChart {
       halfDiffX = 10;
     }
 
-    if (mType != Type.STACKED) {
+    if (mType != Type.STACKED && mType != Type.HEAPED) {
       halfDiffX /= seriesNr;
     }
     return (float) (halfDiffX / (getCoeficient() * (1 + mRenderer.getBarSpacing())));
