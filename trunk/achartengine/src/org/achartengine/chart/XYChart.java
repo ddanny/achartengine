@@ -17,6 +17,7 @@ package org.achartengine.chart;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +48,7 @@ import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.util.Log;
 
 /**
  * The XY chart rendering class.
@@ -381,15 +383,17 @@ public abstract class XYChart extends AbstractChart {
                   if (showTickMarks) {
                     canvas.drawLine(left + getLabelLinePos(axisAlign), yLabel, left, yLabel, paint);
                   }
-                  drawText(canvas, label, left - mRenderer.getYLabelsPadding(), yLabel - mRenderer.getYLabelsVerticalPadding(),
-                      paint, mRenderer.getYLabelsAngle());
+                  drawText(canvas, label, left - mRenderer.getYLabelsPadding(),
+                      yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
+                      mRenderer.getYLabelsAngle());
                 } else {
                   if (showTickMarks) {
                     canvas.drawLine(right, yLabel, right + getLabelLinePos(axisAlign), yLabel,
                         paint);
                   }
-                  drawText(canvas, label, right - mRenderer.getYLabelsPadding(), yLabel - mRenderer.getYLabelsVerticalPadding(),
-                      paint, mRenderer.getYLabelsAngle());
+                  drawText(canvas, label, right - mRenderer.getYLabelsPadding(),
+                      yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
+                      mRenderer.getYLabelsAngle());
                 }
 
                 if (showCustomTextGridY) {
@@ -538,13 +542,7 @@ public abstract class XYChart extends AbstractChart {
     }
     // float[] points = MathHelper.getFloats(pointsList);
     drawSeries(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex, startIndex);
-    if (isRenderPoints(seriesRenderer)) {
-      ScatterChart pointsChart = getPointsChart();
-      if (pointsChart != null) {
-        pointsChart.drawSeries(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex,
-            startIndex);
-      }
-    }
+    drawPoints(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex, startIndex);
     paint.setTextSize(seriesRenderer.getChartValuesTextSize());
     if (or == Orientation.HORIZONTAL) {
       paint.setTextAlign(Align.CENTER);
@@ -558,6 +556,28 @@ public abstract class XYChart extends AbstractChart {
     }
     if (stroke != null) {
       setStroke(cap, join, miter, style, pathEffect, paint);
+    }
+  }
+
+  /**
+   * Draws the series points.
+   * 
+   * @param canvas the canvas
+   * @param paint the paint object
+   * @param pointsList the points to be rendered
+   * @param seriesRenderer the series renderer
+   * @param yAxisValue the y axis value in pixels
+   * @param seriesIndex the series index
+   * @param startIndex the start index of the rendering points
+   */
+  protected void drawPoints(Canvas canvas, Paint paint, List<Float> pointsList,
+      XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
+    if (isRenderPoints(seriesRenderer)) {
+      ScatterChart pointsChart = getPointsChart();
+      if (pointsChart != null) {
+        pointsChart.drawSeries(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex,
+            startIndex);
+      }
     }
   }
 
@@ -816,7 +836,8 @@ public abstract class XYChart extends AbstractChart {
                 paint);
           }
           drawText(canvas, mRenderer.getXTextLabel(location), xLabel,
-              bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(), paint, mRenderer.getXLabelsAngle());
+              bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(),
+              paint, mRenderer.getXLabelsAngle());
           if (showCustomTextGridX) {
             paint.setColor(mRenderer.getGridColor(0));
             canvas.drawLine(xLabel, bottom, xLabel, top, paint);

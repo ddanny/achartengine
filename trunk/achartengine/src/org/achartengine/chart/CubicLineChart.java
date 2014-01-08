@@ -20,10 +20,12 @@ import java.util.List;
 import org.achartengine.model.Point;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathMeasure;
 
 /**
  * The interpolated (cubic) line chart rendering class.
@@ -32,21 +34,17 @@ public class CubicLineChart extends LineChart {
   /** The chart type. */
   public static final String TYPE = "Cubic";
 
-  private float firstMultiplier;
+  private float mFirstMultiplier;
 
-  private float secondMultiplier;
-
-  private Point p1 = new Point();
-
-  private Point p2 = new Point();
-
-  private Point p3 = new Point();
+  private float mSecondMultiplier;
+  /** A path measure for retrieving the points on the path. */
+  private PathMeasure mPathMeasure;
 
   public CubicLineChart() {
     // default is to have first control point at about 33% of the distance,
-    firstMultiplier = 0.33f;
+    mFirstMultiplier = 0.33f;
     // and the next at 66% of the distance.
-    secondMultiplier = 1 - firstMultiplier;
+    mSecondMultiplier = 1 - mFirstMultiplier;
   }
 
   /**
@@ -63,8 +61,8 @@ public class CubicLineChart extends LineChart {
   public CubicLineChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer,
       float smoothness) {
     super(dataset, renderer);
-    firstMultiplier = smoothness;
-    secondMultiplier = 1 - firstMultiplier;
+    mFirstMultiplier = smoothness;
+    mSecondMultiplier = 1 - mFirstMultiplier;
   }
 
   @Override
@@ -79,16 +77,20 @@ public class CubicLineChart extends LineChart {
       length -= 4;
     }
 
+    Point p1 = new Point();
+    Point p2 = new Point();
+    Point p3 = new Point();
     for (int i = 0; i < length; i += 2) {
       int nextIndex = i + 2 < length ? i + 2 : i;
       int nextNextIndex = i + 4 < length ? i + 4 : nextIndex;
-      calc(points, p1, i, nextIndex, secondMultiplier);
+      calc(points, p1, i, nextIndex, mSecondMultiplier);
       p2.setX(points.get(nextIndex));
       p2.setY(points.get(nextIndex + 1));
-      calc(points, p3, nextIndex, nextNextIndex, firstMultiplier);
+      calc(points, p3, nextIndex, nextNextIndex, mFirstMultiplier);
       // From last point, approaching x1/y1 and x2/y2 and ends up at x3/y3
       p.cubicTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
     }
+    mPathMeasure = new PathMeasure(p, false);
     if (circular) {
       for (int i = length; i < length + 4; i += 2) {
         p.lineTo(points.get(i), points.get(i + 1));
@@ -108,6 +110,44 @@ public class CubicLineChart extends LineChart {
     float diffY = p2y - p1y; // p2.y - p1.y;
     result.setX(p1x + (diffX * multiplier));
     result.setY(p1y + (diffY * multiplier));
+  }
+
+  /**
+   * Draws the series points.
+   * 
+   * @param canvas the canvas
+   * @param paint the paint object
+   * @param pointsList the points to be rendered
+   * @param seriesRenderer the series renderer
+   * @param yAxisValue the y axis value in pixels
+   * @param seriesIndex the series index
+   * @param startIndex the start index of the rendering points
+   */
+  protected void drawPoints(Canvas canvas, Paint paint, List<Float> pointsList,
+      XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
+    if (isRenderPoints(seriesRenderer)) {
+      ScatterChart pointsChart = getPointsChart();
+      if (pointsChart != null) {
+        int length = (int) mPathMeasure.getLength();
+        int pointsLength = pointsList.size();
+        float[] coords = new float[2];
+        for (int i = 0; i < length; i++) {
+          mPathMeasure.getPosTan(i, coords, null);
+          double prevDiff = Double.MAX_VALUE;
+          boolean ok = true;
+          for (int j = 0; j < pointsLength && ok; j += 2) {
+            double diff = Math.abs(pointsList.get(j) - coords[0]);
+            if (diff < 1) {
+              pointsList.set(j + 1, coords[1]);
+              prevDiff = diff;
+            }
+            ok = prevDiff > diff;
+          }
+        }
+        pointsChart.drawSeries(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex,
+            startIndex);
+      }
+    }
   }
 
   /**
