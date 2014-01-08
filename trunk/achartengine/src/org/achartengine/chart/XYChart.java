@@ -17,7 +17,6 @@ package org.achartengine.chart;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +47,6 @@ import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.util.Log;
 
 /**
  * The XY chart rendering class.
@@ -603,7 +601,7 @@ public abstract class XYChart extends AbstractChart {
    */
   protected void drawChartValuesText(Canvas canvas, XYSeries series, XYSeriesRenderer renderer,
       Paint paint, List<Float> points, int seriesIndex, int startIndex) {
-    if (points.size() > 1) { // there are more than one point
+    if (points.size() > 2) { // there are more than one point
       // record the first point's position
       float previousPointX = points.get(0);
       float previousPointY = points.get(1);
