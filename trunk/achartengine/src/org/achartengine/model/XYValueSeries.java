@@ -59,7 +59,7 @@ public class XYValueSeries extends XYSeries {
    */
   private void initRange() {
     mMinValue = MathHelper.NULL_VALUE;
-    mMaxValue = MathHelper.NULL_VALUE;
+    mMaxValue = -MathHelper.NULL_VALUE;
     int length = getItemCount();
     for (int k = 0; k < length; k++) {
       updateRange(getValue(k));
