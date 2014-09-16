@@ -226,7 +226,10 @@ public class LineChart extends XYChart {
    */
   public void drawLegendShape(Canvas canvas, SimpleSeriesRenderer renderer, float x, float y,
       int seriesIndex, Paint paint) {
+    float oldWidth = paint.getStrokeWidth();
+    paint.setStrokeWidth(((XYSeriesRenderer) renderer).getLineWidth());
     canvas.drawLine(x, y, x + SHAPE_WIDTH, y, paint);
+    paint.setStrokeWidth(oldWidth);
     if (isRenderPoints(renderer)) {
       pointsChart.drawLegendShape(canvas, renderer, x + 5, y, seriesIndex, paint);
     }
