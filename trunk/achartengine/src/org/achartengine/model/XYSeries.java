@@ -193,6 +193,7 @@ public class XYSeries implements Serializable {
    * Removes all the existing annotations from the series.
    */
   public synchronized void clearAnnotations() {
+    mAnnotations.clear();
     mStringXY.clear();
   }
 
