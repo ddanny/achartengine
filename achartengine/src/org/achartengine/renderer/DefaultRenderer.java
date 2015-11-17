@@ -55,8 +55,10 @@ public class DefaultRenderer implements Serializable {
   private int mYAxisColor = TEXT_COLOR;
   /** The X axis color. */
   private int mXAxisColor = TEXT_COLOR;
-  /** If the labels are visible. */
-  private boolean mShowLabels = true;
+  /** If the X labels are visible. */
+  private boolean mShowXLabels = true;
+  /** If the Y labels are visible. */
+  private boolean mShowYLabels = true;
   /** If the tick marks are visible. */
   private boolean mShowTickMarks = true;
   /** The labels color. */
@@ -363,21 +365,51 @@ public class DefaultRenderer implements Serializable {
   }
 
   /**
-   * Returns if the labels should be visible.
-   * 
+   * Returns if either of the labels should be visible.
+   *
    * @return the visibility flag for the labels
    */
   public boolean isShowLabels() {
-    return mShowLabels;
+    return mShowXLabels || mShowYLabels;
+  }
+
+  /**
+   * Returns if the X labels should be visible.
+   *
+   * @return the visibility flag for the X labels
+   */
+  public boolean isShowXLabels() {
+    return mShowXLabels;
+  }
+
+  /**
+   * Returns if the Y labels should be visible.
+   *
+   * @return the visibility flag for the Y labels
+   */
+  public boolean isShowYLabels() {
+    return mShowYLabels;
   }
 
   /**
    * Sets if the labels should be visible.
-   * 
+   *
+   * @param showXLabels the visibility flag for the X labels
+   * @param showYLabels the visibility flag for the Y labels
+   */
+  public void setShowLabels(boolean showXLabels, boolean showYLabels) {
+    mShowXLabels = showXLabels;
+    mShowYLabels = showYLabels;
+  }
+
+  /**
+   * Sets if the labels should be visible.
+   *
    * @param showLabels the visibility flag for the labels
    */
   public void setShowLabels(boolean showLabels) {
-    mShowLabels = showLabels;
+    mShowXLabels = showLabels;
+    mShowYLabels = showLabels;
   }
 
   /**
