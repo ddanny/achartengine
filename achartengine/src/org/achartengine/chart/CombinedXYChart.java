@@ -80,6 +80,22 @@ public class CombinedXYChart extends XYChart {
   }
 
   /**
+   * Builds a new combined XY chart instance using the given charts. This allows
+   * users to specify parameters like smoothness for CombinedXYCharts.
+   *
+   * @param dataset
+   * @param renderer
+   * @param chartDefinitions
+   * @param charts
+   */
+  public CombinedXYChart(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer,
+                         CombinedXYChart.XYCombinedChartDef[] chartDefinitions, XYChart[] charts) {
+    super(dataset, renderer);
+    this.chartDefinitions = chartDefinitions;
+    this.mCharts = charts;
+  }
+
+  /**
    * Returns a chart instance based on the provided type.
    * 
    * @param type the chart type
