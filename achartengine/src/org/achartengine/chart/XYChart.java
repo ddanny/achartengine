@@ -706,13 +706,13 @@ public abstract class XYChart extends AbstractChart {
   protected void drawXLabels(List<Double> xLabels, Double[] xTextLabelLocations, Canvas canvas,
       Paint paint, int left, int top, int bottom, double xPixelsPerUnit, double minX, double maxX) {
     int length = xLabels.size();
-    boolean showLabels = mRenderer.isShowLabels();
+    boolean showXLabels = mRenderer.isShowXLabels();
     boolean showGridY = mRenderer.isShowGridY();
     boolean showTickMarks = mRenderer.isShowTickMarks();
     for (int i = 0; i < length; i++) {
       double label = xLabels.get(i);
       float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
-      if (showLabels) {
+      if (showXLabels) {
         paint.setColor(mRenderer.getXLabelsColor());
         if (showTickMarks) {
           canvas
@@ -727,13 +727,13 @@ public abstract class XYChart extends AbstractChart {
         canvas.drawLine(xLabel, bottom, xLabel, top, paint);
       }
     }
-    drawXTextLabels(xTextLabelLocations, canvas, paint, showLabels, left, top, bottom,
+    drawXTextLabels(xTextLabelLocations, canvas, paint, showXLabels, left, top, bottom,
         xPixelsPerUnit, minX, maxX);
   }
 
   /**
    * The graphical representation of the labels on the Y axis.
-   * 
+   *
    * @param allYLabels the Y labels values
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
@@ -748,7 +748,7 @@ public abstract class XYChart extends AbstractChart {
       int maxScaleNumber, int left, int right, int bottom, double[] yPixelsPerUnit, double[] minY) {
     Orientation or = mRenderer.getOrientation();
     boolean showGridX = mRenderer.isShowGridX();
-    boolean showLabels = mRenderer.isShowLabels();
+    boolean showYLabels = mRenderer.isShowYLabels();
     boolean showTickMarks = mRenderer.isShowTickMarks();
     for (int i = 0; i < maxScaleNumber; i++) {
       paint.setTextAlign(mRenderer.getYLabelsAlign(i));
@@ -760,7 +760,7 @@ public abstract class XYChart extends AbstractChart {
         boolean textLabel = mRenderer.getYTextLabel(label, i) != null;
         float yLabel = (float) (bottom - yPixelsPerUnit[i] * (label - minY[i]));
         if (or == Orientation.HORIZONTAL) {
-          if (showLabels && !textLabel) {
+          if (showYLabels && !textLabel) {
             paint.setColor(mRenderer.getYLabelsColor(i));
             if (axisAlign == Align.LEFT) {
               if (showTickMarks) {
@@ -785,7 +785,7 @@ public abstract class XYChart extends AbstractChart {
             canvas.drawLine(left, yLabel, right, yLabel, paint);
           }
         } else if (or == Orientation.VERTICAL) {
-          if (showLabels && !textLabel) {
+          if (showYLabels && !textLabel) {
             paint.setColor(mRenderer.getYLabelsColor(i));
             if (showTickMarks) {
               canvas.drawLine(right - getLabelLinePos(axisAlign), yLabel, right, yLabel, paint);

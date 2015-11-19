@@ -427,7 +427,7 @@ public abstract class AbstractChart implements Serializable {
     if (renderer.isShowLegend() && legendSize == 0) {
       legendSize = defaultHeight;
     }
-    if (!renderer.isShowLegend() && renderer.isShowLabels()) {
+    if (!renderer.isShowLegend() && renderer.isShowXLabels()) {
       legendSize = (int) (renderer.getLabelsTextSize() * 4 / 3 + extraHeight);
     }
     return legendSize;

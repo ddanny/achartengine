@@ -93,14 +93,14 @@ public class TimeChart extends LineChart {
       Paint paint, int left, int top, int bottom, double xPixelsPerUnit, double minX, double maxX) {
     int length = xLabels.size();
     if (length > 0) {
-      boolean showLabels = mRenderer.isShowLabels();
+      boolean showXLabels = mRenderer.isShowXLabels();
       boolean showGridY = mRenderer.isShowGridY();
       boolean showTickMarks = mRenderer.isShowTickMarks();
       DateFormat format = getDateFormat(xLabels.get(0), xLabels.get(length - 1));
       for (int i = 0; i < length; i++) {
         long label = Math.round(xLabels.get(i));
         float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
-        if (showLabels) {
+        if (showXLabels) {
           paint.setColor(mRenderer.getXLabelsColor());
           if (showTickMarks) {
             canvas.drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3,
