@@ -66,6 +66,8 @@ public abstract class XYChart extends AbstractChart {
   private Rect mScreenR;
   /** The calculated range. */
   private final Map<Integer, double[]> mCalcRange = new HashMap<Integer, double[]>();
+  /** The paint to be used when drawing the grid lines. */
+  private Paint mGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
   /**
    * The clickable areas for all points. The array index is the series index,
@@ -708,10 +710,9 @@ public abstract class XYChart extends AbstractChart {
     int length = xLabels.size();
     boolean showXLabels = mRenderer.isShowXLabels();
     boolean showGridY = mRenderer.isShowGridY();
-    Paint gridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     if (showGridY) {
-      gridPaint.setStyle(Style.STROKE);
-      gridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
+      mGridPaint.setStyle(Style.STROKE);
+      mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
     }
     boolean showTickMarks = mRenderer.isShowTickMarks();
     for (int i = 0; i < length; i++) {
@@ -728,8 +729,8 @@ public abstract class XYChart extends AbstractChart {
             mRenderer.getXLabelsAngle());
       }
       if (showGridY) {
-        gridPaint.setColor(mRenderer.getGridColor(0));
-        canvas.drawLine(xLabel, bottom, xLabel, top, gridPaint);
+        mGridPaint.setColor(mRenderer.getGridColor(0));
+        canvas.drawLine(xLabel, bottom, xLabel, top, mGridPaint);
       }
     }
     drawXTextLabels(xTextLabelLocations, canvas, paint, showXLabels, left, top, bottom,
@@ -753,10 +754,9 @@ public abstract class XYChart extends AbstractChart {
       int maxScaleNumber, int left, int right, int bottom, double[] yPixelsPerUnit, double[] minY) {
     Orientation or = mRenderer.getOrientation();
     boolean showGridX = mRenderer.isShowGridX();
-    Paint gridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     if (showGridX) {
-      gridPaint.setStyle(Style.STROKE);
-      gridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
+      mGridPaint.setStyle(Style.STROKE);
+      mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
     }
     boolean showYLabels = mRenderer.isShowYLabels();
     boolean showTickMarks = mRenderer.isShowTickMarks();
@@ -791,8 +791,8 @@ public abstract class XYChart extends AbstractChart {
             }
           }
           if (showGridX) {
-            gridPaint.setColor(mRenderer.getGridColor(i));
-            canvas.drawLine(left, yLabel, right, yLabel, gridPaint);
+            mGridPaint.setColor(mRenderer.getGridColor(i));
+            canvas.drawLine(left, yLabel, right, yLabel, mGridPaint);
           }
         } else if (or == Orientation.VERTICAL) {
           if (showYLabels && !textLabel) {
@@ -805,9 +805,9 @@ public abstract class XYChart extends AbstractChart {
                 yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
           }
           if (showGridX) {
-            gridPaint.setColor(mRenderer.getGridColor(i));
+            mGridPaint.setColor(mRenderer.getGridColor(i));
             if (showTickMarks) {
-              canvas.drawLine(right, yLabel, left, yLabel, gridPaint);
+              canvas.drawLine(right, yLabel, left, yLabel, mGridPaint);
             }
           }
         }
