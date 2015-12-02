@@ -40,6 +40,8 @@ public class TimeChart extends LineChart {
   private String mDateFormat;
   /** The starting point for labels. */
   private Double mStartPoint;
+  /** The paint to be used when drawing the grid lines. */
+  private Paint mGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
   TimeChart() {
   }
@@ -95,6 +97,10 @@ public class TimeChart extends LineChart {
     if (length > 0) {
       boolean showXLabels = mRenderer.isShowXLabels();
       boolean showGridY = mRenderer.isShowGridY();
+      if (showGridY) {
+        mGridPaint.setStyle(Paint.Style.STROKE);
+        mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
+      }
       boolean showTickMarks = mRenderer.isShowTickMarks();
       DateFormat format = getDateFormat(xLabels.get(0), xLabels.get(length - 1));
       for (int i = 0; i < length; i++) {
@@ -111,8 +117,8 @@ public class TimeChart extends LineChart {
               paint, mRenderer.getXLabelsAngle());
         }
         if (showGridY) {
-          paint.setColor(mRenderer.getGridColor(0));
-          canvas.drawLine(xLabel, bottom, xLabel, top, paint);
+          mGridPaint.setColor(mRenderer.getGridColor(0));
+          canvas.drawLine(xLabel, bottom, xLabel, top, mGridPaint);
         }
       }
     }

@@ -75,6 +75,8 @@ public class DefaultRenderer implements Serializable {
   private boolean mShowGridX = false;
   /** If the Y axis grid should be displayed. */
   private boolean mShowGridY = false;
+  /** The grid width. */
+  private float mGridLineWidth;
   /** If the custom text grid should be displayed on the X axis. */
   private boolean mShowCustomTextGridX = false;
   /** If the custom text grid should be displayed on the Y axis. */
@@ -455,6 +457,24 @@ public class DefaultRenderer implements Serializable {
    */
   public void setShowGridX(boolean showGrid) {
     mShowGridX = showGrid;
+  }
+
+  /**
+   * Sets the grid line width.
+   *
+   * @param width the grid size
+   */
+  public void setGridLineWidth(float width) {
+    mGridLineWidth = width;
+  }
+
+  /**
+   * Gets the grid line width.
+   *
+   * @return the grid line width
+   */
+  public float getGridLineWidth() {
+    return mGridLineWidth;
   }
 
   /**
