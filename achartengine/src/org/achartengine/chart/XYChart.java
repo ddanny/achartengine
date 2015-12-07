@@ -233,6 +233,34 @@ public abstract class XYChart extends AbstractChart {
     }
 
     boolean hasValues = false;
+    for (int i = 0; i < sLength; i++) {
+      XYSeries series = mDataset.getSeriesAt(i);
+      if (series.getItemCount() == 0) {
+        continue;
+      }
+      hasValues = true;
+    }
+
+    boolean showLabels = mRenderer.isShowLabels() && hasValues;
+    boolean showGridX = mRenderer.isShowGridX();
+    boolean showGridY = mRenderer.isShowGridY();
+    if (showGridX || showGridY) {
+      // Draw the grid lines under everything else.
+      List<Double> xLabels = getValidLabels(getXLabels(minX[0], maxX[0], mRenderer.getXLabels()));
+      Map<Integer, List<Double>> allYLabels = getYLabels(minY, maxY, maxScaleNumber);
+
+      int xLabelsLeft = left;
+      boolean showXLabels = mRenderer.isShowXLabels();
+      boolean showYLabels = mRenderer.isShowYLabels();
+      // Only draw the grid.
+      mRenderer.setShowLabels(false);
+      drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
+              bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
+      drawYLabels(allYLabels, canvas, paint, maxScaleNumber, left, right, bottom, yPixelsPerUnit,
+              minY);
+      mRenderer.setShowLabels(showXLabels, showYLabels);
+    }
+
     // use a linked list for these reasons:
     // 1) Avoid a large contiguous memory allocation
     // 2) We don't need random seeking, only sequential reading/writing, so
@@ -244,8 +272,6 @@ public abstract class XYChart extends AbstractChart {
       if (series.getItemCount() == 0) {
         continue;
       }
-
-      hasValues = true;
       XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) mRenderer.getSeriesRendererAt(i);
 
       // int originalValuesLength = series.getItemCount();
@@ -326,7 +352,7 @@ public abstract class XYChart extends AbstractChart {
         }
       }
     }
-    // draw stuff over the margins such as data doesn't render on these areas
+    // draw stuff over the margins so that data doesn't render on these areas
     drawBackground(mRenderer, canvas, x, bottom, width, height - bottom, paint, true,
         mRenderer.getMarginsColor());
     drawBackground(mRenderer, canvas, x, y, width, margins[0], paint, true,
@@ -343,12 +369,10 @@ public abstract class XYChart extends AbstractChart {
           mRenderer.getMarginsColor());
     }
 
-    boolean showLabels = mRenderer.isShowLabels() && hasValues;
-    boolean showGridX = mRenderer.isShowGridX();
     boolean showTickMarks = mRenderer.isShowTickMarks();
     // boolean showCustomTextGridX = mRenderer.isShowCustomTextGridX();
     boolean showCustomTextGridY = mRenderer.isShowCustomTextGridY();
-    if (showLabels || showGridX) {
+    if (showLabels) {
       List<Double> xLabels = getValidLabels(getXLabels(minX[0], maxX[0], mRenderer.getXLabels()));
       Map<Integer, List<Double>> allYLabels = getYLabels(minY, maxY, maxScaleNumber);
 
@@ -361,10 +385,14 @@ public abstract class XYChart extends AbstractChart {
         // xLabelsLeft += mRenderer.getLabelsTextSize() / 4;
         // }
       }
+      // Draw just the labels and not the grid lines.
+      mRenderer.setShowGrid(false);
       drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
           bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
       drawYLabels(allYLabels, canvas, paint, maxScaleNumber, left, right, bottom, yPixelsPerUnit,
           minY);
+      mRenderer.setShowGridX(showGridX);
+      mRenderer.setShowGridY(showGridY);
 
       if (showLabels) {
         paint.setColor(mRenderer.getLabelsColor());
