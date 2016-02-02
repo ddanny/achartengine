@@ -67,7 +67,7 @@ public abstract class XYChart extends AbstractChart {
   /** The calculated range. */
   private final Map<Integer, double[]> mCalcRange = new HashMap<Integer, double[]>();
   /** The paint to be used when drawing the grid lines. */
-  private transient Paint mGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+  private transient Paint mGridPaint;
 
   /**
    * The clickable areas for all points. The array index is the series index,
@@ -254,6 +254,9 @@ public abstract class XYChart extends AbstractChart {
       boolean showYLabels = mRenderer.isShowYLabels();
       // Only draw the grid.
       mRenderer.setShowLabels(false);
+      if (mGridPaint == null) {
+        mGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+      }
       drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
               bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
       drawYLabels(allYLabels, canvas, paint, maxScaleNumber, left, right, bottom, yPixelsPerUnit,
