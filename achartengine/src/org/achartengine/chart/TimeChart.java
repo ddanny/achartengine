@@ -40,8 +40,6 @@ public class TimeChart extends LineChart {
   private String mDateFormat;
   /** The starting point for labels. */
   private Double mStartPoint;
-  /** The paint to be used when drawing the grid lines. */
-  private transient Paint mGridPaint;
 
   TimeChart() {
   }
