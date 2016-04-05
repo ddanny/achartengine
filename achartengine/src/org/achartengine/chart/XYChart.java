@@ -67,7 +67,7 @@ public abstract class XYChart extends AbstractChart {
   /** The calculated range. */
   private final Map<Integer, double[]> mCalcRange = new HashMap<Integer, double[]>();
   /** The paint to be used when drawing the grid lines. */
-  private transient Paint mGridPaint;
+  protected transient Paint mGridPaint;
 
   /**
    * The clickable areas for all points. The array index is the series index,
