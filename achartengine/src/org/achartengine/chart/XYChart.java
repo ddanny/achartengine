@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2009 - 2013 SC 4ViewSoft SRL
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,14 +15,17 @@
  */
 package org.achartengine.chart;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.SortedMap;
+import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Paint.Cap;
+import android.graphics.Paint.Join;
+import android.graphics.Paint.Style;
+import android.graphics.PathEffect;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Typeface;
 
 import org.achartengine.model.Point;
 import org.achartengine.model.SeriesSelection;
@@ -36,17 +39,14 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.achartengine.util.MathHelper;
 
-import android.graphics.Canvas;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Paint.Cap;
-import android.graphics.Paint.Join;
-import android.graphics.Paint.Style;
-import android.graphics.PathEffect;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Typeface;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.SortedMap;
 
 /**
  * The XY chart rendering class.
@@ -80,7 +80,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * Builds a new XY chart instance.
-   * 
+   *
    * @param dataset the multiple series dataset
    * @param renderer the multiple series renderer
    */
@@ -91,14 +91,14 @@ public abstract class XYChart extends AbstractChart {
 
   // TODO: javadoc
   protected void setDatasetRenderer(XYMultipleSeriesDataset dataset,
-      XYMultipleSeriesRenderer renderer) {
+                                    XYMultipleSeriesRenderer renderer) {
     mDataset = dataset;
     mRenderer = renderer;
   }
 
   /**
    * The graphical representation of the XY chart.
-   * 
+   *
    * @param canvas the canvas to paint to
    * @param x the top left x value of the view to draw to
    * @param y the top left y value of the view to draw to
@@ -120,7 +120,7 @@ public abstract class XYChart extends AbstractChart {
     }
     if (mRenderer.isFitLegend() && mRenderer.isShowLegend()) {
       legendSize = drawLegend(canvas, mRenderer, titles, left, right, y, width, height, legendSize,
-          paint, true);
+              paint, true);
     }
     int bottom = y + height - margins[2] - legendSize;
     if (mScreenR == null) {
@@ -130,15 +130,15 @@ public abstract class XYChart extends AbstractChart {
     drawBackground(mRenderer, canvas, x, y, width, height, paint, false, DefaultRenderer.NO_COLOR);
 
     if (paint.getTypeface() == null
-        || (mRenderer.getTextTypeface() != null && paint.getTypeface().equals(
+            || (mRenderer.getTextTypeface() != null && paint.getTypeface().equals(
             mRenderer.getTextTypeface()))
-        || !paint.getTypeface().toString().equals(mRenderer.getTextTypefaceName())
-        || paint.getTypeface().getStyle() != mRenderer.getTextTypefaceStyle()) {
+            || !paint.getTypeface().toString().equals(mRenderer.getTextTypefaceName())
+            || paint.getTypeface().getStyle() != mRenderer.getTextTypefaceStyle()) {
       if (mRenderer.getTextTypeface() != null) {
         paint.setTypeface(mRenderer.getTextTypeface());
       } else {
         paint.setTypeface(Typeface.create(mRenderer.getTextTypefaceName(),
-            mRenderer.getTextTypefaceStyle()));
+                mRenderer.getTextTypefaceStyle()));
       }
     }
     Orientation or = mRenderer.getOrientation();
@@ -232,18 +232,11 @@ public abstract class XYChart extends AbstractChart {
       }
     }
 
-    boolean hasValues = false;
-    for (int i = 0; i < sLength; i++) {
-      XYSeries series = mDataset.getSeriesAt(i);
-      if (series.getItemCount() == 0) {
-        continue;
-      }
-      hasValues = true;
-    }
-
-    boolean showLabels = mRenderer.isShowLabels() && hasValues;
     boolean showGridX = mRenderer.isShowGridX();
     boolean showGridY = mRenderer.isShowGridY();
+    boolean showCustomTextXLabels = mRenderer.isShowCustomTextXLabels();
+    boolean showCustomTextYLabels = mRenderer.isShowCustomTextYLabels();
+
     if (showGridX || showGridY) {
       // Draw the grid lines under everything else.
       List<Double> xLabels = getValidLabels(getXLabels(minX[0], maxX[0], mRenderer.getXLabels()));
@@ -254,14 +247,16 @@ public abstract class XYChart extends AbstractChart {
       boolean showYLabels = mRenderer.isShowYLabels();
       // Only draw the grid.
       mRenderer.setShowLabels(false);
+      mRenderer.setShowCustomTextLabels(false);
       if (mGridPaint == null) {
         mGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
       }
       drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
               bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
-      drawYLabels(allYLabels, canvas, paint, maxScaleNumber, left, right, bottom, yPixelsPerUnit,
-              minY);
+      drawYLabels(allYLabels, canvas, paint, maxScaleNumber, left, right, bottom, yPixelsPerUnit, minY);
+
       mRenderer.setShowLabels(showXLabels, showYLabels);
+      mRenderer.setShowCustomTextLabels(showCustomTextXLabels, showCustomTextYLabels);
     }
 
     // use a linked list for these reasons:
@@ -290,7 +285,7 @@ public abstract class XYChart extends AbstractChart {
 
       synchronized (series) {
         SortedMap<Double, Double> range = series.getRange(minX[scale], maxX[scale],
-            seriesRenderer.isDisplayBoundingPoints());
+                seriesRenderer.isDisplayBoundingPoints());
         int startIndex = -1;
 
         for (Entry<Double, Double> value : range.entrySet()) {
@@ -316,9 +311,9 @@ public abstract class XYChart extends AbstractChart {
           } else {
             if (points.size() > 0) {
               drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or,
-                  startIndex);
+                      startIndex);
               ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(points, values,
-                  yAxisValue, i, startIndex);
+                      yAxisValue, i, startIndex);
               clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
               points.clear();
               values.clear();
@@ -336,11 +331,11 @@ public abstract class XYChart extends AbstractChart {
           Rect bound = new Rect();
           for (int j = 0; j < count; j++) {
             float xS = (float) (left + xPixelsPerUnit[scale]
-                * (series.getAnnotationX(j) - minX[scale]));
+                    * (series.getAnnotationX(j) - minX[scale]));
             float yS = (float) (bottom - yPixelsPerUnit[scale]
-                * (series.getAnnotationY(j) - minY[scale]));
+                    * (series.getAnnotationY(j) - minY[scale]));
             paint.getTextBounds(series.getAnnotationAt(j), 0, series.getAnnotationAt(j).length(),
-                bound);
+                    bound);
             if (xS < (xS + bound.width()) && yS < canvas.getHeight()) {
               drawString(canvas, series.getAnnotationAt(j), xS, yS, paint);
             }
@@ -350,142 +345,235 @@ public abstract class XYChart extends AbstractChart {
         if (points.size() > 0) {
           drawSeries(series, canvas, paint, points, seriesRenderer, yAxisValue, i, or, startIndex);
           ClickableArea[] clickableAreasForSubSeries = clickableAreasForPoints(points, values,
-              yAxisValue, i, startIndex);
+                  yAxisValue, i, startIndex);
           clickableArea.addAll(Arrays.asList(clickableAreasForSubSeries));
         }
       }
     }
     // draw stuff over the margins so that data doesn't render on these areas
     drawBackground(mRenderer, canvas, x, bottom, width, height - bottom, paint, true,
-        mRenderer.getMarginsColor());
+            mRenderer.getMarginsColor());
     drawBackground(mRenderer, canvas, x, y, width, margins[0], paint, true,
-        mRenderer.getMarginsColor());
+            mRenderer.getMarginsColor());
     if (or == Orientation.HORIZONTAL) {
       drawBackground(mRenderer, canvas, x, y, left - x, height - y, paint, true,
-          mRenderer.getMarginsColor());
+              mRenderer.getMarginsColor());
       drawBackground(mRenderer, canvas, right, y, margins[3], height - y, paint, true,
-          mRenderer.getMarginsColor());
+              mRenderer.getMarginsColor());
     } else if (or == Orientation.VERTICAL) {
       drawBackground(mRenderer, canvas, right, y, width - right, height - y, paint, true,
-          mRenderer.getMarginsColor());
+              mRenderer.getMarginsColor());
       drawBackground(mRenderer, canvas, x, y, left - x, height - y, paint, true,
-          mRenderer.getMarginsColor());
+              mRenderer.getMarginsColor());
     }
 
+    boolean hasValues = false;
+    for (int i = 0; i < sLength; i++) {
+      XYSeries series = mDataset.getSeriesAt(i);
+      if (series.getItemCount() == 0) {
+        continue;
+      }
+      hasValues = true;
+    }
+
+    boolean showXLabels = mRenderer.isShowXLabels() && hasValues;
+    boolean showYLabels = mRenderer.isShowYLabels() && hasValues;
+
+    boolean showLabels = mRenderer.isShowLabels() && hasValues;
     boolean showTickMarks = mRenderer.isShowTickMarks();
     // boolean showCustomTextGridX = mRenderer.isShowCustomTextGridX();
     boolean showCustomTextGridY = mRenderer.isShowCustomTextGridY();
+
+    if (showXLabels) {
+      List<Double> xLabels = getValidLabels(getXLabels(minX[0], maxX[0], mRenderer.getXLabels()));
+
+      paint.setColor(mRenderer.getXLabelsColor());
+      paint.setTextSize(mRenderer.getLabelsTextSize());
+      paint.setTextAlign(mRenderer.getXLabelsAlign());
+
+      // Draw just the labels and not the grid lines.
+      mRenderer.setShowGrid(false);
+      drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, left, top,
+              bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
+      mRenderer.setShowGridX(showGridX);
+
+      paint.setColor(mRenderer.getLabelsColor());
+      float size = mRenderer.getAxisTitleTextSize();
+      paint.setTextSize(size);
+      paint.setTextAlign(Align.CENTER);
+      if (or == Orientation.HORIZONTAL) {
+        drawText(canvas,
+                mRenderer.getXTitle(),
+                x + width / 2,
+                bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding() + size,
+                paint, 0);
+
+      } else if (or == Orientation.VERTICAL) {
+        drawText(canvas, mRenderer.getXTitle(), x + width / 2,
+                y + height - size + mRenderer.getXLabelsPadding(), paint, -90);
+      }
+    }
+
+    if (showYLabels) {
+      Map<Integer, List<Double>> allYLabels = getYLabels(minY, maxY, maxScaleNumber);
+
+      paint.setColor(mRenderer.getXLabelsColor());
+      paint.setTextSize(mRenderer.getLabelsTextSize());
+      paint.setTextAlign(mRenderer.getXLabelsAlign());
+
+      // Draw just the labels and not the grid lines.
+      mRenderer.setShowGrid(false);
+      drawYLabels(allYLabels, canvas, paint, maxScaleNumber, left, right, bottom, yPixelsPerUnit, minY);
+      mRenderer.setShowGridY(showGridY);
+
+      paint.setColor(mRenderer.getLabelsColor());
+      float size = mRenderer.getAxisTitleTextSize();
+      paint.setTextSize(size);
+      paint.setTextAlign(Align.CENTER);
+      if (or == Orientation.HORIZONTAL) {
+        for (int i = 0; i < maxScaleNumber; i++) {
+          Align axisAlign = mRenderer.getYAxisAlign(i);
+          if (axisAlign == Align.LEFT) {
+            drawText(canvas, mRenderer.getYTitle(i), x + size, y + height / 2, paint, -90);
+          } else {
+            drawText(canvas, mRenderer.getYTitle(i), x + width, y + height / 2, paint, -90);
+          }
+        }
+      } else if (or == Orientation.VERTICAL) {
+        drawText(canvas, mRenderer.getYTitle(), right + 20, y + height / 2, paint, 0);
+      }
+    }
+
+    if (showLabels) {
+      paint.setColor(mRenderer.getLabelsColor());
+      float axisTitleTextSize = mRenderer.getAxisTitleTextSize();
+      paint.setTextSize(axisTitleTextSize);
+      paint.setTextAlign(Align.CENTER);
+      paint.setTextSize(mRenderer.getChartTitleTextSize());
+
+      if (or == Orientation.HORIZONTAL) {
+        drawText(canvas, mRenderer.getChartTitle(), x + width / 2,
+                y + mRenderer.getChartTitleTextSize(), paint, 0);
+
+      } else if (or == Orientation.VERTICAL) {
+        drawText(canvas, mRenderer.getChartTitle(), x + axisTitleTextSize, top + height / 2, paint, 0);
+      }
+    }
+
+
     if (showLabels) {
       List<Double> xLabels = getValidLabels(getXLabels(minX[0], maxX[0], mRenderer.getXLabels()));
       Map<Integer, List<Double>> allYLabels = getYLabels(minY, maxY, maxScaleNumber);
 
       int xLabelsLeft = left;
-      if (showLabels) {
-        paint.setColor(mRenderer.getXLabelsColor());
-        paint.setTextSize(mRenderer.getLabelsTextSize());
-        paint.setTextAlign(mRenderer.getXLabelsAlign());
-        // if (mRenderer.getXLabelsAlign() == Align.LEFT) {
-        // xLabelsLeft += mRenderer.getLabelsTextSize() / 4;
-        // }
-      }
+
+      paint.setColor(mRenderer.getXLabelsColor());
+      paint.setTextSize(mRenderer.getLabelsTextSize());
+      paint.setTextAlign(mRenderer.getXLabelsAlign());
+      // if (mRenderer.getXLabelsAlign() == Align.LEFT) {
+      // xLabelsLeft += mRenderer.getLabelsTextSize() / 4;
+      // }
+
       // Draw just the labels and not the grid lines.
       mRenderer.setShowGrid(false);
       drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
-          bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
-      drawYLabels(allYLabels, canvas, paint, maxScaleNumber, left, right, bottom, yPixelsPerUnit,
-          minY);
+              bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
+      drawYLabels(allYLabels, canvas, paint, maxScaleNumber, left, right, bottom, yPixelsPerUnit, minY);
       mRenderer.setShowGridX(showGridX);
       mRenderer.setShowGridY(showGridY);
 
-      if (showLabels) {
-        paint.setColor(mRenderer.getLabelsColor());
+      paint.setColor(mRenderer.getLabelsColor());
+      float size = mRenderer.getAxisTitleTextSize();
+      paint.setTextSize(size);
+      paint.setTextAlign(Align.CENTER);
+      if (or == Orientation.HORIZONTAL) {
+        drawText(
+                canvas,
+                mRenderer.getXTitle(),
+                x + width / 2,
+                bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding() + size,
+                paint, 0);
         for (int i = 0; i < maxScaleNumber; i++) {
           Align axisAlign = mRenderer.getYAxisAlign(i);
-          Double[] yTextLabelLocations = mRenderer.getYTextLabelLocations(i);
-          for (Double location : yTextLabelLocations) {
-            if (minY[i] <= location && location <= maxY[i]) {
-              float yLabel = (float) (bottom - yPixelsPerUnit[i]
-                  * (location.doubleValue() - minY[i]));
-              String label = mRenderer.getYTextLabel(location, i);
-              paint.setColor(mRenderer.getYLabelsColor(i));
-              paint.setTextAlign(mRenderer.getYLabelsAlign(i));
-              if (or == Orientation.HORIZONTAL) {
-                if (axisAlign == Align.LEFT) {
-                  if (showTickMarks) {
-                    canvas.drawLine(left + getLabelLinePos(axisAlign), yLabel, left, yLabel, paint);
-                  }
-                  drawText(canvas, label, left - mRenderer.getYLabelsPadding(),
-                      yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
-                      mRenderer.getYLabelsAngle());
-                } else {
-                  if (showTickMarks) {
-                    canvas.drawLine(right, yLabel, right + getLabelLinePos(axisAlign), yLabel,
-                        paint);
-                  }
-                  drawText(canvas, label, right - mRenderer.getYLabelsPadding(),
-                      yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
-                      mRenderer.getYLabelsAngle());
-                }
+          if (axisAlign == Align.LEFT) {
+            drawText(canvas, mRenderer.getYTitle(i), x + size, y + height / 2, paint, -90);
+          } else {
+            drawText(canvas, mRenderer.getYTitle(i), x + width, y + height / 2, paint, -90);
+          }
+        }
+        paint.setTextSize(mRenderer.getChartTitleTextSize());
+        drawText(canvas, mRenderer.getChartTitle(), x + width / 2,
+                y + mRenderer.getChartTitleTextSize(), paint, 0);
+      } else if (or == Orientation.VERTICAL) {
+        drawText(canvas, mRenderer.getXTitle(), x + width / 2,
+                y + height - size + mRenderer.getXLabelsPadding(), paint, -90);
+        drawText(canvas, mRenderer.getYTitle(), right + 20, y + height / 2, paint, 0);
+        paint.setTextSize(mRenderer.getChartTitleTextSize());
+        drawText(canvas, mRenderer.getChartTitle(), x + size, top + height / 2, paint, 0);
+      }
 
-                if (showCustomTextGridY) {
-                  paint.setColor(mRenderer.getGridColor(i));
-                  canvas.drawLine(left, yLabel, right, yLabel, paint);
+    } else if (showCustomTextXLabels) {
+      drawXTextLabels(mRenderer.getXTextLabelLocations(), canvas, paint, true, left, top, bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
+    }
+
+    if (showCustomTextYLabels) {
+      paint.setColor(mRenderer.getLabelsColor());
+      for (int i = 0; i < maxScaleNumber; i++) {
+        Align axisAlign = mRenderer.getYAxisAlign(i);
+        Double[] yTextLabelLocations = mRenderer.getYTextLabelLocations(i);
+        for (Double location : yTextLabelLocations) {
+          if (minY[i] <= location && location <= maxY[i]) {
+            float yLabel = (float) (bottom - yPixelsPerUnit[i]
+                    * (location.doubleValue() - minY[i]));
+            String label = mRenderer.getYTextLabel(location, i);
+            paint.setColor(mRenderer.getYLabelsColor(i));
+            paint.setTextAlign(mRenderer.getYLabelsAlign(i));
+            if (or == Orientation.HORIZONTAL) {
+              if (axisAlign == Align.LEFT) {
+                if (showTickMarks) {
+                  canvas.drawLine(left + getLabelLinePos(axisAlign), yLabel, left, yLabel, paint);
                 }
+                drawText(canvas, label, left - mRenderer.getYLabelsPadding(),
+                        yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
+                        mRenderer.getYLabelsAngle());
               } else {
                 if (showTickMarks) {
-                  canvas.drawLine(right - getLabelLinePos(axisAlign), yLabel, right, yLabel, paint);
+                  canvas.drawLine(right, yLabel, right + getLabelLinePos(axisAlign), yLabel,
+                          paint);
                 }
-                drawText(canvas, label, right + 10, yLabel - mRenderer.getYLabelsVerticalPadding(),
-                    paint, mRenderer.getYLabelsAngle());
-                if (showCustomTextGridY) {
-                  paint.setColor(mRenderer.getGridColor(i));
-                  canvas.drawLine(right, yLabel, left, yLabel, paint);
-                }
+                drawText(canvas, label, right - mRenderer.getYLabelsPadding(),
+                        yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
+                        mRenderer.getYLabelsAngle());
+              }
+
+              if (showCustomTextGridY) {
+                paint.setColor(mRenderer.getGridColor(i));
+                canvas.drawLine(left, yLabel, right, yLabel, paint);
+              }
+            } else {
+              if (showTickMarks) {
+                canvas.drawLine(right - getLabelLinePos(axisAlign), yLabel, right, yLabel, paint);
+              }
+              drawText(canvas, label, right + 10, yLabel - mRenderer.getYLabelsVerticalPadding(),
+                      paint, mRenderer.getYLabelsAngle());
+              if (showCustomTextGridY) {
+                paint.setColor(mRenderer.getGridColor(i));
+                canvas.drawLine(right, yLabel, left, yLabel, paint);
               }
             }
           }
         }
       }
-
-      if (showLabels) {
-        paint.setColor(mRenderer.getLabelsColor());
-        float size = mRenderer.getAxisTitleTextSize();
-        paint.setTextSize(size);
-        paint.setTextAlign(Align.CENTER);
-        if (or == Orientation.HORIZONTAL) {
-          drawText(
-              canvas,
-              mRenderer.getXTitle(),
-              x + width / 2,
-              bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding() + size,
-              paint, 0);
-          for (int i = 0; i < maxScaleNumber; i++) {
-            Align axisAlign = mRenderer.getYAxisAlign(i);
-            if (axisAlign == Align.LEFT) {
-              drawText(canvas, mRenderer.getYTitle(i), x + size, y + height / 2, paint, -90);
-            } else {
-              drawText(canvas, mRenderer.getYTitle(i), x + width, y + height / 2, paint, -90);
-            }
-          }
-          paint.setTextSize(mRenderer.getChartTitleTextSize());
-          drawText(canvas, mRenderer.getChartTitle(), x + width / 2,
-              y + mRenderer.getChartTitleTextSize(), paint, 0);
-        } else if (or == Orientation.VERTICAL) {
-          drawText(canvas, mRenderer.getXTitle(), x + width / 2,
-              y + height - size + mRenderer.getXLabelsPadding(), paint, -90);
-          drawText(canvas, mRenderer.getYTitle(), right + 20, y + height / 2, paint, 0);
-          paint.setTextSize(mRenderer.getChartTitleTextSize());
-          drawText(canvas, mRenderer.getChartTitle(), x + size, top + height / 2, paint, 0);
-        }
-      }
     }
+
+
     if (or == Orientation.HORIZONTAL) {
       drawLegend(canvas, mRenderer, titles, left, right, y + (int) mRenderer.getXLabelsPadding(),
-          width, height, legendSize, paint, false);
+              width, height, legendSize, paint, false);
     } else if (or == Orientation.VERTICAL) {
       transform(canvas, angle, true);
       drawLegend(canvas, mRenderer, titles, left, right, y + (int) mRenderer.getXLabelsPadding(),
-          width, height, legendSize, paint, false);
+              width, height, legendSize, paint, false);
       transform(canvas, angle, false);
     }
     if (mRenderer.isShowAxes()) {
@@ -518,7 +606,7 @@ public abstract class XYChart extends AbstractChart {
     Map<Integer, List<Double>> allYLabels = new HashMap<Integer, List<Double>>();
     for (int i = 0; i < maxScaleNumber; i++) {
       allYLabels.put(i,
-          getValidLabels(MathHelper.getLabels(minY[i], maxY[i], mRenderer.getYLabels())));
+              getValidLabels(MathHelper.getLabels(minY[i], maxY[i], mRenderer.getYLabels())));
     }
     return allYLabels;
   }
@@ -543,7 +631,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * Draws the series.
-   * 
+   *
    * @param series the series
    * @param canvas the canvas
    * @param paint the paint object
@@ -555,8 +643,8 @@ public abstract class XYChart extends AbstractChart {
    * @param startIndex the start index of the rendering points
    */
   protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
-      XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or,
-      int startIndex) {
+                            XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or,
+                            int startIndex) {
     BasicStroke stroke = seriesRenderer.getStroke();
     Cap cap = paint.getStrokeCap();
     Join join = paint.getStrokeJoin();
@@ -569,7 +657,7 @@ public abstract class XYChart extends AbstractChart {
         effect = new DashPathEffect(stroke.getIntervals(), stroke.getPhase());
       }
       setStroke(stroke.getCap(), stroke.getJoin(), stroke.getMiter(), Style.FILL_AND_STROKE,
-          effect, paint);
+              effect, paint);
     }
     // float[] points = MathHelper.getFloats(pointsList);
     drawSeries(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex, startIndex);
@@ -583,7 +671,7 @@ public abstract class XYChart extends AbstractChart {
     if (seriesRenderer.isDisplayChartValues()) {
       paint.setTextAlign(seriesRenderer.getChartValuesTextAlign());
       drawChartValuesText(canvas, series, seriesRenderer, paint, pointsList, seriesIndex,
-          startIndex);
+              startIndex);
     }
     if (stroke != null) {
       setStroke(cap, join, miter, style, pathEffect, paint);
@@ -592,7 +680,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * Draws the series points.
-   * 
+   *
    * @param canvas the canvas
    * @param paint the paint object
    * @param pointsList the points to be rendered
@@ -602,18 +690,18 @@ public abstract class XYChart extends AbstractChart {
    * @param startIndex the start index of the rendering points
    */
   protected void drawPoints(Canvas canvas, Paint paint, List<Float> pointsList,
-      XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
+                            XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex) {
     if (isRenderPoints(seriesRenderer)) {
       ScatterChart pointsChart = getPointsChart();
       if (pointsChart != null) {
         pointsChart.drawSeries(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex,
-            startIndex);
+                startIndex);
       }
     }
   }
 
   private void setStroke(Cap cap, Join join, float miter, Style style, PathEffect pathEffect,
-      Paint paint) {
+                         Paint paint) {
     paint.setStrokeCap(cap);
     paint.setStrokeJoin(join);
     paint.setStrokeMiter(miter);
@@ -623,7 +711,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * The graphical representation of the series values as text.
-   * 
+   *
    * @param canvas the canvas to paint to
    * @param series the series to be painted
    * @param renderer the series renderer
@@ -633,23 +721,23 @@ public abstract class XYChart extends AbstractChart {
    * @param startIndex the start index of the rendering points
    */
   protected void drawChartValuesText(Canvas canvas, XYSeries series, XYSeriesRenderer renderer,
-      Paint paint, List<Float> points, int seriesIndex, int startIndex) {
+                                     Paint paint, List<Float> points, int seriesIndex, int startIndex) {
     if (points.size() > 2) { // there are more than one point
       // record the first point's position
       float previousPointX = points.get(0);
       float previousPointY = points.get(1);
       for (int k = 0; k < points.size(); k += 2) {
         if (k == 2) { // decide whether to display first two points' values or
-                      // not
+          // not
           if (Math.abs(points.get(2) - points.get(0)) > renderer.getDisplayChartValuesDistance()
-              || Math.abs(points.get(3) - points.get(1)) > renderer.getDisplayChartValuesDistance()) {
+                  || Math.abs(points.get(3) - points.get(1)) > renderer.getDisplayChartValuesDistance()) {
             // first point
             drawText(canvas, getLabel(renderer.getChartValuesFormat(), series.getY(startIndex)),
-                points.get(0), points.get(1) - renderer.getChartValuesSpacing(), paint, 0);
+                    points.get(0), points.get(1) - renderer.getChartValuesSpacing(), paint, 0);
             // second point
             drawText(canvas,
-                getLabel(renderer.getChartValuesFormat(), series.getY(startIndex + 1)),
-                points.get(2), points.get(3) - renderer.getChartValuesSpacing(), paint, 0);
+                    getLabel(renderer.getChartValuesFormat(), series.getY(startIndex + 1)),
+                    points.get(2), points.get(3) - renderer.getChartValuesSpacing(), paint, 0);
 
             previousPointX = points.get(2);
             previousPointY = points.get(3);
@@ -658,11 +746,11 @@ public abstract class XYChart extends AbstractChart {
           // compare current point's position with the previous point's, if they
           // are not too close, display
           if (Math.abs(points.get(k) - previousPointX) > renderer.getDisplayChartValuesDistance()
-              || Math.abs(points.get(k + 1) - previousPointY) > renderer
+                  || Math.abs(points.get(k + 1) - previousPointY) > renderer
                   .getDisplayChartValuesDistance()) {
             drawText(canvas,
-                getLabel(renderer.getChartValuesFormat(), series.getY(startIndex + k / 2)),
-                points.get(k), points.get(k + 1) - renderer.getChartValuesSpacing(), paint, 0);
+                    getLabel(renderer.getChartValuesFormat(), series.getY(startIndex + k / 2)),
+                    points.get(k), points.get(k + 1) - renderer.getChartValuesSpacing(), paint, 0);
             previousPointX = points.get(k);
             previousPointY = points.get(k + 1);
           }
@@ -671,8 +759,8 @@ public abstract class XYChart extends AbstractChart {
     } else { // if only one point, display it
       for (int k = 0; k < points.size(); k += 2) {
         drawText(canvas,
-            getLabel(renderer.getChartValuesFormat(), series.getY(startIndex + k / 2)),
-            points.get(k), points.get(k + 1) - renderer.getChartValuesSpacing(), paint, 0);
+                getLabel(renderer.getChartValuesFormat(), series.getY(startIndex + k / 2)),
+                points.get(k), points.get(k + 1) - renderer.getChartValuesSpacing(), paint, 0);
       }
     }
   }
@@ -680,7 +768,7 @@ public abstract class XYChart extends AbstractChart {
   /**
    * The graphical representation of a text, to handle both HORIZONTAL and
    * VERTICAL orientations and extra rotation angles.
-   * 
+   *
    * @param canvas the canvas to paint to
    * @param text the text to be rendered
    * @param x the X axis location of the text
@@ -689,7 +777,7 @@ public abstract class XYChart extends AbstractChart {
    * @param extraAngle the text angle
    */
   protected void drawText(Canvas canvas, String text, float x, float y, Paint paint,
-      float extraAngle) {
+                          float extraAngle) {
     float angle = -mRenderer.getOrientation().getAngle() + extraAngle;
     if (angle != 0) {
       // canvas.scale(1 / mScale, mScale);
@@ -705,7 +793,7 @@ public abstract class XYChart extends AbstractChart {
   /**
    * Transform the canvas such as it can handle both HORIZONTAL and VERTICAL
    * orientations.
-   * 
+   *
    * @param canvas the canvas to paint to
    * @param angle the angle of rotation
    * @param inverse if the inverse transform needs to be applied
@@ -724,7 +812,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * The graphical representation of the labels on the X axis.
-   * 
+   *
    * @param xLabels the X labels values
    * @param xTextLabelLocations the X text label locations
    * @param canvas the canvas to paint to
@@ -737,35 +825,38 @@ public abstract class XYChart extends AbstractChart {
    * @param maxX the maximum value on the X axis in the chart
    */
   protected void drawXLabels(List<Double> xLabels, Double[] xTextLabelLocations, Canvas canvas,
-      Paint paint, int left, int top, int bottom, double xPixelsPerUnit, double minX, double maxX) {
-    int length = xLabels.size();
+                             Paint paint, int left, int top, int bottom, double xPixelsPerUnit, double minX, double maxX) {
+
     boolean showXLabels = mRenderer.isShowXLabels();
+    boolean showCustomXLabels = mRenderer.isShowCustomTextXLabels();
     boolean showGridY = mRenderer.isShowGridY();
+
     if (showGridY) {
       mGridPaint.setStyle(Style.STROKE);
       mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
     }
     boolean showTickMarks = mRenderer.isShowTickMarks();
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < xLabels.size(); i++) {
       double label = xLabels.get(i);
       float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
+
       if (showXLabels) {
         paint.setColor(mRenderer.getXLabelsColor());
+
         if (showTickMarks) {
-          canvas
-              .drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
+          canvas.drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3, paint);
         }
         drawText(canvas, getLabel(mRenderer.getXLabelFormat(), label), xLabel,
-            bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(), paint,
-            mRenderer.getXLabelsAngle());
+                bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(), paint,
+                mRenderer.getXLabelsAngle());
       }
       if (showGridY) {
         mGridPaint.setColor(mRenderer.getGridColor(0));
         canvas.drawLine(xLabel, bottom, xLabel, top, mGridPaint);
       }
     }
-    drawXTextLabels(xTextLabelLocations, canvas, paint, showXLabels, left, top, bottom,
-        xPixelsPerUnit, minX, maxX);
+    drawXTextLabels(xTextLabelLocations, canvas, paint, showCustomXLabels, left, top, bottom,
+            xPixelsPerUnit, minX, maxX);
   }
 
   /**
@@ -782,7 +873,7 @@ public abstract class XYChart extends AbstractChart {
    * @param minY the minimum value on the Y axis in the chart
    */
   protected void drawYLabels(Map<Integer, List<Double>> allYLabels, Canvas canvas, Paint paint,
-      int maxScaleNumber, int left, int right, int bottom, double[] yPixelsPerUnit, double[] minY) {
+                             int maxScaleNumber, int left, int right, int bottom, double[] yPixelsPerUnit, double[] minY) {
     Orientation or = mRenderer.getOrientation();
     boolean showGridX = mRenderer.isShowGridX();
     if (showGridX) {
@@ -808,17 +899,17 @@ public abstract class XYChart extends AbstractChart {
                 canvas.drawLine(left + getLabelLinePos(axisAlign), yLabel, left, yLabel, paint);
               }
               drawText(canvas, getLabel(mRenderer.getYLabelFormat(i), label),
-                  left - mRenderer.getYLabelsPadding(),
-                  yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
-                  mRenderer.getYLabelsAngle());
+                      left - mRenderer.getYLabelsPadding(),
+                      yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
+                      mRenderer.getYLabelsAngle());
             } else {
               if (showTickMarks) {
                 canvas.drawLine(right, yLabel, right + getLabelLinePos(axisAlign), yLabel, paint);
               }
               drawText(canvas, getLabel(mRenderer.getYLabelFormat(i), label),
-                  right + mRenderer.getYLabelsPadding(),
-                  yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
-                  mRenderer.getYLabelsAngle());
+                      right + mRenderer.getYLabelsPadding(),
+                      yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
+                      mRenderer.getYLabelsAngle());
             }
           }
           if (showGridX) {
@@ -832,8 +923,8 @@ public abstract class XYChart extends AbstractChart {
               canvas.drawLine(right - getLabelLinePos(axisAlign), yLabel, right, yLabel, paint);
             }
             drawText(canvas, getLabel(mRenderer.getLabelFormat(), label),
-                right + 10 + mRenderer.getYLabelsPadding(),
-                yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
+                    right + 10 + mRenderer.getYLabelsPadding(),
+                    yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
           }
           if (showGridX) {
             mGridPaint.setColor(mRenderer.getGridColor(i));
@@ -848,7 +939,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * The graphical representation of the text labels on the X axis.
-   * 
+   *
    * @param xTextLabelLocations the X text label locations
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
@@ -860,11 +951,12 @@ public abstract class XYChart extends AbstractChart {
    * @param maxX the maximum value on the X axis in the chart
    */
   protected void drawXTextLabels(Double[] xTextLabelLocations, Canvas canvas, Paint paint,
-      boolean showLabels, int left, int top, int bottom, double xPixelsPerUnit, double minX,
-      double maxX) {
+                                 boolean showCustomXLabels, int left, int top, int bottom, double xPixelsPerUnit, double minX,
+                                 double maxX) {
     boolean showCustomTextGridX = mRenderer.isShowCustomTextGridX();
     boolean showTickMarks = mRenderer.isShowTickMarks();
-    if (showLabels) {
+
+    if (showCustomXLabels) {
       paint.setColor(mRenderer.getXLabelsColor());
       for (Double location : xTextLabelLocations) {
         if (minX <= location && location <= maxX) {
@@ -872,11 +964,11 @@ public abstract class XYChart extends AbstractChart {
           paint.setColor(mRenderer.getXLabelsColor());
           if (showTickMarks) {
             canvas.drawLine(xLabel, bottom, xLabel, bottom + mRenderer.getLabelsTextSize() / 3,
-                paint);
+                    paint);
           }
           drawText(canvas, mRenderer.getXTextLabel(location), xLabel,
-              bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(),
-              paint, mRenderer.getXLabelsAngle());
+                  bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(),
+                  paint, mRenderer.getXLabelsAngle());
           if (showCustomTextGridX) {
             paint.setColor(mRenderer.getGridColor(0));
             canvas.drawLine(xLabel, bottom, xLabel, top, paint);
@@ -921,7 +1013,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * Transforms a screen point to a real coordinates point.
-   * 
+   *
    * @param screenX the screen x axis value
    * @param screenY the screen y axis value
    * @return the real coordinates point
@@ -932,7 +1024,7 @@ public abstract class XYChart extends AbstractChart {
     double realMinY = mRenderer.getYAxisMin(scale);
     double realMaxY = mRenderer.getYAxisMax(scale);
     if (!mRenderer.isMinXSet(scale) || !mRenderer.isMaxXSet(scale) || !mRenderer.isMinYSet(scale)
-        || !mRenderer.isMaxYSet(scale)) {
+            || !mRenderer.isMaxYSet(scale)) {
       double[] calcRange = getCalcRange(scale);
       if (calcRange != null) {
         realMinX = calcRange[0];
@@ -943,9 +1035,9 @@ public abstract class XYChart extends AbstractChart {
     }
     if (mScreenR != null) {
       return new double[] {
-          (screenX - mScreenR.left) * (realMaxX - realMinX) / mScreenR.width() + realMinX,
-          (mScreenR.top + mScreenR.height() - screenY) * (realMaxY - realMinY) / mScreenR.height()
-              + realMinY };
+              (screenX - mScreenR.left) * (realMaxX - realMinX) / mScreenR.width() + realMinX,
+              (mScreenR.top + mScreenR.height() - screenY) * (realMaxY - realMinY) / mScreenR.height()
+                      + realMinY };
     } else {
       return new double[] { screenX, screenY };
     }
@@ -957,7 +1049,7 @@ public abstract class XYChart extends AbstractChart {
     double realMinY = mRenderer.getYAxisMin(scale);
     double realMaxY = mRenderer.getYAxisMax(scale);
     if (!mRenderer.isMinXSet(scale) || !mRenderer.isMaxXSet(scale) || !mRenderer.isMinYSet(scale)
-        || !mRenderer.isMaxYSet(scale)) {
+            || !mRenderer.isMaxYSet(scale)) {
       double[] calcRange = getCalcRange(scale);
       realMinX = calcRange[0];
       realMaxX = calcRange[1];
@@ -966,8 +1058,8 @@ public abstract class XYChart extends AbstractChart {
     }
     if (mScreenR != null) {
       return new double[] {
-          (realPoint[0] - realMinX) * mScreenR.width() / (realMaxX - realMinX) + mScreenR.left,
-          (realMaxY - realPoint[1]) * mScreenR.height() / (realMaxY - realMinY) + mScreenR.top };
+              (realPoint[0] - realMinX) * mScreenR.width() / (realMaxX - realMinX) + mScreenR.left,
+              (realMaxY - realPoint[1]) * mScreenR.height() / (realMaxY - realMinY) + mScreenR.top };
     } else {
       return realPoint;
     }
@@ -999,7 +1091,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * The graphical representation of a series.
-   * 
+   *
    * @param canvas the canvas to paint to
    * @param paint the paint to be used for drawing
    * @param points the array of points to be used for drawing the series
@@ -1009,11 +1101,11 @@ public abstract class XYChart extends AbstractChart {
    * @param startIndex the start index of the rendering points
    */
   public abstract void drawSeries(Canvas canvas, Paint paint, List<Float> points,
-      XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex);
+                                  XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, int startIndex);
 
   /**
    * Returns the clickable areas for all passed points
-   * 
+   *
    * @param points the array of points
    * @param values the array of values of each point
    * @param yAxisValue the minimum value of the y axis
@@ -1022,11 +1114,11 @@ public abstract class XYChart extends AbstractChart {
    * @param startIndex the start index of the rendering points
    */
   protected abstract ClickableArea[] clickableAreasForPoints(List<Float> points,
-      List<Double> values, float yAxisValue, int seriesIndex, int startIndex);
+                                                             List<Double> values, float yAxisValue, int seriesIndex, int startIndex);
 
   /**
    * Returns if the chart should display the null values.
-   * 
+   *
    * @return if null values should be rendered
    */
   protected boolean isRenderNullValues() {
@@ -1035,7 +1127,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * Returns if the chart should display the points as a certain shape.
-   * 
+   *
    * @param renderer the series renderer
    */
   public boolean isRenderPoints(SimpleSeriesRenderer renderer) {
@@ -1044,7 +1136,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * Returns the default axis minimum.
-   * 
+   *
    * @return the default axis minimum
    */
   public double getDefaultMinimum() {
@@ -1053,7 +1145,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * Returns the scatter chart to be used for drawing the data points.
-   * 
+   *
    * @return the data points scatter chart
    */
   public ScatterChart getPointsChart() {
@@ -1062,7 +1154,7 @@ public abstract class XYChart extends AbstractChart {
 
   /**
    * Returns the chart type identifier.
-   * 
+   *
    * @return the chart type
    */
   public abstract String getChartType();
