@@ -780,9 +780,9 @@ public abstract class XYChart extends AbstractChart {
 
     boolean showXLabels = mRenderer.isShowXLabels();
     boolean showCustomXLabels = mRenderer.isShowCustomTextXLabels();
-    boolean showGridY = mRenderer.isShowGridY();
+    boolean showGridX = mRenderer.isShowGridX();
 
-    if (showGridY) {
+    if (showGridX) {
       mGridPaint.setStyle(Style.STROKE);
       mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
     }
@@ -801,7 +801,7 @@ public abstract class XYChart extends AbstractChart {
                 bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(), paint,
                 mRenderer.getXLabelsAngle());
       }
-      if (showGridY) {
+      if (showGridX) {
         mGridPaint.setColor(mRenderer.getGridColor(0));
         canvas.drawLine(xLabel, bottom, xLabel, top, mGridPaint);
       }
@@ -826,8 +826,8 @@ public abstract class XYChart extends AbstractChart {
   protected void drawYLabels(Map<Integer, List<Double>> allYLabels, Canvas canvas, Paint paint,
                              int maxScaleNumber, int left, int right, int bottom, double[] yPixelsPerUnit, double[] minY) {
     Orientation or = mRenderer.getOrientation();
-    boolean showGridX = mRenderer.isShowGridX();
-    if (showGridX) {
+    boolean showGridY = mRenderer.isShowGridY();
+    if (showGridY) {
       mGridPaint.setStyle(Style.STROKE);
       mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
     }
@@ -863,7 +863,7 @@ public abstract class XYChart extends AbstractChart {
                       mRenderer.getYLabelsAngle());
             }
           }
-          if (showGridX) {
+          if (showGridY) {
             mGridPaint.setColor(mRenderer.getGridColor(i));
             canvas.drawLine(left, yLabel, right, yLabel, mGridPaint);
           }
@@ -877,7 +877,7 @@ public abstract class XYChart extends AbstractChart {
                     right + 10 + mRenderer.getYLabelsPadding(),
                     yLabel - mRenderer.getYLabelsVerticalPadding(), paint, mRenderer.getYLabelsAngle());
           }
-          if (showGridX) {
+          if (showGridY) {
             mGridPaint.setColor(mRenderer.getGridColor(i));
             if (showTickMarks) {
               canvas.drawLine(right, yLabel, left, yLabel, mGridPaint);
