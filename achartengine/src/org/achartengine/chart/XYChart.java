@@ -414,6 +414,10 @@ public abstract class XYChart extends AbstractChart {
       }
     }
 
+    if (showCustomTextXLabels) {
+        drawXTextLabels(mRenderer.getXTextLabelLocations(), canvas, paint, true, left, top, bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
+    }
+
     if (showYLabels) {
       Map<Integer, List<Double>> allYLabels = getYLabels(minY, maxY, maxScaleNumber);
 
@@ -444,80 +448,11 @@ public abstract class XYChart extends AbstractChart {
       }
     }
 
-    if (showLabels) {
-      paint.setColor(mRenderer.getLabelsColor());
-      float axisTitleTextSize = mRenderer.getAxisTitleTextSize();
-      paint.setTextSize(axisTitleTextSize);
-      paint.setTextAlign(Align.CENTER);
-      paint.setTextSize(mRenderer.getChartTitleTextSize());
-
-      if (or == Orientation.HORIZONTAL) {
-        drawText(canvas, mRenderer.getChartTitle(), x + width / 2,
-                y + mRenderer.getChartTitleTextSize(), paint, 0);
-
-      } else if (or == Orientation.VERTICAL) {
-        drawText(canvas, mRenderer.getChartTitle(), x + axisTitleTextSize, top + height / 2, paint, 0);
-      }
-    }
-
-
-    if (showLabels) {
-      List<Double> xLabels = getValidLabels(getXLabels(minX[0], maxX[0], mRenderer.getXLabels()));
-      Map<Integer, List<Double>> allYLabels = getYLabels(minY, maxY, maxScaleNumber);
-
-      int xLabelsLeft = left;
-
-      paint.setColor(mRenderer.getXLabelsColor());
-      paint.setTextSize(mRenderer.getLabelsTextSize());
-      paint.setTextAlign(mRenderer.getXLabelsAlign());
-      // if (mRenderer.getXLabelsAlign() == Align.LEFT) {
-      // xLabelsLeft += mRenderer.getLabelsTextSize() / 4;
-      // }
-
-      // Draw just the labels and not the grid lines.
-      mRenderer.setShowGrid(false);
-      drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
-              bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
-      drawYLabels(allYLabels, canvas, paint, maxScaleNumber, left, right, bottom, yPixelsPerUnit, minY);
-      mRenderer.setShowGridX(showGridX);
-      mRenderer.setShowGridY(showGridY);
-
-      paint.setColor(mRenderer.getLabelsColor());
-      float size = mRenderer.getAxisTitleTextSize();
-      paint.setTextSize(size);
-      paint.setTextAlign(Align.CENTER);
-      if (or == Orientation.HORIZONTAL) {
-        drawText(
-                canvas,
-                mRenderer.getXTitle(),
-                x + width / 2,
-                bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding() + size,
-                paint, 0);
-        for (int i = 0; i < maxScaleNumber; i++) {
-          Align axisAlign = mRenderer.getYAxisAlign(i);
-          if (axisAlign == Align.LEFT) {
-            drawText(canvas, mRenderer.getYTitle(i), x + size, y + height / 2, paint, -90);
-          } else {
-            drawText(canvas, mRenderer.getYTitle(i), x + width, y + height / 2, paint, -90);
-          }
-        }
-        paint.setTextSize(mRenderer.getChartTitleTextSize());
-        drawText(canvas, mRenderer.getChartTitle(), x + width / 2,
-                y + mRenderer.getChartTitleTextSize(), paint, 0);
-      } else if (or == Orientation.VERTICAL) {
-        drawText(canvas, mRenderer.getXTitle(), x + width / 2,
-                y + height - size + mRenderer.getXLabelsPadding(), paint, -90);
-        drawText(canvas, mRenderer.getYTitle(), right + 20, y + height / 2, paint, 0);
-        paint.setTextSize(mRenderer.getChartTitleTextSize());
-        drawText(canvas, mRenderer.getChartTitle(), x + size, top + height / 2, paint, 0);
-      }
-
-    } else if (showCustomTextXLabels) {
-      drawXTextLabels(mRenderer.getXTextLabelLocations(), canvas, paint, true, left, top, bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
-    }
-
     if (showCustomTextYLabels) {
       paint.setColor(mRenderer.getLabelsColor());
+        paint.setTextSize(mRenderer.getLabelsTextSize());
+        paint.setTextAlign(mRenderer.getXLabelsAlign());
+
       for (int i = 0; i < maxScaleNumber; i++) {
         Align axisAlign = mRenderer.getYAxisAlign(i);
         Double[] yTextLabelLocations = mRenderer.getYTextLabelLocations(i);
@@ -565,6 +500,22 @@ public abstract class XYChart extends AbstractChart {
         }
       }
     }
+
+      if (showLabels) {
+          paint.setColor(mRenderer.getLabelsColor());
+          float axisTitleTextSize = mRenderer.getAxisTitleTextSize();
+          paint.setTextSize(axisTitleTextSize);
+          paint.setTextAlign(Align.CENTER);
+          paint.setTextSize(mRenderer.getChartTitleTextSize());
+
+          if (or == Orientation.HORIZONTAL) {
+              drawText(canvas, mRenderer.getChartTitle(), x + width / 2,
+                      y + mRenderer.getChartTitleTextSize(), paint, 0);
+
+          } else if (or == Orientation.VERTICAL) {
+              drawText(canvas, mRenderer.getChartTitle(), x + axisTitleTextSize, top + height / 2, paint, 0);
+          }
+      }
 
 
     if (or == Orientation.HORIZONTAL) {
@@ -953,11 +904,16 @@ public abstract class XYChart extends AbstractChart {
   protected void drawXTextLabels(Double[] xTextLabelLocations, Canvas canvas, Paint paint,
                                  boolean showCustomXLabels, int left, int top, int bottom, double xPixelsPerUnit, double minX,
                                  double maxX) {
-    boolean showCustomTextGridX = mRenderer.isShowCustomTextGridX();
-    boolean showTickMarks = mRenderer.isShowTickMarks();
+      if (!showCustomXLabels) {
+          return;
+      }
+      boolean showCustomTextGridX = mRenderer.isShowCustomTextGridX();
+      boolean showTickMarks = mRenderer.isShowTickMarks();
 
-    if (showCustomXLabels) {
       paint.setColor(mRenderer.getXLabelsColor());
+      paint.setTextSize(mRenderer.getLabelsTextSize());
+      paint.setTextAlign(mRenderer.getXLabelsAlign());
+
       for (Double location : xTextLabelLocations) {
         if (minX <= location && location <= maxX) {
           float xLabel = (float) (left + xPixelsPerUnit * (location.doubleValue() - minX));
@@ -975,7 +931,6 @@ public abstract class XYChart extends AbstractChart {
           }
         }
       }
-    }
   }
 
   // TODO: docs
