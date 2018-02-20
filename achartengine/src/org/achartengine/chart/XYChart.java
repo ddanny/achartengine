@@ -15,17 +15,9 @@
  */
 package org.achartengine.chart;
 
-import android.graphics.Canvas;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
+import android.graphics.*;
 import android.graphics.Paint.Align;
-import android.graphics.Paint.Cap;
-import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
-import android.graphics.PathEffect;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Typeface;
 
 import org.achartengine.model.Point;
 import org.achartengine.model.SeriesSelection;
@@ -74,6 +66,11 @@ public abstract class XYChart extends AbstractChart {
    * and the RectF list index is the point index in that series.
    */
   private Map<Integer, List<ClickableArea>> clickableAreas = new HashMap<Integer, List<ClickableArea>>();
+
+  {
+    mGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    mGridPaint.setStyle(Style.STROKE);
+  }
 
   protected XYChart() {
   }
@@ -242,16 +239,13 @@ public abstract class XYChart extends AbstractChart {
       List<Double> xLabels = getValidLabels(getXLabels(minX[0], maxX[0], mRenderer.getXLabels()));
       Map<Integer, List<Double>> allYLabels = getYLabels(minY, maxY, maxScaleNumber);
 
-      int xLabelsLeft = left;
       boolean showXLabels = mRenderer.isShowXLabels();
       boolean showYLabels = mRenderer.isShowYLabels();
       // Only draw the grid.
       mRenderer.setShowLabels(false);
       mRenderer.setShowCustomTextLabels(false);
-      if (mGridPaint == null) {
-        mGridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-      }
-      drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, xLabelsLeft, top,
+
+      drawXLabels(xLabels, mRenderer.getXTextLabelLocations(), canvas, paint, left, top,
               bottom, xPixelsPerUnit[0], minX[0], maxX[0]);
       drawYLabels(allYLabels, canvas, paint, maxScaleNumber, left, right, bottom, yPixelsPerUnit, minY);
 
@@ -450,8 +444,8 @@ public abstract class XYChart extends AbstractChart {
 
     if (showCustomTextYLabels) {
       paint.setColor(mRenderer.getLabelsColor());
-        paint.setTextSize(mRenderer.getLabelsTextSize());
-        paint.setTextAlign(mRenderer.getXLabelsAlign());
+      paint.setTextSize(mRenderer.getLabelsTextSize());
+      paint.setTextAlign(mRenderer.getXLabelsAlign());
 
       for (int i = 0; i < maxScaleNumber; i++) {
         Align axisAlign = mRenderer.getYAxisAlign(i);
@@ -463,6 +457,7 @@ public abstract class XYChart extends AbstractChart {
             String label = mRenderer.getYTextLabel(location, i);
             paint.setColor(mRenderer.getYLabelsColor(i));
             paint.setTextAlign(mRenderer.getYLabelsAlign(i));
+
             if (or == Orientation.HORIZONTAL) {
               if (axisAlign == Align.LEFT) {
                 if (showTickMarks) {
@@ -480,10 +475,16 @@ public abstract class XYChart extends AbstractChart {
                         yLabel - mRenderer.getYLabelsVerticalPadding(), paint,
                         mRenderer.getYLabelsAngle());
               }
-
               if (showCustomTextGridY) {
-                paint.setColor(mRenderer.getGridColor(i));
-                canvas.drawLine(left, yLabel, right, yLabel, paint);
+                setStroke(mRenderer.getGridLineYStroke(), mGridPaint);
+                mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
+                mGridPaint.setColor(mRenderer.getGridColor(i));
+
+                Path gridLinePath = new Path();
+                gridLinePath.moveTo(left, yLabel);
+                gridLinePath.lineTo(right, yLabel);
+                canvas.drawPath(gridLinePath, mGridPaint);
+
               }
             } else {
               if (showTickMarks) {
@@ -492,8 +493,14 @@ public abstract class XYChart extends AbstractChart {
               drawText(canvas, label, right + 10, yLabel - mRenderer.getYLabelsVerticalPadding(),
                       paint, mRenderer.getYLabelsAngle());
               if (showCustomTextGridY) {
-                paint.setColor(mRenderer.getGridColor(i));
-                canvas.drawLine(right, yLabel, left, yLabel, paint);
+                setStroke(mRenderer.getGridLineYStroke(), mGridPaint);
+                mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
+                mGridPaint.setColor(mRenderer.getGridColor(i));
+
+                Path gridLinePath = new Path();
+                gridLinePath.moveTo(right, yLabel);
+                gridLinePath.lineTo(left, yLabel);
+                canvas.drawPath(gridLinePath, mGridPaint);
               }
             }
           }
@@ -596,36 +603,27 @@ public abstract class XYChart extends AbstractChart {
   protected void drawSeries(XYSeries series, Canvas canvas, Paint paint, List<Float> pointsList,
                             XYSeriesRenderer seriesRenderer, float yAxisValue, int seriesIndex, Orientation or,
                             int startIndex) {
+
+    Paint paintCopy = new Paint(paint);
+
     BasicStroke stroke = seriesRenderer.getStroke();
-    Cap cap = paint.getStrokeCap();
-    Join join = paint.getStrokeJoin();
-    float miter = paint.getStrokeMiter();
-    PathEffect pathEffect = paint.getPathEffect();
-    Style style = paint.getStyle();
+
     if (stroke != null) {
-      PathEffect effect = null;
-      if (stroke.getIntervals() != null) {
-        effect = new DashPathEffect(stroke.getIntervals(), stroke.getPhase());
-      }
-      setStroke(stroke.getCap(), stroke.getJoin(), stroke.getMiter(), Style.FILL_AND_STROKE,
-              effect, paint);
+      setStroke(stroke, paintCopy);
     }
     // float[] points = MathHelper.getFloats(pointsList);
-    drawSeries(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex, startIndex);
-    drawPoints(canvas, paint, pointsList, seriesRenderer, yAxisValue, seriesIndex, startIndex);
-    paint.setTextSize(seriesRenderer.getChartValuesTextSize());
+    drawSeries(canvas, paintCopy, pointsList, seriesRenderer, yAxisValue, seriesIndex, startIndex);
+    drawPoints(canvas, paintCopy, pointsList, seriesRenderer, yAxisValue, seriesIndex, startIndex);
+
+    paintCopy.setTextSize(seriesRenderer.getChartValuesTextSize());
     if (or == Orientation.HORIZONTAL) {
-      paint.setTextAlign(Align.CENTER);
+      paintCopy.setTextAlign(Align.CENTER);
     } else {
-      paint.setTextAlign(Align.LEFT);
+      paintCopy.setTextAlign(Align.LEFT);
     }
     if (seriesRenderer.isDisplayChartValues()) {
-      paint.setTextAlign(seriesRenderer.getChartValuesTextAlign());
-      drawChartValuesText(canvas, series, seriesRenderer, paint, pointsList, seriesIndex,
-              startIndex);
-    }
-    if (stroke != null) {
-      setStroke(cap, join, miter, style, pathEffect, paint);
+      paintCopy.setTextAlign(seriesRenderer.getChartValuesTextAlign());
+      drawChartValuesText(canvas, series, seriesRenderer, paintCopy, pointsList, seriesIndex, startIndex);
     }
   }
 
@@ -651,13 +649,19 @@ public abstract class XYChart extends AbstractChart {
     }
   }
 
-  private void setStroke(Cap cap, Join join, float miter, Style style, PathEffect pathEffect,
-                         Paint paint) {
-    paint.setStrokeCap(cap);
-    paint.setStrokeJoin(join);
-    paint.setStrokeMiter(miter);
-    paint.setPathEffect(pathEffect);
-    paint.setStyle(style);
+  private void setStroke(BasicStroke stroke, Paint paint) {
+    if (stroke == null || paint == null) {
+      return;
+    }
+    paint.setStrokeCap(stroke.getCap());
+    paint.setStrokeJoin(stroke.getJoin());
+    paint.setStrokeMiter(stroke.getMiter());
+
+    if (stroke.getIntervals() != null) {
+      DashPathEffect effect = new DashPathEffect(stroke.getIntervals(), stroke.getPhase());
+      paint.setPathEffect(effect);
+    }
+    paint.setStyle(Style.FILL_AND_STROKE);
   }
 
   /**
@@ -781,12 +785,8 @@ public abstract class XYChart extends AbstractChart {
     boolean showXLabels = mRenderer.isShowXLabels();
     boolean showCustomXLabels = mRenderer.isShowCustomTextXLabels();
     boolean showGridX = mRenderer.isShowGridX();
-
-    if (showGridX) {
-      mGridPaint.setStyle(Style.STROKE);
-      mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
-    }
     boolean showTickMarks = mRenderer.isShowTickMarks();
+
     for (int i = 0; i < xLabels.size(); i++) {
       double label = xLabels.get(i);
       float xLabel = (float) (left + xPixelsPerUnit * (label - minX));
@@ -802,8 +802,14 @@ public abstract class XYChart extends AbstractChart {
                 mRenderer.getXLabelsAngle());
       }
       if (showGridX) {
+        setStroke(mRenderer.getGridLineXStroke(), mGridPaint);
+        mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
         mGridPaint.setColor(mRenderer.getGridColor(0));
-        canvas.drawLine(xLabel, bottom, xLabel, top, mGridPaint);
+
+        Path gridLinePath = new Path();
+        gridLinePath.moveTo(xLabel, bottom);
+        gridLinePath.lineTo(xLabel, top);
+        canvas.drawPath(gridLinePath, mGridPaint);
       }
     }
     drawXTextLabels(xTextLabelLocations, canvas, paint, showCustomXLabels, left, top, bottom,
@@ -825,23 +831,23 @@ public abstract class XYChart extends AbstractChart {
    */
   protected void drawYLabels(Map<Integer, List<Double>> allYLabels, Canvas canvas, Paint paint,
                              int maxScaleNumber, int left, int right, int bottom, double[] yPixelsPerUnit, double[] minY) {
+
     Orientation or = mRenderer.getOrientation();
     boolean showGridY = mRenderer.isShowGridY();
-    if (showGridY) {
-      mGridPaint.setStyle(Style.STROKE);
-      mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
-    }
     boolean showYLabels = mRenderer.isShowYLabels();
     boolean showTickMarks = mRenderer.isShowTickMarks();
+
     for (int i = 0; i < maxScaleNumber; i++) {
       paint.setTextAlign(mRenderer.getYLabelsAlign(i));
       List<Double> yLabels = allYLabels.get(i);
       int length = yLabels.size();
+
       for (int j = 0; j < length; j++) {
         double label = yLabels.get(j);
         Align axisAlign = mRenderer.getYAxisAlign(i);
         boolean textLabel = mRenderer.getYTextLabel(label, i) != null;
         float yLabel = (float) (bottom - yPixelsPerUnit[i] * (label - minY[i]));
+
         if (or == Orientation.HORIZONTAL) {
           if (showYLabels && !textLabel) {
             paint.setColor(mRenderer.getYLabelsColor(i));
@@ -864,8 +870,14 @@ public abstract class XYChart extends AbstractChart {
             }
           }
           if (showGridY) {
+            setStroke(mRenderer.getGridLineYStroke(), mGridPaint);
+            mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
             mGridPaint.setColor(mRenderer.getGridColor(i));
-            canvas.drawLine(left, yLabel, right, yLabel, mGridPaint);
+
+            Path gridLinePath = new Path();
+            gridLinePath.moveTo(left, yLabel);
+            gridLinePath.lineTo(right, yLabel);
+            canvas.drawPath(gridLinePath, mGridPaint);
           }
         } else if (or == Orientation.VERTICAL) {
           if (showYLabels && !textLabel) {
@@ -914,7 +926,7 @@ public abstract class XYChart extends AbstractChart {
       paint.setTextSize(mRenderer.getLabelsTextSize());
       paint.setTextAlign(mRenderer.getXLabelsAlign());
 
-      for (Double location : xTextLabelLocations) {
+    for (Double location : xTextLabelLocations) {
         if (minX <= location && location <= maxX) {
           float xLabel = (float) (left + xPixelsPerUnit * (location.doubleValue() - minX));
           paint.setColor(mRenderer.getXLabelsColor());
@@ -925,9 +937,20 @@ public abstract class XYChart extends AbstractChart {
           drawText(canvas, mRenderer.getXTextLabel(location), xLabel,
                   bottom + mRenderer.getLabelsTextSize() * 4 / 3 + mRenderer.getXLabelsPadding(),
                   paint, mRenderer.getXLabelsAngle());
+
           if (showCustomTextGridX) {
-            paint.setColor(mRenderer.getGridColor(0));
-            canvas.drawLine(xLabel, bottom, xLabel, top, paint);
+            if (minX == location) {
+              setStroke(BasicStroke.SOLID, mGridPaint);
+            } else {
+              setStroke(mRenderer.getGridLineXStroke(), mGridPaint);
+            }
+            mGridPaint.setStrokeWidth(mRenderer.getGridLineWidth());
+            mGridPaint.setColor(mRenderer.getGridColor(0));
+
+            Path gridLinePath = new Path();
+            gridLinePath.moveTo(xLabel, bottom);
+            gridLinePath.lineTo(xLabel, top);
+            canvas.drawPath(gridLinePath, mGridPaint);
           }
         }
       }

@@ -77,6 +77,10 @@ public class DefaultRenderer implements Serializable {
   private boolean mShowGridY = false;
   /** The grid width. */
   private float mGridLineWidth;
+  /** Grid X stroke */
+  private BasicStroke mGridLineXStroke;
+  /** Grid Y stroke */
+  private BasicStroke mGridLineYStroke;
   /** If the custom text grid should be displayed on the X axis. */
   private boolean mShowCustomTextGridX = false;
   /** If the custom text grid should be displayed on the Y axis. */
@@ -432,8 +436,8 @@ public class DefaultRenderer implements Serializable {
    *
    * @param showTickMarks the visibility flag for the tick marks
    */
-  public void setShowTickMarks(boolean mShowTickMarks) {
-    this.mShowTickMarks = mShowTickMarks;
+  public void setShowTickMarks(boolean showTickMarks) {
+    this.mShowTickMarks = showTickMarks;
   }
 
   /**
@@ -479,6 +483,47 @@ public class DefaultRenderer implements Serializable {
    */
   public float getGridLineWidth() {
     return mGridLineWidth;
+  }
+
+  /**
+   * Gets the grid line X stroke.
+   * @return the grid line X stroke
+   */
+  public BasicStroke getGridLineXStroke() {
+    return mGridLineXStroke;
+  }
+
+  /**
+   * Sets the grid line X stroke.
+   * @param gridLineXStroke grid line X stroke
+   */
+  public void setGridLineXStroke(BasicStroke gridLineXStroke) {
+    this.mGridLineXStroke = gridLineXStroke;
+  }
+
+  /**
+   * Gets the grid line Y stroke.
+   * @return the grid line Y stroke
+   */
+  public BasicStroke getGridLineYStroke() {
+    return mGridLineYStroke;
+  }
+
+  /**
+   * Sets the grid line Y stroke.
+   * @param gridLineYStroke grid line Y stroke
+   */
+  public void setGridLineYStroke(BasicStroke gridLineYStroke) {
+    this.mGridLineYStroke = gridLineYStroke;
+  }
+
+  /**
+   * Sets the stroke for X and Y grid lines.
+   * @param gridLineStroke grid line stroke for X and Y
+   */
+  public void setGridLineStroke(BasicStroke gridLineStroke) {
+    this.mGridLineXStroke = gridLineStroke;
+    this.mGridLineYStroke = gridLineStroke;
   }
 
   /**
