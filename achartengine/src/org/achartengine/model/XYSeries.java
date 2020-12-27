@@ -334,7 +334,7 @@ public class XYSeries implements Serializable {
     }
   }
 
-  public int getIndexForKey(double key) {
+  public synchronized int getIndexForKey(double key) {
     return mXY.getIndexForKey(key);
   }
 
